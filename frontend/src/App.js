@@ -1,13 +1,15 @@
 import React from 'react';
 import './App.css';
-import Navbar from './components/navbar'
-import { ChakraProvider, Box } from "@chakra-ui/react"
+import { ChakraProvider } from "@chakra-ui/react"
+import { Route, Switch } from "react-router-dom"
+import Home from './pages/home';
 
 function App() {
   return (
     <ChakraProvider>
-      <Navbar></Navbar>
-      <Box>Hello there</Box>
+      <Switch>
+        <Route path="/" component={Home} exact/>
+      </Switch>
     </ChakraProvider>
   );
 }
