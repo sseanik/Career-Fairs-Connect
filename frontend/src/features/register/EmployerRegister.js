@@ -80,7 +80,7 @@ const validationSchema = Yup.object({
     .required('University is Required'),
 });
 
-export function CompanyRegister() {
+export function EmployerRegister() {
   return (
     <Formik
       initialValues={initialValues}
