@@ -5,7 +5,7 @@ import { ChakraProvider, Box, Button, Link } from "@chakra-ui/react"
 function Home() {
   return (
     <ChakraProvider>
-      <Navbar></Navbar>
+      <Navbar />
       <Box width="100%" height="92vh" backgroundImage="url('https://www.gostudy.com.au/wp-content/uploads/2019/01/internship_sider.jpg')" backgroundSize="cover" transform="rotateY(180deg)">
         <Box transform="rotateY(180deg)" color="#2F303A" mr="50%">
           <Box pt="23vh" fontSize="4xl" fontWeight="medium">
@@ -22,7 +22,6 @@ function Home() {
               Join Now
             </Button>
           </Link>
-
         </Box>
       </Box>
     </ChakraProvider>
