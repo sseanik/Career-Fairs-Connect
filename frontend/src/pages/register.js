@@ -1,12 +1,12 @@
 import React from 'react';
 import { ChakraProvider, Box } from "@chakra-ui/react"
 
-function Login() {
+function Register() {
   return (
     <ChakraProvider>
-      <Box>Login Page to be created</Box>
+      <Box>Register Page to be created</Box>
     </ChakraProvider>
   );
 }
 
-export default Login
+export default Register
