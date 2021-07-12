@@ -13,8 +13,6 @@ import {
 import { InputControl, SelectControl } from 'formik-chakra-ui';
 
 const initialValues = {
-  firstName: '',
-  lastName: '',
   email: '',
   password: '',
   confirmPassword: '',
@@ -22,8 +20,6 @@ const initialValues = {
 };
 
 const validationSchema = Yup.object({
-  firstName: Yup.string().required('First Name is Required'),
-  lastName: Yup.string().required('Last Name is Required'),
   email: Yup.string()
     .email('Email format is Invalid')
     .required('Student Email is Required'),
@@ -78,6 +74,10 @@ const validationSchema = Yup.object({
       'Western Sydney University',
     ])
     .required('University is Required'),
+  logo: Yup.string().matches(
+    /^http(s)?:\/\/.*\.(png|jpg|jpeg)$/,
+    'Image URL is invalid'
+  ),
 });
 
 export function UniversityRegister() {
@@ -97,9 +97,7 @@ export function UniversityRegister() {
           as='form'
           onSubmit={handleSubmit}
         >
-          <Heading>Student Registration</Heading>
-          <InputControl name='firstName' label='First Name' />
-          <InputControl name='lastName' label='Last Name' />
+          <Heading>University Registration</Heading>
           <InputControl name='email' label='Student Email' />
           <Field name='password'>
             {({ field, form }) => (
@@ -230,6 +228,8 @@ export function UniversityRegister() {
               Western Sydney University
             </option>
           </SelectControl>
+          <InputControl name='logo' label='Logo URL (Optional)' />
+
           <Button
             mt={4}
             colorScheme='teal'
