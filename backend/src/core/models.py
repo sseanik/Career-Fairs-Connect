@@ -16,8 +16,10 @@ class Companies(models.Model):
     
 class Registrations(models.Model):
     event_id = models.ForeignKey(Events, unique = False, on_delete = models.RESTRICT)
-    company_id = models.ForeignKey(Company, unique = False, on_delete = models.CASCADE)
+    company_id = models.ForeignKey(Companies, unique = False, on_delete = models.CASCADE)
     approval_status = models.CharField(max_length = 8)
+    class Meta:
+        unique_together = (("event_id", "company_id"),)
     
 class Events(models.Model):
     event_id = models.AutoField(primary_key = True)
@@ -33,8 +35,11 @@ class Universities(models.Model):
     university_name = models.CharField(max_length=50)
     # Potential cause of issues on deleting
     user_id = models.ForeignKey(User, on_delete=models.RESTRICT)
-class stall(models.Model):
+class Stall(models.Model):
     stall_id = models.AutoField(primary_key = True) 
     company_id = models.ForeignKey(Companies, on_delete=models.CASCADE)
     event_id = models.ForeignKey(Events, on_delete=models.CASCADE)
 
+class Presentations(models.Model):
+    presentation_id = models.AutoField(primary_key = True)
+    presentation_link = models.CharField(max_length=255)
