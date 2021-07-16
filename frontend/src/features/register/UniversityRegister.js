@@ -23,7 +23,7 @@ const initialValues = {
 const validationSchema = Yup.object({
   email: Yup.string()
     .email('Email format is Invalid')
-    .required('Student Email is Required'),
+    .required('University Email is Required'),
   password: Yup.string()
     .required('Password is Required')
     .min(6, 'Password must be at least 6 characters'),
