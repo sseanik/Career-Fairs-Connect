@@ -6,17 +6,4 @@ from rest_framework.views import Response
 from .models import api_test
 
 
-class api_test_calls(APIView):
-    def get(self, request, *args, **kwargs):
-        data = {
-            'test' : 'success'
-        }
-        return Response(data)
 
-    def post(self, request, *args, **kwargs):
-        reqdata = request.data
-        data = {
-            'secondtest' : 'success'
-        }
-        return Response(data)
-# Create your views here.
