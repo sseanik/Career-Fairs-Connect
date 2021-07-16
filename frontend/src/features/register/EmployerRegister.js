@@ -11,6 +11,7 @@ import {
   Button,
 } from '@chakra-ui/react';
 import { InputControl, TextareaControl } from 'formik-chakra-ui';
+import Navbar from '../../components/navbar';
 
 const initialValues = {
   email: '',
@@ -43,69 +44,73 @@ const validationSchema = Yup.object({
 
 export function EmployerRegister() {
   return (
-    <Formik
-      initialValues={initialValues}
-      onSubmit={() => console.log('hello')}
-      validationSchema={validationSchema}
-    >
-      {({ isSubmitting, handleSubmit }) => (
-        <Box
-          borderWidth='1px'
-          rounded='lg'
-          maxWidth={800}
-          p={6}
-          m='10px auto'
-          as='form'
-          onSubmit={handleSubmit}
-        >
-          <Heading>Employer Registration</Heading>
-          <InputControl name='email' label='Email' />
-          <Field name='password'>
-            {({ field, form }) => (
-              <FormControl
-                isInvalid={form.errors.password && form.touched.password}
-              >
-                <FormLabel htmlFor='password'>Password</FormLabel>
-                <Input {...field} id='password' type='password' />
-                <FormErrorMessage>{form.errors.password}</FormErrorMessage>
-              </FormControl>
-            )}
-          </Field>
-          <Field name='confirmPassword'>
-            {({ field, form }) => (
-              <FormControl
-                isInvalid={
-                  form.errors.confirmPassword && form.touched.confirmPassword
-                }
-              >
-                <FormLabel htmlFor='confirmPassword'>
-                  Confirm Password
-                </FormLabel>
-                <Input {...field} id='confirmPassword' type='password' />
-                <FormErrorMessage>
-                  {form.errors.confirmPassword}
-                </FormErrorMessage>
-              </FormControl>
-            )}
-          </Field>
-          <InputControl name='company' label='Company Name' />
-          <TextareaControl
-            name='description'
-            label='Company Description (Optional)'
-          />
-          <InputControl name='website' label='Website URL (Optional)' />
-          <InputControl name='logo' label='Logo URL (Optional)' />
+    <div>
+      <Navbar />
 
-          <Button
-            mt={4}
-            colorScheme='teal'
-            isLoading={isSubmitting}
-            type='submit'
+      <Formik
+        initialValues={initialValues}
+        onSubmit={() => console.log('hello')}
+        validationSchema={validationSchema}
+      >
+        {({ isSubmitting, handleSubmit }) => (
+          <Box
+            borderWidth='1px'
+            rounded='lg'
+            maxWidth={800}
+            p={6}
+            m='10px auto'
+            as='form'
+            onSubmit={handleSubmit}
           >
-            Join Now
-          </Button>
-        </Box>
-      )}
-    </Formik>
+            <Heading>Employer Registration</Heading>
+            <InputControl name='email' label='Email' />
+            <Field name='password'>
+              {({ field, form }) => (
+                <FormControl
+                  isInvalid={form.errors.password && form.touched.password}
+                >
+                  <FormLabel htmlFor='password'>Password</FormLabel>
+                  <Input {...field} id='password' type='password' />
+                  <FormErrorMessage>{form.errors.password}</FormErrorMessage>
+                </FormControl>
+              )}
+            </Field>
+            <Field name='confirmPassword'>
+              {({ field, form }) => (
+                <FormControl
+                  isInvalid={
+                    form.errors.confirmPassword && form.touched.confirmPassword
+                  }
+                >
+                  <FormLabel htmlFor='confirmPassword'>
+                    Confirm Password
+                  </FormLabel>
+                  <Input {...field} id='confirmPassword' type='password' />
+                  <FormErrorMessage>
+                    {form.errors.confirmPassword}
+                  </FormErrorMessage>
+                </FormControl>
+              )}
+            </Field>
+            <InputControl name='company' label='Company Name' />
+            <TextareaControl
+              name='description'
+              label='Company Description (Optional)'
+            />
+            <InputControl name='website' label='Website URL (Optional)' />
+            <InputControl name='logo' label='Logo URL (Optional)' />
+
+            <Button
+              mt={4}
+              colorScheme='teal'
+              isLoading={isSubmitting}
+              type='submit'
+            >
+              Join Now
+            </Button>
+          </Box>
+        )}
+      </Formik>
+    </div>
   );
 }

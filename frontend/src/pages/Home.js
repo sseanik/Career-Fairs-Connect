@@ -1,6 +1,7 @@
 import React from 'react';
 import Navbar from '../components/navbar'
-import { ChakraProvider, Box, Button, Link } from "@chakra-ui/react"
+import { ChakraProvider, Box, Button } from "@chakra-ui/react"
+import { Link } from 'react-router-dom'
 
 function Home() {
   return (
@@ -17,7 +18,7 @@ function Home() {
           <Box fontSize="2xl">
             graduate role for you
           </Box>
-          <Link href="/register">
+          <Link to="/register">
             <Button mt="3%" fontSize="2xl" padding="28px" color="white" bgColor="#516C7B" >
               Join Now
             </Button>
