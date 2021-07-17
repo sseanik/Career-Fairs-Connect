@@ -15,7 +15,6 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path
-from core.views import api_test_calls
 
 from rest_framework import permissions
 from drf_yasg.views import get_schema_view

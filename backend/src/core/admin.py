@@ -4,6 +4,12 @@ from .models import *
 
 # Register your models here.
 
-admin.site.register(fairEvent)
-admin.site.register(stall)
-admin.site.register(api_test)
+admin.site.register(Companies)
+admin.site.register(Universities)
+admin.site.register(Events)
+admin.site.register(Registrations)
+admin.site.register(Stalls)
+admin.site.register(Presentations)
+admin.site.register(Students)
+admin.site.register(Opportunities)
+
