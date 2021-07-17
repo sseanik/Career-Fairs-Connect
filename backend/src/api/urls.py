@@ -13,6 +13,7 @@ Including another URLconf
     1. Import the include() function: from django.urls import include, path
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
+
 from django.contrib import admin
 from django.urls import path
 from core.views import api_test_calls
@@ -39,9 +40,11 @@ schema_view = get_schema_view(
 
 urlpatterns = [
     path('', views.index),
-    # path('car', views.add_car),
     path('admin/', admin.site.urls),
-    path('<str:car_name>', views.get_car),
+    # path('car', api_test_calls.as_view(), views.add_car),
+    path('<str:car_name>',
+         views.get_car, name="Get Car"),
+    path('create/', views.create_car),
     # above is mine
     path('api_test', api_test_calls.as_view(), name='testing123'),
     # ???

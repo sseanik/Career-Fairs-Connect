@@ -26,14 +26,22 @@ class MyAccountManager(BaseUserManager):
         return user
 
     def create_superuser(self, email, username, first_name, last_name, password, user_type):
-        if not email:
-            raise ValueError('Users must have an email address')
-        if not username:
-            raise ValueError('Users must have a username')
-        if not first_name:
-            raise ValueError('Users must have a first_name')
-        if not last_name:
-            raise ValueError('Users must have a last_name')
+
+        user = self.create_user(
+            email=self.normalize_email(email),
+            password=password,
+            username=username,
+            first_name=first_name,
+            last_name=last_name,
+            user_type=user_type,
+        )
+        user.is_admin = True
+        user.is_staff = True
+        user.is_superuser = True
+        user.save(using=self._db)
+        return user
+
+    def create_student(self, email, username, first_name, last_name, password, user_type):
 
         user = self.create_user(
             email=self.normalize_email(email),
@@ -51,6 +59,7 @@ class MyAccountManager(BaseUserManager):
 
 
 class Account(AbstractBaseUser):
+    userID = models.AutoField(primary_key=True)
     email = models.EmailField(verbose_name="email", max_length=60, unique=True)
     username = models.CharField(max_length=30, unique=True)
     date_joined = models.DateTimeField(
