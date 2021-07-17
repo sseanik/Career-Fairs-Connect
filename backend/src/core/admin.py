@@ -7,3 +7,5 @@ from .models import *
 admin.site.register(fairEvent)
 admin.site.register(stall)
 admin.site.register(api_test)
+admin.site.register(Car)
+admin.site.register(Account)

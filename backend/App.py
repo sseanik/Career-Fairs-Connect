@@ -3,7 +3,7 @@ conn = psycopg2.connect(
     database="postgres",
     user="postgres",
     password="wNUZrwPSsjuAxfwCTun",
-    host="comp9323-database.ci38hoehltvw.ap-southeast-2.rds.amazonaws.com",
+    host="postgres.ci38hoehltvw.ap-southeast-2.rds.amazonaws.com",
     port='5432'
 )
 cur = conn.cursor()

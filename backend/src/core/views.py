@@ -1,22 +1,61 @@
 from django.shortcuts import render
 from django.http import JsonResponse
+from django.views.decorators.csrf import csrf_exempt
 from rest_framework.views import APIView
 from rest_framework.views import Response
 # models
 from .models import api_test
+from .models import Car
+from django.http import HttpResponse
+
+
+import json
 
 
 class api_test_calls(APIView):
     def get(self, request, *args, **kwargs):
         data = {
-            'test' : 'success'
+            'test': 'success'
         }
         return Response(data)
 
     def post(self, request, *args, **kwargs):
         reqdata = request.data
         data = {
-            'secondtest' : 'success'
+            'secondtest': 'success'
         }
         return Response(data)
 # Create your views here.
+
+
+def index(request):
+    response = json.dumps({})
+    return HttpResponse(response, content_type='text/json')
+
+
+def get_car(request, car_name):
+    if request.method == 'GET':
+        try:
+            car = Car.objects.get(name=car_name)
+            response = json.dumps(
+                [{'Car': car.name, 'Top Speed': car.top_speed}])
+
+        except:
+            response = json.dumps(
+                [{'Error': 'No car with such name'}])
+    return HttpResponse(response, content_type='text/json')
+
+
+@csrf_exempt
+def add_car(request):
+    if request.method == 'POST':
+        payload = json.loads(request.body)
+        car_name = payload['car_name']
+        top_speed = payload['top_speed']
+        car = Car(name=car_name, top_speed=top_speed)
+        try:
+            car.save()
+            response = json.dumps({'Success': 'Car added successfully'})
+        except:
+            response = json.dumps({'Error': 'Car add failed'})
+    return HttpResponse(response, content_type='text/json')

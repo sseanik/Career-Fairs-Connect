@@ -5,7 +5,7 @@ django-admin - list available commands
 #1 connect to virtual environment 9323backendenv
 navigate to backend dir
 (mac) $ source 9323backendenv/bin/activate
-(windows) $ tutorial-env\Scripts\activate.bat
+(windows) $ .\9323backendenv\bin\activate
 
 #2 $ cd onlinecareersfair
 
