@@ -28,6 +28,8 @@ def get_car(request, name):
         serializer = CarSerializer(car)
         return Response(serializer.data)
 
+# https://www.youtube.com/watch?v=B65zbFro2pU&list=PLgCYzUzKIBE9Pi8wtx8g55fExDAPXBsbV&index=4
+
 
 @api_view(['POST', ])
 def create_car(request):
