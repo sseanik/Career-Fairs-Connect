@@ -33,14 +33,18 @@ def get_car(request, name):
 
 @api_view(['POST', ])
 def create_car(request):
+    # print(car.__dict__['name'])
+    # car = Car(name='stupid', top_speed=1)
+    # print(request.POST.get('name', ''))
     car = Car()
-
+    # return Response({})
     if request.method == "POST":
-        serializer = CarSerializer(car, data=request)
+        serializer = CarSerializer(car, data=request.data)
         if serializer.is_valid():
             serializer.save()
-            return Response(serializer.data, status=status.HTTP_201_CREATE)
-        return Response(serializer.error, status=status.HTTP_400_BAD_REQUEST)
+            # print(serializer.data['name'])
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
 class api_test_calls(APIView):
