@@ -148,8 +148,8 @@ class Presentations(models.Model):
 class Students(models.Model):
     student_id = models.AutoField(primary_key=True)
     university = models.CharField(max_length=50)
-    degree = models.CharField(max_length=100)
-    wam = models.DecimalField(max_digits=5, decimal_places=2)
+    degree = models.CharField(max_length=100, null=True)
+    wam = models.DecimalField(max_digits=5, decimal_places=2, null=True)
     # changed to one to one field to suppress warnings - thornton, do we want restrict or cascade?
     user_id = models.OneToOneField(User, on_delete=models.RESTRICT)
 
