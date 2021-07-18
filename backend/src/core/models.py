@@ -57,26 +57,13 @@ class Students(models.Model):
     university = models.CharField(max_length = 50)
     degree = models.CharField(max_length = 100)
     wam = models.DecimalField(max_digits=5, decimal_places=2)
-    user_id = models.ForeignKey(User, unique = True, on_delete=models.RESTRICT)
+    user_id = models.ForeignKey(User, unique = True, on_delete = models.RESTRICT)
 
 
 class Opportunities(models.Model):
-    job_id = models.AutoField(primary_key=True)
+    job_id = models.AutoField(primary_key = True)
     job_description = models.TextField()
     application_link = models.CharField(max_length = 100)
-    stall_id = models.ForeignKey(Stalls, unique=True, on_delete=models.RESTRICT)
+    stall_id = models.ForeignKey(Stalls, unique = True, on_delete = models.RESTRICT)
 
-
-class QAMessages(models.Model):
-    post_id = models.AutoField(primary_key=True)
-    time = models.DateTimeField(auto_now_add=True, blank=True)
-    parent_post_id = models.ForeignKey('self', null=True, blank=True, related_name='replies', on_delete=models.CASCADE)  # https://stackoverflow.com/questions/50878551/how-to-create-hierarchy-of-models
-    content = models.TextField()
-
-
-class Upvotes(models.Model):
-    user_id = models.ForeignKey(User, on_delete=models.RESTRICT)
-    post_id = models.ForeignKey(QAMessages, on_delete=models.RESTRICT)
-    class Meta:
-        unique_together = ('user_id', 'post_id')
 
