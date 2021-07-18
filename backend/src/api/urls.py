@@ -15,12 +15,16 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path
+from django.urls import re_path
 
 from rest_framework import permissions
 from drf_yasg.views import get_schema_view
 from drf_yasg import openapi
 
 from core.views import register_student, register_company, register_university
+from core.models import *
+from core.views import *
+
 
 schema_view = get_schema_view(
     openapi.Info(
@@ -44,7 +48,12 @@ urlpatterns = [
     # path(r'^swagger(?P<format>\.json|\.yaml)$', schema_view.without_ui(cache_timeout=0), name='schema-json'),
     path('swagger/', schema_view.with_ui('swagger', cache_timeout=0), name='schema-swagger-ui'),
     path('redoc/', schema_view.with_ui('redoc', cache_timeout=0), name='schema-redoc'),
+
     path('register/student/', register_student),
     path('register/university/', register_university),
     path('register/company/', register_company),
-]   
+
+    re_path('^company/(?P<companyId>.+)/$', Company.as_view()),
+
+]
+

@@ -96,7 +96,7 @@ class User(AbstractBaseUser):
 class Companies(models.Model):
     company_id = models.AutoField(primary_key=True)
     company_name = models.CharField(max_length=50)
-    user_id = models.ForeignKey(User, unique=True, on_delete=models.RESTRICT)
+    user_id = models.OneToOneField(User, on_delete=models.RESTRICT)
     # Discuss Max Text and Char???
     company_description = models.TextField()
     company_webpage_url = models.CharField(max_length=150)
@@ -148,9 +148,11 @@ class Presentations(models.Model):
 class Students(models.Model):
     student_id = models.AutoField(primary_key=True)
     university = models.CharField(max_length=50)
-    degree = models.CharField(max_length=100, null=True)
-    wam = models.DecimalField(max_digits=5, decimal_places=2, null=True)
-    user_id = models.ForeignKey(User, unique = True, on_delete=models.RESTRICT)
+    degree = models.CharField(max_length=100)
+    wam = models.DecimalField(max_digits=5, decimal_places=2)
+    # changed to one to one field to suppress warnings - thornton, do we want restrict or cascade?
+    user_id = models.OneToOneField(User, on_delete=models.RESTRICT)
+
 
 
 
@@ -158,7 +160,8 @@ class Opportunities(models.Model):
     job_id = models.AutoField(primary_key=True)
     job_description = models.TextField()
     application_link = models.CharField(max_length = 100)
-    stall_id = models.ForeignKey(Stalls, unique=True, on_delete=models.RESTRICT)
+    # changed to one to one field to suppress warnings - thornton, do we want restrict or cascade?
+    stall_id = models.OneToOneField(Stalls, on_delete=models.RESTRICT)
 
 
 class QAMessages(models.Model):
