@@ -17,7 +17,7 @@ def register_student(request):
         if user_serializer.is_valid():
             user_serializer.save()
             student = Students(user_id=user)
-            student_serializer = StudentSerializer(student, data=request.data, fields=('university',))
+            student_serializer = StudentSerializer(student, data=request.data, fields=('university'))
             if student_serializer.is_valid():
                 student_serializer.save()
 

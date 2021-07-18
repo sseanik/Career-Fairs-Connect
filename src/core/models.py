@@ -7,12 +7,10 @@ class MyUserManager(BaseUserManager):
     def create_user(self, email, username, first_name, last_name, user_type, password=None):
         if not email:
             raise ValueError('Users must have an email address')
-        if not username:
-            raise ValueError('Users must have a username')
-        if not first_name:
-            raise ValueError('Users must have a first_name')
-        if not last_name:
-            raise ValueError('Users must have a last_name')
+        # if not first_name:
+        #     raise ValueError('Users must have a first_name')
+        # if not last_name:
+        #     raise ValueError('Users must have a last_name')
 
         user = self.model(
             email=self.normalize_email(email),
@@ -60,9 +58,10 @@ class MyUserManager(BaseUserManager):
 
 
 class User(AbstractBaseUser):
+    # core fields required by django
     userID = models.AutoField(primary_key=True)
     email = models.EmailField(verbose_name="email", max_length=60, unique=True)
-    username = models.CharField(max_length=30, unique=True)
+    username = models.CharField(max_length=30)
     date_joined = models.DateTimeField(
         verbose_name='date joined', auto_now_add=True)
     last_login = models.DateTimeField(verbose_name='last login', auto_now=True)
@@ -71,13 +70,13 @@ class User(AbstractBaseUser):
     is_staff = models.BooleanField(default=False)
     is_superuser = models.BooleanField(default=False)
 
-    first_name = models.CharField(max_length=50)
-    last_name = models.CharField(max_length=50)
+    # extra fields
+    first_name = models.CharField(max_length=50, null=True)
+    last_name = models.CharField(max_length=50, null=True)
     user_type = models.IntegerField(
-        choices=((0, 'university'), (1, 'student'), (2, 'company')), default=0)
+        choices=((0, 'student'), (1, 'university'), (2, 'company')), default=0)
     USERNAME_FIELD = 'email'
-    REQUIRED_FIELDS = ['username', 'first_name',
-                       'last_name', 'user_type']
+    REQUIRED_FIELDS = ['user_type']
 
     objects = MyUserManager()
 
@@ -107,6 +106,8 @@ class Companies(models.Model):
 class Universities(models.Model):
     university_id = models.AutoField(primary_key=True)
     university_name = models.CharField(max_length=50)
+    university_abbreviation = models.CharField(max_length=10)
+    university_logo_url = models.CharField(max_length=200)
     # Potential cause of issues on deleting
     user_id = models.ForeignKey(User, on_delete=models.RESTRICT)
 
@@ -147,8 +148,8 @@ class Presentations(models.Model):
 class Students(models.Model):
     student_id = models.AutoField(primary_key=True)
     university = models.CharField(max_length=50)
-    degree = models.CharField(max_length=100)
-    wam = models.DecimalField(max_digits=5, decimal_places=2)
+    degree = models.CharField(max_length=100, null=True)
+    wam = models.DecimalField(max_digits=5, decimal_places=2, null=True)
     user_id = models.ForeignKey(User, unique = True, on_delete=models.RESTRICT)
 
 
