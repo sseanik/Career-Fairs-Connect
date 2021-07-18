@@ -78,22 +78,22 @@ WSGI_APPLICATION = 'api.wsgi.application'
 # https://docs.djangoproject.com/en/3.2/ref/settings/#databases
 
 # For final
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'CareerFairDB',
-        'USER': 'postgres',
-        'PASSWORD': 'DPhgwV3xpFGHg8K',
-        'HOST': 'comp9323.cruw92ayeie9.ap-southeast-2.rds.amazonaws.com',
-        'PORT': '5432',
-    }
-}
 # DATABASES = {
 #     'default': {
-#         'ENGINE': 'django.db.backends.sqlite3',
-#         'NAME': BASE_DIR / 'db.sqlite3',
+#         'ENGINE': 'django.db.backends.postgresql',
+#         'NAME': 'CareerFairDB',
+#         'USER': 'postgres',
+#         'PASSWORD': 'DPhgwV3xpFGHg8K',
+#         'HOST': 'comp9323.cruw92ayeie9.ap-southeast-2.rds.amazonaws.com',
+#         'PORT': '5432',
 #     }
 # }
+DATABASES = {
+    'default': {
+        'ENGINE': 'django.db.backends.sqlite3',
+        'NAME': BASE_DIR / 'db.sqlite3',
+    }
+}
 
 
 # Password validation
