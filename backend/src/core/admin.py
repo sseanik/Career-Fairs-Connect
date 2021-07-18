@@ -12,4 +12,6 @@ admin.site.register(Stalls)
 admin.site.register(Presentations)
 admin.site.register(Students)
 admin.site.register(Opportunities)
+admin.site.register(QAMessages)
+admin.site.register(Upvotes)
 
