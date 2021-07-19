@@ -131,6 +131,8 @@ class Stalls(models.Model):
 class Presentations(models.Model):
     presentation_id = models.AutoField(primary_key=True)
     presentation_link = models.CharField(max_length=255)
+    datetime = models.DateTimeField()
+    presentation_description = models.TextField()
 
 
 class Students(models.Model):
@@ -144,14 +146,11 @@ class Students(models.Model):
     user_id = models.OneToOneField(User, on_delete=models.RESTRICT)
 
 
-
-
 class Opportunities(models.Model):
     job_id = models.AutoField(primary_key=True)
     job_description = models.TextField()
-    application_link = models.CharField(max_length = 100)
-    # changed to one to one field to suppress warnings - thornton, do we want restrict or cascade?
-    stall_id = models.OneToOneField(Stalls, on_delete=models.RESTRICT)
+    application_link = models.CharField(max_length=100)
+    stall_id = models.OneToOneField(Stalls, on_delete=models.CASCADE)
 
 
 class QAMessages(models.Model):
@@ -162,8 +161,15 @@ class QAMessages(models.Model):
 
 
 class Upvotes(models.Model):
-    user_id = models.ForeignKey(User, on_delete=models.RESTRICT)
-    post_id = models.ForeignKey(QAMessages, on_delete=models.RESTRICT)
+    user_id = models.ForeignKey(User, on_delete=models.CASCADE)
+    post_id = models.ForeignKey(QAMessages, on_delete=models.CASCADE)
     class Meta:
         unique_together = ('user_id', 'post_id')
+
+
+class Students_opportunities(models.Model):
+    student_id = models.ForeignKey(Students, on_delete=models.CASCADE)
+    job_id = models.ForeignKey(Opportunities, on_delete=models.CASCADE)
+    class Meta:
+        unique_together = ('student_id', 'job_id')
 
