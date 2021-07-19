@@ -11,6 +11,7 @@ import {
   InputRightElement,
   Flex,
 } from "@chakra-ui/react"
+import { Formik } from 'formik';
 import Navbar from '../components/navbar'
 
 
@@ -24,7 +25,7 @@ function PasswordInput() {
         pr="4.5rem"
         color="#FFFFFF"
         type={show ? "text" : "password"}
-        // placeholder="Enter password"
+      // placeholder="Enter password"
       />
       <InputRightElement width="4.5rem">
         <Button h="1.75rem" size="sm" onClick={handleClick}>
@@ -44,27 +45,68 @@ function Login() {
         </Box>
         <Box width="50%">
           <Box mt="10vh" fontWeight="medium" ml="auto" mr="auto" bg="#2F303A" width="75%" textAlign="center" padding="5%" borderRadius="10px">
-
             <Heading color="#FFFFFF">Log in</Heading>
-
-            <FormControl id="email">
-              <FormLabel color="#FFFFFF">Email</FormLabel>
-              <Input color="#FFFFFF" type="email" />
-              {/* <FormHelperText>We'll never share your email.</FormHelperText> */}
-            </FormControl>
-
-            <FormControl id="password">
-              <FormLabel color="#FFFFFF">Password</FormLabel>
-              <PasswordInput />
-            </FormControl>
-
-            <Button
-              mt={4}
-              // isLoading={isSubmitting}
-              type='submit'
+            <Formik
+              initialValues={{ email: '', password: '' }}
+              validate={values => {
+                const errors = {};
+                if (!values.email) {
+                  errors.email = 'Required';
+                } else if (
+                  !/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i.test(values.email)
+                ) {
+                  errors.email = 'Invalid email address';
+                }
+                return errors;
+              }}
+              onSubmit={(values, { setSubmitting }) => {
+                setTimeout(() => {
+                  alert(JSON.stringify(values, null, 2));
+                  setSubmitting(false);
+                }, 400);
+              }}
             >
-              Log in
-            </Button>
+              {({
+                values,
+                errors,
+                touched,
+                handleChange,
+                handleBlur,
+                handleSubmit,
+                isSubmitting,
+              }) => (
+                <form onSubmit={handleSubmit}>
+
+                  <FormControl id="email">
+                    <FormLabel color="#FFFFFF">Email</FormLabel>
+                    <Input color="#FFFFFF" type="email"
+                      name="email"
+                      onChange={handleChange}
+                      onBlur={handleBlur}
+                      value={values.email} />
+                  </FormControl>
+
+                  {errors.email && touched.email && errors.email}
+
+                  <FormControl id="password">
+                    <FormLabel color="#FFFFFF">Password</FormLabel>
+                    <PasswordInput type="password"
+                      name="password"
+                      onChange={handleChange}
+                      onBlur={handleBlur}
+                      value={values.password} />
+                  </FormControl>
+                  {errors.password && touched.password && errors.password}
+                  <Button
+                    mt={4}
+                    type="submit"
+                    disabled={isSubmitting}
+                  >
+                    Log in
+                  </Button>
+                </form>
+              )}
+            </Formik>
 
           </Box>
         </Box>
