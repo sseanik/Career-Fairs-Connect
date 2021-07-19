@@ -4,19 +4,13 @@ from django.contrib.auth.models import AbstractBaseUser, BaseUserManager
 
 # class AUTH_USER
 class MyUserManager(BaseUserManager):
-    def create_user(self, email, username, first_name, last_name, user_type, password=None):
+    def create_user(self, email, username, user_type, password=None):
         if not email:
             raise ValueError('Users must have an email address')
-        # if not first_name:
-        #     raise ValueError('Users must have a first_name')
-        # if not last_name:
-        #     raise ValueError('Users must have a last_name')
 
         user = self.model(
             email=self.normalize_email(email),
             username=username,
-            first_name=first_name,
-            last_name=last_name,
             user_type=user_type,
         )
 
@@ -24,14 +18,12 @@ class MyUserManager(BaseUserManager):
         user.save(using=self._db)
         return user
 
-    def create_superuser(self, email, username, first_name, last_name, password, user_type):
+    def create_superuser(self, email, username, password, user_type):
 
         user = self.create_user(
             email=self.normalize_email(email),
             password=password,
             username=username,
-            first_name=first_name,
-            last_name=last_name,
             user_type=user_type,
         )
         user.is_admin = True
@@ -40,14 +32,12 @@ class MyUserManager(BaseUserManager):
         user.save(using=self._db)
         return user
 
-    def create_student(self, email, username, first_name, last_name, password, user_type):
+    def create_student(self, email, username, password, user_type):
 
         user = self.create_user(
             email=self.normalize_email(email),
             password=password,
             username=username,
-            first_name=first_name,
-            last_name=last_name,
             user_type=user_type,
         )
         user.is_admin = True
@@ -71,8 +61,6 @@ class User(AbstractBaseUser):
     is_superuser = models.BooleanField(default=False)
 
     # extra fields
-    first_name = models.CharField(max_length=50, null=True)
-    last_name = models.CharField(max_length=50, null=True)
     user_type = models.IntegerField(
         choices=((0, 'student'), (1, 'university'), (2, 'company')), default=0)
     USERNAME_FIELD = 'email'
@@ -148,6 +136,8 @@ class Presentations(models.Model):
 class Students(models.Model):
     student_id = models.AutoField(primary_key=True)
     university = models.CharField(max_length=50)
+    first_name = models.CharField(max_length=50)
+    last_name = models.CharField(max_length=50)
     degree = models.CharField(max_length=100, null=True)
     wam = models.DecimalField(max_digits=5, decimal_places=2, null=True)
     # changed to one to one field to suppress warnings - thornton, do we want restrict or cascade?
