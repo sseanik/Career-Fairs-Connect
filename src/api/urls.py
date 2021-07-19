@@ -21,7 +21,9 @@ from rest_framework import permissions
 from drf_yasg.views import get_schema_view
 from drf_yasg import openapi
 
-from core.views import register_student, register_company, register_university
+from core.register_student import register_student
+from core.register_company import register_company
+from core.register_university import register_university
 from core.models import *
 from core.views import *
 
