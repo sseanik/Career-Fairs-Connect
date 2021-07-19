@@ -13,12 +13,15 @@ def register_student(request):
     user = User(user_type=0)
     print(request.data)
     if request.method == "POST":
-        user_serializer = UserSerializer(user, data=request.data, fields=('email', 'password', 'first_name', 'last_name'))
+        user_serializer = UserSerializer(user, data=request.data, fields=('email', 'password'))
         student = Students(user_id=user)
-        student_serializer = StudentSerializer(student, data=request.data, fields=('university',))
-        if user_serializer.is_valid() and student_serializer.is_valid():
-            user_serializer.save()
-            student_serializer.save()
-            return Response(user_serializer.data, status=status.HTTP_201_CREATED)
-
-        return Response(user_serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+        student_serializer = StudentSerializer(student, data=request.data, fields=('university','first_name', 'last_name'))
+        if not user_serializer.is_valid() and not student_serializer.is_valid():
+            return Response([student_serializer.errors, user_serializer.errors])
+        if not user_serializer.is_valid():
+            return Response(user_serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+        if not student_serializer.is_valid():
+            return Response(student_serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+        user_serializer.save()
+        student_serializer.save()
+        return Response([user_serializer.data, student_serializer.data], status=status.HTTP_201_CREATED)
