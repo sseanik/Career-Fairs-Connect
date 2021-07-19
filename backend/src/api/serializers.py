@@ -41,3 +41,8 @@ class UniversitySerializer(DynamicFieldsModelSerializer):
     class Meta  :
         model = Universities
         fields = '__all__' 
+
+class CompanySerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Companies
+        fields = '__all__'
