@@ -2,9 +2,14 @@ from django.shortcuts import render
 from django.http import JsonResponse
 from rest_framework.views import APIView
 from rest_framework.views import Response
-# models and serializers
+from .models import Companies, Students, Universities, User
+from api.serializers import UserSerializer, StudentSerializer, CompanySerializer, UniversitySerializer
+from rest_framework.decorators import api_view
+from rest_framework import status
 from .models import *
-from .serializers import *
+# from .serializers import *
+# models
+
 class Company(APIView):
     def get(self, request, *args, **kwargs):
         serializer_class = CompanySerializer
@@ -17,13 +22,4 @@ class Company(APIView):
         # json = JSONRenderer().render(serializer.data)
         return Response(serializer.data, status=200)
 
-class RegisterCompany(APIView):
-    def post(self, request, *args, **kwargs):
-        # if self.kwargs['acctype'] == 'company':
-        # serializer_class = CompanySerializer
-        # reqdata = request.data
-        # data = {
-        #     'secondtest' : 'success'
-        # }
-        return Response(status=500)
-# Create your views here.
+
