@@ -24,6 +24,9 @@ from drf_yasg import openapi
 from core.register_student import register_student
 from core.register_company import register_company
 from core.register_university import register_university
+from core.get_post_company import *
+from core.get_post_student import *
+from core.get_post_university import *
 from core.models import *
 from core.views import *
 
@@ -56,6 +59,7 @@ urlpatterns = [
     path('register/company/', register_company),
 
     re_path('^company/(?P<companyId>.+)/$', Company.as_view()),
-
+    re_path('^student/(?P<studentId>.+)/$', Student.as_view()),
+    re_path('^university/(?P<universityId>.+)/$', University.as_view())
 ]
 
