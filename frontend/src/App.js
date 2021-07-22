@@ -8,6 +8,7 @@ import Register from './pages/Register';
 import { EmployerRegister } from './features/register/EmployerRegister';
 import { StudentRegister } from './features/register/StudentRegister';
 import { UniversityRegister } from './features/register/UniversityRegister';
+import { CareerFair } from './features/careerFair/CareerFair';
 
 function App() {
   return (
@@ -18,6 +19,7 @@ function App() {
         <Route path='/register' component={Register} exact />
         <Route path='/register/employer' component={EmployerRegister} exact />
         <Route path='/register/student' component={StudentRegister} exact />
+        <Route path='/fair' component={CareerFair} exact />
         <Route
           path='/register/university'
           component={UniversityRegister}
