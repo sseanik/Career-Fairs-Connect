@@ -26,6 +26,11 @@ class UserSerializer(DynamicFieldsModelSerializer):
     class Meta:
         model = User
         fields = '__all__' 
+class PasswordSerializer(DynamicFieldsModelSerializer):
+    new_password = serializers.CharField(required=True)
+    class Meta:
+        model = User
+        fields = '__all__' 
 
 class StudentSerializer(DynamicFieldsModelSerializer):
     class Meta:

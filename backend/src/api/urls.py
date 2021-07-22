@@ -27,6 +27,7 @@ from core.register_university import register_university
 from core.get_post_company import *
 from core.get_post_student import *
 from core.get_post_university import *
+from core.PasswordReset import PasswordReset
 from core.models import *
 from core.views import *
 
@@ -53,6 +54,8 @@ urlpatterns = [
     # path(r'^swagger(?P<format>\.json|\.yaml)$', schema_view.without_ui(cache_timeout=0), name='schema-json'),
     path('swagger/', schema_view.with_ui('swagger', cache_timeout=0), name='schema-swagger-ui'),
     path('redoc/', schema_view.with_ui('redoc', cache_timeout=0), name='schema-redoc'),
+    
+    re_path ('^account/reset/', PasswordReset.as_view()),
 
     path('register/student/', register_student),
     path('register/university/', register_university),
@@ -61,5 +64,6 @@ urlpatterns = [
     re_path('^company/(?P<companyId>.+)/$', Company.as_view()),
     re_path('^student/(?P<studentId>.+)/$', Student.as_view()),
     re_path('^university/(?P<universityId>.+)/$', University.as_view())
+    
 ]
 
