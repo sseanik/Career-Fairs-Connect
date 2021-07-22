@@ -27,6 +27,10 @@ from core.register_university import register_university
 from core.get_post_company import *
 from core.get_post_student import *
 from core.get_post_university import *
+
+from core.Opportunity import *
+from core.OpportunityList import *
+
 from core.models import *
 from core.views import *
 
@@ -58,6 +62,8 @@ urlpatterns = [
     path('register/university/', register_university),
     path('register/company/', register_company),
 
+    path('careersfair/<int:eventId>/stalls/', StallList.as_view()),
+    path('company/<int:companyId>/opportunities/', OpportunityList.as_view()),
     re_path('^company/(?P<companyId>.+)/$', Company.as_view()),
     re_path('^student/(?P<studentId>.+)/$', Student.as_view()),
     re_path('^university/(?P<universityId>.+)/$', University.as_view())
