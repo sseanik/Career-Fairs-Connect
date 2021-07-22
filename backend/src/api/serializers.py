@@ -42,6 +42,16 @@ class UniversitySerializer(DynamicFieldsModelSerializer):
         model = Universities
         fields = '__all__' 
 
+class OpportunitySerializer(DynamicFieldsModelSerializer):
+    class Meta  :
+        model = Opportunities
+        fields = '__all__'
+
+class StallsSerializer(DynamicFieldsModelSerializer):
+    class Meta  :
+        model = Stalls
+        fields = '__all__'
+
 # breaks code
 # class CompanySerializer(serializers.ModelSerializer):
 #     class Meta:
