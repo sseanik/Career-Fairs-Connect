@@ -7,10 +7,17 @@ from api.serializers import UserSerializer, StudentSerializer, CompanySerializer
 from rest_framework.decorators import api_view
 from rest_framework import status
 from .models import *
+from django.contrib.auth.hashers import make_password
 
 @api_view(['POST', ])
 def register_student(request):
     user = User(user_type=0)
+    request.POST._mutable = True
+    # hash passwords
+    try:
+        request.POST['password'] = make_password(request.POST['password'])
+    except:
+        return Response({"error":"password field is requred"}, status=status.HTTP_400_BAD_REQUEST)
     print(request.data)
     if request.method == "POST":
         user_serializer = UserSerializer(user, data=request.data, fields=('email', 'password'))
