@@ -20,19 +20,15 @@ from django.urls import re_path
 from rest_framework import permissions
 from drf_yasg.views import get_schema_view
 from drf_yasg import openapi
+from rest_framework.authtoken.views import obtain_auth_token
 
-from core.register_student import register_student
-from core.register_company import register_company
-from core.register_university import register_university
-from core.Company import *
-from core.Student import *
-from core.University import *
-
-from core.Opportunity import *
-from core.OpportunityList import *
-
-from core.models import *
-from core.views import *
+from .register_student import *
+from .register_company import *
+from .register_university import *
+from .Company import *
+from .Student import *
+from .University import *
+from .OpportunityList import *
 
 
 schema_view = get_schema_view(
@@ -57,7 +53,7 @@ urlpatterns = [
     # path(r'^swagger(?P<format>\.json|\.yaml)$', schema_view.without_ui(cache_timeout=0), name='schema-json'),
     path('swagger/', schema_view.with_ui('swagger', cache_timeout=0), name='schema-swagger-ui'),
     path('redoc/', schema_view.with_ui('redoc', cache_timeout=0), name='schema-redoc'),
-
+    path('auth/', obtain_auth_token),
     path('register/student/', register_student),
     path('register/university/', register_university),
     path('register/company/', register_company),

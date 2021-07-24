@@ -2,8 +2,7 @@ from rest_framework import status
 from rest_framework.response import Response
 from rest_framework.views import APIView
 
-from api.serializers import OpportunitySerializer
-from api.serializers import StallsSerializer
+from .serializers import OpportunitySerializer, StallsSerializer
 from .models import *
 
 

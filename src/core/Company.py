@@ -1,14 +1,8 @@
-from django.shortcuts import render
-from django.http import JsonResponse
 from rest_framework.views import APIView
 from rest_framework.views import Response
-from .models import Companies, Students, Universities, User
-from api.serializers import UserSerializer, StudentSerializer, CompanySerializer, UniversitySerializer
-from rest_framework.decorators import api_view
+from .serializers import CompanySerializer
 from rest_framework import status
 from .models import *
-# from .serializers import *
-# models
 
 class Company(APIView):
     serializer_class = CompanySerializer

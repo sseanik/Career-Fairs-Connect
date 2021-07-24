@@ -1,19 +1,14 @@
-from django.shortcuts import render
-from django.http import JsonResponse
 from rest_framework.views import APIView
 from rest_framework.views import Response
-from .models import Companies, Students, Universities, User
-from api.serializers import UserSerializer, StudentSerializer, CompanySerializer, UniversitySerializer
-from rest_framework.decorators import api_view
+from .serializers import UniversitySerializer
 from rest_framework import status
 from .models import *
-# from .serializers import *
-# models
+
 
 class University(APIView):
     serializer_class = UniversitySerializer
-    def get(self, request, *args, **kwargs):
 
+    def get(self, request, *args, **kwargs):
         universityField = self.kwargs['universityId']
         try:
             universityData = Universities.objects.get(university_id=universityField)
