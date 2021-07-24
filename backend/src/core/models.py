@@ -107,8 +107,8 @@ class Events(models.Model):
     title = models.CharField(max_length=50)
     company_description = models.TextField()
     # default auto_now=False, auto_now_add=False
-    event_start_time = models.TimeField()
-    event_end_time = models.TimeField()
+    event_start_time = models.DateTimeField(auto_now_add=True)
+    event_end_time = models.DateTimeField(auto_now_add=True)
 
 
 class Registrations(models.Model):
@@ -131,8 +131,8 @@ class Stalls(models.Model):
 class Presentations(models.Model):
     presentation_id = models.AutoField(primary_key=True)
     presentation_link = models.CharField(max_length=255)
-    datetime = models.DateTimeField()
-    presentation_description = models.TextField()
+    datetime = models.DateTimeField(auto_now=True)
+    presentation_description = models.TextField(default='')
 
 
 class Students(models.Model):

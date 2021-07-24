@@ -41,6 +41,7 @@ INSTALLED_APPS = [
     'core',
     'rest_framework',
     'drf_yasg',
+    'rest_framework.authtoken',
 ]
 
 MIDDLEWARE = [
@@ -53,7 +54,7 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
 
-ROOT_URLCONF = 'api.urls'
+ROOT_URLCONF = 'core.urls'
 
 TEMPLATES = [
     {
@@ -73,6 +74,13 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'api.wsgi.application'
 
+REST_FRAMEWORK = {
+    'DEFAULT_AUTHENTICATION_CLASSES': [
+        'rest_framework.authentication.TokenAuthentication',
+        'rest_framework.authentication.SessionAuthentication',
+
+    ]
+}
 
 # Database
 # https://docs.djangoproject.com/en/3.2/ref/settings/#databases

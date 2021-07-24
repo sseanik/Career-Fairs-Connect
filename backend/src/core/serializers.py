@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from core.models import *
+from .models import *
 
 # inspired from https://stackoverflow.com/questions/53319787/how-can-i-select-specific-fields-in-django-rest-framework
 class DynamicFieldsModelSerializer(serializers.ModelSerializer):

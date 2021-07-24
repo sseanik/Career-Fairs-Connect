@@ -3,7 +3,7 @@ from rest_framework.views import APIView
 from rest_framework.views import Response
 from rest_framework import status
 from .models import *
-from api.serializers import OpportunitySerializer
+from serializers import OpportunitySerializer
 
 
 class Opportunity(APIView):

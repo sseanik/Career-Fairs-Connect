@@ -1,9 +1,5 @@
-from django.shortcuts import render
-from django.http import JsonResponse
-from rest_framework.views import APIView
 from rest_framework.views import Response
-from .models import Companies, Students, Universities, User
-from api.serializers import UserSerializer, StudentSerializer, CompanySerializer, UniversitySerializer
+from .serializers import *
 from rest_framework.decorators import api_view
 from rest_framework import status
 from .models import *
@@ -16,7 +12,7 @@ def register_company(request):
     request.POST._mutable = True
     # hash passwords
     try:
-        request.POST['password'] = make_password(request.POST['password'])
+        request.data['password'] = make_password(request.data['password'])
     except:
         return Response({"error":"password field is requred"}, status=status.HTTP_400_BAD_REQUEST)
     print(request.data)
