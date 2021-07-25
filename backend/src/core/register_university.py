@@ -27,6 +27,6 @@ def register_university(request):
         return Response(university_serializer.errors, status=status.HTTP_400_BAD_REQUEST)
     user_serializer.save()
     university_serializer.save()
-    return Response([user_serializer.data, university_serializer.data], status=status.HTTP_201_CREATED)
+    return Response({"message":"Account successfully created"}, status=status.HTTP_201_CREATED)
 
 

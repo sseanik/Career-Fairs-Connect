@@ -27,4 +27,4 @@ def register_company(request):
         return Response(company_serializer.errors, status=status.HTTP_400_BAD_REQUEST)
     user_serializer.save()
     company_serializer.save()
-    return Response([user_serializer.data, company_serializer.data], status=status.HTTP_201_CREATED)
+    return Response({"message":"Account successfully created"}, status=status.HTTP_201_CREATED)
