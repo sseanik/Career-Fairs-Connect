@@ -54,13 +54,14 @@ urlpatterns = [
     # path(r'^swagger(?P<format>\.json|\.yaml)$', schema_view.without_ui(cache_timeout=0), name='schema-json'),
     path('swagger/', schema_view.with_ui('swagger', cache_timeout=0), name='schema-swagger-ui'),
     path('redoc/', schema_view.with_ui('redoc', cache_timeout=0), name='schema-redoc'),
-    path('auth/', obtain_auth_token),
+    path('login/', obtain_auth_token),
     path('register/student/', register_student),
     path('register/university/', register_university),
     path('register/company/', register_company),
 
     path('careersfair/<int:eventId>/stalls/', StallList.as_view()),
     path('company/<int:companyId>/opportunities/', OpportunityList.as_view()),
+    path('company/<int:companyId>/opportunities/<int:job_id>', OpportunityList.as_view()),
     re_path('^company/(?P<companyId>.+)/$', Company.as_view()),
     re_path('^student/(?P<studentId>.+)/$', Student.as_view()),
     re_path('^university/(?P<universityId>.+)/$', University.as_view())
