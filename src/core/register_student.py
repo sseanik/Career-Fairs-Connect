@@ -7,7 +7,7 @@ from django.contrib.auth.hashers import make_password
 
 @api_view(['POST', ])
 def register_student(request):
-    user = User(user_type=0)
+    user = User(user_type=User.STUDENT)
     request.POST._mutable = True
     # hash passwords
     try:

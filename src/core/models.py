@@ -48,6 +48,9 @@ class MyUserManager(BaseUserManager):
 
 
 class User(AbstractBaseUser):
+    STUDENT = 0
+    UNIVERSITY = 1
+    COMPANY = 2
     # core fields required by django
     userID = models.AutoField(primary_key=True)
     email = models.EmailField(verbose_name="email", max_length=60, unique=True)
@@ -62,7 +65,7 @@ class User(AbstractBaseUser):
 
     # extra fields
     user_type = models.IntegerField(
-        choices=((0, 'student'), (1, 'university'), (2, 'company')), default=0)
+        choices=((STUDENT, 'student'), (UNIVERSITY, 'university'), (COMPANY, 'company')), default=0)
     USERNAME_FIELD = 'email'
     REQUIRED_FIELDS = ['user_type']
 

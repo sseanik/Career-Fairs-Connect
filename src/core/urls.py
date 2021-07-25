@@ -22,6 +22,7 @@ from drf_yasg.views import get_schema_view
 from drf_yasg import openapi
 from rest_framework.authtoken.views import obtain_auth_token
 
+from .StallList import StallList
 from .register_student import *
 from .register_company import *
 from .register_university import *
