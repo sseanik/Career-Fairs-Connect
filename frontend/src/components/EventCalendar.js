@@ -6,6 +6,7 @@ import interactionPlugin from '@fullcalendar/interaction';
 import listPlugin from '@fullcalendar/list';
 import auLocale from '@fullcalendar/core/locales/en-au';
 import useWindowDimensions from '../app/useWindowDimensions';
+
 import moment from 'moment';
 import {
   Button,
@@ -28,24 +29,34 @@ export function EventCalendar() {
       display: 'inverse-background',
       backgroundColor: 'gray',
     },
-    { title: 'Facebook', start: new Date(), end: new Date() },
+    {
+      title: 'Facebook',
+      start: new Date(),
+      end: new Date(),
+      color: 'blue',
+      description: 'Facebook live fair event to share upcoming opportunities.',
+    },
     {
       title: 'Google',
       start: '2021-07-22',
       end: '2021-07-22',
       color: '#378006',
+      description: 'Google Career Development seminar.',
     },
     {
       title: 'Microsoft',
       start: '2021-07-22',
       end: '2021-07-22',
       color: '#378006',
+      description:
+        'Microsoft Opportunity Round up with Guest Speaker Bill Gates',
     },
   ];
   const width = useWindowDimensions().width;
 
   const { isOpen, onOpen, onClose } = useDisclosure();
   const [modalEventTitle, setModalEventTitle] = React.useState('');
+  const [modalEventTime, setModalEventTime] = React.useState('');
   const [modalEventDescription, setModalEventDescription] = React.useState('');
 
   return (
@@ -56,11 +67,11 @@ export function EventCalendar() {
           <ModalHeader m='0' pb='0'>
             {modalEventTitle}
             <Text m='0' pb='1' color='gray.500' fontSize='sm'>
-              {modalEventDescription}
+              {modalEventTime}
             </Text>
           </ModalHeader>
           <ModalCloseButton />
-          <ModalBody py='0'>Hello 123</ModalBody>
+          <ModalBody py='0'>{modalEventDescription}</ModalBody>
           <ModalFooter>
             <Button onClick={onClose}>Close</Button>
           </ModalFooter>
@@ -78,7 +89,7 @@ export function EventCalendar() {
         selectable={false}
         selectMirror={true}
         dayMaxEvents={true}
-        contentHeight='320px'
+        contentHeight='340px'
         buttonText={
           width <= 750
             ? {
@@ -95,6 +106,11 @@ export function EventCalendar() {
                 day: 'Day',
                 list: 'List',
               }
+        }
+        titleFormat={
+          width <= 615 && {
+            month: 'short',
+          }
         }
         slotMinTime='08:00:00'
         slotMaxTime='22:00:00'
@@ -114,20 +130,19 @@ export function EventCalendar() {
         events={events}
         eventClick={(info) => {
           setModalEventTitle(info.event.title);
-          setModalEventDescription(
+          setModalEventTime(
             `${info.event.start.toLocaleString([], {
-              hour: '2-digit',
+              day: 'numeric',
+              month: 'long',
+              year: 'numeric',
+              hour: 'numeric',
               minute: '2-digit',
               hour12: true,
             })}`
           );
+          setModalEventDescription(info.event.extendedProps.description);
           onOpen();
-          console.log(info.event._instance.range.end);
-          // (info) => {
-          //   alert('Event: ' + info.event.title);
-          //   // change the border color just for fun
-          //   info.el.style.borderColor = 'black';
-          // }
+          info.el.style.borderColor = 'black';
         }}
         // alternatively, use the `events` setting to fetch from a feed
         /* you can update a remote database when these fire:
