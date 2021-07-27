@@ -155,11 +155,11 @@ const events = [
   {
     title: 'Optus',
     start: new Date(new Date().getTime() - 2 * 24 * 60 * 60 * 1000).setHours(
-      0,
+      15,
       0
     ),
     end: new Date(new Date().getTime() - 2 * 24 * 60 * 60 * 1000).setHours(
-      0,
+      17,
       0
     ),
     color: 'teal',
