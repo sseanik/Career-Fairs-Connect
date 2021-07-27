@@ -21,39 +21,154 @@ import {
   useDisclosure,
 } from '@chakra-ui/react';
 
-export function EventCalendar() {
-  const events = [
-    {
-      start: '2021-07-10',
-      end: '2021-07-27',
-      display: 'inverse-background',
-      backgroundColor: 'gray',
-    },
-    {
-      title: 'Facebook',
-      start: new Date(),
-      end: new Date(),
-      color: 'blue',
-      description: 'Facebook live fair event to share upcoming opportunities.',
-    },
-    {
-      title: 'Google',
-      start: '2021-07-22',
-      end: '2021-07-22',
-      color: '#378006',
-      description: 'Google Career Development seminar.',
-    },
-    {
-      title: 'Microsoft',
-      start: '2021-07-22',
-      end: '2021-07-22',
-      color: '#378006',
-      description:
-        'Microsoft Opportunity Round up with Guest Speaker Bill Gates',
-    },
-  ];
-  const width = useWindowDimensions().width;
+const events = [
+  {
+    // start: '03-07-2021',
+    // end: '03-08-2021',
+    start: new Date(new Date().getTime() - 7 * 24 * 60 * 60 * 1000)
+      .toISOString()
+      .substring(0, 10),
+    end: new Date(new Date().getTime() + 7 * 24 * 60 * 60 * 1000)
+      .toISOString()
+      .substring(0, 10),
+    display: 'inverse-background',
+    backgroundColor: 'gray',
+  },
+  {
+    title: 'Facebook',
+    start: new Date(new Date().getTime() - 7 * 24 * 60 * 60 * 1000).setHours(
+      12,
+      0
+    ),
+    end: new Date(new Date().getTime() - 7 * 24 * 60 * 60 * 1000).setHours(
+      13,
+      0
+    ),
+    color: 'blue',
+    description: 'Facebook live fair event to share upcoming opportunities.',
+  },
+  {
+    title: 'Amazon',
+    start: new Date(new Date().getTime() - 7 * 24 * 60 * 60 * 1000).setHours(
+      13,
+      0
+    ),
+    end: new Date(new Date().getTime() - 7 * 24 * 60 * 60 * 1000).setHours(
+      14,
+      0
+    ),
+    color: 'yellow',
+    description: 'Amazon cyber security internship and graduate opportunities.',
+  },
+  {
+    title: 'Netflix',
+    start: new Date(new Date().getTime() - 6 * 24 * 60 * 60 * 1000).setHours(
+      12,
+      0
+    ),
+    end: new Date(new Date().getTime() - 6 * 24 * 60 * 60 * 1000).setHours(
+      13,
+      0
+    ),
+    color: 'red',
+    description: 'Netflix virtual presentation on opportunities in the US',
+  },
+  {
+    title: 'Google',
+    start: new Date(new Date().getTime() - 5 * 24 * 60 * 60 * 1000).setHours(
+      15,
+      0
+    ),
+    end: new Date(new Date().getTime() - 5 * 24 * 60 * 60 * 1000).setHours(
+      16,
+      0
+    ),
+    color: 'Green',
+    description:
+      'Google Sydney Based Opportunities talk ranging from the Google STEP Program, Internship program and the Graduate Program.',
+  },
+  {
+    title: 'Deloitte',
+    start: new Date(new Date().getTime() - 7 * 24 * 60 * 60 * 1000).setHours(
+      10,
+      0
+    ),
+    end: new Date(new Date().getTime() - 7 * 24 * 60 * 60 * 1000).setHours(
+      11,
+      0
+    ),
+    color: 'green',
+    description: 'Deloitte opportunities',
+  },
+  {
+    title: 'PWC',
+    start: new Date(new Date().getTime() - 7 * 24 * 60 * 60 * 1000).setHours(
+      10,
+      0
+    ),
+    end: new Date(new Date().getTime() - 7 * 24 * 60 * 60 * 1000).setHours(
+      11,
+      0
+    ),
+    color: 'orange',
+    description: 'PWC opportunities',
+  },
+  {
+    title: 'Canva',
+    start: new Date(new Date().getTime() + 1 * 24 * 60 * 60 * 1000).setHours(
+      10,
+      0
+    ),
+    end: new Date(new Date().getTime() + 1 * 24 * 60 * 60 * 1000).setHours(
+      11,
+      0
+    ),
+    color: 'teal',
+    description: 'Canva opportunities',
+  },
+  {
+    title: 'Atlassian',
+    start: new Date(new Date().getTime() + 2 * 24 * 60 * 60 * 1000).setHours(
+      10,
+      0
+    ),
+    end: new Date(new Date().getTime() + 2 * 24 * 60 * 60 * 1000).setHours(
+      11,
+      0
+    ),
+    color: 'blue',
+    description: 'Atlassian opportunities',
+  },
+  {
+    title: 'Telstra',
+    start: new Date(new Date().getTime() - 2 * 24 * 60 * 60 * 1000).setHours(
+      10,
+      0
+    ),
+    end: new Date(new Date().getTime() - 2 * 24 * 60 * 60 * 1000).setHours(
+      11,
+      0
+    ),
+    color: 'blue',
+    description: 'Telstra opportunities',
+  },
+  {
+    title: 'Optus',
+    start: new Date(new Date().getTime() - 2 * 24 * 60 * 60 * 1000).setHours(
+      11,
+      30
+    ),
+    end: new Date(new Date().getTime() - 2 * 24 * 60 * 60 * 1000).setHours(
+      12,
+      30
+    ),
+    color: 'teal',
+    description: 'Optus opportunities',
+  },
+];
 
+export function EventCalendar() {
+  const width = useWindowDimensions().width;
   const { isOpen, onOpen, onClose } = useDisclosure();
   const [modalEventTitle, setModalEventTitle] = React.useState('');
   const [modalEventTime, setModalEventTime] = React.useState('');
@@ -135,9 +250,8 @@ export function EventCalendar() {
               day: 'numeric',
               month: 'long',
               year: 'numeric',
-              hour: 'numeric',
+              hour: '2-digit',
               minute: '2-digit',
-              hour12: true,
             })}`
           );
           setModalEventDescription(info.event.extendedProps.description);

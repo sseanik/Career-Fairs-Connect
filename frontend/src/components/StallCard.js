@@ -1,25 +1,8 @@
 import React from 'react';
 import { Badge, Box, Image, Spacer, Tooltip } from '@chakra-ui/react';
 import { InfoOutlineIcon } from '@chakra-ui/icons';
-import { prominent } from 'color.js';
 
 export function StallCard(props) {
-  const [dominantColour, setDominantColour] = React.useState('white');
-
-  // When a logo has a non white/black background, the dominant colour is used to colour in the rest
-  React.useEffect(() => {
-    prominent(props.img, {
-      amount: 1,
-    }).then((color) => {
-      setDominantColour(
-        // Always set rgb(0, 0, 0) to a white background, since transparency results in rgb(0, 0, 0)
-        color[0] + color[1] + color[2] === 0
-          ? 'white'
-          : 'rgb(' + color[0] + ',' + color[1] + ',' + color[2] + ')'
-      );
-    });
-  }, [props.img]);
-
   return (
     <Box
       borderWidth='1px'
@@ -32,7 +15,7 @@ export function StallCard(props) {
       role='group'
       _hover={{ background: 'gray.100' }}
     >
-      <Box borderRadius='xl' borderColor='white' bgColor={dominantColour}>
+      <Box borderRadius='xl' borderColor='white'>
         <Image
           px='10px'
           src={props.img}

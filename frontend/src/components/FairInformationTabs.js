@@ -1,8 +1,9 @@
 import { Box, Tab, TabList, TabPanel, TabPanels, Tabs } from '@chakra-ui/react';
 import React from 'react';
 import { EventCalendar } from './EventCalendar';
+import { FairDetails } from './FairDetails';
 
-export function UniversityInfoCard() {
+export function FairInformationTabs() {
   return (
     <Box borderWidth='1px' borderColor='gray.300' borderRadius='xl' m='4'>
       <Tabs>
@@ -12,7 +13,7 @@ export function UniversityInfoCard() {
         </TabList>
         <TabPanels>
           <TabPanel>
-            <p>one!</p>
+            <FairDetails />
           </TabPanel>
           <TabPanel>
             <EventCalendar />
