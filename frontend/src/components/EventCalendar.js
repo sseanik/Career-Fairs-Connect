@@ -155,12 +155,12 @@ const events = [
   {
     title: 'Optus',
     start: new Date(new Date().getTime() - 2 * 24 * 60 * 60 * 1000).setHours(
-      11,
-      30
+      0,
+      0
     ),
     end: new Date(new Date().getTime() - 2 * 24 * 60 * 60 * 1000).setHours(
-      12,
-      30
+      0,
+      0
     ),
     color: 'teal',
     description: 'Optus opportunities',
@@ -246,13 +246,14 @@ export function EventCalendar() {
         eventClick={(info) => {
           setModalEventTitle(info.event.title);
           setModalEventTime(
-            `${info.event.start.toLocaleString([], {
+            info.event.start.toLocaleString([], {
               day: 'numeric',
               month: 'long',
               year: 'numeric',
-              hour: '2-digit',
+              hour: 'numeric',
               minute: '2-digit',
-            })}`
+              hour12: true,
+            })
           );
           setModalEventDescription(info.event.extendedProps.description);
           onOpen();
