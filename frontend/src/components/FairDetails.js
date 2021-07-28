@@ -6,7 +6,7 @@ export function FairDetails() {
   const width = useWindowDimensions().width;
 
   return (
-    <Flex p='1' direction={width <= '723' ? 'column' : 'row'}>
+    <Flex p='0.5' direction={width <= '723' ? 'column' : 'row'}>
       <Image
         src='https://www.unsw.edu.au/etc/clientlibs/unsw-common/unsw-assets/img/social/UNSWlogo-opengraph-squaresafe.png'
         alt='yo'

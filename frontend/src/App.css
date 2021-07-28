@@ -46,3 +46,13 @@
 	--sz-md-padding: 8px !important;
 	--sz-lg-padding: 8px !important;
 }
+
+.ez-button.secondary {
+  background: #2c3e50 !important;
+  color: white !important;
+}
+
+.ez-nice-select.secondary .ez-ns-dropdown .ez-ns-option.ez-ns-selected-option {
+  background: #2c3e50 !important;
+}
+

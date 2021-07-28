@@ -37,11 +37,11 @@ const events = [
   {
     title: 'Facebook',
     start: new Date(new Date().getTime() - 7 * 24 * 60 * 60 * 1000).setHours(
-      12,
+      14,
       0
     ),
     end: new Date(new Date().getTime() - 7 * 24 * 60 * 60 * 1000).setHours(
-      13,
+      15,
       0
     ),
     color: 'blue',
@@ -63,11 +63,11 @@ const events = [
   {
     title: 'Netflix',
     start: new Date(new Date().getTime() - 6 * 24 * 60 * 60 * 1000).setHours(
-      12,
+      13,
       0
     ),
     end: new Date(new Date().getTime() - 6 * 24 * 60 * 60 * 1000).setHours(
-      13,
+      14,
       0
     ),
     color: 'red',
@@ -204,7 +204,7 @@ export function FairCalendar() {
         selectable={false}
         selectMirror={true}
         dayMaxEvents={true}
-        contentHeight='340px'
+        contentHeight='382px'
         buttonText={
           width <= 750
             ? {

@@ -3,19 +3,6 @@ import { Table } from 'elementz';
 import { Box, Link } from '@chakra-ui/layout';
 
 export function FairOpportunities() {
-  // const config = {
-  //   rows: 10000,
-  //   scrollable: false,
-  //   expandable: false,
-  //   searchable: true,
-  //   filterable: true,
-  //   sortable: true,
-  //   selectable: true,
-  //   fixed: true,
-  //   empty: false,
-  //   loading: false,
-  // };
-
   const data = useMemo(
     () => [
       {
@@ -23,11 +10,11 @@ export function FairOpportunities() {
         role: 'Software Engineering Internship',
         company: 'Google',
         location: 'Sydney',
-        wam: 50,
+        wam: null,
+        expiry: '03/08/2021',
         link: 'https://careers.google.com/students/engineering-and-technical-internships/',
         description:
           'The intern position at Google empowers prospective software engineers with the learning capability and AGILE work experience to work on company tools and projects.',
-        expiry: '03/08/2021',
       },
       {
         type: 'Graduate',
@@ -35,10 +22,186 @@ export function FairOpportunities() {
         company: 'Facebook',
         location: 'Remote',
         wam: null,
+        expiry: '09/08/2021',
         link: 'https://www.facebook.com/careers/',
         description:
-          'The Software Engineering Graduate role is involved with the Oculus team working on AR/VR emerging solutions..',
+          'The Software Engineering Graduate role is involved with the Oculus team working on AR/VR emerging solutions.',
+      },
+      {
+        type: 'Graduate',
+        role: 'Software Engineering Graduate',
+        company: 'Microsoft',
+        location: 'Remote',
+        wam: 'Distinction',
         expiry: '09/08/2021',
+        link: 'https://www.microsoft.com/careers/',
+        description:
+          'Software Engineering Graduate position to work on Azure web services in particular managing Docker services.',
+      },
+      {
+        type: 'Internship',
+        role: 'Full Stack Intern',
+        company: 'Netflix',
+        location: 'Remote',
+        wam: null,
+        expiry: '03/08/2021',
+        link: 'https://careers.google.com/students/engineering-and-technical-internships/',
+        description:
+          'The intern position at Google empowers prospective software engineers with the learning capability and AGILE work experience to work on company tools and projects.',
+      },
+      {
+        type: 'Graduate',
+        role: 'Cyber Security Intern',
+        company: 'Atlassian',
+        location: 'Sydney',
+        wam: null,
+        expiry: '09/08/2021',
+        link: 'https://www.facebook.com/careers/',
+        description:
+          'The Software Engineering Graduate role is involved with the Oculus team working on AR/VR emerging solutions.',
+      },
+      {
+        type: 'Graduate',
+        role: 'Frontend Engineering Graduate',
+        company: 'Canva',
+        location: 'Sydney',
+        wam: 'Distinction',
+        expiry: '09/08/2021',
+        link: 'https://www.microsoft.com/careers/',
+        description:
+          'Software Engineering Graduate position to work on Azure web services in particular managing Docker services.',
+      },
+      {
+        type: 'Internship',
+        role: 'Backend Engineering Internship',
+        company: 'Canva',
+        location: 'Sydney',
+        wam: 'Credit',
+        expiry: '03/08/2021',
+        link: 'https://careers.google.com/students/engineering-and-technical-internships/',
+        description:
+          'The intern position at Google empowers prospective software engineers with the learning capability and AGILE work experience to work on company tools and projects.',
+      },
+      {
+        type: 'Graduate',
+        role: 'Cyber Security Graduate',
+        company: 'DXE',
+        location: 'Sydney',
+        wam: 'High Distinction',
+        expiry: '09/08/2021',
+        link: 'https://www.facebook.com/careers/',
+        description:
+          'The Software Engineering Graduate role is involved with the Oculus team working on AR/VR emerging solutions.',
+      },
+      {
+        type: 'Graduate',
+        role: 'Software Developer Graduate',
+        company: 'IMC',
+        location: 'Graduate',
+        wam: 'Distinction',
+        expiry: '09/08/2021',
+        link: 'https://www.microsoft.com/careers/',
+        description:
+          'Software Engineering Graduate position to work on Azure web services in particular managing Docker services.',
+      },
+      {
+        type: 'Internship',
+        role: 'Software Engineering Internship',
+        company: 'Google',
+        location: 'Sydney',
+        wam: null,
+        expiry: '03/08/2021',
+        link: 'https://careers.google.com/students/engineering-and-technical-internships/',
+        description:
+          'The intern position at Google empowers prospective software engineers with the learning capability and AGILE work experience to work on company tools and projects.',
+      },
+      {
+        type: 'Graduate',
+        role: 'Software Engineering Graduate',
+        company: 'Facebook',
+        location: 'Remote',
+        wam: null,
+        expiry: '09/08/2021',
+        link: 'https://www.facebook.com/careers/',
+        description:
+          'The Software Engineering Graduate role is involved with the Oculus team working on AR/VR emerging solutions.',
+      },
+      {
+        type: 'Graduate',
+        role: 'Software Engineering Graduate',
+        company: 'Microsoft',
+        location: 'Remote',
+        wam: 'Credit',
+        expiry: '09/08/2021',
+        link: 'https://www.microsoft.com/careers/',
+        description:
+          'Software Engineering Graduate position to work on Azure web services in particular managing Docker services.',
+      },
+      {
+        type: 'Internship',
+        role: 'Full Stack Intern',
+        company: 'Netflix',
+        location: 'Remote',
+        wam: null,
+        expiry: '03/08/2021',
+        link: 'https://careers.google.com/students/engineering-and-technical-internships/',
+        description:
+          'The intern position at Google empowers prospective software engineers with the learning capability and AGILE work experience to work on company tools and projects.',
+      },
+      {
+        type: 'Graduate',
+        role: 'Cyber Security Intern',
+        company: 'Atlassian',
+        location: 'Sydney',
+        wam: null,
+        expiry: '09/08/2021',
+        link: 'https://www.facebook.com/careers/',
+        description:
+          'The Software Engineering Graduate role is involved with the Oculus team working on AR/VR emerging solutions.',
+      },
+      {
+        type: 'Graduate',
+        role: 'Frontend Engineering Graduate',
+        company: 'Canva',
+        location: 'Sydney',
+        wam: 'Distinction',
+        expiry: '09/08/2021',
+        link: 'https://www.microsoft.com/careers/',
+        description:
+          'Software Engineering Graduate position to work on Azure web services in particular managing Docker services.',
+      },
+      {
+        type: 'Internship',
+        role: 'Backend Engineering Internship',
+        company: 'Canva',
+        location: 'Sydney',
+        wam: 'Credit',
+        expiry: '03/08/2021',
+        link: 'https://careers.google.com/students/engineering-and-technical-internships/',
+        description:
+          'The intern position at Google empowers prospective software engineers with the learning capability and AGILE work experience to work on company tools and projects.',
+      },
+      {
+        type: 'Graduate',
+        role: 'Cyber Security Graduate',
+        company: 'DXE',
+        location: 'Sydney',
+        wam: 'Distinction',
+        expiry: '09/08/2021',
+        link: 'https://www.facebook.com/careers/',
+        description:
+          'The Software Engineering Graduate role is involved with the Oculus team working on AR/VR emerging solutions.',
+      },
+      {
+        type: 'Graduate',
+        role: 'Software Developer Graduate',
+        company: 'IMC',
+        location: 'Melbourne',
+        wam: 'High Distinction',
+        expiry: '09/08/2021',
+        link: 'https://www.microsoft.com/careers/',
+        description:
+          'Software Engineering Graduate position to work on Azure web services in particular managing Docker services.',
       },
     ],
     []
@@ -50,11 +213,6 @@ export function FairOpportunities() {
     },
     role: {
       title: 'Role',
-      filter: {
-        custom: true, //Allow custom filter values
-        multiple: true, //Allow multiple filter values
-        negative: true, //Allow negative filtering ('is not')
-      },
     },
     company: {
       title: 'Company',
@@ -64,23 +222,23 @@ export function FairOpportunities() {
     },
     wam: {
       title: 'WAM Requirement',
-      filter: {
-        options: {
-          Pass: (wam) => wam >= 50 && wam < 65,
-        },
-        Credit: (wam) => wam >= 65 && wam < 75,
-        Distinction: (wam) => wam >= 75 && wam < 85,
-        'High Distinction': (wam) => wam >= 85 && wam <= 100,
-      },
     },
     expiry: {
       title: 'Expiry Date',
+    },
+    link: {
+      title: 'Application Link',
+      onRender: (link) => (
+        <Link href={link} isExternal color='blue.500'>
+          Apply here
+        </Link>
+      ),
     },
   };
 
   return (
     <Table
-      className='m-0 p-2'
+      className='m-0 p-0'
       data={data}
       columns={columns}
       limit={5}
@@ -93,20 +251,7 @@ export function FairOpportunities() {
       searchable={true}
       selectable={false}
       expandable={true}
-      onExpand={(row) => (
-        <Box>
-          <Box>
-            <b>Summary: </b>
-            {row.description}
-          </Box>
-          <Box>
-            <b>Apply here: </b>
-            <Link href={row.link} isExternal>
-              {row.link}
-            </Link>
-          </Box>
-        </Box>
-      )}
+      onExpand={(row) => <Box>{row.description}</Box>}
       onMobile={(row) => (
         <div className='p-0 m-auto'>
           <div>
@@ -114,6 +259,9 @@ export function FairOpportunities() {
           </div>
           <div>
             <b>Company:</b> {row.company}
+          </div>
+          <div>
+            <b>Location:</b> {row.location}
           </div>
         </div>
       )}
