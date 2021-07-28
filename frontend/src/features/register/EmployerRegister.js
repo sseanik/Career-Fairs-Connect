@@ -43,6 +43,32 @@ const validationSchema = Yup.object({
 });
 
 export function EmployerRegister() {
+  const [base64Image, setBase64Image] = React.useState('');
+
+  const getBase64 = (file) => {
+    return new Promise((resolve) => {
+      // Make new FileReader
+      let reader = new FileReader();
+      // Convert the file to base64 text
+      reader.readAsDataURL(file);
+      // on reader load something...
+      reader.onload = () => {
+        // Make a fileInfo Object
+        resolve(reader.result);
+      };
+    });
+  };
+
+  const handleFileInputChange = (e) => {
+    getBase64(e.target.files[0])
+      .then((result) => {
+        setBase64Image(result);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
+
   return (
     <div>
       <Navbar />
@@ -98,7 +124,15 @@ export function EmployerRegister() {
               label='Company Description (Optional)'
             />
             <InputControl name='website' label='Website URL (Optional)' />
-            <InputControl name='logo' label='Logo URL (Optional)' />
+
+            <FormControl id='logo'>
+              <FormLabel>Logo Image</FormLabel>
+              <input
+                type='file'
+                onChange={(e) => handleFileInputChange(e)}
+                accept='.jpeg, .png, .jpg'
+              ></input>
+            </FormControl>
 
             <Button
               mt={4}
