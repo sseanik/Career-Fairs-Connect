@@ -1,10 +1,10 @@
 import React from 'react';
-import { ChakraProvider, Flex, Box, Button } from '@chakra-ui/react';
+import { Flex, Box, Button } from '@chakra-ui/react';
 import { Link } from 'react-router-dom';
 
 function Register() {
   return (
-    <ChakraProvider>
+    <div>
       <Flex id='menu' w='100%' bg='#E5E5E5' h='8vh' color='white' fontSize='xl'>
         <Link mt='auto' mb='auto' paddingLeft='4%' href='/' color='#2F303A'>
           Company Logo/Name
@@ -76,7 +76,7 @@ function Register() {
           </Box>
         </Box>
       </Flex>
-    </ChakraProvider>
+    </div>
   );
 }
 
