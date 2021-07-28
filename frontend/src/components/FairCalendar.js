@@ -167,7 +167,7 @@ const events = [
   },
 ];
 
-export function EventCalendar() {
+export function FairCalendar() {
   const width = useWindowDimensions().width;
   const { isOpen, onOpen, onClose } = useDisclosure();
   const [modalEventTitle, setModalEventTitle] = React.useState('');

@@ -1,14 +1,18 @@
 import { Badge, Box, Flex, Image } from '@chakra-ui/react';
 import React from 'react';
+import useWindowDimensions from '../app/useWindowDimensions';
 
 export function FairDetails() {
+  const width = useWindowDimensions().width;
+
   return (
-    <Flex p='1'>
+    <Flex p='1' direction={width <= '723' ? 'column' : 'row'}>
       <Image
         src='https://www.unsw.edu.au/etc/clientlibs/unsw-common/unsw-assets/img/social/UNSWlogo-opengraph-squaresafe.png'
         alt='yo'
         pr='5'
-        maxHeight='100px'
+        maxHeight='125px'
+        objectFit='contain'
       />
       <Box>
         <Box pb='1' fontWeight='semibold' fontSize='lg'>

@@ -1,8 +1,19 @@
-import { Flex } from '@chakra-ui/react';
+import {
+  Box,
+  Flex,
+  Tab,
+  TabList,
+  TabPanel,
+  TabPanels,
+  Tabs,
+} from '@chakra-ui/react';
 import React from 'react';
 import Navbar from '../../components/navbar';
 import { StallCard } from '../../components/StallCard';
-import { FairInformationTabs } from '../../components/FairInformationTabs';
+import { FairDetails } from '../../components/FairDetails';
+import { FairCalendar } from '../../components/FairCalendar';
+import useWindowDimensions from '../../app/useWindowDimensions';
+import { FairOpportunities } from '../../components/FairOpportunities';
 
 const events = [
   {
@@ -10,7 +21,7 @@ const events = [
     description:
       "Facebook, Inc. operates as a social networking company worldwide. The company engages in the development of social media applications for people to connect through mobile devices, personal computers, and other surfaces. ... The firm's products include Facebook, Instagram, Messenger, WhatsApp, and Oculus.",
     img: 'https://upload.wikimedia.org/wikipedia/commons/thumb/0/06/Facebook.svg/1280px-Facebook.svg.png',
-    isLive: true,
+    isLive: false,
   },
   {
     name: 'Amazon',
@@ -24,14 +35,14 @@ const events = [
     description:
       "Netflix is one of the world's leading entertainment services with over 209 million paid memberships in over 190 countries enjoying TV series, documentaries and feature films across a wide variety of genres and languages. Members can watch as much as they want, anytime, anywhere, on any internet-connected screen.",
     img: 'https://upload.wikimedia.org/wikipedia/commons/thumb/0/08/Netflix_2015_logo.svg/2560px-Netflix_2015_logo.svg.png',
-    isLive: true,
+    isLive: false,
   },
   {
     name: 'Google',
     description:
       'Google LLC is an American multinational technology company that specializes in Internet-related services and products, which include online advertising technologies, a search engine, cloud computing, software, and hardware.',
     img: 'https://upload.wikimedia.org/wikipedia/commons/thumb/2/2f/Google_2015_logo.svg/368px-Google_2015_logo.svg.png',
-    isLive: false,
+    isLive: true,
   },
   {
     name: 'Deloitte',
@@ -59,7 +70,7 @@ const events = [
     description:
       "PricewaterhouseCoopers offers a range of audit, tax and advisory services including: Assurance – Provision of assurance on the financial performance and operations of clients' business. Consulting – Actuarial, operational, personnel and financial consulting services.    ",
     img: 'https://upload.wikimedia.org/wikipedia/commons/0/05/PricewaterhouseCoopers_Logo.svg',
-    isLive: true,
+    isLive: false,
   },
   {
     name: 'Canva',
@@ -87,7 +98,7 @@ const events = [
     description:
       'IMC Financial Markets, sometimes referred to as IMC Trading, is a proprietary trading firm and market maker for various financial instruments listed on exchanges throughout the world.    ',
     img: 'https://upload.wikimedia.org/wikipedia/commons/thumb/1/17/IMC_Logo.svg/330px-IMC_Logo.svg.png',
-    isLive: true,
+    isLive: false,
   },
   {
     name: 'Telstra',
@@ -101,15 +112,36 @@ const events = [
     description:
       "Singtel Optus Pty Limited (commonly referred to as Optus) is an Australian telecommunications company headquartered in Macquarie Park, New South Wales, Australia. ... Through its Optus 'Yes' brand, it provides broadband, and wireless internet services. Other wholesale services include Satellite and 4G Mobile.    ",
     img: 'https://upload.wikimedia.org/wikipedia/commons/thumb/c/ca/Optus_logo.svg/2560px-Optus_logo.svg.png',
-    isLive: true,
+    isLive: false,
   },
 ];
 
 export function CareerFair() {
+  const width = useWindowDimensions().width;
+
   return (
     <div>
       <Navbar />
-      <FairInformationTabs />
+      <Box borderWidth='1px' borderColor='gray.300' borderRadius='xl' m='4'>
+        <Tabs>
+          <TabList>
+            <Tab>{width <= 510 ? 'Details' : 'Career Fair Details'}</Tab>
+            <Tab>{width <= 510 ? 'Calendar' : 'Presentation Calendar'}</Tab>
+            <Tab>Opportunities</Tab>
+          </TabList>
+          <TabPanels>
+            <TabPanel>
+              <FairDetails />
+            </TabPanel>
+            <TabPanel>
+              <FairCalendar />
+            </TabPanel>
+            <TabPanel>
+              <FairOpportunities />
+            </TabPanel>
+          </TabPanels>
+        </Tabs>
+      </Box>
       <Flex direction='row' flexWrap='wrap' justify='center'>
         {events.map((event, key) => (
           <StallCard

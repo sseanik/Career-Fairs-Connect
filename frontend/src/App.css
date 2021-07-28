@@ -41,3 +41,8 @@
 .fc-popover {
   z-index: 1 !important;
 }
+
+:root{
+	--sz-md-padding: 8px !important;
+	--sz-lg-padding: 8px !important;
+}
