@@ -12,6 +12,8 @@ import {
 } from '@chakra-ui/react';
 import { InputControl, SelectControl } from 'formik-chakra-ui';
 import Navbar from '../../components/navbar';
+import { useSelector, useDispatch } from 'react-redux';
+import { convertImageToBase64, selectBase64Image } from './logoSlice';
 
 const initialValues = {
   email: '',
@@ -82,6 +84,9 @@ const validationSchema = Yup.object({
 });
 
 export function UniversityRegister() {
+  const base64Image = useSelector(selectBase64Image);
+  const dispatch = useDispatch();
+
   return (
     <div>
       <Navbar />
@@ -233,7 +238,15 @@ export function UniversityRegister() {
                 Western Sydney University
               </option>
             </SelectControl>
-            <InputControl name='logo' label='Logo URL (Optional)' />
+
+            <FormControl id='logo'>
+              <FormLabel>Logo Image (Optional)</FormLabel>
+              <input
+                type='file'
+                onChange={(e) => dispatch(convertImageToBase64(e))}
+                accept='.jpeg, .png, .jpg'
+              ></input>
+            </FormControl>
 
             <Button
               mt={4}

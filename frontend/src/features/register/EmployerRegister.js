@@ -12,6 +12,8 @@ import {
 } from '@chakra-ui/react';
 import { InputControl, TextareaControl } from 'formik-chakra-ui';
 import Navbar from '../../components/navbar';
+import { useSelector, useDispatch } from 'react-redux';
+import { convertImageToBase64, selectBase64Image } from './logoSlice';
 
 const initialValues = {
   email: '',
@@ -43,31 +45,8 @@ const validationSchema = Yup.object({
 });
 
 export function EmployerRegister() {
-  const [base64Image, setBase64Image] = React.useState('');
-
-  const getBase64 = (file) => {
-    return new Promise((resolve) => {
-      // Make new FileReader
-      let reader = new FileReader();
-      // Convert the file to base64 text
-      reader.readAsDataURL(file);
-      // on reader load something...
-      reader.onload = () => {
-        // Make a fileInfo Object
-        resolve(reader.result);
-      };
-    });
-  };
-
-  const handleFileInputChange = (e) => {
-    getBase64(e.target.files[0])
-      .then((result) => {
-        setBase64Image(result);
-      })
-      .catch((err) => {
-        console.log(err);
-      });
-  };
+  const base64Image = useSelector(selectBase64Image);
+  const dispatch = useDispatch();
 
   return (
     <div>
@@ -126,10 +105,10 @@ export function EmployerRegister() {
             <InputControl name='website' label='Website URL (Optional)' />
 
             <FormControl id='logo'>
-              <FormLabel>Logo Image</FormLabel>
+              <FormLabel>Logo Image (Optional)</FormLabel>
               <input
                 type='file'
-                onChange={(e) => handleFileInputChange(e)}
+                onChange={(e) => dispatch(convertImageToBase64(e))}
                 accept='.jpeg, .png, .jpg'
               ></input>
             </FormControl>
