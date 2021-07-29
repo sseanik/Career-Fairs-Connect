@@ -4,7 +4,7 @@ from django.contrib.auth.models import AbstractBaseUser, BaseUserManager
 
 # class AUTH_USER
 class MyUserManager(BaseUserManager):
-    def create_user(self, email, username, user_type, password=None):
+    def create_user(self, email, user_type, username="", password=None):
         if not email:
             raise ValueError('Users must have an email address')
 
@@ -18,21 +18,7 @@ class MyUserManager(BaseUserManager):
         user.save(using=self._db)
         return user
 
-    def create_superuser(self, email, username, password, user_type):
-
-        user = self.create_user(
-            email=self.normalize_email(email),
-            password=password,
-            username=username,
-            user_type=user_type,
-        )
-        user.is_admin = True
-        user.is_staff = True
-        user.is_superuser = True
-        user.save(using=self._db)
-        return user
-
-    def create_student(self, email, username, password, user_type):
+    def create_superuser(self, email, password, user_type, username=""):
 
         user = self.create_user(
             email=self.normalize_email(email),
@@ -91,14 +77,14 @@ class Companies(models.Model):
     # Discuss Max Text and Char???
     company_description = models.TextField()
     company_webpage_url = models.CharField(max_length=150)
-    company_logo_url = models.CharField(max_length=150)
+    company_logo_url = models.CharField(max_length=2000000)
 
 
 class Universities(models.Model):
     university_id = models.AutoField(primary_key=True)
     university_name = models.CharField(max_length=50)
     university_abbreviation = models.CharField(max_length=10)
-    university_logo_url = models.CharField(max_length=200)
+    university_logo_url = models.CharField(max_length=2000000)
     # Potential cause of issues on deleting
     user_id = models.ForeignKey(User, on_delete=models.RESTRICT)
 
@@ -108,7 +94,6 @@ class Events(models.Model):
     # Discuss Max Text and Char???
     university_id = models.ForeignKey(Universities, on_delete=models.CASCADE)
     title = models.CharField(max_length=50)
-    company_description = models.TextField()
     # default auto_now=False, auto_now_add=False
     event_start_time = models.DateTimeField(auto_now_add=True)
     event_end_time = models.DateTimeField(auto_now_add=True)
@@ -133,8 +118,9 @@ class Stalls(models.Model):
 
 class Presentations(models.Model):
     presentation_id = models.AutoField(primary_key=True)
+    stall_id = models.OneToOneField(Stalls, on_delete=models.CASCADE)
     presentation_link = models.CharField(max_length=255)
-    datetime = models.DateTimeField(auto_now=True)
+    datetime = models.DateTimeField()
     presentation_description = models.TextField(default='')
 
 
@@ -145,6 +131,7 @@ class Students(models.Model):
     last_name = models.CharField(max_length=50)
     degree = models.CharField(max_length=100, null=True)
     wam = models.DecimalField(max_digits=5, decimal_places=2, null=True)
+    student_logo_url = models.CharField(max_length=2000000)
     # changed to one to one field to suppress warnings - thornton, do we want restrict or cascade?
     user_id = models.OneToOneField(User, on_delete=models.RESTRICT)
 
