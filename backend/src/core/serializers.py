@@ -52,6 +52,11 @@ class StallsSerializer(DynamicFieldsModelSerializer):
         model = Stalls
         fields = '__all__'
 
+class PresentationSerializer(DynamicFieldsModelSerializer):
+    class Meta  :
+        model = Presentations
+        fields = '__all__'
+
 # breaks code
 # class CompanySerializer(serializers.ModelSerializer):
 #     class Meta:
