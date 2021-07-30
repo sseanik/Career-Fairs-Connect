@@ -1,24 +1,27 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
+import Resizer from 'react-image-file-resizer';
 
-const getBase64 = (file) => {
-  return new Promise((resolve) => {
-    // Make new FileReader
-    let reader = new FileReader();
-    // Convert the file to base64 text
-    reader.readAsDataURL(file);
-    // on reader load something...
-    reader.onload = () => {
-      // Make a fileInfo Object
-      resolve(reader.result);
-    };
+const resizeFile = (file) =>
+  new Promise((resolve) => {
+    Resizer.imageFileResizer(
+      file,
+      250,
+      250,
+      'PNG',
+      100,
+      0,
+      (uri) => {
+        resolve(uri);
+      },
+      'base64'
+    );
   });
-};
 
 export const convertImageToBase64 = createAsyncThunk(
   'logo/convertImage',
   async (e) => {
-    const response = await getBase64(e.target.files[0]);
-    return response;
+    const image = await resizeFile(e.target.files[0]);
+    return image;
   }
 );
 
@@ -31,6 +34,7 @@ export const logoSlice = createSlice({
   extraReducers: (builder) => {
     builder.addCase(convertImageToBase64.fulfilled, (state, action) => {
       state.image = action.payload;
+      console.log(action.payload);
     });
   },
 });

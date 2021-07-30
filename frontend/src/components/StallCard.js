@@ -1,4 +1,6 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
+// Chakra UI
 import { Badge, Box, Image, Spacer, Tooltip } from '@chakra-ui/react';
 import { InfoOutlineIcon } from '@chakra-ui/icons';
 
@@ -8,12 +10,13 @@ export function StallCard(props) {
       borderWidth='1px'
       borderColor='gray.300'
       w='225px'
-      as='button'
       borderRadius='xl'
       p='12px'
       m='2'
       role='group'
       _hover={{ background: 'gray.100' }}
+      as={Link}
+      to={`/stall/${props.id}`}
     >
       <Box borderRadius='xl' borderColor='white'>
         <Image

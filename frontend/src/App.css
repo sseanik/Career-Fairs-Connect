@@ -56,3 +56,14 @@
   background: #2c3e50 !important;
 }
 
+.fc-button-primary {
+  background: #edf2f7 !important;
+  color: black !important;
+  border-color: gray !important;
+}
+
+.fc .fc-button-primary:not(:disabled):active:focus, .fc .fc-button-primary:not(:disabled).fc-button-active:focus {
+  background: #cedbeb !important;
+
+}
+
