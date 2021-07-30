@@ -1,12 +1,10 @@
-import React, { useMemo } from 'react';
+import React from 'react';
 // Chakra UI
 import { Text, Link } from '@chakra-ui/react';
 // Elementz
 import { Table } from 'elementz';
 
 export function OpportunitiesTable(props) {
-  const data = useMemo(() => props.opportunities, [props.opportunities]);
-
   const companyColumn = {
     company: {
       title: 'Company',
@@ -46,7 +44,7 @@ export function OpportunitiesTable(props) {
       <Table
         onRowRender={(row, i) => ({ key: `${i}-key` })}
         className='m-0 p-0'
-        data={data}
+        data={props.opportunities}
         columns={props.interact ? columns : { ...companyColumn, ...columns }}
         limit={props.limit}
         fixed={false}

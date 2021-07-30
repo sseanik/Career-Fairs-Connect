@@ -14,7 +14,7 @@ import {
 } from '@chakra-ui/react';
 import { ExternalLinkIcon } from '@chakra-ui/icons';
 
-export const DetailsCard = React.memo((props) => {
+export const DetailsCard = (props) => {
   const width = useSelector((state) => state.window.width);
   const [bgColour, setBgColour] = React.useState('white');
   if (props.crop) {
@@ -137,4 +137,4 @@ export const DetailsCard = React.memo((props) => {
       </Box>
     </Flex>
   );
-});
+};

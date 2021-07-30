@@ -2,11 +2,9 @@ import {
   Box,
   Center,
   Flex,
-  Image,
   Skeleton,
   SkeletonCircle,
   Spacer,
-  Stack,
 } from '@chakra-ui/react';
 import React from 'react';
 
