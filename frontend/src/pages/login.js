@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from "react";
 import {
   ChakraProvider,
   Box,
@@ -12,8 +12,11 @@ import {
   Flex,
 } from "@chakra-ui/react"
 import { Formik } from 'formik';
-import Navbar from '../components/navbar'
+import Navbar from '../components/navbar';
+import axios from 'axios';
 
+const bgcolor = "#2F303A";
+const textColor = "#FFFFFF";
 
 function PasswordInput() {
   const [show, setShow] = React.useState(false)
@@ -23,7 +26,7 @@ function PasswordInput() {
     <InputGroup size="md">
       <Input
         pr="4.5rem"
-        color="#FFFFFF"
+        color={textColor}
         type={show ? "text" : "password"}
       // placeholder="Enter password"
       />
@@ -36,7 +39,29 @@ function PasswordInput() {
   )
 }
 
-function Login() {
+export default function Login() {
+  const [serverState, setServerState] = useState();
+  const handleServerResponse = (ok, msg) => {
+    setServerState({ok, msg});
+  };
+
+  const handleOnSubmit = (values, actions) => {
+    axios({
+      method: "POST",
+      url: "http://formspree.io/YOUR_FORM_ID",
+      data: values
+    })
+      .then(response => {
+        actions.setSubmitting(false);
+        actions.resetForm();
+        handleServerResponse(true, "Thanks!");
+      })
+      .catch(error => {
+        actions.setSubmitting(false);
+        handleServerResponse(false, error.response.data.error);
+      });
+  };
+
   return (
     <ChakraProvider>
       <Navbar />
@@ -44,8 +69,10 @@ function Login() {
         <Box width="50%" m="auto" textAlign="center">
         </Box>
         <Box width="50%">
-          <Box mt="10vh" fontWeight="medium" ml="auto" mr="auto" bg="#2F303A" width="75%" textAlign="center" padding="5%" borderRadius="10px">
-            <Heading color="#FFFFFF">Log in</Heading>
+          <Box mt="10vh" fontWeight="medium" ml="auto" mr="auto" bg={ bgcolor } width="75%" textAlign="center" padding="5%" borderRadius="10px">
+            <Heading color={ textColor }>
+              Log in
+              </Heading>
             <Formik
               initialValues={{ email: '', password: '' }}
               validate={values => {
@@ -72,14 +99,14 @@ function Login() {
                 touched,
                 handleChange,
                 handleBlur,
-                handleSubmit,
+                // handleSubmit,
                 isSubmitting,
               }) => (
-                <form onSubmit={handleSubmit}>
+                <form onSubmit={handleOnSubmit}>
 
                   <FormControl id="email">
-                    <FormLabel color="#FFFFFF">Email</FormLabel>
-                    <Input color="#FFFFFF" type="email"
+                    <FormLabel color={textColor}>Email</FormLabel>
+                    <Input color={textColor} type="email"
                       name="email"
                       onChange={handleChange}
                       onBlur={handleBlur}
@@ -89,7 +116,7 @@ function Login() {
                   {errors.email && touched.email && errors.email}
 
                   <FormControl id="password">
-                    <FormLabel color="#FFFFFF">Password</FormLabel>
+                    <FormLabel color={textColor}>Password</FormLabel>
                     <PasswordInput type="password"
                       name="password"
                       onChange={handleChange}
@@ -114,5 +141,3 @@ function Login() {
     </ChakraProvider >
   );
 }
-
-export default Login
