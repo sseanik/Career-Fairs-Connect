@@ -85,6 +85,7 @@ class Universities(models.Model):
     university_name = models.CharField(max_length=50)
     university_abbreviation = models.CharField(max_length=10)
     university_logo_url = models.CharField(max_length=2000000)
+    university_site_url = models.CharField(max_length=150, default='')
     # Potential cause of issues on deleting
     user_id = models.ForeignKey(User, on_delete=models.RESTRICT)
 
@@ -108,6 +109,15 @@ class Registrations(models.Model):
 
     class Meta:
         unique_together = (("event_id", "company_id"),)
+
+
+class CareerFairs(models.Model):
+    event_id = models.AutoField(primary_key=True)
+    university_id = models.ForeignKey(Universities, on_delete=models.CASCADE)
+    title = models.CharField(max_length=100)
+    description = models.TextField(default='')
+    start_date = models.DateTimeField()
+    end_date = models.DateTimeField()
 
 
 class Stalls(models.Model):
