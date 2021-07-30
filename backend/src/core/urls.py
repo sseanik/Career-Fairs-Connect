@@ -26,6 +26,7 @@ from .StallList import StallList
 from .register_student import *
 from .register_company import *
 from .register_university import *
+from .Presentations import *
 from .Company import *
 from .Student import *
 from .University import *
@@ -58,6 +59,10 @@ urlpatterns = [
     path('register/student/', register_student),
     path('register/university/', register_university),
     path('register/company/', register_company),
+    path('create_presentation/', create_presentation),
+    path('edit_presentation/', edit_presentation),
+    re_path('^(?P<stallId>.+)/get_presentation/$', get_presentation),
+    re_path('^(?P<eventId>.+)/get_all_presentations/$', get_all_presentations),
 
     path('careersfair/<int:eventId>/stalls/', StallList.as_view()),
     path('company/<int:companyId>/opportunities/', OpportunityList.as_view()),
