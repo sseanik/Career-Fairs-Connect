@@ -22,6 +22,8 @@ from drf_yasg.views import get_schema_view
 from drf_yasg import openapi
 from rest_framework.authtoken.views import obtain_auth_token
 
+from .CareerFairListForUni import *
+from .CareerFairListGlobal import *
 from .StallList import StallList
 from .register_student import *
 from .register_company import *
@@ -69,6 +71,8 @@ urlpatterns = [
     path('company/<int:companyId>/opportunities/<int:job_id>', OpportunityList.as_view()),
     re_path('^company/(?P<companyId>.+)/$', Company.as_view()),
     re_path('^student/(?P<studentId>.+)/$', Student.as_view()),
-    re_path('^university/(?P<universityId>.+)/$', University.as_view())
+    path('university/<int:universityId>/careerfairs/', CareerFairListForUni.as_view()),
+    re_path('^university/(?P<universityId>.+)/$', University.as_view()),
+    path('careerfairs/', CareerFairListGlobal.as_view())
 ]
 
