@@ -12,6 +12,7 @@ import {
 } from '@chakra-ui/react';
 import { InputControl, SelectControl } from 'formik-chakra-ui';
 import Navbar from '../../components/navbar';
+import axios from 'axios';
 
 const initialValues = {
   firstName: '',
@@ -87,7 +88,25 @@ export function StudentRegister() {
       <Navbar />
       <Formik
         initialValues={initialValues}
-        onSubmit={() => console.log('hello')}
+        onSubmit={() =>
+          axios({
+            method: 'post',
+            withCredentials: true,
+            headers: {
+              'Access-Control-Allow-Origin': '*',
+              'Access-Control-Allow-Methods':
+                'GET, POST, PATCH, PUT, DELETE, OPTIONS',
+            },
+            url: '/register/student/',
+            data: {
+              email: 'Fred5@email.com',
+              password: 'Flintstone5',
+              first_name: 'Flintstone5',
+              last_name: 'Finston5',
+              university: 'UNSW',
+            },
+          })
+        }
         validationSchema={validationSchema}
       >
         {({ isSubmitting, handleSubmit }) => (

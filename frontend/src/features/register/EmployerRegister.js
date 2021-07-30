@@ -12,6 +12,7 @@ import {
 } from '@chakra-ui/react';
 import { InputControl, TextareaControl } from 'formik-chakra-ui';
 import Navbar from '../../components/navbar';
+import axios from 'axios';
 
 const initialValues = {
   email: '',
@@ -49,7 +50,19 @@ export function EmployerRegister() {
 
       <Formik
         initialValues={initialValues}
-        onSubmit={() => console.log('hello')}
+        onSubmit={() =>
+          axios({
+            method: 'post',
+            url: 'http://127.0.0.1:8000/register/student/',
+            data: {
+              email: 'Fred@email.com',
+              password: 'Flintstone',
+              first_name: 'Flintstone',
+              last_name: 'Finstone',
+              university: 'UNSW',
+            },
+          })
+        }
         validationSchema={validationSchema}
       >
         {({ isSubmitting, handleSubmit }) => (
