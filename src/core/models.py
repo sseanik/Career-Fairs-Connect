@@ -90,27 +90,6 @@ class Universities(models.Model):
     user_id = models.ForeignKey(User, on_delete=models.RESTRICT)
 
 
-class Events(models.Model):
-    event_id = models.AutoField(primary_key=True)
-    # Discuss Max Text and Char???
-    university_id = models.ForeignKey(Universities, on_delete=models.CASCADE)
-    title = models.CharField(max_length=50)
-    # default auto_now=False, auto_now_add=False
-    event_start_time = models.DateTimeField(auto_now_add=True)
-    event_end_time = models.DateTimeField(auto_now_add=True)
-
-
-class Registrations(models.Model):
-    event_id = models.ForeignKey(
-        Events, unique=False, on_delete=models.RESTRICT)
-    company_id = models.ForeignKey(
-        Companies, unique=False, on_delete=models.CASCADE)
-    approval_status = models.CharField(max_length=8)
-
-    class Meta:
-        unique_together = (("event_id", "company_id"),)
-
-
 class CareerFairs(models.Model):
     event_id = models.AutoField(primary_key=True)
     university_id = models.ForeignKey(Universities, on_delete=models.CASCADE)
@@ -123,7 +102,8 @@ class CareerFairs(models.Model):
 class Stalls(models.Model):
     stall_id = models.AutoField(primary_key=True)
     company_id = models.ForeignKey(Companies, on_delete=models.CASCADE)
-    event_id = models.ForeignKey(Events, on_delete=models.CASCADE)
+    event_id = models.ForeignKey(CareerFairs, on_delete=models.CASCADE)
+    approval_status = models.CharField(max_length=20, default='Pending')
 
 
 class Presentations(models.Model):
