@@ -11,9 +11,13 @@ import {
   Text,
   Textarea,
 } from '@chakra-ui/react';
+import { useDispatch, useSelector } from 'react-redux';
+import { asyncPostQuestion } from '../features/careerFair/stallSlice';
 
 export function QuestionsAndAnswers(props) {
-  const [value, setValue] = React.useState('');
+  const [question, setQuestion] = React.useState('');
+  const dispatch = useDispatch();
+  const buttonLoading = useSelector((state) => state.stall.questionLoading);
 
   return (
     <Box>
@@ -21,11 +25,19 @@ export function QuestionsAndAnswers(props) {
         Submit your Question:
       </Text>
       <Textarea
-        value={value}
-        onChange={(e) => setValue(e.target.value)}
+        value={question}
+        onChange={(e) => setQuestion(e.target.value)}
         size='sm'
       />
-      <Button size='sm' mt='2' mb='4'>
+      <Button
+        size='sm'
+        mt='2'
+        mb='4'
+        onClick={() => dispatch(asyncPostQuestion(question))}
+        isLoading={buttonLoading}
+        loadingText='Submitting'
+        spinnerPlacement='end'
+      >
         Submit
       </Button>
 

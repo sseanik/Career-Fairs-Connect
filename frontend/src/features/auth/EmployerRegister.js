@@ -44,7 +44,7 @@ const validationSchema = Yup.object({
   ),
 });
 
-export function EmployerRegister() {
+export default function EmployerRegister() {
   const base64Image = useSelector(selectBase64Image);
   const dispatch = useDispatch();
 

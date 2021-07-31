@@ -4,18 +4,25 @@ import { useSelector } from 'react-redux';
 import {
   Badge,
   Box,
+  Button,
   Center,
   Flex,
   Image,
   Link,
+  Spacer,
   Tag,
   TagLabel,
   TagRightIcon,
+  useDisclosure,
 } from '@chakra-ui/react';
 import { ExternalLinkIcon } from '@chakra-ui/icons';
+import { RiPencilFill } from 'react-icons/ri';
+import { EventModal } from './EventModal';
 
 export const DetailsCard = (props) => {
   const width = useSelector((state) => state.window.width);
+  const userDetails = useSelector((state) => state.user);
+  const { isOpen, onOpen, onClose } = useDisclosure();
   const [bgColour, setBgColour] = React.useState('white');
   if (props.crop) {
     props.crop.then((result) => {
@@ -49,8 +56,36 @@ export const DetailsCard = (props) => {
       )}
 
       <Box>
-        <Box pb='1' fontWeight='semibold' fontSize='lg'>
+        <Flex pb='1' fontWeight='semibold' fontSize='lg' align='center'>
           {props.title}
+          {props.fair &&
+            userDetails.role === 'University' &&
+            userDetails.name === props.alt && (
+              <div>
+                <Spacer />
+
+                <Button
+                  leftIcon={<RiPencilFill />}
+                  onClick={onOpen}
+                  ml='3'
+                  size='sm'
+                >
+                  Edit Event
+                </Button>
+                <EventModal
+                  isOpen={isOpen}
+                  onClose={onClose}
+                  university={userDetails.name}
+                  website={userDetails.website}
+                  logo={userDetails.logo}
+                  title={props.title}
+                  description={props.description}
+                  start={props.startDate}
+                  end={props.endDate}
+                  edit
+                />
+              </div>
+            )}
           {props.isLive && (
             <Badge
               variant='subtle'
@@ -63,7 +98,7 @@ export const DetailsCard = (props) => {
               Live
             </Badge>
           )}
-        </Box>
+        </Flex>
 
         {props.startDate && (
           <Box d='flex' alignItems='baseline' pb='1'>

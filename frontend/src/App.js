@@ -5,14 +5,19 @@ import { Route, Switch } from 'react-router-dom';
 import Home from './pages/Home';
 import Login from './pages/Login';
 import Register from './pages/Register';
-import { EmployerRegister } from './features/register/EmployerRegister';
-import { StudentRegister } from './features/register/StudentRegister';
-import { UniversityRegister } from './features/register/UniversityRegister';
+import { StudentRegister } from './features/auth/StudentRegister';
+import { UniversityRegister } from './features/auth/UniversityRegister';
 import CareerFair from './features/careerFair/CareerFair';
 import CompanyStall from './features/careerFair/CompanyStall';
 import CareerEvents from './features/careerFair/CareerEvents';
+import { useDispatch } from 'react-redux';
+import { asyncFetchUserData } from './features/auth/userSlice';
+import EmployerRegister from './features/auth/EmployerRegister';
 
 function App() {
+  const dispatch = useDispatch();
+  React.useEffect(() => dispatch(asyncFetchUserData()), [dispatch]);
+
   return (
     <ChakraProvider>
       <Switch>

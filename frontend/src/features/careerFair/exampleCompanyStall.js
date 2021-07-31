@@ -1,10 +1,21 @@
 export function getStallData(stallID) {
-  return new Promise((resolve) =>
-    setTimeout(
-      () => resolve(stallID === '5678' ? companyStallData1 : companyStallData2),
-      1000
-    )
-  );
+  return new Promise((resolve) => {
+    let stall;
+    switch (stallID) {
+      case '9876':
+        stall = companyStallData1;
+        break;
+      case '5678':
+        stall = companyStallData2;
+        break;
+      case '1357':
+        stall = companyStallData3;
+        break;
+      default:
+        break;
+    }
+    setTimeout(() => resolve(stall), 1000);
+  });
 }
 
 const companyStallData1 = {
@@ -165,6 +176,101 @@ const companyStallData2 = {
     {
       id: '222',
       question: 'Will we get to see the new iPhone?',
+      answer: '',
+    },
+  ],
+};
+
+const companyStallData3 = {
+  fairID: '1234',
+  company: 'Canva', // Name of Company
+  title: 'Canva Virtual Fair', // Name of stall
+  description: 'Canva is a graphic design company',
+  logo: 'https://upload.wikimedia.org/wikipedia/en/3/3b/Canva_Logo.png',
+  live: true, // If current time is inside any presentation ranges (HARD)
+  website: 'https://canva.com',
+  opportunities: [
+    // List of opportunities for that company
+    {
+      id: '111',
+      type: 'Graduate', // Type of Role Grad/Intern
+      role: 'Mobile Engineer Graduate', // Name of role
+      location: 'Remote', // Physical Location or Remote
+      wam: 'High Distinction', // wam requirement otherwise null
+      expiry: new Date(
+        new Date().getTime() + 11 * 24 * 60 * 60 * 1000
+      ).getTime(), // When the opportunity expires
+      link: 'https://www.canva.com/careers', // Link to opportunity page
+      description: 'Description of the Mobile Grad canva role',
+    },
+    {
+      id: '222',
+      type: 'Graduate',
+      role: 'Software Engineer Graduate',
+      location: 'Remote',
+      wam: null,
+      expiry: new Date(
+        new Date().getTime() + 10 * 24 * 60 * 60 * 1000
+      ).getTime(),
+      link: 'https://www.canva.com/careers',
+      description: 'Description of the canva Mobile Grad role',
+    },
+    {
+      id: '333',
+      type: 'Internship',
+      role: 'Software Engineer Internship',
+      location: 'Remote',
+      wam: 'Credit',
+      expiry: new Date(
+        new Date().getTime() + 10 * 24 * 60 * 60 * 1000
+      ).getTime(),
+      link: 'https://www.canva.com/careers',
+      description: 'Description of the canva Software Engineering Internship',
+    },
+  ],
+  events: [
+    // List of presentation events for that company
+    {
+      id: '111',
+      title: 'canva Internship Presentation', // Presentation Title
+      start: new Date(new Date().getTime() + 2 * 24 * 60 * 60 * 1000).setHours(
+        14,
+        0
+      ), // Start Date of presentation in epoch time
+      end: new Date(new Date().getTime() + 2 * 24 * 60 * 60 * 1000).setHours(
+        15,
+        0
+      ), // Start Date of presentation in epoch time
+      description: 'Description of the canva Intern Presentation event',
+      link: 'https://www.zoom.com/canva-id-link', // Zoom/YouTube/etc link to Presentation
+      color: 'rgb(35,191,200)',
+    },
+    {
+      id: '222',
+      title: 'canva Graduate Presentation', // Presentation Title
+      start: new Date(new Date().getTime() + 2 * 24 * 60 * 60 * 1000).setHours(
+        15,
+        0
+      ), // Start Date of presentation in epoch time
+      end: new Date(new Date().getTime() + 2 * 24 * 60 * 60 * 1000).setHours(
+        16,
+        0
+      ), // Start Date of presentation in epoch time
+      description: 'Description of the canva Grad Presentation event',
+      link: 'https://www.zoom.com/canva-id-link', // Zoom/YouTube/etc link to Presentation
+      color: 'rgb(35,191,200)',
+    },
+  ],
+  qandas: [
+    // List of all questions and answers
+    {
+      id: '222',
+      question: 'Will the internship give any freebies?', // Question posted by a student
+      answer: 'Freebies will be shipped from San Fran HQ', // Answer posted by the company
+    },
+    {
+      id: '111',
+      question: 'Will Covid be a factor in the hiring process?',
       answer: '',
     },
   ],

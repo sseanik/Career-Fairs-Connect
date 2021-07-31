@@ -11,16 +11,16 @@ import {
   ModalOverlay,
   Text,
 } from '@chakra-ui/react';
+import React from 'react';
 
 export function PresentationModal(props) {
-  console.log(props);
   const color = props.color.replace(' ', '');
   const rgb = color.substring(4, color.length - 1).split(' ');
 
   return (
     <Modal onClose={props.onClose} isOpen={props.isOpen} isCentered>
       <ModalOverlay />
-      <ModalContent p='1'>
+      <ModalContent>
         <ModalHeader m='0' pb='0'>
           {props.title}
           <Text m='0' pb='1' color='gray.500' fontSize='sm'>

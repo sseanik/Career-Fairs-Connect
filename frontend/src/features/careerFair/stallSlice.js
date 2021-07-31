@@ -1,6 +1,7 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import { getStallData } from './exampleCompanyStall';
 import { prominent } from 'color.js';
+import getDominantColour from '../../components/getDominantColour';
 
 export const asyncFetchStallData = createAsyncThunk(
   'stall/company',
@@ -13,8 +14,42 @@ export const asyncFetchStallData = createAsyncThunk(
   }
 );
 
+export const asyncPostQuestion = createAsyncThunk(
+  'fair/postQuestion',
+  async (question, thunkAPI) => {
+    //   try {
+    //     const response = await fetch(
+    //       `http://localhost:${config.BACKEND_PORT}/admin/quiz/${quizid}`,
+    //       {
+    //         method: 'GET',
+    //         headers: {
+    //           Accept: 'application/json',
+    //           'Content-Type': 'application/json',
+    //           Authorization: `Bearer ${localStorage.getItem('token')}`,
+    //         },
+    //       }
+    //     );
+    //     const data = await response.json();
+    //     if (response.status === 200) {
+    //       const foundQuestion = data.questions.filter((q) => q.id === id)[0];
+    //       return foundQuestion;
+    //     } else {
+    //       return thunkAPI.rejectWithValue(data);
+    //     }
+    //   } catch (e) {
+    //     console.log('Error', e.response.data);
+    //     return thunkAPI.rejectWithValue(e.response.data);
+    //   }
+    // }
+    await new Promise((r) => setTimeout(r, 2000));
+
+    return question;
+  }
+);
+
 const initialState = {
   loading: false,
+  questionLoading: false,
   //
   fairID: '',
   name: '', // Name of Company
@@ -58,32 +93,21 @@ export const stallSlice = createSlice({
         state.events = payload.events;
         state.qandas = payload.qandas;
 
-        let index = -1;
-        if (
-          !isNaN(payload.colour[0][2]) &&
-          payload.colour[0][0] + payload.colour[0][1] + payload.colour[0][2] !==
-            0
-        ) {
-          index = 0;
-        } else if (
-          !isNaN(payload.colour[1][2]) &&
-          payload.colour[1][0] + payload.colour[1][1] + payload.colour[1][2] !==
-            0
-        ) {
-          index = 1;
-        }
-        if (index !== -1) {
-          state.bgColour = `rgb(${payload.colour[index][0]}, ${payload.colour[index][1]}, ${payload.colour[index][2]})`;
-          payload.colour[index][0] * 0.299 +
-            payload.colour[index][1] * 0.587 +
-            payload.colour[index][2] * 0.114 >
-          186
-            ? (state.textColour = 'black')
-            : (state.textColour = 'white');
-        } else {
-          state.bgColour = 'black';
-          state.textColour = 'white';
-        }
+        const dominantColourObj = getDominantColour(payload.colour);
+        state.bgColour = dominantColourObj.bgColour;
+        state.textColour = dominantColourObj.textColour;
+      })
+      // Submitting a Question
+      .addCase(asyncPostQuestion.pending, (state) => {
+        state.questionLoading = true;
+      })
+      .addCase(asyncPostQuestion.fulfilled, (state, { payload }) => {
+        state.questionLoading = false;
+        state.qandas.push({
+          id: '2223',
+          question: payload,
+          answer: '',
+        });
       });
   },
 });

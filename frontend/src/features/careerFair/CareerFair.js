@@ -26,10 +26,12 @@ import { resetEvents } from './eventsSlice';
 import { SkeletonStallCard } from '../../components/SkeletonStallCard';
 
 export default function CareerFair(props) {
-  const width = useSelector((state) => state.window.width);
-  const dispatch = useDispatch();
-  const fairData = useSelector((state) => state.fair);
   const fairID = props.match.params.fairID;
+  // Redux
+  const dispatch = useDispatch();
+  const width = useSelector((state) => state.window.width);
+  const fairData = useSelector((state) => state.fair);
+
   React.useEffect(
     () => dispatch(asyncFetchFairData(fairID)),
     [dispatch, fairID]
@@ -95,6 +97,7 @@ export default function CareerFair(props) {
                 website={fairData.website}
                 bg={fairData.bgColour}
                 loading={fairData.loading}
+                fair
               />
             </TabPanel>
             <TabPanel>
@@ -122,6 +125,7 @@ export default function CareerFair(props) {
             description={event.description}
             img={event.logo}
             isLive={event.isLive}
+            pending={event.pending}
           />
         ))}
       </Flex>

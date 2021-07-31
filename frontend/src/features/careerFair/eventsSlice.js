@@ -9,6 +9,21 @@ export const asyncFetchEventsData = createAsyncThunk(
   }
 );
 
+export const asyncCreateFairEvent = createAsyncThunk(
+  'events/create',
+  async (newEvent) => {
+    const response = { ...newEvent, id: '555' };
+    return response;
+  }
+);
+
+export const asyncDeleteFairEvent = createAsyncThunk(
+  'events/delete',
+  async (newEvent) => {
+    return;
+  }
+);
+
 const initialState = {
   loading: false,
   //
@@ -32,6 +47,9 @@ export const eventsSlice = createSlice({
       .addCase(asyncFetchEventsData.fulfilled, (state, { payload }) => {
         state.loading = false;
         state.events = payload;
+      })
+      .addCase(asyncCreateFairEvent.fulfilled, (state, { payload }) => {
+        state.events.push(payload);
       });
   },
 });

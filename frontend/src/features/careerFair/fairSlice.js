@@ -1,6 +1,7 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import { getFairData } from './exampleCareerFair';
 import { prominent } from 'color.js';
+import getDominantColour from '../../components/getDominantColour';
 
 export const asyncFetchFairData = createAsyncThunk(
   'fair/university',
@@ -10,6 +11,21 @@ export const asyncFetchFairData = createAsyncThunk(
       amount: 2,
     });
     return { ...response, colour: colour };
+  }
+);
+
+export const asyncEditFairEvent = createAsyncThunk(
+  'fair/edit',
+  async (newEvent) => {
+    const response = newEvent;
+    return response;
+  }
+);
+
+export const asyncToggleEventPending = createAsyncThunk(
+  'fair/togglePending',
+  async (id) => {
+    return id;
   }
 );
 
@@ -57,27 +73,19 @@ export const fairSlice = createSlice({
         state.events = payload.events;
         state.opportunities = payload.opportunities;
 
-        let index = -1;
-        if (
-          payload.colour[0][0] + payload.colour[0][1] + payload.colour[0][2] !==
-          0
-        ) {
-          index = 0;
-        } else if (
-          payload.colour[1][0] + payload.colour[1][1] + payload.colour[1][2] !==
-          0
-        ) {
-          index = 1;
-        }
-        if (index !== -1) {
-          state.bgColour = `rgb(${payload.colour[index][0]}, ${payload.colour[index][1]}, ${payload.colour[index][2]})`;
-          payload.colour[index][0] * 0.299 +
-            payload.colour[index][1] * 0.587 +
-            payload.colour[index][2] * 0.114 >
-          186
-            ? (state.textColour = 'black')
-            : (state.textColour = 'white');
-        }
+        const dominantColourObj = getDominantColour(payload.colour);
+        state.bgColour = dominantColourObj.bgColour;
+        state.textColour = dominantColourObj.textColour;
+      })
+      .addCase(asyncEditFairEvent.fulfilled, (state, { payload }) => {
+        state.title = payload.title;
+        state.description = payload.description;
+        state.start = payload.start;
+        state.end = payload.end;
+      })
+      .addCase(asyncToggleEventPending.fulfilled, (state, { payload }) => {
+        const stall = state.stalls.find((stall) => stall.id === payload);
+        stall.pending = !stall.pending;
       });
   },
 });

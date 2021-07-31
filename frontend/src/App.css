@@ -38,6 +38,10 @@
   }
 }
 
+.fc-event{
+  cursor: pointer;
+}
+
 .fc-popover {
   z-index: 1 !important;
 }
@@ -48,19 +52,34 @@
 }
 
 .ez-button.secondary {
-  background: #2c3e50 !important;
-  color: white !important;
+  background: #edf2f7 !important;
+  color: black !important;
+  border-color: #c4cdd8 !important;
+  font-size: 10pt !important;
+  font-weight: 500 !important;
 }
 
 .ez-nice-select.secondary .ez-ns-dropdown .ez-ns-option.ez-ns-selected-option {
-  background: #2c3e50 !important;
+  background: #edf2f7 !important;
+  color: black !important;
 }
 
 .fc-button-primary {
   background: #edf2f7 !important;
   color: black !important;
-  border-color: gray !important;
+  border-color: #c4cdd8 !important;
+  font-size: 10pt !important;
+  font-weight: 500 !important;
 }
+
+.fc-button-active {
+  background: #cbd5e0 !important;
+
+}
+.fc .fc-button-primary:disabled {
+  background: #bdc7d1 !important;
+}
+
 
 .fc .fc-button-primary:not(:disabled):active:focus, .fc .fc-button-primary:not(:disabled).fc-button-active:focus {
   background: #cedbeb !important;
