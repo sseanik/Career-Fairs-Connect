@@ -98,6 +98,7 @@ export default function CompanyStall(props) {
                 loading={stallData.loading}
                 bgColour={stallData.bgColour}
                 textColour={stallData.textColour}
+                fairID={stallID}
                 stall
               />
             </TabPanel>

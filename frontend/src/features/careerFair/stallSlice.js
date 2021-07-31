@@ -41,16 +41,16 @@ export const asyncDeleteOpportunity = createAsyncThunk(
 /* ------------------------------ Presentation ------------------------------ */
 export const asyncAddPresentation = createAsyncThunk(
   'stall/addPresentation',
-  async (opportunity) => {
-    const response = { ...opportunity, id: '555' };
+  async (presentation) => {
+    const response = { ...presentation, id: '555' };
     return response;
   }
 );
 
 export const asyncEditPresentation = createAsyncThunk(
   'stall/editPresentation',
-  async (opportunity) => {
-    const response = opportunity;
+  async (presentation) => {
+    const response = presentation;
     return response;
   }
 );
