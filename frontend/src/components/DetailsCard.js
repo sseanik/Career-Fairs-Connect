@@ -144,24 +144,27 @@ export const DetailsCard = (props) => {
               Create Company Stall
             </Button>
           )}
-          {!props.loading && !applied && userDetails.role === 'Company' && (
-            <Button
-              colorScheme='red'
-              leftIcon={<MdExitToApp />}
-              onClick={() =>
-                dispatch(
-                  asyncRemoveCompanyStall({
-                    fairID: props.fairID,
-                    name: userDetails.name,
-                  })
-                )
-              }
-              ml='3'
-              size='sm'
-            >
-              Leave Fair
-            </Button>
-          )}
+          {!props.loading &&
+            !applied &&
+            userDetails.role === 'Company' &&
+            props.fair && (
+              <Button
+                colorScheme='red'
+                leftIcon={<MdExitToApp />}
+                onClick={() =>
+                  dispatch(
+                    asyncRemoveCompanyStall({
+                      fairID: props.fairID,
+                      name: userDetails.name,
+                    })
+                  )
+                }
+                ml='3'
+                size='sm'
+              >
+                Leave Fair
+              </Button>
+            )}
           {props.stall &&
             userDetails.role === 'Company' &&
             userDetails.name === props.title && (
