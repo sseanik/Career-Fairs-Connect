@@ -66,7 +66,7 @@ urlpatterns = [
     re_path('^(?P<stallId>.+)/get_presentation/$', get_presentation),
     re_path('^(?P<eventId>.+)/get_all_presentations/$', get_all_presentations),
 
-    path('careersfair/<int:eventId>/stalls/', StallList.as_view()),
+    path('careerfairs/<int:eventId>/stalls/', StallList.as_view()),
     path('company/<int:companyId>/opportunities/', OpportunityList.as_view()),
     path('company/<int:companyId>/opportunities/<int:job_id>', OpportunityList.as_view()),
     re_path('^company/(?P<companyId>.+)/$', Company.as_view()),
