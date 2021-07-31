@@ -1,6 +1,6 @@
 {
 	"info": {
-		"_postman_id": "deba3ce9-e4ab-1859-28b0-94cf05b12d35",
+		"_postman_id": "7f7bd26b-9376-4c16-b314-55487dcc3426",
 		"name": "CareerFair",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
 	},
@@ -579,6 +579,38 @@
 						"1",
 						"stalls",
 						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "/careerfairs/applications (Approving)",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"eventId\": 1,\n    \"companyId\": 1,\n    \"approval\": true\n}\n",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://127.0.0.1:8000/careerfairs/applications",
+					"protocol": "http",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "8000",
+					"path": [
+						"careerfairs",
+						"applications"
 					]
 				}
 			},
