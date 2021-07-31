@@ -10,6 +10,9 @@ export function getUserDetails(token) {
     case 'Company':
       user = companyDetails;
       break;
+    case 'Unlisted':
+      user = unlistedCompanyDetails;
+      break;
     default:
       break;
   }
@@ -28,6 +31,15 @@ const companyDetails = {
   role: 'Company',
   email: '',
   name: 'Facebook',
+  description: '',
+  website: '',
+  logo: 'https://facebookbrand.com/wp-content/uploads/2019/04/f_logo_RGB-Hex-Blue_512.png?w=512&h=512',
+};
+
+const unlistedCompanyDetails = {
+  role: 'Company',
+  email: '',
+  name: 'Google',
   description: '',
   website: '',
   logo: 'https://facebookbrand.com/wp-content/uploads/2019/04/f_logo_RGB-Hex-Blue_512.png?w=512&h=512',

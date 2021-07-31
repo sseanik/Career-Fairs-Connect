@@ -39,6 +39,14 @@ function App() {
         </Button>
         <Button
           onClick={() => {
+            localStorage.setItem('test', 'Unlisted');
+            window.location.reload(false);
+          }}
+        >
+          Unlisted Company
+        </Button>
+        <Button
+          onClick={() => {
             localStorage.setItem('test', 'University');
             window.location.reload(false);
           }}
