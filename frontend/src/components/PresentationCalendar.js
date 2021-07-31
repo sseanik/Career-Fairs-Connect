@@ -1,8 +1,8 @@
 import React from 'react';
 import moment from 'moment';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 // Chakra UI
-import { useDisclosure } from '@chakra-ui/react';
+import { Box, Text, Tooltip, useDisclosure } from '@chakra-ui/react';
 // Full Calendar
 import FullCalendar from '@fullcalendar/react';
 import listPlugin from '@fullcalendar/list';
@@ -12,28 +12,52 @@ import interactionPlugin from '@fullcalendar/interaction';
 import auLocale from '@fullcalendar/core/locales/en-au';
 // Components
 import { PresentationModal } from './PresentationModal';
+import { CalendarModal } from './CalendarModal';
+import { InfoIcon } from '@chakra-ui/icons';
+import { asyncEditPresentation } from '../features/careerFair/stallSlice';
 
 export function PresentationCalendar(props) {
   const width = useSelector((state) => state.window.width);
-  const { isOpen, onOpen, onClose } = useDisclosure();
-  const [modalEventTitle, setModalEventTitle] = React.useState('');
-  const [modalEventTime, setModalEventTime] = React.useState('');
-  const [modalEventDescription, setModalEventDescription] = React.useState('');
-  const [modalEventLink, setModalEventLink] = React.useState('');
-  const [modalButtonColor, setModalButtonColor] = React.useState('');
+  const { isOpen, onOpen, onClose } = useDisclosure('1');
+  const [open, setOpen] = React.useState(false);
+  const [event, setEvent] = React.useState({});
+  const [modalEventDetails, setModalEventDetails] = React.useState({
+    id: '',
+    title: '',
+    time: '',
+    description: '',
+    link: '',
+    color: '',
+    start: '',
+    end: '',
+  });
+  const dispatch = useDispatch();
 
   return (
     <div>
       <PresentationModal
         isOpen={isOpen}
         onClose={onClose}
-        title={modalEventTitle}
-        time={modalEventTime}
-        description={modalEventDescription}
-        link={modalEventLink}
+        edit={props.edit}
         stall={props.stall}
-        color={modalButtonColor}
+        id={modalEventDetails.id}
+        title={modalEventDetails.title}
+        time={modalEventDetails.time}
+        description={modalEventDetails.description}
+        link={modalEventDetails.link}
+        color={modalEventDetails.color}
+        start={modalEventDetails.start}
+        end={modalEventDetails.end}
       />
+      {props.edit && (
+        <CalendarModal
+          isOpen={open}
+          onClose={() => setOpen(false)}
+          event={event}
+          color={props.bgColour}
+        />
+      )}
+
       <FullCalendar
         plugins={[dayGridPlugin, timeGridPlugin, interactionPlugin, listPlugin]}
         headerToolbar={{
@@ -42,8 +66,8 @@ export function PresentationCalendar(props) {
           right: 'dayGridMonth,timeGridWeek,timeGridDay,listMonth',
         }}
         initialView='listMonth'
-        editable={false}
-        selectable={false}
+        editable={props.edit}
+        selectable={props.edit}
         selectMirror={true}
         dayMaxEvents={true}
         contentHeight='auto'
@@ -86,30 +110,80 @@ export function PresentationCalendar(props) {
         }}
         events={props.events}
         eventClick={(info) => {
-          setModalButtonColor(info.event.backgroundColor);
-          setModalEventTitle(info.event.title);
-          setModalEventTime(
-            info.event.start.toLocaleString([], {
+          setModalEventDetails({
+            id: info.event.id,
+            title: info.event.title,
+            description: info.event.extendedProps.description,
+            link: info.event.extendedProps.link,
+            color: info.event.backgroundColor,
+            start: info.event.start.getTime(),
+            end: info.event.end.getTime(),
+            time: info.event.start.toLocaleString([], {
               day: 'numeric',
               month: 'long',
               year: 'numeric',
               hour: 'numeric',
               minute: '2-digit',
               hour12: true,
-            })
-          );
-          setModalEventDescription(info.event.extendedProps.description);
-          setModalEventLink(info.event.extendedProps.link);
+            }),
+          });
           onOpen();
           info.el.style.borderColor = 'black';
         }}
-        // alternatively, use the `events` setting to fetch from a feed
-        /* you can update a remote database when these fire:
-            eventAdd={function(){}}
-            eventChange={function(){}}
-            eventRemove={function(){}}
-            */
+        expandRows={true}
+        navLinks={true}
+        // Confirm if user wants to add selection
+        select={(e) => {
+          if (
+            e.view.type !== 'dayGridMonth' &&
+            e.start.getDay() === e.end.getDay()
+          ) {
+            setEvent(e);
+            setOpen(true);
+          }
+        }}
+        // Confirm if user wants to edit
+        eventChange={(e) => {
+          console.log(e.event);
+          dispatch(
+            asyncEditPresentation({
+              id: e.event.id,
+              title: e.event.title,
+              description: e.event.extendedProps.description,
+              link: e.event.extendedProps.link,
+              start: e.event.start.getTime(),
+              end: e.event.end.getTime(),
+              color: props.bgColour,
+            })
+          );
+        }}
+        // eventAdd={() => console.log('add')}
+        // eventRemove={() => console.log('remove')}
       />
+
+      {props.edit && (
+        <Box mt='2'>
+          <Tooltip
+            label='Use the Week or Day Tabs and make a selection on the Calendar to add an event'
+            aria-label='A tooltip'
+            mr='4'
+          >
+            <Text ml='2' as='span' fontSize='sm'>
+              <InfoIcon mr='2' color='gray' />
+              How do I add an event?
+            </Text>
+          </Tooltip>
+          <Tooltip
+            label='Events can be dragged and resized to edit their dates and times'
+            aria-label='A tooltip'
+          >
+            <Text ml='2' as='span' fontSize='sm'>
+              <InfoIcon mr='2' color='gray' />
+              How do I edit the date and time of an event?
+            </Text>
+          </Tooltip>
+        </Box>
+      )}
     </div>
   );
 }

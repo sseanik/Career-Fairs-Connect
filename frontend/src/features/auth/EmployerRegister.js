@@ -38,10 +38,7 @@ const validationSchema = Yup.object({
   company: Yup.string().required('Company Name is Required'),
   description: Yup.string(),
   website: Yup.string().matches(/^http(s)?:.*$/, 'Website URL is invalid'),
-  logo: Yup.string().matches(
-    /^http(s)?:\/\/.*\.(png|jpg|jpeg)$/,
-    'Image URL is invalid'
-  ),
+  logo: Yup.string(),
 });
 
 export default function EmployerRegister() {

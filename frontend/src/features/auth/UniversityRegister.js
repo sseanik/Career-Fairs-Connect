@@ -77,10 +77,7 @@ const validationSchema = Yup.object({
       'Western Sydney University',
     ])
     .required('University is Required'),
-  logo: Yup.string().matches(
-    /^http(s)?:\/\/.*\.(png|jpg|jpeg)$/,
-    'Image URL is invalid'
-  ),
+  logo: Yup.string(),
 });
 
 export function UniversityRegister() {

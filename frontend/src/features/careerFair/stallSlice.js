@@ -1,4 +1,4 @@
-import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
+import { createAsyncThunk, createSlice, current } from '@reduxjs/toolkit';
 import { getStallData } from './exampleCompanyStall';
 import { prominent } from 'color.js';
 import getDominantColour from '../../components/getDominantColour';
@@ -14,35 +14,59 @@ export const asyncFetchStallData = createAsyncThunk(
   }
 );
 
-export const asyncPostQuestion = createAsyncThunk(
-  'fair/postQuestion',
-  async (question, thunkAPI) => {
-    //   try {
-    //     const response = await fetch(
-    //       `http://localhost:${config.BACKEND_PORT}/admin/quiz/${quizid}`,
-    //       {
-    //         method: 'GET',
-    //         headers: {
-    //           Accept: 'application/json',
-    //           'Content-Type': 'application/json',
-    //           Authorization: `Bearer ${localStorage.getItem('token')}`,
-    //         },
-    //       }
-    //     );
-    //     const data = await response.json();
-    //     if (response.status === 200) {
-    //       const foundQuestion = data.questions.filter((q) => q.id === id)[0];
-    //       return foundQuestion;
-    //     } else {
-    //       return thunkAPI.rejectWithValue(data);
-    //     }
-    //   } catch (e) {
-    //     console.log('Error', e.response.data);
-    //     return thunkAPI.rejectWithValue(e.response.data);
-    //   }
-    // }
-    await new Promise((r) => setTimeout(r, 2000));
+/* ------------------------------- Opportunity ------------------------------ */
+export const asyncAddOpportunity = createAsyncThunk(
+  'stall/addOpportunity',
+  async (opportunity) => {
+    const response = { ...opportunity, id: '555' };
+    return response;
+  }
+);
 
+export const asyncEditOpportunity = createAsyncThunk(
+  'stall/editOpportunity',
+  async (opportunity) => {
+    const response = opportunity;
+    return response;
+  }
+);
+
+export const asyncDeleteOpportunity = createAsyncThunk(
+  'stall/deleteOpportunity',
+  async (id) => {
+    return id;
+  }
+);
+
+/* ------------------------------ Presentation ------------------------------ */
+export const asyncAddPresentation = createAsyncThunk(
+  'stall/addPresentation',
+  async (opportunity) => {
+    const response = { ...opportunity, id: '555' };
+    return response;
+  }
+);
+
+export const asyncEditPresentation = createAsyncThunk(
+  'stall/editPresentation',
+  async (opportunity) => {
+    const response = opportunity;
+    return response;
+  }
+);
+
+export const asyncDeletePresentation = createAsyncThunk(
+  'stall/deletePresentation',
+  async (id) => {
+    return id;
+  }
+);
+
+/* ---------------------------------- Q & A --------------------------------- */
+export const asyncPostQuestion = createAsyncThunk(
+  'stall/postQuestion',
+  async (question, thunkAPI) => {
+    await new Promise((r) => setTimeout(r, 2000));
     return question;
   }
 );
@@ -108,6 +132,34 @@ export const stallSlice = createSlice({
           question: payload,
           answer: '',
         });
+      })
+      // Adding a new Opportunity
+      .addCase(asyncAddOpportunity.fulfilled, (state, { payload }) => {
+        state.opportunities.push(payload);
+      })
+      .addCase(asyncEditOpportunity.fulfilled, (state, { payload }) => {
+        const index = current(state.opportunities).findIndex(
+          (opportunity) => opportunity.id === payload.id
+        );
+        state.opportunities[index] = payload;
+      })
+      .addCase(asyncDeleteOpportunity.fulfilled, (state, { payload }) => {
+        state.opportunities = state.opportunities.filter(
+          (opportunity) => opportunity.id !== payload
+        );
+      })
+      // Presentation
+      .addCase(asyncAddPresentation.fulfilled, (state, { payload }) => {
+        state.events.push(payload);
+      })
+      .addCase(asyncEditPresentation.fulfilled, (state, { payload }) => {
+        const index = current(state.events).findIndex(
+          (event) => event.id === payload.id
+        );
+        state.events[index] = payload;
+      })
+      .addCase(asyncDeletePresentation.fulfilled, (state, { payload }) => {
+        state.events = state.events.filter((event) => event.id !== payload);
       });
   },
 });

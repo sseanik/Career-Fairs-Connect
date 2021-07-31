@@ -1,10 +1,17 @@
 import React from 'react';
 // Chakra UI
-import { Text, Link } from '@chakra-ui/react';
+import { Text, Link, Button, useDisclosure } from '@chakra-ui/react';
 // Elementz
 import { Table } from 'elementz';
+import { RiPencilFill } from 'react-icons/ri';
+import { OpportunityModal } from './OpportunityModal';
+import { useSelector } from 'react-redux';
 
 export function OpportunitiesTable(props) {
+  const { isOpen, onOpen, onClose } = useDisclosure();
+  const [activeRow, setActiveRow] = React.useState({});
+  const userDetails = useSelector((state) => state.user);
+
   const companyColumn = {
     company: {
       title: 'Company',
@@ -41,8 +48,20 @@ export function OpportunitiesTable(props) {
 
   return (
     <div>
+      <OpportunityModal
+        isOpen={isOpen}
+        onClose={onClose}
+        id={activeRow.id}
+        type={activeRow.type}
+        role={activeRow.role}
+        location={activeRow.location}
+        wam={activeRow.wam}
+        expiry={new Date(activeRow.expiry)}
+        link={activeRow.link}
+        description={activeRow.description}
+        edit
+      />
       <Table
-        onRowRender={(row, i) => ({ key: `${i}-key` })}
         className='m-0 p-0'
         data={props.opportunities}
         columns={props.interact ? columns : { ...companyColumn, ...columns }}
@@ -57,22 +76,22 @@ export function OpportunitiesTable(props) {
         expandable={true}
         actionHidden={false}
         loading={props.loading}
-        // onAction={(row, i, isBulk) => {
-        //   if (props.interact) {
-        //     return (
-        //       <Menu>
-        //         <MenuButton as={IconButton} icon={<ChevronDownIcon />} />
-        //         <MenuList>
-        //           <MenuItem>Download</MenuItem>
-        //           <MenuItem>Create a Copy</MenuItem>
-        //           <MenuItem>Mark as Draft</MenuItem>
-        //           <MenuItem>Delete</MenuItem>
-        //           <MenuItem>Attend a Workshop</MenuItem>
-        //         </MenuList>
-        //       </Menu>
-        //     );
-        //   }
-        // }}
+        onAction={(row) =>
+          userDetails.role === 'Company' &&
+          userDetails.name === props.company && (
+            <Button
+              leftIcon={<RiPencilFill />}
+              size='sm'
+              ml='3'
+              onClick={() => {
+                setActiveRow(row[0]);
+                onOpen();
+              }}
+            >
+              Edit
+            </Button>
+          )
+        }
         onExpand={(row) => <Text color='gray.800'>{row.description}</Text>}
         onMobile={(row) => (
           <div className='p-0 m-0'>

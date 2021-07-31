@@ -3,10 +3,10 @@ export function getStallData(stallID) {
     let stall;
     switch (stallID) {
       case '9876':
-        stall = companyStallData1;
+        stall = companyStallData2;
         break;
       case '5678':
-        stall = companyStallData2;
+        stall = companyStallData1;
         break;
       case '1357':
         stall = companyStallData3;

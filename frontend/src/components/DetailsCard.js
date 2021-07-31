@@ -18,6 +18,8 @@ import {
 import { ExternalLinkIcon } from '@chakra-ui/icons';
 import { RiPencilFill } from 'react-icons/ri';
 import { EventModal } from './EventModal';
+import { SmallAddIcon } from '@chakra-ui/icons';
+import { OpportunityModal } from './OpportunityModal';
 
 export const DetailsCard = (props) => {
   const width = useSelector((state) => state.window.width);
@@ -66,9 +68,9 @@ export const DetailsCard = (props) => {
 
                 <Button
                   leftIcon={<RiPencilFill />}
+                  size='sm'
                   onClick={onOpen}
                   ml='3'
-                  size='sm'
                 >
                   Edit Event
                 </Button>
@@ -98,6 +100,25 @@ export const DetailsCard = (props) => {
               Live
             </Badge>
           )}
+          {props.stall &&
+            userDetails.role === 'Company' &&
+            userDetails.name === props.title && (
+              <div>
+                <Button
+                  bgColor={props.bgColour}
+                  color={props.textColour}
+                  _hover={{ bg: props.bgColour }}
+                  _active={{ bg: props.bgColour }}
+                  leftIcon={<SmallAddIcon />}
+                  onClick={onOpen}
+                  ml='3'
+                  size='sm'
+                >
+                  Add Opportunity
+                </Button>
+                <OpportunityModal isOpen={isOpen} onClose={onClose} />
+              </div>
+            )}
         </Flex>
 
         {props.startDate && (

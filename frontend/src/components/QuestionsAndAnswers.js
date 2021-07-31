@@ -33,7 +33,7 @@ export function QuestionsAndAnswers(props) {
         size='sm'
         mt='2'
         mb='4'
-        onClick={() => dispatch(asyncPostQuestion(question))}
+        onClick={() => question && dispatch(asyncPostQuestion(question))}
         isLoading={buttonLoading}
         loadingText='Submitting'
         spinnerPlacement='end'

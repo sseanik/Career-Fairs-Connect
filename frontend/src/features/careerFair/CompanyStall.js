@@ -27,6 +27,7 @@ export default function CompanyStall(props) {
   const width = useSelector((state) => state.window.width);
   const dispatch = useDispatch();
   const stallData = useSelector((state) => state.stall);
+  const userData = useSelector((state) => state.user);
   const stallID = props.match.params.stallID;
 
   React.useEffect(
@@ -95,10 +96,21 @@ export default function CompanyStall(props) {
                 numOpportunities={stallData.opportunities.length}
                 description={stallData.description}
                 loading={stallData.loading}
+                bgColour={stallData.bgColour}
+                textColour={stallData.textColour}
+                stall
               />
             </TabPanel>
             <TabPanel>
-              <PresentationCalendar events={stallData.events} stall />
+              <PresentationCalendar
+                events={stallData.events}
+                bgColour={stallData.bgColour}
+                edit={
+                  userData.role === 'Company' &&
+                  userData.name === stallData.company
+                }
+                stall
+              />
             </TabPanel>
             <TabPanel>
               <QuestionsAndAnswers qandas={stallData.qandas} />
@@ -118,6 +130,7 @@ export default function CompanyStall(props) {
           limit={false}
           interact={true}
           loading={stallData.loading}
+          company={stallData.company}
         />
       </Box>
     </div>

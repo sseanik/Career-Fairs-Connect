@@ -1,6 +1,6 @@
 import React from 'react';
 import './App.css';
-import { ChakraProvider } from '@chakra-ui/react';
+import { Button, ButtonGroup, ChakraProvider } from '@chakra-ui/react';
 import { Route, Switch } from 'react-router-dom';
 import Home from './pages/Home';
 import Login from './pages/Login';
@@ -20,6 +20,32 @@ function App() {
 
   return (
     <ChakraProvider>
+      <ButtonGroup>
+        <Button
+          onClick={() => {
+            localStorage.setItem('test', 'Student');
+            window.location.reload(false);
+          }}
+        >
+          Student
+        </Button>
+        <Button
+          onClick={() => {
+            localStorage.setItem('test', 'Company');
+            window.location.reload(false);
+          }}
+        >
+          Company
+        </Button>
+        <Button
+          onClick={() => {
+            localStorage.setItem('test', 'University');
+            window.location.reload(false);
+          }}
+        >
+          University
+        </Button>
+      </ButtonGroup>
       <Switch>
         <Route path='/' component={Home} exact />
         <Route path='/login' component={Login} exact />

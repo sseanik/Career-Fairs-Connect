@@ -1,7 +1,19 @@
 export function getUserDetails(token) {
-  return new Promise((resolve) =>
-    setTimeout(() => resolve(universityDetails), 1000)
-  );
+  let user;
+  switch (localStorage.getItem('test')) {
+    case 'Student':
+      user = studentDetails;
+      break;
+    case 'University':
+      user = universityDetails;
+      break;
+    case 'Company':
+      user = companyDetails;
+      break;
+    default:
+      break;
+  }
+  return new Promise((resolve) => setTimeout(() => resolve(user), 1000));
 }
 
 const studentDetails = {
@@ -15,10 +27,10 @@ const studentDetails = {
 const companyDetails = {
   role: 'Company',
   email: '',
-  company: 'Facebook',
+  name: 'Facebook',
   description: '',
   website: '',
-  logo: '',
+  logo: 'https://facebookbrand.com/wp-content/uploads/2019/04/f_logo_RGB-Hex-Blue_512.png?w=512&h=512',
 };
 
 const universityDetails = {
