@@ -2,11 +2,11 @@ from rest_framework.views import Response
 from .serializers import *
 from rest_framework.decorators import api_view
 from rest_framework import status
-from .models import *
 from django.contrib.auth.hashers import make_password
 from django.shortcuts import get_object_or_404
 from django.core.serializers import serialize
 from django.http import HttpResponse
+from .models import *
 import json
 from django.core.serializers.json import DjangoJSONEncoder
 
@@ -25,10 +25,10 @@ def get_all_presentations(request, eventId):
         presentations = Presentations.objects.filter(stall_id__in=stalls_list).values()
     except:
         return Response(status=status.HTTP_404_NOT_FOUND)
-    # presentations_list = list(presentations)
+
     data = json.dumps(list(presentations),cls=DjangoJSONEncoder)
 
-    # data = serialize("json", presentations, fields=('presentation_id', 'stall_id', 'presentation_link','datetime','presentation_description'))       
+
     return HttpResponse(data, content_type="application/json")
  
 
