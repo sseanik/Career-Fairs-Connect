@@ -10,7 +10,6 @@ class CompanyStallData(APIView):
     authentication_classes = [TokenAuthentication, SessionAuthentication]
     permission_classes = [IsAuthenticated]
     def get(self, request, stallId, format=None):
-        if request.user.IsAuthenticated():
-            stallData = Stalls.objects.filter(stall_id = stallId)
-            return Response(StallsSerializer(stallData), status=200)
-        return Response(status=401)
+        stallData = Stalls.objects.all()
+        serializer = StallsSerializer(stallData, many=True)
+        return Response(serializer.data, status = 200)
