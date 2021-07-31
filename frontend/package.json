@@ -17,7 +17,6 @@
     "@testing-library/user-event": "^13.2.1",
     "chakra-dayzed-datepicker": "^0.1.1",
     "color.js": "^1.2.0",
-    "compress.js": "^1.1.2",
     "date-fns": "^2.23.0",
     "dayzed": "^3.2.2",
     "elementz": "^2.0.5",

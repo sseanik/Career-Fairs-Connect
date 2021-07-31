@@ -1,7 +1,7 @@
 import React from 'react';
 import './App.css';
 import { Button, ButtonGroup, ChakraProvider } from '@chakra-ui/react';
-import { Route, Switch } from 'react-router-dom';
+import { Link, Route, Switch } from 'react-router-dom';
 import Home from './pages/Home';
 import Login from './pages/Login';
 import Register from './pages/Register';
@@ -44,6 +44,9 @@ function App() {
           }}
         >
           University
+        </Button>
+        <Button as={Link} to='/events'>
+          Events
         </Button>
       </ButtonGroup>
       <Switch>
