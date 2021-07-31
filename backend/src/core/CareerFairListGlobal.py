@@ -25,3 +25,13 @@ class CareerFairListGlobal(APIView):
             }
             response_items.append(response_item)
         return HttpResponse(json.dumps([item for item in response_items], cls=DjangoJSONEncoder), content_type='application/json')
+
+# class CareerFairs(APIView):
+#     def get(self, request, *args, **kwargs):
+#         # only events currentlyhappening or in the future
+#         now = datetime.datetime.now()
+#         #[:20] first 20 in dataset
+#         eventData = Events.objects.filter(event_end_time__gt=now).order_by('-event_start_time')
+#         serializer = EventSerializer(eventData, many=True)
+#         return Response(serializer.data, status=200)
+        
