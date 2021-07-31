@@ -41,7 +41,12 @@ const validationSchema = Yup.object({
     'High Distinction',
     'None',
   ]),
-  expiry: Yup.date().required('Application Expiry Date is Required'),
+  expiry: Yup.date()
+    .required('Application Expiry Date is Required')
+    .min(
+      new Date(new Date().setDate(new Date().getDate() - 1)),
+      'Expiry date cannot be before today'
+    ),
   link: Yup.string().matches(/^http(s)?:.*$/, 'Application URL is invalid'),
   description: Yup.string(),
 });

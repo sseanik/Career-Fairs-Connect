@@ -34,10 +34,18 @@ const validationSchema = Yup.object({
   description: Yup.string().required('Event Description is Required'),
   start: Yup.date()
     .required('Start Date is Required')
-    .max(Yup.ref('end'), 'Start date cannot be After End Date'),
+    .max(Yup.ref('end'), 'Start date cannot be After End Date')
+    .min(
+      new Date(new Date().setDate(new Date().getDate() - 1)),
+      'Start date cannot be before today'
+    ),
   end: Yup.date()
     .required('End Date is Required')
-    .min(Yup.ref('start'), 'End date cannot be Before Start Date'),
+    .min(Yup.ref('start'), 'End date cannot be Before Start Date')
+    .min(
+      new Date(new Date().setDate(new Date().getDate() - 1)),
+      'Start date cannot be before today'
+    ),
 });
 
 export function EventModal(props) {

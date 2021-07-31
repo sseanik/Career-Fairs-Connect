@@ -102,6 +102,17 @@ const careerFairData1 = {
       link: 'https://www.facebook.com/careers',
       description: 'Description of the Mobile Grad role',
     },
+    {
+      id: 222,
+      company: 'Apple',
+      type: 'Graduate',
+      role: 'Software Engineer Graduate',
+      location: 'Sydney',
+      wam: null,
+      expiry: '10/08/2021',
+      link: 'https://www.Apple.com/careers',
+      description: 'Description of the Mobile Grad role',
+    },
   ],
 };
 

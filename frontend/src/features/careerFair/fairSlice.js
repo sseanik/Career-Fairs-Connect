@@ -37,6 +37,13 @@ export const asyncAddCompanyStall = createAsyncThunk(
   }
 );
 
+export const asyncRemoveCompanyStall = createAsyncThunk(
+  'fair/removeStall',
+  async ({ fairID, name }) => {
+    return name;
+  }
+);
+
 const initialState = {
   loading: false,
   //
@@ -97,6 +104,11 @@ export const fairSlice = createSlice({
       })
       .addCase(asyncAddCompanyStall.fulfilled, (state, { payload }) => {
         state.stalls.push(payload);
+      })
+      .addCase(asyncRemoveCompanyStall.fulfilled, (state, { payload }) => {
+        state.stalls = state.stalls.filter(
+          (stall) => stall.company !== payload
+        );
       });
   },
 });

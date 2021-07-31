@@ -17,10 +17,15 @@ import {
 } from '@chakra-ui/react';
 import { AddIcon, ExternalLinkIcon } from '@chakra-ui/icons';
 import { RiPencilFill } from 'react-icons/ri';
+import { MdExitToApp } from 'react-icons/md';
+
 import { EventModal } from './EventModal';
 import { SmallAddIcon } from '@chakra-ui/icons';
 import { OpportunityModal } from './OpportunityModal';
-import { asyncAddCompanyStall } from '../features/careerFair/fairSlice';
+import {
+  asyncAddCompanyStall,
+  asyncRemoveCompanyStall,
+} from '../features/careerFair/fairSlice';
 
 export const DetailsCard = (props) => {
   const width = useSelector((state) => state.window.width);
@@ -137,6 +142,24 @@ export const DetailsCard = (props) => {
               size='sm'
             >
               Create Company Stall
+            </Button>
+          )}
+          {!props.loading && !applied && userDetails.role === 'Company' && (
+            <Button
+              colorScheme='red'
+              leftIcon={<MdExitToApp />}
+              onClick={() =>
+                dispatch(
+                  asyncRemoveCompanyStall({
+                    fairID: props.fairID,
+                    name: userDetails.name,
+                  })
+                )
+              }
+              ml='3'
+              size='sm'
+            >
+              Leave Fair
             </Button>
           )}
           {props.stall &&

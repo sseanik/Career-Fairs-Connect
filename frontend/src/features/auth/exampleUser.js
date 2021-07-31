@@ -42,8 +42,8 @@ const unlistedCompanyDetails = {
   name: 'Google',
   description: '',
   website: '',
-  logo: 'https://facebookbrand.com/wp-content/uploads/2019/04/f_logo_RGB-Hex-Blue_512.png?w=512&h=512',
-};
+  logo: 'https://upload.wikimedia.org/wikipedia/commons/thumb/5/53/Google_%22G%22_Logo.svg/1200px-Google_%22G%22_Logo.svg.png',
+}
 
 const universityDetails = {
   role: 'University',
