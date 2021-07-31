@@ -97,6 +97,7 @@ export default function CareerFair(props) {
                 website={fairData.website}
                 bg={fairData.bgColour}
                 loading={fairData.loading}
+                fairID={fairID}
                 fair
               />
             </TabPanel>

@@ -27,7 +27,7 @@ const studentDetails = {
 const companyDetails = {
   role: 'Company',
   email: '',
-  name: 'Facebook',
+  name: 'Google',
   description: '',
   website: '',
   logo: 'https://facebookbrand.com/wp-content/uploads/2019/04/f_logo_RGB-Hex-Blue_512.png?w=512&h=512',

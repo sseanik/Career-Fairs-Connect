@@ -1,5 +1,5 @@
 import React from 'react';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 // Chakra UI
 import {
   Badge,
@@ -15,15 +15,18 @@ import {
   TagRightIcon,
   useDisclosure,
 } from '@chakra-ui/react';
-import { ExternalLinkIcon } from '@chakra-ui/icons';
+import { AddIcon, ExternalLinkIcon } from '@chakra-ui/icons';
 import { RiPencilFill } from 'react-icons/ri';
 import { EventModal } from './EventModal';
 import { SmallAddIcon } from '@chakra-ui/icons';
 import { OpportunityModal } from './OpportunityModal';
+import { asyncAddCompanyStall } from '../features/careerFair/fairSlice';
 
 export const DetailsCard = (props) => {
   const width = useSelector((state) => state.window.width);
   const userDetails = useSelector((state) => state.user);
+  const stalls = useSelector((state) => state.fair.stalls);
+  const dispatch = useDispatch();
   const { isOpen, onOpen, onClose } = useDisclosure();
   const [bgColour, setBgColour] = React.useState('white');
   if (props.crop) {
@@ -31,6 +34,19 @@ export const DetailsCard = (props) => {
       setBgColour(result);
     });
   }
+  const [applied, setApplied] = React.useState(false);
+  React.useEffect(
+    () =>
+      setApplied(
+        userDetails.role === 'Company' &&
+          props.fair &&
+          stalls.filter((stall) => stall.company === userDetails.name)
+            .length === 0
+          ? true
+          : false
+      ),
+    [userDetails, props, stalls]
+  );
 
   return (
     <Flex p='0.5' direction={width <= '723' ? 'column' : 'row'}>
@@ -99,6 +115,29 @@ export const DetailsCard = (props) => {
             >
               Live
             </Badge>
+          )}
+          {!props.loading && applied && (
+            <Button
+              colorScheme='blue'
+              leftIcon={<AddIcon />}
+              onClick={() =>
+                dispatch(
+                  asyncAddCompanyStall({
+                    stall: {
+                      pending: true,
+                      company: userDetails.name,
+                      description: userDetails.description,
+                      logo: userDetails.logo,
+                    },
+                    fairID: props.fairID,
+                  })
+                )
+              }
+              ml='3'
+              size='sm'
+            >
+              Create Company Stall
+            </Button>
           )}
           {props.stall &&
             userDetails.role === 'Company' &&

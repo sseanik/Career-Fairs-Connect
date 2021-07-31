@@ -19,7 +19,7 @@ export const asyncCreateFairEvent = createAsyncThunk(
 
 export const asyncDeleteFairEvent = createAsyncThunk(
   'events/delete',
-  async (newEvent) => {
+  async (id) => {
     return;
   }
 );
