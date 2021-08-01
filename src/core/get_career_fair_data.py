@@ -42,7 +42,6 @@ def get_career_fair_data(request, eventId):
     except:
         return Response(status=status.HTTP_404_NOT_FOUND)
 
-    presentations = list(presentations)
     dict_obj['stalls'] = stalls
     dict_obj['presentations'] =  presentations
     dict_obj['opportunities'] = opportunities

@@ -34,6 +34,7 @@ from .Student import *
 from .University import *
 from .OpportunityList import *
 from .get_career_fair_data import *
+from .get_stall_data import *
 from .Approvals import *
 
 
@@ -67,7 +68,8 @@ urlpatterns = [
     path('create_presentation/', create_presentation),
     path('edit_presentation/', edit_presentation),
 
-    re_path('^(?P<eventId>.+)/get_career_fair_data/$', get_career_fair_data),
+    re_path('^get_stall_data/(?P<stallId>.+)/$', get_stall_data),
+    re_path('^get_career_fair_data/(?P<eventId>.+)/$', get_career_fair_data),
     re_path('^(?P<stallId>.+)/get_presentation/$', get_presentation),
     re_path('^(?P<eventId>.+)/get_all_presentations/$', get_all_presentations),
 
