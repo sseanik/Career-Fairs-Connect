@@ -34,6 +34,7 @@ from .Company import *
 from .Student import *
 from .University import *
 from .OpportunityList import *
+from .UserData import *
 
 
 schema_view = get_schema_view(
@@ -76,5 +77,6 @@ urlpatterns = [
     re_path('^university/(?P<universityId>.+)/$', University.as_view()),
     path('careerfairs/', CareerFairListGlobal.as_view()),
     path('careerfairs/stalls/<int:stallId>/', CompanyStallData.as_view()),
+    path('user/<int:userId>/', UserData.as_view()),
 ]
 
