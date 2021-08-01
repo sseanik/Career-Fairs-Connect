@@ -14,6 +14,7 @@ export function getUserDetails(token) {
       user = unlistedCompanyDetails;
       break;
     default:
+      user = studentDetails;
       break;
   }
   return new Promise((resolve) => setTimeout(() => resolve(user), 1000));
@@ -43,7 +44,7 @@ const unlistedCompanyDetails = {
   description: '',
   website: '',
   logo: 'https://upload.wikimedia.org/wikipedia/commons/thumb/5/53/Google_%22G%22_Logo.svg/1200px-Google_%22G%22_Logo.svg.png',
-}
+};
 
 const universityDetails = {
   role: 'University',
