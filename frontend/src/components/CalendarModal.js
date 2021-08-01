@@ -1,0 +1,224 @@
+import {
+  Button,
+  ButtonGroup,
+  FormControl,
+  FormErrorMessage,
+  FormLabel,
+  Input,
+  Modal,
+  ModalBody,
+  ModalCloseButton,
+  ModalContent,
+  ModalFooter,
+  ModalHeader,
+  ModalOverlay,
+  Text,
+  Textarea,
+} from '@chakra-ui/react';
+import * as Yup from 'yup';
+
+import React from 'react';
+import { Field, Form, Formik } from 'formik';
+import { useDispatch } from 'react-redux';
+import { asyncAddPresentation } from '../features/careerFair/stallSlice';
+
+const validationSchema = Yup.object({
+  title: Yup.string().required('Presentation Title is Required'),
+  description: Yup.string().required('Presentation Description is Required'),
+  link: Yup.string()
+    .matches(/^http(s)?:.*$/, 'Presentation URL is invalid')
+    .required('Presentation Link is Required'),
+});
+
+const initialValues = {
+  title: '',
+  description: '',
+  link: '',
+};
+
+export function CalendarModal(props) {
+  const dispatch = useDispatch();
+  const [next, setNext] = React.useState(false);
+
+  return (
+    <Modal
+      onClose={() => {
+        setNext(false);
+        props.onClose();
+      }}
+      isOpen={props.isOpen}
+      isCentered
+    >
+      <Formik
+        initialValues={initialValues}
+        validationSchema={validationSchema}
+        onSubmit={(values, actions) => {
+          dispatch(
+            asyncAddPresentation({
+              title: values.title,
+              description: values.description,
+              link: values.link,
+              start: props.event.start.getTime(),
+              end: props.event.end.getTime(),
+              color: props.color,
+            })
+          );
+          actions.setSubmitting(false);
+          setNext(false);
+          props.onClose();
+        }}
+      >
+        {({ isSubmitting }) => (
+          <Form>
+            <ModalOverlay />
+            <ModalContent>
+              <ModalHeader m='0' pb='0'>
+                {next ? 'Submit Event' : 'Create Event'}
+              </ModalHeader>
+              <ModalCloseButton />
+              <ModalBody py='1'>
+                <div>
+                  {next
+                    ? 'Please provide presentation details:'
+                    : 'Would you like to create a new event on '}
+                  {next ? (
+                    <div>
+                      <Field name='title'>
+                        {({ field, form }) => (
+                          <FormControl
+                            mt='1'
+                            isInvalid={form.errors.title && form.touched.title}
+                          >
+                            <FormLabel htmlFor='title'>Title</FormLabel>
+                            <Input
+                              {...field}
+                              id='title'
+                              placeholder='Event Title'
+                            />
+                            <FormErrorMessage>
+                              {form.errors.title}
+                            </FormErrorMessage>
+                          </FormControl>
+                        )}
+                      </Field>
+
+                      <Field name='description'>
+                        {({ field, form }) => (
+                          <FormControl
+                            isInvalid={
+                              form.errors.description &&
+                              form.touched.description
+                            }
+                          >
+                            <FormLabel htmlFor='description'>
+                              Description
+                            </FormLabel>
+                            <Textarea
+                              {...field}
+                              id='description'
+                              placeholder='Event description'
+                            />
+                            <FormErrorMessage>
+                              {form.errors.description}
+                            </FormErrorMessage>
+                          </FormControl>
+                        )}
+                      </Field>
+
+                      <Field name='link'>
+                        {({ field, form }) => (
+                          <FormControl
+                            mt='1'
+                            isInvalid={form.errors.link && form.touched.link}
+                          >
+                            <FormLabel htmlFor='link'>
+                              Presentation Link
+                            </FormLabel>
+                            <Input
+                              {...field}
+                              id='link'
+                              placeholder='Presentation link'
+                            />
+                            <FormErrorMessage>
+                              {form.errors.link}
+                            </FormErrorMessage>
+                          </FormControl>
+                        )}
+                      </Field>
+                    </div>
+                  ) : (
+                    <div>
+                      <Text fontWeight='semibold' as='span'>
+                        {props.event.start && props.event.start.toDateString()}
+                      </Text>
+                      {' from '}
+                      <Text fontWeight='semibold' as='span'>
+                        {props.event.start &&
+                          props.event.start.toLocaleString('en-US', {
+                            hour: 'numeric',
+                            minute: 'numeric',
+                            hour12: true,
+                          })}
+                      </Text>
+                      {' to '}
+                      <Text fontWeight='semibold' as='span'>
+                        {props.event.end &&
+                          props.event.end.toLocaleString('en-US', {
+                            hour: 'numeric',
+                            minute: 'numeric',
+                            hour12: true,
+                          })}
+                        {'?'}
+                      </Text>
+                    </div>
+                  )}
+                </div>
+              </ModalBody>
+              <ModalFooter>
+                <ButtonGroup>
+                  <Button
+                    size='sm'
+                    onClick={() => {
+                      setNext(false);
+                      props.onClose();
+                    }}
+                  >
+                    Cancel
+                  </Button>
+                  {next ? (
+                    <ButtonGroup>
+                      <Button
+                        size='sm'
+                        colorScheme='blue'
+                        onClick={() => setNext(!next)}
+                      >
+                        Back
+                      </Button>
+                      <Button
+                        size='sm'
+                        colorScheme='green'
+                        type='submit'
+                        isLoading={isSubmitting}
+                      >
+                        Submit
+                      </Button>
+                    </ButtonGroup>
+                  ) : (
+                    <Button
+                      size='sm'
+                      colorScheme='green'
+                      type='reset'
+                      onClick={() => setNext(!next)}
+                    >
+                      Next
+                    </Button>
+                  )}
+                </ButtonGroup>
+              </ModalFooter>
+            </ModalContent>
+          </Form>
+        )}
+      </Formik>
+    </Modal>
+  );
+}
