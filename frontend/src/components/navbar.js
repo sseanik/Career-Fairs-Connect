@@ -16,7 +16,7 @@ function Navbar() {
     >
       <Box margin='auto' paddingLeft='4%'>
         <ChakraLink as={Link} to='/'>
-          Company Logo/Name
+          Career Fairs Connect
         </ChakraLink>
       </Box>
       <Spacer />
