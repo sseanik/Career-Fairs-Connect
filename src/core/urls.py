@@ -34,6 +34,8 @@ from .Student import *
 from .University import *
 from .OpportunityList import *
 from .get_career_fair_data import *
+from .Approvals import *
+
 
 
 schema_view = get_schema_view(
@@ -76,6 +78,7 @@ urlpatterns = [
     re_path('^student/(?P<studentId>.+)/$', Student.as_view()),
     path('university/<int:universityId>/careerfairs/', CareerFairListForUni.as_view()),
     re_path('^university/(?P<universityId>.+)/$', University.as_view()),
-    path('careerfairs/', CareerFairListGlobal.as_view())
+    path('careerfairs/', CareerFairListGlobal.as_view()),
+    path('careerfairs/applications', Approvals.as_view())
 ]
 
