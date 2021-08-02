@@ -28,7 +28,7 @@ def get_all_presentations(request, eventId):
     # presentations_list = list(presentations)
     data = json.dumps(list(presentations),cls=DjangoJSONEncoder)
 
-    # data = serialize("json", presentations, fields=('presentation_id', 'stall_id', 'presentation_link','datetime','presentation_description', 'title'))       
+    # data = serialize("json", presentations, fields=('presentation_id', 'stall_id', 'presentation_link','datetime','presentation_description', 'title', 'color'))       
     return HttpResponse(data, content_type="application/json")
  
 
@@ -39,12 +39,12 @@ def get_presentation(request, stallId):
         presentation = Presentations.objects.get(stall_id=stallId)
     except:
         return Response(status=status.HTTP_404_NOT_FOUND)
-    presentation_serializer = PresentationSerializer(presentation, fields=('stall_id','start_time','end_time', 'presentation_link', 'presentation_description', 'title'))
+    presentation_serializer = PresentationSerializer(presentation, fields=('stall_id','start_time','end_time', 'presentation_link', 'presentation_description', 'title', 'color'))
     return Response(presentation_serializer.data, status=status.HTTP_201_CREATED)   
 
 @api_view(['POST', ])
 def create_presentation(request):
-    presentation_serializer = PresentationSerializer(data=request.data, fields=('stall_id','start_time','end_time', 'presentation_link', 'presentation_description', 'title'))
+    presentation_serializer = PresentationSerializer(data=request.data, fields=('stall_id','start_time','end_time', 'presentation_link', 'presentation_description', 'title', 'color'))
     
     if not presentation_serializer.is_valid():
         return Response(presentation_serializer.errors, status=status.HTTP_400_BAD_REQUEST)
@@ -57,7 +57,7 @@ def edit_presentation(request):
         presentation = Presentations.objects.get(stall_id=request.data['stall_id'])
     except:
         return Response(status=status.HTTP_404_NOT_FOUND)
-    presentation_serializer = PresentationSerializer(presentation, data=request.data, fields=('stall_id','start_time','end_time', 'presentation_link', 'presentation_description', 'title'))
+    presentation_serializer = PresentationSerializer(presentation, data=request.data, fields=('stall_id','start_time','end_time', 'presentation_link', 'presentation_description', 'title', 'color'))
     if not presentation_serializer.is_valid():
         return Response(presentation_serializer.errors, status=status.HTTP_400_BAD_REQUEST)
     presentation_serializer.save()
