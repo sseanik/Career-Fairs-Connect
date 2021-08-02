@@ -146,7 +146,7 @@ class Opportunities(models.Model):
 class QAMessages(models.Model):
     post_id = models.AutoField(primary_key=True)
     time = models.DateTimeField(auto_now_add=True, blank=True)
-    upvotes = models.IntegerField(default=0)
+    num_upvotes = models.IntegerField(default=0)
     question = models.TextField()
     answer = models.TextField()
 
