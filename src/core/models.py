@@ -110,6 +110,7 @@ class Stalls(models.Model):
 class Presentations(models.Model):
     presentation_id = models.AutoField(primary_key=True)
     stall_id = models.OneToOneField(Stalls, on_delete=models.CASCADE)
+    title = models.CharField(max_length=255)
     presentation_link = models.CharField(max_length=255)
     start_time = models.DateTimeField()
     end_time = models.DateTimeField()
