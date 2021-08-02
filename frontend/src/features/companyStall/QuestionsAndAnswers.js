@@ -18,7 +18,7 @@ import { asyncPostQuestion } from './stallSlice';
 export function QuestionsAndAnswers(props) {
   const [question, setQuestion] = React.useState('');
   const dispatch = useDispatch();
-  const buttonLoading = useSelector((state) => state.stall.questionLoading);
+  const buttonLoading = useSelector((state) => state.stall.status);
 
   return (
     <Box>
