@@ -34,8 +34,9 @@ from .Company import *
 from .Student import *
 from .University import *
 from .OpportunityList import *
-from .UserData import *
-
+from .GetUserData import *
+from .StallApproval import *
+from .Logout import *
 
 schema_view = get_schema_view(
     openapi.Info(
@@ -60,9 +61,11 @@ urlpatterns = [
     path('swagger/', schema_view.with_ui('swagger', cache_timeout=0), name='schema-swagger-ui'),
     path('redoc/', schema_view.with_ui('redoc', cache_timeout=0), name='schema-redoc'),
     path('login/', obtain_auth_token),
+    path('logout/', Logout.as_view()),
     path('register/student/', register_student),
     path('register/university/', register_university),
     path('register/company/', register_company),
+    path('user/data/', userData.as_view()),
     path('create_presentation/', create_presentation),
     path('edit_presentation/', edit_presentation),
     re_path('^(?P<stallId>.+)/get_presentation/$', get_presentation),
@@ -74,9 +77,9 @@ urlpatterns = [
     re_path('^company/(?P<companyId>.+)/$', Company.as_view()),
     re_path('^student/(?P<studentId>.+)/$', Student.as_view()),
     path('university/<int:universityId>/careerfairs/', CareerFairListForUni.as_view()),
+    path('university/approvals/', StallApproval.as_view()),
     re_path('^university/(?P<universityId>.+)/$', University.as_view()),
     path('careerfairs/', CareerFairListGlobal.as_view()),
     path('careerfairs/stalls/<int:stallId>/', CompanyStallData.as_view()),
-    path('user/<int:userId>/', UserData.as_view()),
 ]
 
