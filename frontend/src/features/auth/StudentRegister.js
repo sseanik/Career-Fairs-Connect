@@ -23,17 +23,20 @@ const initialValues = {
 };
 
 const validationSchema = Yup.object({
-  firstName: Yup.string().required('First Name is Required'),
-  lastName: Yup.string().required('Last Name is Required'),
+  firstName: Yup.string().required('First Name is Required').max(32),
+  lastName: Yup.string().required('Last Name is Required').max(32),
   email: Yup.string()
     .email('Email format is Invalid')
-    .required('Student Email is Required'),
+    .required('Student Email is Required')
+    .max(64),
   password: Yup.string()
     .required('Password is Required')
-    .min(6, 'Password must be at least 6 characters'),
+    .min(6, 'Password must be at least 6 characters')
+    .max(32),
   confirmPassword: Yup.string()
     .oneOf([Yup.ref('password'), null], 'Passwords must match')
-    .required('Password is Required'),
+    .required('Password is Required')
+    .max(32),
   university: Yup.string()
     .oneOf([
       'Australian Catholic University',

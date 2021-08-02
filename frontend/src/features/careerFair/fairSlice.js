@@ -24,8 +24,8 @@ export const asyncEditFairEvent = createAsyncThunk(
 
 export const asyncToggleEventPending = createAsyncThunk(
   'fair/togglePending',
-  async (id) => {
-    return id;
+  async ({ id, toggle }) => {
+    return { id, toggle };
   }
 );
 
@@ -99,8 +99,8 @@ export const fairSlice = createSlice({
         state.end = payload.end;
       })
       .addCase(asyncToggleEventPending.fulfilled, (state, { payload }) => {
-        const stall = state.stalls.find((stall) => stall.id === payload);
-        stall.pending = !stall.pending;
+        const stall = state.stalls.find((stall) => stall.id === payload.id);
+        stall.pending = payload.toggle;
       })
       .addCase(asyncAddCompanyStall.fulfilled, (state, { payload }) => {
         state.stalls.push(payload);

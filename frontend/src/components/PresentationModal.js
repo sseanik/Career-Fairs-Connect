@@ -21,14 +21,20 @@ import { Field, Form, Formik } from 'formik';
 import React from 'react';
 import { useDispatch } from 'react-redux';
 import * as Yup from 'yup';
-import { asyncDeletePresentation, asyncEditPresentation } from '../features/careerFair/stallSlice';
+import {
+  asyncDeletePresentation,
+  asyncEditPresentation,
+} from '../features/careerFair/stallSlice';
 
 const validationSchema = Yup.object({
-  title: Yup.string().required('Presentation Title is Required'),
-  description: Yup.string().required('Presentation Description is Required'),
+  title: Yup.string().required('Presentation Title is Required').max(128),
+  description: Yup.string()
+    .required('Presentation Description is Required')
+    .max(512),
   link: Yup.string()
     .matches(/^http(s)?:.*$/, 'Presentation URL is invalid')
-    .required('Presentation Link is Required'),
+    .required('Presentation Link is Required')
+    .max(256),
 });
 
 export function PresentationModal(props) {

@@ -31,7 +31,10 @@ export function StallCard(props) {
         p='12px'
         m='2'
         role='group'
-        bg={props.pending && 'gray.100'}
+        bg={
+          (props.pending === 'Rejected' || props.pending === 'Pending') &&
+          'gray.100'
+        }
         _hover={{ background: 'gray.100' }}
         as={Link}
         to={`/stall/${props.id}`}
@@ -69,9 +72,9 @@ export function StallCard(props) {
               {props.name}
             </Box>
             <Spacer />
-            {props.pending ? (
+            {props.pending !== 'Approved' ? (
               <Tag size='md' variant='solid'>
-                <TagLabel>Pending</TagLabel>
+                <TagLabel>{props.pending}</TagLabel>
               </Tag>
             ) : (
               <Tooltip label={props.description} fontSize='md'>
@@ -89,7 +92,10 @@ export function StallCard(props) {
           borderColor='gray.300'
           zIndex='0'
           borderRadius='xl'
-          bg={props.pending && 'gray.100'}
+          bg={
+            (props.pending === 'Rejected' || props.pending === 'Pending') &&
+            'gray.100'
+          }
           w='225px'
           px='12px'
           mt='-8'
@@ -97,20 +103,44 @@ export function StallCard(props) {
           pt='8'
           pb='2'
           mb='2'
+          as={Flex}
+          justify='space-around'
         >
           <Button
-            w='100%'
+            w={props.pending !== 'Pending' ? '100%' : '45%'}
             size='sm'
             fontSize='md'
-            colorScheme={props.pending ? 'green' : 'gray'}
+            colorScheme={props.pending === 'Pending' ? 'green' : 'gray'}
             onClick={() =>
-              props.pending
-                ? dispatch(asyncToggleEventPending(props.id))
-                : dispatch(asyncToggleEventPending(props.id))
+              props.pending === 'Pending'
+                ? dispatch(
+                    asyncToggleEventPending({ id: props.id, toggle: 'Approve' })
+                  )
+                : dispatch(
+                    asyncToggleEventPending({ id: props.id, toggle: 'Pending' })
+                  )
             }
           >
-            {props.pending ? 'Approve' : 'Set Pending'}
+            {props.pending === 'Pending' ? 'Approve' : 'Set Pending'}
           </Button>
+          {props.pending === 'Pending' && (
+            <Button
+              w='45%'
+              size='sm'
+              fontSize='md'
+              colorScheme='red'
+              onClick={() =>
+                dispatch(
+                  asyncToggleEventPending({
+                    id: props.id,
+                    toggle: 'Rejected',
+                  })
+                )
+              }
+            >
+              Reject
+            </Button>
+          )}
         </Box>
       )}
     </Flex>

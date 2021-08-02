@@ -30,8 +30,8 @@ import { asyncEditFairEvent } from '../features/careerFair/fairSlice';
 import { useHistory } from 'react-router-dom';
 
 const validationSchema = Yup.object({
-  title: Yup.string().required('Event Title is Required'),
-  description: Yup.string().required('Event Description is Required'),
+  title: Yup.string().required('Event Title is Required').max(126),
+  description: Yup.string().required('Event Description is Required').max(512),
   start: Yup.date()
     .required('Start Date is Required')
     .max(Yup.ref('end'), 'Start date cannot be After End Date')

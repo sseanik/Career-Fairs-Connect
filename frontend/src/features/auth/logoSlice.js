@@ -34,7 +34,6 @@ export const logoSlice = createSlice({
   extraReducers: (builder) => {
     builder.addCase(convertImageToBase64.fulfilled, (state, action) => {
       state.image = action.payload;
-      console.log(action.payload);
     });
   },
 });

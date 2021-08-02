@@ -32,8 +32,8 @@ const validationSchema = Yup.object({
   type: Yup.string()
     .oneOf(['Internship', 'Graduate'])
     .required('Opportunity Type is Required'),
-  role: Yup.string().required('Opportunity Role Title is Required'),
-  location: Yup.string().required('Opportunity Location is Required'),
+  role: Yup.string().required('Opportunity Role Title is Required').max(64),
+  location: Yup.string().required('Opportunity Location is Required').max(64),
   wam: Yup.string().oneOf([
     'Pass',
     'Credit',
@@ -47,8 +47,10 @@ const validationSchema = Yup.object({
       new Date(new Date().setDate(new Date().getDate() - 1)),
       'Expiry date cannot be before today'
     ),
-  link: Yup.string().matches(/^http(s)?:.*$/, 'Application URL is invalid'),
-  description: Yup.string(),
+  link: Yup.string()
+    .matches(/^http(s)?:.*$/, 'Application URL is invalid')
+    .max(128),
+  description: Yup.string().max(512),
 });
 
 export function OpportunityModal(props) {

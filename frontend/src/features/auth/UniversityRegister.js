@@ -20,18 +20,28 @@ const initialValues = {
   password: '',
   confirmPassword: '',
   university: '',
+  website: '',
+  logo: '',
 };
 
 const validationSchema = Yup.object({
   email: Yup.string()
     .email('Email format is Invalid')
-    .required('University Email is Required'),
+    .required('University Email is Required')
+    .max(64),
   password: Yup.string()
     .required('Password is Required')
-    .min(6, 'Password must be at least 6 characters'),
+    .min(6, 'Password must be at least 6 characters')
+    .max(32),
   confirmPassword: Yup.string()
     .oneOf([Yup.ref('password'), null], 'Passwords must match')
+    .max(32)
     .required('Password is Required'),
+  logo: Yup.string().required('Logo upload is Required'),
+  website: Yup.string()
+    .matches(/^http(s)?:.*$/, 'Website URL is invalid')
+    .required('Website URL is Required')
+    .max(256),
   university: Yup.string()
     .oneOf([
       'Australian Catholic University',
@@ -77,7 +87,6 @@ const validationSchema = Yup.object({
       'Western Sydney University',
     ])
     .required('University is Required'),
-  logo: Yup.string(),
 });
 
 export function UniversityRegister() {
@@ -89,10 +98,13 @@ export function UniversityRegister() {
       <Navbar />
       <Formik
         initialValues={initialValues}
-        onSubmit={() => console.log('hello')}
+        onSubmit={() => {
+          console.log('hello');
+          console.log(base64Image[0]);
+        }}
         validationSchema={validationSchema}
       >
-        {({ isSubmitting, handleSubmit }) => (
+        {({ isSubmitting, handleSubmit, setFieldValue }) => (
           <Box
             borderWidth='1px'
             rounded='lg'
@@ -102,8 +114,8 @@ export function UniversityRegister() {
             as='form'
             onSubmit={handleSubmit}
           >
-            <Heading>University Registration</Heading>
-            <InputControl name='email' label='Student Email' />
+            <Heading mb='2'>University Registration</Heading>
+            <InputControl name='email' label='Email' />
             <Field name='password'>
               {({ field, form }) => (
                 <FormControl
@@ -236,14 +248,29 @@ export function UniversityRegister() {
               </option>
             </SelectControl>
 
-            <FormControl id='logo'>
-              <FormLabel>Logo Image (Optional)</FormLabel>
-              <input
-                type='file'
-                onChange={(e) => dispatch(convertImageToBase64(e))}
-                accept='.jpeg, .png, .jpg'
-              ></input>
-            </FormControl>
+            <InputControl name='website' label='University URL' />
+
+            <Field name='logo'>
+              {({ field, form }) => (
+                <FormControl
+                  id='logo'
+                  isInvalid={form.errors.logo && form.touched.logo}
+                >
+                  <FormLabel>Logo Image</FormLabel>
+                  <input
+                    {...field}
+                    type='file'
+                    onChange={(e) => {
+                      console.log(e.target.value);
+                      dispatch(convertImageToBase64(e));
+                      setFieldValue('logo', e.target.value);
+                    }}
+                    accept='.jpeg, .png, .jpg'
+                  ></input>
+                  <FormErrorMessage>{form.errors.logo}</FormErrorMessage>
+                </FormControl>
+              )}
+            </Field>
 
             <Button
               mt={4}
