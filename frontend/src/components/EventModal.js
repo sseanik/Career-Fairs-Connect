@@ -1,3 +1,7 @@
+import React from 'react';
+import { SingleDatepicker } from 'chakra-dayzed-datepicker';
+import { useHistory } from 'react-router-dom';
+// Chakra
 import {
   Button,
   ButtonGroup,
@@ -16,18 +20,17 @@ import {
   Text,
   Textarea,
 } from '@chakra-ui/react';
-import React from 'react';
-import { SingleDatepicker } from 'chakra-dayzed-datepicker';
+// Formik
 import { Field, Form, Formik } from 'formik';
 import * as Yup from 'yup';
+// Redux
 import { useDispatch } from 'react-redux';
 import {
   asyncCreateFairEvent,
   asyncDeleteFairEvent,
   resetEvents,
-} from '../features/careerFair/eventsSlice';
+} from '../features/careerEvents/eventsSlice';
 import { asyncEditFairEvent } from '../features/careerFair/fairSlice';
-import { useHistory } from 'react-router-dom';
 
 const validationSchema = Yup.object({
   title: Yup.string().required('Event Title is Required').max(126),
@@ -62,41 +65,48 @@ export function EventModal(props) {
       : new Date(new Date().setDate(new Date().getDate() + 1)),
   };
 
+  const closeModal = () => {
+    props.onClose();
+    setDeletePending(false);
+  };
+
+  const deleteEvent = () => {
+    dispatch(asyncDeleteFairEvent());
+    dispatch(resetEvents());
+    history.push('/events');
+  };
+
+  const submitForm = (values, actions) => {
+    props.edit
+      ? dispatch(
+          asyncEditFairEvent({
+            title: values.title,
+            description: values.description,
+            start: values.start.getTime(),
+            end: values.end.getTime(),
+          })
+        )
+      : dispatch(
+          asyncCreateFairEvent({
+            university: props.university,
+            website: props.website,
+            logo: props.logo,
+            title: values.title,
+            description: values.description,
+            start: values.start.getTime(),
+            end: values.end.getTime(),
+          })
+        );
+    actions.setSubmitting(false);
+    closeModal();
+  };
+
   return (
-    <Modal
-      isOpen={props.isOpen}
-      onClose={() => {
-        props.onClose();
-        setDeletePending(false);
-      }}
-    >
+    <Modal isOpen={props.isOpen} onClose={() => closeModal()}>
       <Formik
         initialValues={initialValues}
         validationSchema={validationSchema}
-        onSubmit={(values, actions) => {
-          props.edit
-            ? dispatch(
-                asyncEditFairEvent({
-                  title: values.title,
-                  description: values.description,
-                  start: values.start.getTime(),
-                  end: values.end.getTime(),
-                })
-              )
-            : dispatch(
-                asyncCreateFairEvent({
-                  university: props.university,
-                  website: props.website,
-                  logo: props.logo,
-                  title: values.title,
-                  description: values.description,
-                  start: values.start.getTime(),
-                  end: values.end.getTime(),
-                })
-              );
-          actions.setSubmitting(false);
-          props.onClose();
-        }}
+        onSubmit={(values, actions) => submitForm(values, actions)}
       >
         {({ isSubmitting, setFieldValue }) => (
           <Form>
@@ -150,9 +160,7 @@ export function EventModal(props) {
                       <SingleDatepicker
                         {...field}
                         date={form.values.start}
-                        onDateChange={(date) => {
-                          setFieldValue('start', date);
-                        }}
+                        onDateChange={(date) => setFieldValue('start', date)}
                         name='start'
                         id='start'
                         placeholder='start'
@@ -171,9 +179,7 @@ export function EventModal(props) {
                       <SingleDatepicker
                         {...field}
                         date={form.values.end}
-                        onDateChange={(date) => {
-                          setFieldValue('end', date);
-                        }}
+                        onDateChange={(date) => setFieldValue('end', date)}
                         name='end'
                         id='end'
                         placeholder='end'
@@ -204,22 +210,10 @@ export function EventModal(props) {
                       Are you sure you want to delete this event?
                     </Text>
                     <ButtonGroup>
-                      <Button
-                        mr='1'
-                        onClick={() => {
-                          setDeletePending(false);
-                        }}
-                      >
+                      <Button mr='1' onClick={() => setDeletePending(false)}>
                         Cancel
                       </Button>
-                      <Button
-                        colorScheme='red'
-                        onClick={() => {
-                          dispatch(asyncDeleteFairEvent());
-                          dispatch(resetEvents());
-                          history.push('/events');
-                        }}
-                      >
+                      <Button colorScheme='red' onClick={() => deleteEvent()}>
                         Delete
                       </Button>
                     </ButtonGroup>

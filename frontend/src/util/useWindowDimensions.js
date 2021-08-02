@@ -8,6 +8,7 @@ function getWindowDimensions() {
   };
 }
 
+// Get the Width and Height of a window for responsiveness
 export default function useWindowDimensions() {
   const [windowDimensions, setWindowDimensions] = useState(
     getWindowDimensions()

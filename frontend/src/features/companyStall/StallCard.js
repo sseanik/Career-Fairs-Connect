@@ -13,7 +13,8 @@ import {
   Tooltip,
 } from '@chakra-ui/react';
 import { InfoOutlineIcon } from '@chakra-ui/icons';
-import { asyncToggleEventPending } from '../features/careerFair/fairSlice';
+// Redux
+import { asyncToggleEventPending } from '../../features/careerFair/fairSlice';
 import { useDispatch, useSelector } from 'react-redux';
 
 export function StallCard(props) {

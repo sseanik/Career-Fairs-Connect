@@ -1,7 +1,9 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
+// Redux
 import { useDispatch, useSelector } from 'react-redux';
-import { asyncFetchStallData, resetStall } from './stallSlice';
+import { asyncFetchStallData, resetStall } from '../companyStall/stallSlice';
+import { resetFair } from '../careerFair/fairSlice';
 // Chakra
 import {
   Box,
@@ -18,22 +20,28 @@ import { ArrowBackIcon } from '@chakra-ui/icons';
 import Navbar from '../../components/navbar';
 import { DetailsCard } from '../../components/DetailsCard';
 import { OpportunitiesTable } from '../../components/OpportunitiesTable';
-import { QuestionsAndAnswers } from '../../components/QuestionsAndAnswers';
+import { QuestionsAndAnswers } from './QuestionsAndAnswers';
 import { PresentationCalendar } from '../../components/PresentationCalendar';
-import { resetFair } from './fairSlice';
-import { SkeletonFairEvent } from '../../components/SkeletonFairEvent';
+import { SkeletonFairEvent } from '../careerEvents/SkeletonFairEvent';
 
 export default function CompanyStall(props) {
-  const width = useSelector((state) => state.window.width);
+  const stallID = props.match.params.stallID;
+  // Redux
   const dispatch = useDispatch();
+  const width = useSelector((state) => state.window.width);
   const stallData = useSelector((state) => state.stall);
   const userData = useSelector((state) => state.user);
-  const stallID = props.match.params.stallID;
 
+  // On page load, gather all stall data
   React.useEffect(
     () => dispatch(asyncFetchStallData(stallID)),
     [dispatch, stallID]
   );
+
+  const navigateBack = () => {
+    dispatch(resetFair());
+    dispatch(resetStall());
+  };
 
   return (
     <div>
@@ -75,10 +83,7 @@ export default function CompanyStall(props) {
               as={Link}
               isDisabled={!stallData.fairID}
               to={`/fair/${stallData.fairID}`}
-              onClick={() => {
-                dispatch(resetFair());
-                dispatch(resetStall());
-              }}
+              onClick={() => navigateBack()}
             >
               {width <= 830 ? 'Back' : 'Back to Career Fair'}
             </Button>

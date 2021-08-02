@@ -1,8 +1,9 @@
 import { createAsyncThunk, createSlice, current } from '@reduxjs/toolkit';
-import { getStallData } from './exampleCompanyStall';
+import { getStallData } from '../../exampleData/exampleCompanyStall';
 import { prominent } from 'color.js';
-import getDominantColour from '../../components/getDominantColour';
+import complementaryTextColour from '../../util/complementaryTextColour';
 
+// Get Stall Data
 export const asyncFetchStallData = createAsyncThunk(
   'stall/company',
   async (stallID) => {
@@ -15,65 +16,78 @@ export const asyncFetchStallData = createAsyncThunk(
 );
 
 /* ------------------------------- Opportunity ------------------------------ */
+// Add a Job Opportunity
 export const asyncAddOpportunity = createAsyncThunk(
   'stall/addOpportunity',
   async (opportunity) => {
+    await new Promise((r) => setTimeout(r, 3000));
     const response = { ...opportunity, id: '555' };
     return response;
   }
 );
 
+// Edit Job Opportunity
 export const asyncEditOpportunity = createAsyncThunk(
   'stall/editOpportunity',
   async (opportunity) => {
+    await new Promise((r) => setTimeout(r, 3000));
     const response = opportunity;
     return response;
   }
 );
 
+// Delete Job Opportunity
 export const asyncDeleteOpportunity = createAsyncThunk(
   'stall/deleteOpportunity',
   async (id) => {
+    await new Promise((r) => setTimeout(r, 3000));
     return id;
   }
 );
 
 /* ------------------------------ Presentation ------------------------------ */
+// Add a presentation
 export const asyncAddPresentation = createAsyncThunk(
   'stall/addPresentation',
   async (presentation) => {
+    await new Promise((r) => setTimeout(r, 3000));
     const response = { ...presentation, id: '555' };
     return response;
   }
 );
 
+// Edit a presentation
 export const asyncEditPresentation = createAsyncThunk(
   'stall/editPresentation',
   async (presentation) => {
+    await new Promise((r) => setTimeout(r, 3000));
     const response = presentation;
     return response;
   }
 );
 
+// Delete a presentation
 export const asyncDeletePresentation = createAsyncThunk(
   'stall/deletePresentation',
   async (id) => {
+    await new Promise((r) => setTimeout(r, 3000));
     return id;
   }
 );
 
 /* ---------------------------------- Q & A --------------------------------- */
+// Post a question
 export const asyncPostQuestion = createAsyncThunk(
   'stall/postQuestion',
   async (question, thunkAPI) => {
-    await new Promise((r) => setTimeout(r, 2000));
+    await new Promise((r) => setTimeout(r, 3000));
     return question;
   }
 );
 
 const initialState = {
   loading: false,
-  questionLoading: false,
+  status: false,
   //
   fairID: '',
   name: '', // Name of Company
@@ -105,7 +119,6 @@ export const stallSlice = createSlice({
       })
       .addCase(asyncFetchStallData.fulfilled, (state, { payload }) => {
         state.loading = false;
-
         state.fairID = payload.fairID;
         state.company = payload.company;
         state.title = payload.title;
@@ -116,56 +129,79 @@ export const stallSlice = createSlice({
         state.opportunities = payload.opportunities;
         state.events = payload.events;
         state.qandas = payload.qandas;
-
-        const dominantColourObj = getDominantColour(payload.colour);
+        const dominantColourObj = complementaryTextColour(payload.colour);
         state.bgColour = dominantColourObj.bgColour;
         state.textColour = dominantColourObj.textColour;
       })
-      // Submitting a Question
-      .addCase(asyncPostQuestion.pending, (state) => {
-        state.questionLoading = true;
-      })
-      .addCase(asyncPostQuestion.fulfilled, (state, { payload }) => {
-        state.questionLoading = false;
-        state.qandas.push({
-          id: '2223',
-          question: payload,
-          answer: '',
-        });
-      })
+      /* ------------------------------- Opportunity ------------------------------ */
       // Adding a new Opportunity
+      .addCase(asyncAddOpportunity.pending, (state, { payload }) => {
+        state.status = true;
+      })
       .addCase(asyncAddOpportunity.fulfilled, (state, { payload }) => {
+        state.status = false;
         state.opportunities.push(payload);
       })
+      // Edit an opportunity
       .addCase(asyncEditOpportunity.fulfilled, (state, { payload }) => {
         const index = current(state.opportunities).findIndex(
           (opportunity) => opportunity.id === payload.id
         );
         state.opportunities[index] = payload;
       })
+      // Delete an opportunity
+      .addCase(asyncDeleteOpportunity.pending, (state, { payload }) => {
+        state.opportunityEditStatus = true;
+      })
       .addCase(asyncDeleteOpportunity.fulfilled, (state, { payload }) => {
         state.opportunities = state.opportunities.filter(
           (opportunity) => opportunity.id !== payload
         );
       })
-      // Presentation
+      /* ------------------------------ Presentation ------------------------------ */
+      // Add a presentation
+      .addCase(asyncAddPresentation.pending, (state, { payload }) => {
+        state.status = true;
+      })
       .addCase(asyncAddPresentation.fulfilled, (state, { payload }) => {
+        state.status = false;
         state.events.push(payload);
       })
+      // Edit a Presentation
+      .addCase(asyncEditPresentation.pending, (state, { payload }) => {
+        state.status = true;
+      })
       .addCase(asyncEditPresentation.fulfilled, (state, { payload }) => {
+        state.status = false;
         const index = current(state.events).findIndex(
           (event) => event.id === payload.id
         );
         state.events[index] = payload;
       })
+      // Delete a Presentation
+      .addCase(asyncDeletePresentation.pending, (state, { payload }) => {
+        state.status = true;
+      })
       .addCase(asyncDeletePresentation.fulfilled, (state, { payload }) => {
+        state.status = false;
         state.events = state.events.filter((event) => event.id !== payload);
+      })
+      /* ----------------------------------- Q&A ---------------------------------- */
+      // Submitting a Question
+      .addCase(asyncPostQuestion.pending, (state) => {
+        state.status = true;
+      })
+      .addCase(asyncPostQuestion.fulfilled, (state, { payload }) => {
+        state.status = false;
+        state.qandas.push({
+          id: '2223',
+          question: payload,
+          answer: '',
+        });
       });
   },
 });
 
 export const { resetStall } = stallSlice.actions;
-
-// export const selectCount = (state) => state.counter.value;
 
 export default stallSlice.reducer;

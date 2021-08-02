@@ -1,5 +1,5 @@
 import React from 'react';
-import Navbar from '../components/navbar';
+import Navbar from '../../components/navbar';
 import { ChakraProvider, Box, Button } from '@chakra-ui/react';
 import { Link } from 'react-router-dom';
 

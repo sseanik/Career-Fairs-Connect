@@ -1,6 +1,11 @@
 import React from 'react';
+// Redux
 import { useDispatch, useSelector } from 'react-redux';
-// Chakra UI
+import {
+  asyncAddCompanyStall,
+  asyncRemoveCompanyStall,
+} from '../features/careerFair/fairSlice';
+// Chakra UI & React Icons
 import {
   Badge,
   Box,
@@ -15,31 +20,37 @@ import {
   TagRightIcon,
   useDisclosure,
 } from '@chakra-ui/react';
-import { AddIcon, ExternalLinkIcon } from '@chakra-ui/icons';
+import { AddIcon, ExternalLinkIcon, SmallAddIcon } from '@chakra-ui/icons';
 import { RiPencilFill } from 'react-icons/ri';
 import { MdExitToApp } from 'react-icons/md';
-
+// Components
 import { EventModal } from './EventModal';
-import { SmallAddIcon } from '@chakra-ui/icons';
 import { OpportunityModal } from './OpportunityModal';
-import {
-  asyncAddCompanyStall,
-  asyncRemoveCompanyStall,
-} from '../features/careerFair/fairSlice';
 
 export const DetailsCard = (props) => {
+  // Redux
+  const dispatch = useDispatch();
   const width = useSelector((state) => state.window.width);
   const userDetails = useSelector((state) => state.user);
   const stalls = useSelector((state) => state.fair.stalls);
-  const dispatch = useDispatch();
+  const interactStatus = useSelector((state) => state.fair.status);
+  const opportunityStatus = useSelector((state) => state.stall.status);
+  // Modal
   const { isOpen, onOpen, onClose } = useDisclosure();
+  // State to determine background colour and company application status
   const [bgColour, setBgColour] = React.useState('white');
-  if (props.crop) {
-    props.crop.then((result) => {
-      setBgColour(result);
-    });
-  }
   const [applied, setApplied] = React.useState(false);
+
+  // If the crop image is given, set the background colour of the image
+  React.useEffect(() => {
+    if (props.crop) {
+      props.crop.then((result) => {
+        setBgColour(result);
+      });
+    }
+  }, [props]);
+
+  // Determine if the company has applied
   React.useEffect(
     () =>
       setApplied(
@@ -52,6 +63,29 @@ export const DetailsCard = (props) => {
       ),
     [userDetails, props, stalls]
   );
+
+  const createStall = () => {
+    dispatch(
+      asyncAddCompanyStall({
+        stall: {
+          pending: true,
+          company: userDetails.name,
+          description: userDetails.description,
+          logo: userDetails.logo,
+        },
+        fairID: props.fairID,
+      })
+    );
+  };
+
+  const removeStall = () => {
+    dispatch(
+      asyncRemoveCompanyStall({
+        fairID: props.fairID,
+        name: userDetails.name,
+      })
+    );
+  };
 
   return (
     <Flex p='0.5' direction={width <= '723' ? 'column' : 'row'}>
@@ -92,6 +126,8 @@ export const DetailsCard = (props) => {
                   size='sm'
                   onClick={onOpen}
                   ml='3'
+                  isLoading={interactStatus}
+                  loadingText='Editing Event'
                 >
                   Edit Event
                 </Button>
@@ -125,19 +161,7 @@ export const DetailsCard = (props) => {
             <Button
               colorScheme='blue'
               leftIcon={<AddIcon />}
-              onClick={() =>
-                dispatch(
-                  asyncAddCompanyStall({
-                    stall: {
-                      pending: true,
-                      company: userDetails.name,
-                      description: userDetails.description,
-                      logo: userDetails.logo,
-                    },
-                    fairID: props.fairID,
-                  })
-                )
-              }
+              onClick={() => createStall()}
               ml='3'
               size='sm'
             >
@@ -151,14 +175,7 @@ export const DetailsCard = (props) => {
               <Button
                 colorScheme='red'
                 leftIcon={<MdExitToApp />}
-                onClick={() =>
-                  dispatch(
-                    asyncRemoveCompanyStall({
-                      fairID: props.fairID,
-                      name: userDetails.name,
-                    })
-                  )
-                }
+                onClick={() => removeStall()}
                 ml='3'
                 size='sm'
               >
@@ -178,6 +195,8 @@ export const DetailsCard = (props) => {
                   onClick={onOpen}
                   ml='3'
                   size='sm'
+                  isLoading={opportunityStatus}
+                  loadingText='Adding Opportunity'
                 >
                   Add Opportunity
                 </Button>

@@ -1,7 +1,9 @@
 import React from 'react';
-import { useDispatch, useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
+// Redux
+import { useDispatch, useSelector } from 'react-redux';
 import { asyncFetchFairData, resetFair } from './fairSlice';
+import { resetEvents } from '../careerEvents/eventsSlice';
 // Chakra UI
 import {
   Box,
@@ -17,13 +19,12 @@ import {
 import { ArrowBackIcon } from '@chakra-ui/icons';
 // Components
 import Navbar from '../../components/navbar';
-import { StallCard } from '../../components/StallCard';
+import { StallCard } from '../companyStall/StallCard';
 import { DetailsCard } from '../../components/DetailsCard';
 import { OpportunitiesTable } from '../../components/OpportunitiesTable';
 import { PresentationCalendar } from '../../components/PresentationCalendar';
-import { SkeletonFairEvent } from '../../components/SkeletonFairEvent';
-import { resetEvents } from './eventsSlice';
-import { SkeletonStallCard } from '../../components/SkeletonStallCard';
+import { SkeletonFairEvent } from '../careerEvents/SkeletonFairEvent';
+import { SkeletonStallCard } from '../companyStall/SkeletonStallCard';
 
 export default function CareerFair(props) {
   const fairID = props.match.params.fairID;
@@ -32,10 +33,16 @@ export default function CareerFair(props) {
   const width = useSelector((state) => state.window.width);
   const fairData = useSelector((state) => state.fair);
 
+  // On page load, gather all fair data
   React.useEffect(
     () => dispatch(asyncFetchFairData(fairID)),
     [dispatch, fairID]
   );
+
+  const navigateBack = () => {
+    dispatch(resetEvents());
+    dispatch(resetFair());
+  };
 
   return (
     <div>
@@ -76,10 +83,7 @@ export default function CareerFair(props) {
               fontWeight='normal'
               as={Link}
               to='/events'
-              onClick={() => {
-                dispatch(resetEvents());
-                dispatch(resetFair());
-              }}
+              onClick={() => navigateBack()}
             >
               {width <= 775 ? 'Back' : 'Back to Fair List'}
             </Button>

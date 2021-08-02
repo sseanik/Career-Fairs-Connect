@@ -19,7 +19,6 @@ export const windowSlice = createSlice({
   },
 });
 
-// Action creators are generated for each case reducer function
 export const { setWindowWidth, setWindowHeight } = windowSlice.actions;
 
 export default windowSlice.reducer;

@@ -1,6 +1,9 @@
-import { Field, Formik } from 'formik';
 import * as React from 'react';
+// Formik
+import { Field, Formik } from 'formik';
 import * as Yup from 'yup';
+import { InputControl, SelectControl } from 'formik-chakra-ui';
+// Chakra
 import {
   Box,
   Heading,
@@ -10,10 +13,12 @@ import {
   FormErrorMessage,
   Button,
 } from '@chakra-ui/react';
-import { InputControl, SelectControl } from 'formik-chakra-ui';
+// Components
 import Navbar from '../../components/navbar';
+// Redux
 import { useSelector, useDispatch } from 'react-redux';
 import { convertImageToBase64, selectBase64Image } from './logoSlice';
+import { asyncRegisterUniversity } from './userSlice';
 
 const initialValues = {
   email: '',
@@ -91,17 +96,34 @@ const validationSchema = Yup.object({
 
 export function UniversityRegister() {
   const base64Image = useSelector(selectBase64Image);
+  const loggedIn = useSelector((state) => state.user.loggedIn);
+  const registerStatus = useSelector((state) => state.user.status);
   const dispatch = useDispatch();
+
+  const uploadImage = (e, setFieldValue) => {
+    dispatch(convertImageToBase64(e));
+    setFieldValue('logo', e.target.value);
+  };
+
+  React.useState(() => {
+    if (loggedIn) {
+      console.log('Sign the user In');
+    }
+  });
+
+  const submitForm = (values, actions) => {
+    console.log(values);
+    console.log(base64Image[0]);
+    actions.setSubmitting(false);
+    dispatch(asyncRegisterUniversity({}));
+  };
 
   return (
     <div>
       <Navbar />
       <Formik
         initialValues={initialValues}
-        onSubmit={() => {
-          console.log('hello');
-          console.log(base64Image[0]);
-        }}
+        onSubmit={(values, actions) => submitForm(values, actions)}
         validationSchema={validationSchema}
       >
         {({ isSubmitting, handleSubmit, setFieldValue }) => (
@@ -260,11 +282,7 @@ export function UniversityRegister() {
                   <input
                     {...field}
                     type='file'
-                    onChange={(e) => {
-                      console.log(e.target.value);
-                      dispatch(convertImageToBase64(e));
-                      setFieldValue('logo', e.target.value);
-                    }}
+                    onChange={(e) => uploadImage(e, setFieldValue)}
                     accept='.jpeg, .png, .jpg'
                   ></input>
                   <FormErrorMessage>{form.errors.logo}</FormErrorMessage>
@@ -275,7 +293,8 @@ export function UniversityRegister() {
             <Button
               mt={4}
               colorScheme='teal'
-              isLoading={isSubmitting}
+              isLoading={registerStatus}
+              loadingText='Registering'
               type='submit'
             >
               Join Now

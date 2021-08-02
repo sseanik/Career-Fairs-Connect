@@ -11,8 +11,9 @@ import {
   Text,
   Textarea,
 } from '@chakra-ui/react';
+// Redux
 import { useDispatch, useSelector } from 'react-redux';
-import { asyncPostQuestion } from '../features/careerFair/stallSlice';
+import { asyncPostQuestion } from './stallSlice';
 
 export function QuestionsAndAnswers(props) {
   const [question, setQuestion] = React.useState('');

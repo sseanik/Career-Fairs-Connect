@@ -1,6 +1,9 @@
-import { Field, Formik } from 'formik';
 import * as React from 'react';
+// Formik
+import { Field, Formik } from 'formik';
 import * as Yup from 'yup';
+import { InputControl, SelectControl } from 'formik-chakra-ui';
+// Chakra
 import {
   Box,
   Heading,
@@ -10,8 +13,11 @@ import {
   FormErrorMessage,
   Button,
 } from '@chakra-ui/react';
-import { InputControl, SelectControl } from 'formik-chakra-ui';
+// Components
 import Navbar from '../../components/navbar';
+// Redux
+import { asyncRegisterStudent } from './userSlice';
+import { useDispatch, useSelector } from 'react-redux';
 
 const initialValues = {
   firstName: '',
@@ -85,12 +91,28 @@ const validationSchema = Yup.object({
 });
 
 export function StudentRegister() {
+  const loggedIn = useSelector((state) => state.user.loggedIn);
+  const registerStatus = useSelector((state) => state.user.status);
+  const dispatch = useDispatch();
+
+  React.useState(() => {
+    if (loggedIn) {
+      console.log('Sign the user In');
+    }
+  });
+
+  const submitForm = (values, actions) => {
+    console.log(values);
+    actions.setSubmitting(false);
+    dispatch(asyncRegisterStudent({}));
+  };
+
   return (
     <div>
       <Navbar />
       <Formik
         initialValues={initialValues}
-        onSubmit={() => console.log('hello')}
+        onSubmit={(values, actions) => submitForm(values, actions)}
         validationSchema={validationSchema}
       >
         {({ isSubmitting, handleSubmit }) => (
@@ -103,7 +125,7 @@ export function StudentRegister() {
             as='form'
             onSubmit={handleSubmit}
           >
-            <Heading>Student Registration</Heading>
+            <Heading mb='2'>Student Registration</Heading>
             <InputControl name='firstName' label='First Name' />
             <InputControl name='lastName' label='Last Name' />
             <InputControl name='email' label='Student Email' />
@@ -241,7 +263,8 @@ export function StudentRegister() {
             <Button
               mt={4}
               colorScheme='teal'
-              isLoading={isSubmitting}
+              isLoading={registerStatus}
+              loadingText='Registering'
               type='submit'
             >
               Join Now

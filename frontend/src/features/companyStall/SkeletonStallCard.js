@@ -1,3 +1,5 @@
+import React from 'react';
+// Chakra
 import {
   Box,
   Center,
@@ -6,7 +8,6 @@ import {
   SkeletonCircle,
   Spacer,
 } from '@chakra-ui/react';
-import React from 'react';
 
 export const SkeletonStallCard = () => {
   return (
@@ -20,7 +21,6 @@ export const SkeletonStallCard = () => {
       role='group'
     >
       <Center borderRadius='xl' borderColor='white'>
-        {/* <Image px='10px' objectFit='scale-down' h='225px' /> */}
         <SkeletonCircle my='14px' h='180px' w='180px' />
       </Center>
       <Box pt='15px' px='0px' borderTopWidth='1px'>

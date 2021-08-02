@@ -1,3 +1,6 @@
+import React from 'react';
+import { SingleDatepicker } from 'chakra-dayzed-datepicker';
+// Chakra UI
 import {
   Button,
   ButtonGroup,
@@ -17,16 +20,16 @@ import {
   Text,
   Textarea,
 } from '@chakra-ui/react';
-import React from 'react';
-import { SingleDatepicker } from 'chakra-dayzed-datepicker';
+// Formik
 import { Field, Form, Formik } from 'formik';
 import * as Yup from 'yup';
+// Redux
 import { useDispatch } from 'react-redux';
 import {
   asyncAddOpportunity,
   asyncDeleteOpportunity,
   asyncEditOpportunity,
-} from '../features/careerFair/stallSlice';
+} from '../features/companyStall/stallSlice';
 
 const validationSchema = Yup.object({
   type: Yup.string()
@@ -67,46 +70,51 @@ export function OpportunityModal(props) {
     description: props.description || '',
   };
 
+  const closeModal = () => {
+    props.onClose();
+    setDeletePending(false);
+  };
+
+  const deleteOpportunity = () => {
+    dispatch(asyncDeleteOpportunity(props.id));
+    closeModal();
+  };
+
+  const submitForm = (values, actions) => {
+    props.edit
+      ? dispatch(
+          asyncEditOpportunity({
+            id: props.id,
+            type: values.type,
+            role: values.role,
+            location: values.location,
+            wam: values.wam === 'None' ? null : values.wam,
+            expiry: new Date(values.expiry).getTime(),
+            link: values.link,
+            description: values.description,
+          })
+        )
+      : dispatch(
+          asyncAddOpportunity({
+            type: values.type,
+            role: values.role,
+            location: values.location,
+            wam: values.wam === 'None' ? null : values.wam,
+            expiry: new Date(values.expiry).getTime(),
+            link: values.link,
+            description: values.description,
+          })
+        );
+    actions.setSubmitting(false);
+    closeModal();
+  };
+
   return (
-    <Modal
-      isOpen={props.isOpen}
-      size='xl'
-      onClose={() => {
-        props.onClose();
-        setDeletePending(false);
-      }}
-    >
+    <Modal isOpen={props.isOpen} size='xl' onClose={() => closeModal()}>
       <Formik
         initialValues={initialValues}
         validationSchema={validationSchema}
-        onSubmit={(values, actions) => {
-          props.edit
-            ? dispatch(
-                asyncEditOpportunity({
-                  id: props.id,
-                  type: values.type,
-                  role: values.role,
-                  location: values.location,
-                  wam: values.wam === 'None' ? null : values.wam,
-                  expiry: new Date(values.expiry).getTime(),
-                  link: values.link,
-                  description: values.description,
-                })
-              )
-            : dispatch(
-                asyncAddOpportunity({
-                  type: values.type,
-                  role: values.role,
-                  location: values.location,
-                  wam: values.wam === 'None' ? null : values.wam,
-                  expiry: new Date(values.expiry).getTime(),
-                  link: values.link,
-                  description: values.description,
-                })
-              );
-          actions.setSubmitting(false);
-          props.onClose();
-        }}
+        onSubmit={(values, actions) => submitForm(values, actions)}
       >
         {({ isSubmitting, setFieldValue }) => (
           <Form>
@@ -189,9 +197,7 @@ export function OpportunityModal(props) {
                       <SingleDatepicker
                         {...field}
                         date={form.values.expiry}
-                        onDateChange={(date) => {
-                          setFieldValue('expiry', date);
-                        }}
+                        onDateChange={(date) => setFieldValue('expiry', date)}
                         name='expiry'
                         id='expiry'
                         placeholder='Application Expiry Date'
@@ -260,31 +266,19 @@ export function OpportunityModal(props) {
                       Are you sure you want to delete this opportunity?
                     </Text>
                     <ButtonGroup>
-                      <Button
-                        mr='1'
-                        onClick={() => {
-                          setDeletePending(false);
-                          props.onClose();
-                        }}
-                      >
+                      <Button mr='1' onClick={() => closeModal()}>
                         Cancel
                       </Button>
                       <Button
                         colorScheme='orange'
                         mr='1'
-                        onClick={() => {
-                          setDeletePending(false);
-                        }}
+                        onClick={() => setDeletePending(false)}
                       >
                         Back
                       </Button>
                       <Button
                         colorScheme='red'
-                        onClick={() => {
-                          dispatch(asyncDeleteOpportunity(props.id));
-                          setDeletePending(false);
-                          props.onClose();
-                        }}
+                        onClick={() => deleteOpportunity()}
                       >
                         Delete
                       </Button>

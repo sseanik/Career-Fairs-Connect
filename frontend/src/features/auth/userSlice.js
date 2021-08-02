@@ -1,5 +1,5 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
-import { getUserDetails } from './exampleUser';
+import { getUserDetails } from '../../exampleData/exampleUser';
 
 export const asyncFetchUserData = createAsyncThunk(
   'user/details',
@@ -9,8 +9,34 @@ export const asyncFetchUserData = createAsyncThunk(
   }
 );
 
+export const asyncRegisterUniversity = createAsyncThunk(
+  'user/registerUniversity',
+  async (user) => {
+    await new Promise((r) => setTimeout(r, 3000));
+    return user;
+  }
+);
+
+export const asyncRegisterCompany = createAsyncThunk(
+  'user/registerCompany',
+  async (user) => {
+    await new Promise((r) => setTimeout(r, 3000));
+    return user;
+  }
+);
+
+export const asyncRegisterStudent = createAsyncThunk(
+  'user/registerStudent',
+  async (user) => {
+    await new Promise((r) => setTimeout(r, 3000));
+    return user;
+  }
+);
+
 const initialState = {
+  loggedIn: false,
   loading: false,
+  status: false,
   // Common to all roles
   role: '',
   email: '',
@@ -64,6 +90,24 @@ export const userSlice = createSlice({
           default:
             break;
         }
+      })
+      .addCase(asyncRegisterUniversity.pending, (state) => {
+        state.status = true;
+      })
+      .addCase(asyncRegisterUniversity.fulfilled, (state) => {
+        state.status = false;
+      })
+      .addCase(asyncRegisterCompany.pending, (state) => {
+        state.status = true;
+      })
+      .addCase(asyncRegisterCompany.fulfilled, (state) => {
+        state.status = false;
+      })
+      .addCase(asyncRegisterStudent.pending, (state) => {
+        state.status = true;
+      })
+      .addCase(asyncRegisterStudent.fulfilled, (state) => {
+        state.status = false;
       });
   },
 });
