@@ -2,7 +2,6 @@ import React from 'react';
 import './App.css';
 import { Button, ButtonGroup, ChakraProvider } from '@chakra-ui/react';
 import { Link, Route, Switch } from 'react-router-dom';
-import Home from './pages/Home';
 import Login from './pages/Login';
 import Register from './pages/Register';
 import { StudentRegister } from './features/auth/StudentRegister';
@@ -13,6 +12,7 @@ import CareerEvents from './features/careerFair/CareerEvents';
 import { useDispatch } from 'react-redux';
 import { asyncFetchUserData } from './features/auth/userSlice';
 import EmployerRegister from './features/auth/EmployerRegister';
+import LandingPage from './features/landing/LandingPage';
 
 function App() {
   const dispatch = useDispatch();
@@ -58,7 +58,7 @@ function App() {
         </Button>
       </ButtonGroup>
       <Switch>
-        <Route path='/' component={Home} exact />
+        <Route path='/' component={LandingPage} exact />
         <Route path='/login' component={Login} exact />
         <Route path='/register' component={Register} exact />
         <Route path='/register/employer' component={EmployerRegister} exact />
