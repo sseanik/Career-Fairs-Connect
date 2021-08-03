@@ -77,14 +77,15 @@ class Companies(models.Model):
     # Discuss Max Text and Char???
     company_description = models.TextField()
     company_webpage_url = models.CharField(max_length=150)
-    company_logo_url = models.CharField(max_length=20000000)
+    company_logo_64 = models.CharField(max_length=2000000)
+
 
 
 class Universities(models.Model):
     university_id = models.AutoField(primary_key=True)
     university_name = models.CharField(max_length=50)
     university_abbreviation = models.CharField(max_length=10)
-    university_logo_url = models.CharField(max_length=20000000)
+    university_logo_64 = models.CharField(max_length=2000000)
     university_site_url = models.CharField(max_length=150, default='')
     # Potential cause of issues on deleting
     user_id = models.ForeignKey(User, on_delete=models.RESTRICT)
@@ -104,13 +105,17 @@ class Stalls(models.Model):
     company_id = models.ForeignKey(Companies, on_delete=models.CASCADE)
     event_id = models.ForeignKey(CareerFairs, on_delete=models.CASCADE)
     approval_status = models.CharField(max_length=20, default='Pending')
+    stall_description = models.TextField()
 
 
 class Presentations(models.Model):
     presentation_id = models.AutoField(primary_key=True)
-    stall_id = models.OneToOneField(Stalls, on_delete=models.CASCADE)
+    stall_id = models.ForeignKey(Stalls, on_delete=models.CASCADE)
+    title = models.CharField(max_length=255)
+    color = models.CharField(max_length=255)
     presentation_link = models.CharField(max_length=255)
-    datetime = models.DateTimeField()
+    start_time = models.DateTimeField()
+    end_time = models.DateTimeField()
     presentation_description = models.TextField(default='')
 
 
@@ -121,7 +126,7 @@ class Students(models.Model):
     last_name = models.CharField(max_length=50)
     degree = models.CharField(max_length=100, null=True)
     wam = models.DecimalField(max_digits=5, decimal_places=2, null=True)
-    student_logo_url = models.CharField(max_length=200000000)
+    student_logo_64 = models.CharField(max_length=2000000)
     # changed to one to one field to suppress warnings - thornton, do we want restrict or cascade?
     user_id = models.OneToOneField(User, on_delete=models.RESTRICT)
 
@@ -131,20 +136,21 @@ class Opportunities(models.Model):
     job_description = models.TextField()
     application_link = models.CharField(max_length=100)
     stall_id = models.OneToOneField(Stalls, on_delete=models.CASCADE)
+    type = models.CharField(max_length=100)
+    role = models.CharField(max_length=100)
+    location = models.CharField(max_length=100)
+    wam = models.CharField(max_length=100)
+    expiry = models.DateTimeField(auto_now_add=True, blank=True)
+    link = models.CharField(max_length=500)
 
 
 class QAMessages(models.Model):
     post_id = models.AutoField(primary_key=True)
     time = models.DateTimeField(auto_now_add=True, blank=True)
-    parent_post_id = models.ForeignKey('self', null=True, blank=True, related_name='replies', on_delete=models.CASCADE)  # https://stackoverflow.com/questions/50878551/how-to-create-hierarchy-of-models
-    content = models.TextField()
-    stall_id = models.OneToOneField(Stalls, on_delete=models.CASCADE)
+    num_upvotes = models.IntegerField(default=0)
+    question = models.TextField()
+    answer = models.TextField()
 
-class Upvotes(models.Model):
-    user_id = models.ForeignKey(User, on_delete=models.CASCADE)
-    post_id = models.ForeignKey(QAMessages, on_delete=models.CASCADE)
-    class Meta:
-        unique_together = ('user_id', 'post_id')
 
 
 class Students_opportunities(models.Model):
