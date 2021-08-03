@@ -76,8 +76,8 @@ urlpatterns = [
     re_path('^get_all_presentations/(?P<eventId>.+)/$', get_all_presentations),
 
     path('careerfairs/<int:eventId>/stalls/', StallList.as_view()),
-    path('company/<int:companyId>/opportunities/', OpportunityList.as_view()),
-    path('company/<int:companyId>/opportunities/<int:job_id>', OpportunityList.as_view()),
+    path('company/<int:stallId>/opportunities/', OpportunityList.as_view()),
+    path('company/<int:companyId>/opportunities/<int:job_id>', OpportunityList.as_view()), #I think this should be Opportunity.asview not opportunityList also post is not required for job_id because it shouldnt exist yet.
     re_path('^company/(?P<companyId>.+)/$', Company.as_view()),
     re_path('^student/(?P<studentId>.+)/$', Student.as_view()),
     path('university/<int:universityId>/careerfairs/', CareerFairListForUni.as_view()),
