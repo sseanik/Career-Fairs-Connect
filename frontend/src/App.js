@@ -7,8 +7,8 @@ import { asyncFetchUserData } from './features/auth/userSlice';
 // Chakra UI
 import { Button, ButtonGroup, ChakraProvider } from '@chakra-ui/react';
 // Non-Logged In Pages
-import Login from './pages/Login';
-import Register from './pages/Register';
+import Login from './features/auth/Login';
+import Register from './features/auth/Register';
 import { StudentRegister } from './features/auth/StudentRegister';
 import { UniversityRegister } from './features/auth/UniversityRegister';
 import EmployerRegister from './features/auth/EmployerRegister';
