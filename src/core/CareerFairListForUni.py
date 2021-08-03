@@ -5,6 +5,8 @@ from .serializers import CareerFairSerializer
 from .models import CareerFairs, Universities
 from rest_framework.authentication import TokenAuthentication, SessionAuthentication
 from rest_framework.permissions import IsAuthenticated
+from drf_yasg import openapi
+from drf_yasg.utils import swagger_auto_schema
 
 
 class CareerFairListForUni(APIView):
@@ -22,8 +24,9 @@ class CareerFairListForUni(APIView):
         return Response(serializer.data, status=200)
 
     
-    
-    
+
+
+    @swagger_auto_schema(request_body=CareerFairSerializer)   
     def post(self, request, universityId, format=None):
         request.data["university_id"] = universityId
         serializer = CareerFairSerializer(data=request.data)
