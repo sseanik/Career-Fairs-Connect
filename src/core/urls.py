@@ -24,6 +24,7 @@ from rest_framework.authtoken.views import obtain_auth_token
 
 from .CareerFairListForUni import *
 from .CareerFairListGlobal import *
+from .CompanyStallData import *
 from .StallList import StallList
 from .register_student import *
 from .register_company import *
@@ -35,7 +36,8 @@ from .University import *
 from .OpportunityList import *
 from .get_career_fair_data import *
 from .Approvals import *
-
+from .GetUserData import *
+from .Logout import *
 
 
 schema_view = get_schema_view(
@@ -61,9 +63,11 @@ urlpatterns = [
     path('swagger/', schema_view.with_ui('swagger', cache_timeout=0), name='schema-swagger-ui'),
     path('redoc/', schema_view.with_ui('redoc', cache_timeout=0), name='schema-redoc'),
     path('login/', obtain_auth_token),
+    path('logout/', Logout.as_view()),
     path('register/student/', register_student),
     path('register/university/', register_university),
     path('register/company/', register_company),
+    path('user/data/', userData.as_view()),
     path('create_presentation/', create_presentation),
     path('edit_presentation/', edit_presentation),
 
@@ -79,6 +83,7 @@ urlpatterns = [
     path('university/<int:universityId>/careerfairs/', CareerFairListForUni.as_view()),
     re_path('^university/(?P<universityId>.+)/$', University.as_view()),
     path('careerfairs/', CareerFairListGlobal.as_view()),
-    path('careerfairs/applications', Approvals.as_view())
+    path('careerfairs/applications', Approvals.as_view()),
+    path('careerfairs/stalls/<int:stallId>/', CompanyStallData.as_view()),
 ]
 
