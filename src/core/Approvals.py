@@ -7,7 +7,7 @@ from .models import Stalls
 class Approvals(APIView):
     def post(self, request, format=None):
         company_id = request.data['companyId']
-        event_id = request.data['companyId']
+        event_id = request.data['eventId']
         stall = Stalls.objects.filter(company_id=request.data['companyId'], event_id=request.data["eventId"])
         if not stall:
             return Response('Cannot find stall for company_id= '+ str(company_id) + ' and event_id= ' + str(event_id),
