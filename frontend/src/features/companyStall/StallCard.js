@@ -11,6 +11,7 @@ import {
   Tag,
   TagLabel,
   Tooltip,
+  useToast,
 } from '@chakra-ui/react';
 import { InfoOutlineIcon } from '@chakra-ui/icons';
 // Redux
@@ -20,6 +21,7 @@ import { useDispatch, useSelector } from 'react-redux';
 export function StallCard(props) {
   const dispatch = useDispatch();
   const userRole = useSelector((state) => state.user.role);
+  const toast = useToast();
 
   return (
     <Flex direction='column'>
@@ -115,10 +117,18 @@ export function StallCard(props) {
             onClick={() =>
               props.pending === 'Pending'
                 ? dispatch(
-                    asyncToggleEventPending({ id: props.id, toggle: 'Approve' })
+                    asyncToggleEventPending({
+                      id: props.id,
+                      toggle: 'Approve',
+                      toast: toast,
+                    })
                   )
                 : dispatch(
-                    asyncToggleEventPending({ id: props.id, toggle: 'Pending' })
+                    asyncToggleEventPending({
+                      id: props.id,
+                      toggle: 'Pending',
+                      toast: toast,
+                    })
                   )
             }
           >
@@ -135,6 +145,7 @@ export function StallCard(props) {
                   asyncToggleEventPending({
                     id: props.id,
                     toggle: 'Rejected',
+                    toast: toast,
                   })
                 )
               }

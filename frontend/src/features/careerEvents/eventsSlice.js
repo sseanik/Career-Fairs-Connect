@@ -13,9 +13,14 @@ export const asyncFetchEventsData = createAsyncThunk(
 // Create a Career Fair Event
 export const asyncCreateFairEvent = createAsyncThunk(
   'events/create',
-  async (newEvent) => {
+  async ({ event, toast }) => {
     await new Promise((r) => setTimeout(r, 3000));
-    const response = { ...newEvent, id: '555' };
+    const response = { ...event, id: '555' };
+    toast({
+      description: 'Successfully created event',
+      status: 'success',
+      isClosable: true,
+    });
     return response;
   }
 );
@@ -23,8 +28,13 @@ export const asyncCreateFairEvent = createAsyncThunk(
 // Delete a Career Fair Event
 export const asyncDeleteFairEvent = createAsyncThunk(
   'events/delete',
-  async (id) => {
+  async ({ id, toast }) => {
     await new Promise((r) => setTimeout(r, 3000));
+    toast({
+      description: 'Successfully deleted event',
+      status: 'success',
+      isClosable: true,
+    });
     return;
   }
 );

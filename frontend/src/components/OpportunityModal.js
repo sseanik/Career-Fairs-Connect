@@ -19,6 +19,7 @@ import {
   Select,
   Text,
   Textarea,
+  useToast,
 } from '@chakra-ui/react';
 // Formik
 import { Field, Form, Formik } from 'formik';
@@ -59,6 +60,7 @@ const validationSchema = Yup.object({
 export function OpportunityModal(props) {
   const [deletePending, setDeletePending] = React.useState(false);
   const dispatch = useDispatch();
+  const toast = useToast();
 
   const initialValues = {
     type: props.type || '',
@@ -76,7 +78,7 @@ export function OpportunityModal(props) {
   };
 
   const deleteOpportunity = () => {
-    dispatch(asyncDeleteOpportunity(props.id));
+    dispatch(asyncDeleteOpportunity({ id: props.id, toast: toast }));
     closeModal();
   };
 
@@ -84,25 +86,31 @@ export function OpportunityModal(props) {
     props.edit
       ? dispatch(
           asyncEditOpportunity({
-            id: props.id,
-            type: values.type,
-            role: values.role,
-            location: values.location,
-            wam: values.wam === 'None' ? null : values.wam,
-            expiry: new Date(values.expiry).getTime(),
-            link: values.link,
-            description: values.description,
+            opportunity: {
+              id: props.id,
+              type: values.type,
+              role: values.role,
+              location: values.location,
+              wam: values.wam === 'None' ? null : values.wam,
+              expiry: new Date(values.expiry).getTime(),
+              link: values.link,
+              description: values.description,
+            },
+            toast: toast,
           })
         )
       : dispatch(
           asyncAddOpportunity({
-            type: values.type,
-            role: values.role,
-            location: values.location,
-            wam: values.wam === 'None' ? null : values.wam,
-            expiry: new Date(values.expiry).getTime(),
-            link: values.link,
-            description: values.description,
+            opportunity: {
+              type: values.type,
+              role: values.role,
+              location: values.location,
+              wam: values.wam === 'None' ? null : values.wam,
+              expiry: new Date(values.expiry).getTime(),
+              link: values.link,
+              description: values.description,
+            },
+            toast: toast,
           })
         );
     actions.setSubmitting(false);

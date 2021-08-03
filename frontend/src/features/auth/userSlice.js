@@ -11,7 +11,7 @@ export const asyncFetchUserData = createAsyncThunk(
 
 export const asyncRegisterUniversity = createAsyncThunk(
   'user/registerUniversity',
-  async (user) => {
+  async ({ user, toast }) => {
     await new Promise((r) => setTimeout(r, 3000));
     return user;
   }
@@ -19,7 +19,7 @@ export const asyncRegisterUniversity = createAsyncThunk(
 
 export const asyncRegisterCompany = createAsyncThunk(
   'user/registerCompany',
-  async (user) => {
+  async ({ user, toast }) => {
     await new Promise((r) => setTimeout(r, 3000));
     return user;
   }
@@ -27,7 +27,7 @@ export const asyncRegisterCompany = createAsyncThunk(
 
 export const asyncRegisterStudent = createAsyncThunk(
   'user/registerStudent',
-  async (user) => {
+  async ({ user, toast }) => {
     await new Promise((r) => setTimeout(r, 3000));
     return user;
   }

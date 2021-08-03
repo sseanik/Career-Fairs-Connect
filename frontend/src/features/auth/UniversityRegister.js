@@ -12,6 +12,7 @@ import {
   FormLabel,
   FormErrorMessage,
   Button,
+  useToast,
 } from '@chakra-ui/react';
 // Components
 import Navbar from '../../components/navbar';
@@ -99,6 +100,7 @@ export function UniversityRegister() {
   const loggedIn = useSelector((state) => state.user.loggedIn);
   const registerStatus = useSelector((state) => state.user.status);
   const dispatch = useDispatch();
+  const toast = useToast();
 
   const uploadImage = (e, setFieldValue) => {
     dispatch(convertImageToBase64(e));
@@ -115,7 +117,7 @@ export function UniversityRegister() {
     console.log(values);
     console.log(base64Image[0]);
     actions.setSubmitting(false);
-    dispatch(asyncRegisterUniversity({}));
+    dispatch(asyncRegisterUniversity({ user: {}, toast: toast }));
   };
 
   return (

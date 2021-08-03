@@ -12,6 +12,7 @@ import {
   FormLabel,
   FormErrorMessage,
   Button,
+  useToast,
 } from '@chakra-ui/react';
 // Components
 import Navbar from '../../components/navbar';
@@ -94,6 +95,7 @@ export function StudentRegister() {
   const loggedIn = useSelector((state) => state.user.loggedIn);
   const registerStatus = useSelector((state) => state.user.status);
   const dispatch = useDispatch();
+  const toast = useToast();
 
   React.useState(() => {
     if (loggedIn) {
@@ -104,7 +106,7 @@ export function StudentRegister() {
   const submitForm = (values, actions) => {
     console.log(values);
     actions.setSubmitting(false);
-    dispatch(asyncRegisterStudent({}));
+    dispatch(asyncRegisterStudent({ user: {}, toast: toast }));
   };
 
   return (

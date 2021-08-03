@@ -19,9 +19,14 @@ export const asyncFetchStallData = createAsyncThunk(
 // Add a Job Opportunity
 export const asyncAddOpportunity = createAsyncThunk(
   'stall/addOpportunity',
-  async (opportunity) => {
+  async ({ opportunity, toast }) => {
     await new Promise((r) => setTimeout(r, 3000));
     const response = { ...opportunity, id: '555' };
+    toast({
+      description: 'Successfully added Opportunity',
+      status: 'success',
+      isClosable: true,
+    });
     return response;
   }
 );
@@ -29,9 +34,14 @@ export const asyncAddOpportunity = createAsyncThunk(
 // Edit Job Opportunity
 export const asyncEditOpportunity = createAsyncThunk(
   'stall/editOpportunity',
-  async (opportunity) => {
+  async ({ opportunity, toast }) => {
     await new Promise((r) => setTimeout(r, 3000));
     const response = opportunity;
+    toast({
+      description: 'Successfully edited Opportunity',
+      status: 'success',
+      isClosable: true,
+    });
     return response;
   }
 );
@@ -39,8 +49,13 @@ export const asyncEditOpportunity = createAsyncThunk(
 // Delete Job Opportunity
 export const asyncDeleteOpportunity = createAsyncThunk(
   'stall/deleteOpportunity',
-  async (id) => {
+  async ({ id, toast }) => {
     await new Promise((r) => setTimeout(r, 3000));
+    toast({
+      description: 'Successfully removed Opportunity',
+      status: 'success',
+      isClosable: true,
+    });
     return id;
   }
 );
@@ -49,9 +64,14 @@ export const asyncDeleteOpportunity = createAsyncThunk(
 // Add a presentation
 export const asyncAddPresentation = createAsyncThunk(
   'stall/addPresentation',
-  async (presentation) => {
+  async ({ presentation, toast }) => {
     await new Promise((r) => setTimeout(r, 3000));
     const response = { ...presentation, id: '555' };
+    toast({
+      description: 'Successfully added Presentation',
+      status: 'success',
+      isClosable: true,
+    });
     return response;
   }
 );
@@ -59,9 +79,14 @@ export const asyncAddPresentation = createAsyncThunk(
 // Edit a presentation
 export const asyncEditPresentation = createAsyncThunk(
   'stall/editPresentation',
-  async (presentation) => {
+  async ({ presentation, toast }) => {
     await new Promise((r) => setTimeout(r, 3000));
     const response = presentation;
+    toast({
+      description: 'Successfully edited Presentation',
+      status: 'success',
+      isClosable: true,
+    });
     return response;
   }
 );
@@ -69,8 +94,13 @@ export const asyncEditPresentation = createAsyncThunk(
 // Delete a presentation
 export const asyncDeletePresentation = createAsyncThunk(
   'stall/deletePresentation',
-  async (id) => {
+  async ({ id, toast }) => {
     await new Promise((r) => setTimeout(r, 3000));
+    toast({
+      description: 'Successfully removed Presentation',
+      status: 'success',
+      isClosable: true,
+    });
     return id;
   }
 );
@@ -79,8 +109,13 @@ export const asyncDeletePresentation = createAsyncThunk(
 // Post a question
 export const asyncPostQuestion = createAsyncThunk(
   'stall/postQuestion',
-  async (question, thunkAPI) => {
+  async ({ question, toast }) => {
     await new Promise((r) => setTimeout(r, 3000));
+    toast({
+      description: 'Successfully posted Question',
+      status: 'success',
+      isClosable: true,
+    });
     return question;
   }
 );

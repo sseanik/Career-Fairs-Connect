@@ -19,6 +19,7 @@ import {
   TagLabel,
   TagRightIcon,
   useDisclosure,
+  useToast,
 } from '@chakra-ui/react';
 import { AddIcon, ExternalLinkIcon, SmallAddIcon } from '@chakra-ui/icons';
 import { RiPencilFill } from 'react-icons/ri';
@@ -37,6 +38,7 @@ export const DetailsCard = (props) => {
   const opportunityStatus = useSelector((state) => state.stall.status);
   // Modal
   const { isOpen, onOpen, onClose } = useDisclosure();
+  const toast = useToast();
   // State to determine background colour and company application status
   const [bgColour, setBgColour] = React.useState('white');
   const [applied, setApplied] = React.useState(false);
@@ -68,12 +70,13 @@ export const DetailsCard = (props) => {
     dispatch(
       asyncAddCompanyStall({
         stall: {
-          pending: true,
+          pending: 'Pending',
           company: userDetails.name,
           description: userDetails.description,
           logo: userDetails.logo,
         },
         fairID: props.fairID,
+        toast: toast,
       })
     );
   };
@@ -82,7 +85,8 @@ export const DetailsCard = (props) => {
     dispatch(
       asyncRemoveCompanyStall({
         fairID: props.fairID,
-        name: userDetails.name,
+        company: userDetails.name,
+        toast: toast,
       })
     );
   };
@@ -164,8 +168,10 @@ export const DetailsCard = (props) => {
               onClick={() => createStall()}
               ml='3'
               size='sm'
+              isLoading={interactStatus}
+              loadingText='Applying Company Stall'
             >
-              Create Company Stall
+              Apply Company Stall
             </Button>
           )}
           {!props.loading &&
@@ -178,6 +184,8 @@ export const DetailsCard = (props) => {
                 onClick={() => removeStall()}
                 ml='3'
                 size='sm'
+                isLoading={interactStatus}
+                loadingText='Leaving Fair'
               >
                 Leave Fair
               </Button>

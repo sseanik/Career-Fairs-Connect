@@ -18,6 +18,7 @@ import {
   ModalOverlay,
   Text,
   Textarea,
+  useToast,
 } from '@chakra-ui/react';
 // Formik
 import { Field, Form, Formik } from 'formik';
@@ -46,6 +47,7 @@ export function PresentationModal(props) {
   const [editStatus, setEditStatus] = React.useState(false);
   const [deleteStatus, setDeleteStatus] = React.useState(false);
   const dispatch = useDispatch();
+  const toast = useToast();
 
   const initialValues = {
     title: props.title,
@@ -62,7 +64,7 @@ export function PresentationModal(props) {
   const conditionalDelete = () => {
     setDeleteStatus(!deleteStatus);
     if (deleteStatus) {
-      dispatch(asyncDeletePresentation(props.id));
+      dispatch(asyncDeletePresentation({ id: props.id, toast: toast }));
       setEditStatus(false);
       setDeleteStatus(false);
       props.onClose();
@@ -72,12 +74,15 @@ export function PresentationModal(props) {
   const submitForm = (values, actions) => {
     dispatch(
       asyncEditPresentation({
-        title: values.title,
-        description: values.description,
-        link: values.link,
-        start: props.start,
-        end: props.end,
-        color: props.color,
+        presentation: {
+          title: values.title,
+          description: values.description,
+          link: values.link,
+          start: props.start,
+          end: props.end,
+          color: props.color,
+        },
+        toast: toast,
       })
     );
     actions.setSubmitting(false);

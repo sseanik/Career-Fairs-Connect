@@ -19,7 +19,9 @@ import {
   ModalOverlay,
   Text,
   Textarea,
+  useToast,
 } from '@chakra-ui/react';
+
 // Formik
 import { Field, Form, Formik } from 'formik';
 import * as Yup from 'yup';
@@ -56,6 +58,8 @@ export function EventModal(props) {
   const dispatch = useDispatch();
   const history = useHistory();
 
+  const toast = useToast();
+
   const initialValues = {
     title: props.title || '',
     description: props.description || '',
@@ -71,7 +75,7 @@ export function EventModal(props) {
   };
 
   const deleteEvent = () => {
-    dispatch(asyncDeleteFairEvent());
+    dispatch(asyncDeleteFairEvent({ id: props.id, toast: toast }));
     dispatch(resetEvents());
     history.push('/events');
   };
@@ -80,21 +84,27 @@ export function EventModal(props) {
     props.edit
       ? dispatch(
           asyncEditFairEvent({
-            title: values.title,
-            description: values.description,
-            start: values.start.getTime(),
-            end: values.end.getTime(),
+            event: {
+              title: values.title,
+              description: values.description,
+              start: values.start.getTime(),
+              end: values.end.getTime(),
+            },
+            toast: toast,
           })
         )
       : dispatch(
           asyncCreateFairEvent({
-            university: props.university,
-            website: props.website,
-            logo: props.logo,
-            title: values.title,
-            description: values.description,
-            start: values.start.getTime(),
-            end: values.end.getTime(),
+            event: {
+              university: props.university,
+              website: props.website,
+              logo: props.logo,
+              title: values.title,
+              description: values.description,
+              start: values.start.getTime(),
+              end: values.end.getTime(),
+            },
+            toast: toast,
           })
         );
     actions.setSubmitting(false);

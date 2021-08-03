@@ -19,9 +19,14 @@ export const asyncFetchFairData = createAsyncThunk(
 // Edit a Career Fair Events Details
 export const asyncEditFairEvent = createAsyncThunk(
   'fair/edit',
-  async (event) => {
+  async ({ event, toast }) => {
     await new Promise((r) => setTimeout(r, 3000));
     const response = event;
+    toast({
+      description: 'Successfully edited Career Fair Event',
+      status: 'success',
+      isClosable: true,
+    });
     return response;
   }
 );
@@ -29,8 +34,13 @@ export const asyncEditFairEvent = createAsyncThunk(
 // Change a company stall's approval status
 export const asyncToggleEventPending = createAsyncThunk(
   'fair/togglePending',
-  async ({ id, toggle }) => {
+  async ({ id, toggle, toast }) => {
     await new Promise((r) => setTimeout(r, 3000));
+    toast({
+      description: 'Successfully changed Stall approval status',
+      status: 'success',
+      isClosable: true,
+    });
     return { id: id, toggle: toggle };
   }
 );
@@ -39,9 +49,14 @@ export const asyncToggleEventPending = createAsyncThunk(
 // Add a company stall to the career fair event
 export const asyncAddCompanyStall = createAsyncThunk(
   'fair/addStall',
-  async ({ stall, fairID }) => {
+  async ({ stall, fairID, toast }) => {
     await new Promise((r) => setTimeout(r, 3000));
     const response = { ...stall, id: '5545' };
+    toast({
+      description: 'Successfully added Company Stall',
+      status: 'success',
+      isClosable: true,
+    });
     return response;
   }
 );
@@ -49,9 +64,14 @@ export const asyncAddCompanyStall = createAsyncThunk(
 // Delete a company stall from an event
 export const asyncRemoveCompanyStall = createAsyncThunk(
   'fair/removeStall',
-  async ({ fairID, name }) => {
+  async ({ fairID, company, toast }) => {
     await new Promise((r) => setTimeout(r, 3000));
-    return name;
+    toast({
+      description: 'Successfully removed Company Stall',
+      status: 'success',
+      isClosable: true,
+    });
+    return company;
   }
 );
 

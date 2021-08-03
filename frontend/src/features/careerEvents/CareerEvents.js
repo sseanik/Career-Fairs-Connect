@@ -44,7 +44,7 @@ export default function CareerEvents() {
       userDetails.university !== eventsData[idx].university
     ) {
       toast({
-        title: 'You are not a student of this university',
+        description: 'You are not a student of this university',
         status: 'error',
         isClosable: true,
       });
@@ -53,7 +53,7 @@ export default function CareerEvents() {
       userDetails.name !== eventsData[idx].university
     ) {
       toast({
-        title: "You cannot visit another University's event",
+        description: "You cannot visit another University's event",
         status: 'error',
         isClosable: true,
       });

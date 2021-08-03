@@ -11,6 +11,7 @@ import {
   FormLabel,
   FormErrorMessage,
   Button,
+  useToast,
 } from '@chakra-ui/react';
 import { InputControl, TextareaControl } from 'formik-chakra-ui';
 // Components
@@ -59,6 +60,7 @@ export default function EmployerRegister() {
   const loggedIn = useSelector((state) => state.user.loggedIn);
   const registerStatus = useSelector((state) => state.user.status);
   const dispatch = useDispatch();
+  const toast = useToast();
 
   const uploadImage = (e, setFieldValue) => {
     dispatch(convertImageToBase64(e));
@@ -75,7 +77,7 @@ export default function EmployerRegister() {
     console.log(values);
     console.log(base64Image[0]);
     actions.setSubmitting(false);
-    dispatch(asyncRegisterCompany({}));
+    dispatch(asyncRegisterCompany({ user: {}, toast: toast }));
   };
 
   return (

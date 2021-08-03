@@ -16,6 +16,7 @@ import {
   ModalOverlay,
   Text,
   Textarea,
+  useToast,
 } from '@chakra-ui/react';
 // Formik
 import { Field, Form, Formik } from 'formik';
@@ -44,6 +45,7 @@ const initialValues = {
 export function CalendarModal(props) {
   const dispatch = useDispatch();
   const [next, setNext] = React.useState(false);
+  const toast = useToast();
 
   const closeModal = () => {
     setNext(false);
@@ -53,12 +55,15 @@ export function CalendarModal(props) {
   const submitModal = (values, actions) => {
     dispatch(
       asyncAddPresentation({
-        title: values.title,
-        description: values.description,
-        link: values.link,
-        start: props.event.start.getTime(),
-        end: props.event.end.getTime(),
-        color: props.color,
+        presentation: {
+          title: values.title,
+          description: values.description,
+          link: values.link,
+          start: props.event.start.getTime(),
+          end: props.event.end.getTime(),
+          color: props.color,
+        },
+        toast: toast,
       })
     );
     actions.setSubmitting(false);
