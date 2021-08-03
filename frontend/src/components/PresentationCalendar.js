@@ -2,9 +2,9 @@ import React from 'react';
 import moment from 'moment';
 // Redux
 import { useDispatch, useSelector } from 'react-redux';
-import { asyncEditPresentation } from '../features/companyStall/stallSlice';
+import { asyncEditPresentationTime } from '../features/companyStall/stallSlice';
 // Chakra UI
-import { Box, Text, Tooltip, useDisclosure, useToast } from '@chakra-ui/react';
+import { Box, Text, Tooltip, useDisclosure } from '@chakra-ui/react';
 // Full Calendar
 import FullCalendar from '@fullcalendar/react';
 import listPlugin from '@fullcalendar/list';
@@ -19,7 +19,6 @@ import { InfoIcon } from '@chakra-ui/icons';
 
 export function PresentationCalendar(props) {
   const { isOpen, onOpen, onClose } = useDisclosure();
-  const toast = useToast();
   // Redux
   const dispatch = useDispatch();
   const width = useSelector((state) => state.window.width);
@@ -61,17 +60,14 @@ export function PresentationCalendar(props) {
 
   const changeEvent = (e) => {
     dispatch(
-      asyncEditPresentation({
-        presentation: {
-          id: e.event.id,
-          title: e.event.title,
-          description: e.event.extendedProps.description,
-          link: e.event.extendedProps.link,
-          start: e.event.start.getTime(),
-          end: e.event.end.getTime(),
-          color: props.bgColour,
-        },
-        toast: toast,
+      asyncEditPresentationTime({
+        id: e.event.id,
+        title: e.event.title,
+        description: e.event.extendedProps.description,
+        link: e.event.extendedProps.link,
+        start: e.event.start.getTime(),
+        end: e.event.end.getTime(),
+        color: props.bgColour,
       })
     );
   };

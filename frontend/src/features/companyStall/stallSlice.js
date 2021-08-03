@@ -91,6 +91,16 @@ export const asyncEditPresentation = createAsyncThunk(
   }
 );
 
+// Edit a presentation Time
+export const asyncEditPresentationTime = createAsyncThunk(
+  'stall/editPresentationTime',
+  async (presentation) => {
+    await new Promise((r) => setTimeout(r, 3000));
+    const response = presentation;
+    return response;
+  }
+);
+
 // Delete a presentation
 export const asyncDeletePresentation = createAsyncThunk(
   'stall/deletePresentation',
@@ -123,6 +133,8 @@ export const asyncPostQuestion = createAsyncThunk(
 const initialState = {
   loading: false,
   status: false,
+  formStatus: 'Inactive',
+  eventFormStatus: 'Inactive',
   //
   fairID: '',
   name: '', // Name of Company
@@ -145,6 +157,12 @@ export const stallSlice = createSlice({
     resetStall: (state) => {
       state = initialState;
       return state;
+    },
+    resetFormStatus: (state) => {
+      state.formStatus = 'Inactive';
+    },
+    resetEventFormStatus: (state) => {
+      state.eventFormStatus = 'Inactive';
     },
   },
   extraReducers: (builder) => {
@@ -178,7 +196,11 @@ export const stallSlice = createSlice({
         state.opportunities.push(payload);
       })
       // Edit an opportunity
+      .addCase(asyncEditOpportunity.pending, (state, { payload }) => {
+        state.formStatus = 'Pending';
+      })
       .addCase(asyncEditOpportunity.fulfilled, (state, { payload }) => {
+        state.formStatus = 'Completed';
         const index = current(state.opportunities).findIndex(
           (opportunity) => opportunity.id === payload.id
         );
@@ -186,9 +208,10 @@ export const stallSlice = createSlice({
       })
       // Delete an opportunity
       .addCase(asyncDeleteOpportunity.pending, (state, { payload }) => {
-        state.opportunityEditStatus = true;
+        state.formStatus = 'Pending';
       })
       .addCase(asyncDeleteOpportunity.fulfilled, (state, { payload }) => {
+        state.formStatus = 'Completed';
         state.opportunities = state.opportunities.filter(
           (opportunity) => opportunity.id !== payload
         );
@@ -196,17 +219,25 @@ export const stallSlice = createSlice({
       /* ------------------------------ Presentation ------------------------------ */
       // Add a presentation
       .addCase(asyncAddPresentation.pending, (state, { payload }) => {
-        state.status = true;
+        state.eventFormStatus = 'Pending';
       })
       .addCase(asyncAddPresentation.fulfilled, (state, { payload }) => {
-        state.status = false;
+        state.eventFormStatus = 'Completed';
         state.events.push(payload);
       })
       // Edit a Presentation
       .addCase(asyncEditPresentation.pending, (state, { payload }) => {
-        state.status = true;
+        state.eventFormStatus = 'Pending';
       })
       .addCase(asyncEditPresentation.fulfilled, (state, { payload }) => {
+        state.eventFormStatus = 'Completed';
+        const index = current(state.events).findIndex(
+          (event) => event.id === payload.id
+        );
+        state.events[index] = payload;
+      })
+      // Edit a Presentation Time
+      .addCase(asyncEditPresentationTime.fulfilled, (state, { payload }) => {
         state.status = false;
         const index = current(state.events).findIndex(
           (event) => event.id === payload.id
@@ -215,10 +246,10 @@ export const stallSlice = createSlice({
       })
       // Delete a Presentation
       .addCase(asyncDeletePresentation.pending, (state, { payload }) => {
-        state.status = true;
+        state.eventFormStatus = 'Pending';
       })
       .addCase(asyncDeletePresentation.fulfilled, (state, { payload }) => {
-        state.status = false;
+        state.eventFormStatus = 'Completed';
         state.events = state.events.filter((event) => event.id !== payload);
       })
       /* ----------------------------------- Q&A ---------------------------------- */
@@ -237,6 +268,7 @@ export const stallSlice = createSlice({
   },
 });
 
-export const { resetStall } = stallSlice.actions;
+export const { resetStall, resetFormStatus, resetEventFormStatus } =
+  stallSlice.actions;
 
 export default stallSlice.reducer;

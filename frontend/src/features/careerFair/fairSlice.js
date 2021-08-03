@@ -35,7 +35,7 @@ export const asyncEditFairEvent = createAsyncThunk(
 export const asyncToggleEventPending = createAsyncThunk(
   'fair/togglePending',
   async ({ id, toggle, toast }) => {
-    await new Promise((r) => setTimeout(r, 3000));
+    await new Promise((r) => setTimeout(r, 500));
     toast({
       description: 'Successfully changed Stall approval status',
       status: 'success',
@@ -51,7 +51,7 @@ export const asyncAddCompanyStall = createAsyncThunk(
   'fair/addStall',
   async ({ stall, fairID, toast }) => {
     await new Promise((r) => setTimeout(r, 3000));
-    const response = { ...stall, id: '5545' };
+    const response = { ...stall, id: '5678' };
     toast({
       description: 'Successfully added Company Stall',
       status: 'success',

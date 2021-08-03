@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useCallback } from 'react';
 // Chakra UI
 import {
   Button,
@@ -24,10 +24,11 @@ import {
 import { Field, Form, Formik } from 'formik';
 import * as Yup from 'yup';
 // Redux
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import {
   asyncDeletePresentation,
   asyncEditPresentation,
+  resetEventFormStatus,
 } from '../features/companyStall/stallSlice';
 
 const validationSchema = Yup.object({
@@ -46,6 +47,7 @@ export function PresentationModal(props) {
   const rgb = color.substring(4, color.length - 1).split(' ');
   const [editStatus, setEditStatus] = React.useState(false);
   const [deleteStatus, setDeleteStatus] = React.useState(false);
+  const eventFormStatus = useSelector((state) => state.stall.eventFormStatus);
   const dispatch = useDispatch();
   const toast = useToast();
 
@@ -55,20 +57,23 @@ export function PresentationModal(props) {
     link: props.link,
   };
 
-  const closeModal = () => {
+  const closeModal = useCallback(() => {
     setEditStatus(false);
     setDeleteStatus(false);
     props.onClose();
-  };
+  }, [props]);
 
-  const conditionalDelete = () => {
-    setDeleteStatus(!deleteStatus);
-    if (deleteStatus) {
-      dispatch(asyncDeletePresentation({ id: props.id, toast: toast }));
+  React.useEffect(() => {
+    if (eventFormStatus === 'Completed') {
+      closeModal();
       setEditStatus(false);
       setDeleteStatus(false);
-      props.onClose();
+      dispatch(resetEventFormStatus());
     }
+  }, [dispatch, closeModal, eventFormStatus]);
+
+  const conditionalDelete = () => {
+    dispatch(asyncDeletePresentation({ id: props.id, toast: toast }));
   };
 
   const submitForm = (values, actions) => {
@@ -86,7 +91,6 @@ export function PresentationModal(props) {
       })
     );
     actions.setSubmitting(false);
-    closeModal();
   };
 
   return (
@@ -200,9 +204,15 @@ export function PresentationModal(props) {
                         )}
                         {!editStatus && (
                           <Button
-                            onClick={() => conditionalDelete()}
+                            onClick={() =>
+                              !deleteStatus
+                                ? setDeleteStatus(!deleteStatus)
+                                : conditionalDelete()
+                            }
                             size='sm'
                             colorScheme={editStatus ? 'blue' : 'red'}
+                            isLoading={eventFormStatus === 'Pending'}
+                            loadingText='Deleting'
                           >
                             {editStatus ? 'Back' : 'Delete'}
                           </Button>
@@ -219,7 +229,13 @@ export function PresentationModal(props) {
                       </ButtonGroup>
                     )}
                     {editStatus && (
-                      <Button size='sm' colorScheme='green' type='submit'>
+                      <Button
+                        size='sm'
+                        colorScheme='green'
+                        isLoading={eventFormStatus === 'Pending'}
+                        loadingText='Saving'
+                        type='submit'
+                      >
                         Save
                       </Button>
                     )}

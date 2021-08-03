@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useCallback } from 'react';
 import { SingleDatepicker } from 'chakra-dayzed-datepicker';
 // Chakra UI
 import {
@@ -25,11 +25,12 @@ import {
 import { Field, Form, Formik } from 'formik';
 import * as Yup from 'yup';
 // Redux
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import {
   asyncAddOpportunity,
   asyncDeleteOpportunity,
   asyncEditOpportunity,
+  resetFormStatus,
 } from '../features/companyStall/stallSlice';
 
 const validationSchema = Yup.object({
@@ -61,6 +62,7 @@ export function OpportunityModal(props) {
   const [deletePending, setDeletePending] = React.useState(false);
   const dispatch = useDispatch();
   const toast = useToast();
+  const formStatus = useSelector((state) => state.stall.formStatus);
 
   const initialValues = {
     type: props.type || '',
@@ -72,14 +74,20 @@ export function OpportunityModal(props) {
     description: props.description || '',
   };
 
-  const closeModal = () => {
+  const closeModal = useCallback(() => {
     props.onClose();
     setDeletePending(false);
-  };
+  }, [props]);
+
+  React.useEffect(() => {
+    if (formStatus === 'Completed') {
+      closeModal();
+      dispatch(resetFormStatus());
+    }
+  }, [dispatch, closeModal, formStatus]);
 
   const deleteOpportunity = () => {
     dispatch(asyncDeleteOpportunity({ id: props.id, toast: toast }));
-    closeModal();
   };
 
   const submitForm = (values, actions) => {
@@ -113,8 +121,6 @@ export function OpportunityModal(props) {
             toast: toast,
           })
         );
-    actions.setSubmitting(false);
-    closeModal();
   };
 
   return (
@@ -287,6 +293,8 @@ export function OpportunityModal(props) {
                       <Button
                         colorScheme='red'
                         onClick={() => deleteOpportunity()}
+                        isLoading={formStatus === 'Pending'}
+                        loadingText='Deleting'
                       >
                         Delete
                       </Button>
@@ -296,7 +304,8 @@ export function OpportunityModal(props) {
                 {!deletePending && (
                   <Button
                     colorScheme='blue'
-                    isLoading={isSubmitting}
+                    isLoading={formStatus === 'Pending'}
+                    loadingText={props.edit ? 'Saving' : 'Submitting'}
                     type='submit'
                   >
                     {props.edit ? 'Save' : 'Submit'}
