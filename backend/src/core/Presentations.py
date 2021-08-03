@@ -9,6 +9,8 @@ from django.http import HttpResponse
 from .models import *
 import json
 from django.core.serializers.json import DjangoJSONEncoder
+# from drf_yasg import openapi
+# from drf_yasg.utils import swagger_auto_schema
 
 @api_view(['GET', ])
 def get_all_presentations(request, eventId):

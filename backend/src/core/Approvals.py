@@ -5,6 +5,8 @@ from .serializers import StallsSerializer
 from .models import Stalls, Universities, CareerFairs
 from rest_framework.authentication import TokenAuthentication, SessionAuthentication
 from rest_framework.permissions import IsAuthenticated
+from drf_yasg.utils import swagger_auto_schema
+from drf_yasg import openapi
 
 class Approvals(APIView):
     authentication_classes = [TokenAuthentication, SessionAuthentication]
@@ -30,7 +32,10 @@ class Approvals(APIView):
         return Response(data, status=200)
         
 
-    def post(self, request, format=None):
+
+
+    @swagger_auto_schema(request_body=StallsSerializer)
+    def post(self, request, format=None): 
         company_id = request.data['companyId']
         event_id = request.data['eventId']
         stall = Stalls.objects.filter(company_id=request.data['companyId'], event_id=request.data["eventId"])
