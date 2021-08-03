@@ -1,78 +1,176 @@
 import React from 'react';
-import { Flex, Box, Button } from '@chakra-ui/react';
+import {
+  Flex,
+  Box,
+  Button,
+  useColorModeValue,
+  Stack,
+  Text,
+  Heading,
+  Container,
+  VStack,
+} from '@chakra-ui/react';
 import { Link } from 'react-router-dom';
 import Navbar from '../../components/navbar';
+import { Blob } from '../landing/LandingHero';
+import { FaBuilding, FaUniversity } from 'react-icons/fa';
+import { IoSchoolSharp } from 'react-icons/io5';
+import Fade from 'react-reveal/Fade';
 
 function Register() {
   return (
     <div>
       <Navbar />
-      <Flex width='100%' height='92vh' bg='#E5E5E5'>
-        <Box width='50%' m='auto' textAlign='center'></Box>
-        <Box width='50%'>
-          <Box
-            mt='10vh'
-            fontWeight='medium'
-            ml='auto'
-            mr='auto'
-            bg='#2F303A'
-            width='75%'
-            textAlign='center'
-            padding='5%'
-            borderRadius='10px'
+      <Fade up duration={750}>
+        <Container maxW={'7xl'}>
+          <Stack
+            align={'center'}
+            spacing={{ base: 8, md: 10 }}
+            pt={{ base: 20, md: 28 }}
+            direction={{ base: 'column', md: 'row' }}
           >
-            <Box fontSize='4xl' color='#FFFFFF'>
-              Join Now
-            </Box>
-            <Box>
-              <Button
-                mt='12%'
-                fontSize='2xl'
-                padding='28px'
-                color='white'
-                bgColor='#516C7B'
-                width='70%'
-                fontWeight='medium'
-                as={Link}
-                to='/register/student'
+            <Stack flex={1} spacing={{ base: 2, md: 4 }}>
+              <Heading
+                lineHeight={1.1}
+                fontWeight={600}
+                fontSize={{ base: '3xl', sm: '4xl', lg: '6xl' }}
               >
-                I am a student
-              </Button>
-            </Box>
-            <Box>
-              <Button
-                mt='8%'
-                fontSize='2xl'
-                padding='28px'
-                color='white'
-                bgColor='#516C7B'
-                width='70%'
-                fontWeight='medium'
-                as={Link}
-                to='/register/employer'
+                <Text
+                  as={'span'}
+                  position={'relative'}
+                  _after={{
+                    content: "''",
+                    width: 'full',
+                    height: '30%',
+                    position: 'absolute',
+                    bottom: 1,
+                    left: 0,
+                    bg: 'blue.50',
+                    zIndex: -1,
+                  }}
+                >
+                  Join Now
+                </Text>
+              </Heading>
+              <Heading
+                lineHeight={1.1}
+                fontWeight={500}
+                fontSize={{ base: '2xl', sm: '3xl', lg: '4xl' }}
               >
-                I am an employer
-              </Button>
-            </Box>
-            <Box>
-              <Button
-                mt='8%'
-                mb='8%'
-                fontSize='2xl'
-                padding='28px'
-                color='white'
-                bgColor='#516C7B'
-                width='70%'
-                fontWeight='medium'
-                as={Link}
-                to='/register/university'
+                <Text as={'span'} color={'blue.400'} size='sm'>
+                  Register an account with our platform
+                </Text>
+              </Heading>
+              <Text color={'gray.500'}>
+                Choose the type of account you would like to register whether
+                you are a university, a student of a university or an employer.
+              </Text>
+              <Stack
+                spacing={{ base: 4, sm: 6 }}
+                direction={{ base: 'column', sm: 'row' }}
+              ></Stack>
+            </Stack>
+            <Flex
+              flex={1}
+              justify={'center'}
+              align={'center'}
+              position={'relative'}
+              w={'full'}
+            >
+              <Blob
+                w={'150%'}
+                h={'150%'}
+                position={'absolute'}
+                top={'-20%'}
+                left={0}
+                zIndex={-1}
+                color={useColorModeValue('blue.50', 'blue.400')}
+              />
+              <Box
+                position={'relative'}
+                height={'300px'}
+                rounded={'2xl'}
+                boxShadow={'2xl'}
+                width={'full'}
+                overflow={'hidden'}
+                bg='white'
               >
-                I am a university
-              </Button>
-            </Box>
-          </Box>
-        </Box>
-      </Flex>
+                <Flex
+                  direction='column'
+                  fontWeight='medium'
+                  ml='auto'
+                  mr='auto'
+                  width='90%'
+                  textAlign='center'
+                  padding='5%'
+                  borderRadius='10px'
+                >
+                  <Heading
+                    lineHeight={1.1}
+                    fontWeight={600}
+                    fontSize={{ base: 'lg', sm: 'xl', lg: '2xl' }}
+                    zIndex={2}
+                    mb='4'
+                  >
+                    <Text
+                      as={'span'}
+                      position={'relative'}
+                      _after={{
+                        content: "''",
+                        width: 'full',
+                        height: '30%',
+                        position: 'absolute',
+                        bottom: 1,
+                        left: 0,
+                        bg: 'blue.50',
+                        zIndex: -1,
+                      }}
+                    >
+                      What type of user are you?
+                    </Text>
+                  </Heading>
+
+                  <VStack direction='column' spacing='5%'>
+                    <Button
+                      leftIcon={<IoSchoolSharp />}
+                      fontSize='xl'
+                      w='70%'
+                      fontWeight='medium'
+                      as={Link}
+                      to='/register/student'
+                      colorScheme='blue'
+                    >
+                      I am a Student
+                    </Button>
+                    <Button
+                      leftIcon={<FaBuilding />}
+                      fontSize='xl'
+                      w='70%'
+                      fontWeight='medium'
+                      as={Link}
+                      to='/register/employer'
+                      colorScheme='green'
+                    >
+                      I am an Employer
+                    </Button>
+                    <Button
+                      leftIcon={<FaUniversity />}
+                      fontSize='xl'
+                      w='70%'
+                      fontWeight='medium'
+                      as={Link}
+                      to='/register/university'
+                      colorScheme='orange'
+                    >
+                      I am a University
+                    </Button>
+                  </VStack>
+                </Flex>
+              </Box>
+            </Flex>
+          </Stack>
+        </Container>
+      </Fade>
     </div>
   );
 }

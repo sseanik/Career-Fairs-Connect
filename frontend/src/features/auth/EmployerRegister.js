@@ -1,4 +1,6 @@
 import * as React from 'react';
+import Fade from 'react-reveal/Fade';
+
 // Formik
 import { Field, Formik } from 'formik';
 import * as Yup from 'yup';
@@ -12,6 +14,8 @@ import {
   FormErrorMessage,
   Button,
   useToast,
+  Flex,
+  Text,
 } from '@chakra-ui/react';
 import { InputControl, TextareaControl } from 'formik-chakra-ui';
 // Components
@@ -83,85 +87,117 @@ export default function EmployerRegister() {
   return (
     <div>
       <Navbar />
-
-      <Formik
-        initialValues={initialValues}
-        onSubmit={(values, actions) => submitForm(values, actions)}
-        validationSchema={validationSchema}
-      >
-        {({ isSubmitting, handleSubmit, setFieldValue }) => (
-          <Box
-            borderWidth='1px'
-            rounded='lg'
-            maxWidth={800}
-            p={6}
-            m='10px auto'
-            as='form'
-            onSubmit={handleSubmit}
-          >
-            <Heading mb='2'>Employer Registration</Heading>
-            <InputControl name='email' label='Email' />
-            <Field name='password'>
-              {({ field, form }) => (
-                <FormControl
-                  isInvalid={form.errors.password && form.touched.password}
-                >
-                  <FormLabel htmlFor='password'>Password</FormLabel>
-                  <Input {...field} id='password' type='password' />
-                  <FormErrorMessage>{form.errors.password}</FormErrorMessage>
-                </FormControl>
-              )}
-            </Field>
-            <Field name='confirmPassword'>
-              {({ field, form }) => (
-                <FormControl
-                  isInvalid={
-                    form.errors.confirmPassword && form.touched.confirmPassword
-                  }
-                >
-                  <FormLabel htmlFor='confirmPassword'>
-                    Confirm Password
-                  </FormLabel>
-                  <Input {...field} id='confirmPassword' type='password' />
-                  <FormErrorMessage>
-                    {form.errors.confirmPassword}
-                  </FormErrorMessage>
-                </FormControl>
-              )}
-            </Field>
-            <InputControl name='company' label='Company Name' />
-            <TextareaControl name='description' label='Company Description' />
-            <InputControl name='website' label='Website URL' />
-
-            <Field name='logo'>
-              {({ field, form }) => (
-                <FormControl
-                  id='logo'
-                  isInvalid={form.errors.logo && form.touched.logo}
-                >
-                  <FormLabel>Logo Image</FormLabel>
-                  <input
-                    {...field}
-                    type='file'
-                    onChange={(e) => uploadImage(e, setFieldValue)}
-                    accept='.jpeg, .png, .jpg'
-                  ></input>
-                  <FormErrorMessage>{form.errors.logo}</FormErrorMessage>
-                </FormControl>
-              )}
-            </Field>
-            <Button
-              mt={4}
-              colorScheme='teal'
-              isLoading={registerStatus}
-              loadingText='Registering'
-              type='submit'
+      <Fade up duration={750}>
+        <Formik
+          initialValues={initialValues}
+          onSubmit={(values, actions) => submitForm(values, actions)}
+          validationSchema={validationSchema}
+        >
+          {({ isSubmitting, handleSubmit, setFieldValue }) => (
+            <Box
+              position={'relative'}
+              rounded={'2xl'}
+              boxShadow={'2xl'}
+              width={'full'}
+              overflow={'hidden'}
+              bg='white'
+              maxWidth={800}
+              p={6}
+              m='10px auto'
+              as='form'
+              onSubmit={handleSubmit}
             >
-              Join Now
-            </Button>
-          </Box>
-        )}
-      </Formik>
+              <Heading
+                lineHeight={1.1}
+                fontWeight={600}
+                fontSize={{ base: '2xl', sm: '3xl', lg: '4xl' }}
+                pb='4'
+                align='center'
+              >
+                <Text
+                  zIndex={4}
+                  as={'span'}
+                  position={'relative'}
+                  _after={{
+                    content: "''",
+                    width: 'full',
+                    height: '30%',
+                    position: 'absolute',
+                    bottom: 1,
+                    left: 0,
+                    bg: 'green.50',
+                    zIndex: -1,
+                  }}
+                >
+                  Employer Registration
+                </Text>
+              </Heading>{' '}
+              <InputControl name='email' label='Email' />
+              <Field name='password'>
+                {({ field, form }) => (
+                  <FormControl
+                    isInvalid={form.errors.password && form.touched.password}
+                  >
+                    <FormLabel htmlFor='password'>Password</FormLabel>
+                    <Input {...field} id='password' type='password' />
+                    <FormErrorMessage>{form.errors.password}</FormErrorMessage>
+                  </FormControl>
+                )}
+              </Field>
+              <Field name='confirmPassword'>
+                {({ field, form }) => (
+                  <FormControl
+                    isInvalid={
+                      form.errors.confirmPassword &&
+                      form.touched.confirmPassword
+                    }
+                  >
+                    <FormLabel htmlFor='confirmPassword'>
+                      Confirm Password
+                    </FormLabel>
+                    <Input {...field} id='confirmPassword' type='password' />
+                    <FormErrorMessage>
+                      {form.errors.confirmPassword}
+                    </FormErrorMessage>
+                  </FormControl>
+                )}
+              </Field>
+              <InputControl name='company' label='Company Name' />
+              <TextareaControl name='description' label='Company Description' />
+              <InputControl name='website' label='Website URL' />
+              <Field name='logo'>
+                {({ field, form }) => (
+                  <FormControl
+                    id='logo'
+                    isInvalid={form.errors.logo && form.touched.logo}
+                  >
+                    <FormLabel>Logo Image</FormLabel>
+                    <input
+                      {...field}
+                      type='file'
+                      onChange={(e) => uploadImage(e, setFieldValue)}
+                      accept='.jpeg, .png, .jpg'
+                    ></input>
+                    <FormErrorMessage>{form.errors.logo}</FormErrorMessage>
+                  </FormControl>
+                )}
+              </Field>
+              <Flex justify='center'>
+                <Button
+                  w='100%'
+                  mt={4}
+                  colorScheme='green'
+                  isLoading={registerStatus}
+                  loadingText='Registering'
+                  type='submit'
+                >
+                  Join Now
+                </Button>
+              </Flex>
+            </Box>
+          )}
+        </Formik>
+      </Fade>
     </div>
   );
 }
