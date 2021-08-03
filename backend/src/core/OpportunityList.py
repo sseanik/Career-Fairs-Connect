@@ -6,10 +6,14 @@ from .serializers import OpportunitySerializer
 from .models import Stalls, Companies, Opportunities
 from rest_framework.authentication import TokenAuthentication, SessionAuthentication
 from rest_framework.permissions import IsAuthenticated
+from drf_yasg import openapi
+from drf_yasg.utils import swagger_auto_schema
+
 
 class OpportunityList(APIView):
     authentication_classes = [TokenAuthentication, SessionAuthentication]
     permission_classes = [IsAuthenticated]
+    @swagger_auto_schema(request_body=OpportunitySerializer)
     def post(self, request, stallId, format=None):
         if request.user.user_type != 2:
             return Response(status=403)
