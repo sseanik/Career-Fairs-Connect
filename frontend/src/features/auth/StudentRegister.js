@@ -1,6 +1,9 @@
-import { Field, Formik } from 'formik';
 import * as React from 'react';
+// Formik
+import { Field, Formik } from 'formik';
 import * as Yup from 'yup';
+import { InputControl, SelectControl } from 'formik-chakra-ui';
+// Chakra
 import {
   Box,
   Heading,
@@ -9,9 +12,13 @@ import {
   FormLabel,
   FormErrorMessage,
   Button,
+  useToast,
 } from '@chakra-ui/react';
-import { InputControl, SelectControl } from 'formik-chakra-ui';
+// Components
 import Navbar from '../../components/navbar';
+// Redux
+import { asyncRegisterStudent } from './userSlice';
+import { useDispatch, useSelector } from 'react-redux';
 
 const initialValues = {
   firstName: '',
@@ -23,17 +30,20 @@ const initialValues = {
 };
 
 const validationSchema = Yup.object({
-  firstName: Yup.string().required('First Name is Required'),
-  lastName: Yup.string().required('Last Name is Required'),
+  firstName: Yup.string().required('First Name is Required').max(32),
+  lastName: Yup.string().required('Last Name is Required').max(32),
   email: Yup.string()
     .email('Email format is Invalid')
-    .required('Student Email is Required'),
+    .required('Student Email is Required')
+    .max(64),
   password: Yup.string()
     .required('Password is Required')
-    .min(6, 'Password must be at least 6 characters'),
+    .min(6, 'Password must be at least 6 characters')
+    .max(32),
   confirmPassword: Yup.string()
     .oneOf([Yup.ref('password'), null], 'Passwords must match')
-    .required('Password is Required'),
+    .required('Password is Required')
+    .max(32),
   university: Yup.string()
     .oneOf([
       'Australian Catholic University',
@@ -82,12 +92,29 @@ const validationSchema = Yup.object({
 });
 
 export function StudentRegister() {
+  const loggedIn = useSelector((state) => state.user.loggedIn);
+  const registerStatus = useSelector((state) => state.user.status);
+  const dispatch = useDispatch();
+  const toast = useToast();
+
+  React.useState(() => {
+    if (loggedIn) {
+      console.log('Sign the user In');
+    }
+  });
+
+  const submitForm = (values, actions) => {
+    console.log(values);
+    actions.setSubmitting(false);
+    dispatch(asyncRegisterStudent({ user: {}, toast: toast }));
+  };
+
   return (
     <div>
       <Navbar />
       <Formik
         initialValues={initialValues}
-        onSubmit={() => console.log('hello')}
+        onSubmit={(values, actions) => submitForm(values, actions)}
         validationSchema={validationSchema}
       >
         {({ isSubmitting, handleSubmit }) => (
@@ -100,7 +127,7 @@ export function StudentRegister() {
             as='form'
             onSubmit={handleSubmit}
           >
-            <Heading>Student Registration</Heading>
+            <Heading mb='2'>Student Registration</Heading>
             <InputControl name='firstName' label='First Name' />
             <InputControl name='lastName' label='Last Name' />
             <InputControl name='email' label='Student Email' />
@@ -238,7 +265,8 @@ export function StudentRegister() {
             <Button
               mt={4}
               colorScheme='teal'
-              isLoading={isSubmitting}
+              isLoading={registerStatus}
+              loadingText='Registering'
               type='submit'
             >
               Join Now

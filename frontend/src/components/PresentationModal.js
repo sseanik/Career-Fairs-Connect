@@ -1,3 +1,5 @@
+import React, { useCallback } from 'react';
+// Chakra UI
 import {
   Button,
   ButtonGroup,
@@ -16,19 +18,28 @@ import {
   ModalOverlay,
   Text,
   Textarea,
+  useToast,
 } from '@chakra-ui/react';
+// Formik
 import { Field, Form, Formik } from 'formik';
-import React from 'react';
-import { useDispatch } from 'react-redux';
 import * as Yup from 'yup';
-import { asyncDeletePresentation, asyncEditPresentation } from '../features/careerFair/stallSlice';
+// Redux
+import { useDispatch, useSelector } from 'react-redux';
+import {
+  asyncDeletePresentation,
+  asyncEditPresentation,
+  resetEventFormStatus,
+} from '../features/companyStall/stallSlice';
 
 const validationSchema = Yup.object({
-  title: Yup.string().required('Presentation Title is Required'),
-  description: Yup.string().required('Presentation Description is Required'),
+  title: Yup.string().required('Presentation Title is Required').max(128),
+  description: Yup.string()
+    .required('Presentation Description is Required')
+    .max(512),
   link: Yup.string()
     .matches(/^http(s)?:.*$/, 'Presentation URL is invalid')
-    .required('Presentation Link is Required'),
+    .required('Presentation Link is Required')
+    .max(256),
 });
 
 export function PresentationModal(props) {
@@ -36,7 +47,9 @@ export function PresentationModal(props) {
   const rgb = color.substring(4, color.length - 1).split(' ');
   const [editStatus, setEditStatus] = React.useState(false);
   const [deleteStatus, setDeleteStatus] = React.useState(false);
+  const eventFormStatus = useSelector((state) => state.stall.eventFormStatus);
   const dispatch = useDispatch();
+  const toast = useToast();
 
   const initialValues = {
     title: props.title,
@@ -44,34 +57,48 @@ export function PresentationModal(props) {
     link: props.link,
   };
 
+  const closeModal = useCallback(() => {
+    setEditStatus(false);
+    setDeleteStatus(false);
+    props.onClose();
+  }, [props]);
+
+  React.useEffect(() => {
+    if (eventFormStatus === 'Completed') {
+      closeModal();
+      setEditStatus(false);
+      setDeleteStatus(false);
+      dispatch(resetEventFormStatus());
+    }
+  }, [dispatch, closeModal, eventFormStatus]);
+
+  const conditionalDelete = () => {
+    dispatch(asyncDeletePresentation({ id: props.id, toast: toast }));
+  };
+
+  const submitForm = (values, actions) => {
+    dispatch(
+      asyncEditPresentation({
+        presentation: {
+          title: values.title,
+          description: values.description,
+          link: values.link,
+          start: props.start,
+          end: props.end,
+          color: props.color,
+        },
+        toast: toast,
+      })
+    );
+    actions.setSubmitting(false);
+  };
+
   return (
-    <Modal
-      onClose={() => {
-        setEditStatus(false);
-        props.onClose();
-      }}
-      isOpen={props.isOpen}
-      isCentered
-    >
+    <Modal onClose={() => closeModal()} isOpen={props.isOpen} isCentered>
       <Formik
         initialValues={initialValues}
         validationSchema={validationSchema}
-        onSubmit={(values, actions) => {
-          dispatch(
-            asyncEditPresentation({
-              title: values.title,
-              description: values.description,
-              link: values.link,
-              start: props.start,
-              end: props.end,
-              color: props.color,
-            })
-          );
-          setEditStatus(false);
-          setDeleteStatus(false);
-          actions.setSubmitting(false);
-          props.onClose();
-        }}
+        onSubmit={(values, actions) => submitForm(values, actions)}
       >
         {({ isSubmitting, handleSubmit }) => (
           <Form>
@@ -161,14 +188,7 @@ export function PresentationModal(props) {
                     </Text>
                   )}
                   <ButtonGroup>
-                    <Button
-                      onClick={() => {
-                        setEditStatus(false);
-                        setDeleteStatus(false);
-                        props.onClose();
-                      }}
-                      size='sm'
-                    >
+                    <Button onClick={() => closeModal()} size='sm'>
                       Close
                     </Button>
                     {props.edit && (
@@ -177,26 +197,22 @@ export function PresentationModal(props) {
                           <Button
                             size='sm'
                             colorScheme='blue'
-                            onClick={() => {
-                              setDeleteStatus(!deleteStatus);
-                            }}
+                            onClick={() => setDeleteStatus(!deleteStatus)}
                           >
                             Back
                           </Button>
                         )}
                         {!editStatus && (
                           <Button
-                            onClick={() => {
-                              setDeleteStatus(!deleteStatus);
-                              if (deleteStatus) {
-                                dispatch(asyncDeletePresentation(props.id));
-                                setEditStatus(false);
-                                setDeleteStatus(false);
-                                props.onClose();
-                              }
-                            }}
+                            onClick={() =>
+                              !deleteStatus
+                                ? setDeleteStatus(!deleteStatus)
+                                : conditionalDelete()
+                            }
                             size='sm'
                             colorScheme={editStatus ? 'blue' : 'red'}
+                            isLoading={eventFormStatus === 'Pending'}
+                            loadingText='Deleting'
                           >
                             {editStatus ? 'Back' : 'Delete'}
                           </Button>
@@ -216,8 +232,9 @@ export function PresentationModal(props) {
                       <Button
                         size='sm'
                         colorScheme='green'
+                        isLoading={eventFormStatus === 'Pending'}
+                        loadingText='Saving'
                         type='submit'
-                        isLoading={isSubmitting}
                       >
                         Save
                       </Button>

@@ -10,14 +10,22 @@ import {
   Button,
   Text,
   Textarea,
+  useToast,
 } from '@chakra-ui/react';
+// Redux
 import { useDispatch, useSelector } from 'react-redux';
-import { asyncPostQuestion } from '../features/careerFair/stallSlice';
+import { asyncPostQuestion } from './stallSlice';
 
 export function QuestionsAndAnswers(props) {
   const [question, setQuestion] = React.useState('');
   const dispatch = useDispatch();
-  const buttonLoading = useSelector((state) => state.stall.questionLoading);
+  const buttonLoading = useSelector((state) => state.stall.status);
+  const toast = useToast();
+
+  const postQuestion = () => {
+    question &&
+      dispatch(asyncPostQuestion({ question: question, toast: toast }));
+  };
 
   return (
     <Box>
@@ -33,7 +41,7 @@ export function QuestionsAndAnswers(props) {
         size='sm'
         mt='2'
         mb='4'
-        onClick={() => question && dispatch(asyncPostQuestion(question))}
+        onClick={() => postQuestion()}
         isLoading={buttonLoading}
         loadingText='Submitting'
         spinnerPlacement='end'

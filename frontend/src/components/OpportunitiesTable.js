@@ -1,11 +1,12 @@
 import React from 'react';
+import { Table } from 'elementz';
+// Redux
+import { useSelector } from 'react-redux';
 // Chakra UI
 import { Text, Link, Button, useDisclosure } from '@chakra-ui/react';
-// Elementz
-import { Table } from 'elementz';
 import { RiPencilFill } from 'react-icons/ri';
+// Components
 import { OpportunityModal } from './OpportunityModal';
-import { useSelector } from 'react-redux';
 
 export function OpportunitiesTable(props) {
   const { isOpen, onOpen, onClose } = useDisclosure();

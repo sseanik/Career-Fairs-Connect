@@ -1,3 +1,7 @@
+import React from 'react';
+import { SingleDatepicker } from 'chakra-dayzed-datepicker';
+import { useHistory } from 'react-router-dom';
+// Chakra
 import {
   Button,
   ButtonGroup,
@@ -15,23 +19,24 @@ import {
   ModalOverlay,
   Text,
   Textarea,
+  useToast,
 } from '@chakra-ui/react';
-import React from 'react';
-import { SingleDatepicker } from 'chakra-dayzed-datepicker';
+
+// Formik
 import { Field, Form, Formik } from 'formik';
 import * as Yup from 'yup';
+// Redux
 import { useDispatch } from 'react-redux';
 import {
   asyncCreateFairEvent,
   asyncDeleteFairEvent,
   resetEvents,
-} from '../features/careerFair/eventsSlice';
+} from '../features/careerEvents/eventsSlice';
 import { asyncEditFairEvent } from '../features/careerFair/fairSlice';
-import { useHistory } from 'react-router-dom';
 
 const validationSchema = Yup.object({
-  title: Yup.string().required('Event Title is Required'),
-  description: Yup.string().required('Event Description is Required'),
+  title: Yup.string().required('Event Title is Required').max(126),
+  description: Yup.string().required('Event Description is Required').max(512),
   start: Yup.date()
     .required('Start Date is Required')
     .max(Yup.ref('end'), 'Start date cannot be After End Date')
@@ -53,6 +58,8 @@ export function EventModal(props) {
   const dispatch = useDispatch();
   const history = useHistory();
 
+  const toast = useToast();
+
   const initialValues = {
     title: props.title || '',
     description: props.description || '',
@@ -62,41 +69,54 @@ export function EventModal(props) {
       : new Date(new Date().setDate(new Date().getDate() + 1)),
   };
 
+  const closeModal = () => {
+    props.onClose();
+    setDeletePending(false);
+  };
+
+  const deleteEvent = () => {
+    dispatch(asyncDeleteFairEvent({ id: props.id, toast: toast }));
+    dispatch(resetEvents());
+    history.push('/events');
+  };
+
+  const submitForm = (values, actions) => {
+    props.edit
+      ? dispatch(
+          asyncEditFairEvent({
+            event: {
+              title: values.title,
+              description: values.description,
+              start: values.start.getTime(),
+              end: values.end.getTime(),
+            },
+            toast: toast,
+          })
+        )
+      : dispatch(
+          asyncCreateFairEvent({
+            event: {
+              university: props.university,
+              website: props.website,
+              logo: props.logo,
+              title: values.title,
+              description: values.description,
+              start: values.start.getTime(),
+              end: values.end.getTime(),
+            },
+            toast: toast,
+          })
+        );
+    actions.setSubmitting(false);
+    closeModal();
+  };
+
   return (
-    <Modal
-      isOpen={props.isOpen}
-      onClose={() => {
-        props.onClose();
-        setDeletePending(false);
-      }}
-    >
+    <Modal isOpen={props.isOpen} onClose={() => closeModal()}>
       <Formik
         initialValues={initialValues}
         validationSchema={validationSchema}
-        onSubmit={(values, actions) => {
-          props.edit
-            ? dispatch(
-                asyncEditFairEvent({
-                  title: values.title,
-                  description: values.description,
-                  start: values.start.getTime(),
-                  end: values.end.getTime(),
-                })
-              )
-            : dispatch(
-                asyncCreateFairEvent({
-                  university: props.university,
-                  website: props.website,
-                  logo: props.logo,
-                  title: values.title,
-                  description: values.description,
-                  start: values.start.getTime(),
-                  end: values.end.getTime(),
-                })
-              );
-          actions.setSubmitting(false);
-          props.onClose();
-        }}
+        onSubmit={(values, actions) => submitForm(values, actions)}
       >
         {({ isSubmitting, setFieldValue }) => (
           <Form>
@@ -150,9 +170,7 @@ export function EventModal(props) {
                       <SingleDatepicker
                         {...field}
                         date={form.values.start}
-                        onDateChange={(date) => {
-                          setFieldValue('start', date);
-                        }}
+                        onDateChange={(date) => setFieldValue('start', date)}
                         name='start'
                         id='start'
                         placeholder='start'
@@ -171,9 +189,7 @@ export function EventModal(props) {
                       <SingleDatepicker
                         {...field}
                         date={form.values.end}
-                        onDateChange={(date) => {
-                          setFieldValue('end', date);
-                        }}
+                        onDateChange={(date) => setFieldValue('end', date)}
                         name='end'
                         id='end'
                         placeholder='end'
@@ -204,22 +220,10 @@ export function EventModal(props) {
                       Are you sure you want to delete this event?
                     </Text>
                     <ButtonGroup>
-                      <Button
-                        mr='1'
-                        onClick={() => {
-                          setDeletePending(false);
-                        }}
-                      >
+                      <Button mr='1' onClick={() => setDeletePending(false)}>
                         Cancel
                       </Button>
-                      <Button
-                        colorScheme='red'
-                        onClick={() => {
-                          dispatch(asyncDeleteFairEvent());
-                          dispatch(resetEvents());
-                          history.push('/events');
-                        }}
-                      >
+                      <Button colorScheme='red' onClick={() => deleteEvent()}>
                         Delete
                       </Button>
                     </ButtonGroup>

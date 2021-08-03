@@ -1,5 +1,6 @@
-import { Flex, Skeleton, Stack } from '@chakra-ui/react';
 import React from 'react';
+// Chakra
+import { Flex, Skeleton, Stack } from '@chakra-ui/react';
 
 export const SkeletonFairEvent = (props) => {
   return (

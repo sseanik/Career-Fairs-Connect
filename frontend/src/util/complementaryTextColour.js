@@ -1,4 +1,5 @@
-export default function getDominantColour(colour) {
+// Given a colour, find the corresponding text colour
+export default function getComplementaryTextColour(colour) {
   let result = { bgColour: '', textColour: '' };
   let index = -1;
   if (

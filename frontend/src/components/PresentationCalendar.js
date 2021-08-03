@@ -1,6 +1,8 @@
 import React from 'react';
 import moment from 'moment';
+// Redux
 import { useDispatch, useSelector } from 'react-redux';
+import { asyncEditPresentationTime } from '../features/companyStall/stallSlice';
 // Chakra UI
 import { Box, Text, Tooltip, useDisclosure } from '@chakra-ui/react';
 // Full Calendar
@@ -14,11 +16,13 @@ import auLocale from '@fullcalendar/core/locales/en-au';
 import { PresentationModal } from './PresentationModal';
 import { CalendarModal } from './CalendarModal';
 import { InfoIcon } from '@chakra-ui/icons';
-import { asyncEditPresentation } from '../features/careerFair/stallSlice';
 
 export function PresentationCalendar(props) {
+  const { isOpen, onOpen, onClose } = useDisclosure();
+  // Redux
+  const dispatch = useDispatch();
   const width = useSelector((state) => state.window.width);
-  const { isOpen, onOpen, onClose } = useDisclosure('1');
+  // State
   const [open, setOpen] = React.useState(false);
   const [event, setEvent] = React.useState({});
   const [modalEventDetails, setModalEventDetails] = React.useState({
@@ -31,7 +35,49 @@ export function PresentationCalendar(props) {
     start: '',
     end: '',
   });
-  const dispatch = useDispatch();
+
+  const eventClick = (info) => {
+    setModalEventDetails({
+      id: info.event.id,
+      title: info.event.title,
+      description: info.event.extendedProps.description,
+      link: info.event.extendedProps.link,
+      color: info.event.backgroundColor,
+      start: info.event.start.getTime(),
+      end: info.event.end.getTime(),
+      time: info.event.start.toLocaleString([], {
+        day: 'numeric',
+        month: 'long',
+        year: 'numeric',
+        hour: 'numeric',
+        minute: '2-digit',
+        hour12: true,
+      }),
+    });
+    onOpen();
+    info.el.style.borderColor = 'black';
+  };
+
+  const changeEvent = (e) => {
+    dispatch(
+      asyncEditPresentationTime({
+        id: e.event.id,
+        title: e.event.title,
+        description: e.event.extendedProps.description,
+        link: e.event.extendedProps.link,
+        start: e.event.start.getTime(),
+        end: e.event.end.getTime(),
+        color: props.bgColour,
+      })
+    );
+  };
+
+  const selectEvent = (e) => {
+    if (e.view.type !== 'dayGridMonth' && e.start.getDay() === e.end.getDay()) {
+      setEvent(e);
+      setOpen(true);
+    }
+  };
 
   return (
     <div>
@@ -109,54 +155,13 @@ export function PresentationCalendar(props) {
           hour12: true,
         }}
         events={props.events}
-        eventClick={(info) => {
-          setModalEventDetails({
-            id: info.event.id,
-            title: info.event.title,
-            description: info.event.extendedProps.description,
-            link: info.event.extendedProps.link,
-            color: info.event.backgroundColor,
-            start: info.event.start.getTime(),
-            end: info.event.end.getTime(),
-            time: info.event.start.toLocaleString([], {
-              day: 'numeric',
-              month: 'long',
-              year: 'numeric',
-              hour: 'numeric',
-              minute: '2-digit',
-              hour12: true,
-            }),
-          });
-          onOpen();
-          info.el.style.borderColor = 'black';
-        }}
+        eventClick={(info) => eventClick(info)}
         expandRows={true}
         navLinks={true}
         // Confirm if user wants to add selection
-        select={(e) => {
-          if (
-            e.view.type !== 'dayGridMonth' &&
-            e.start.getDay() === e.end.getDay()
-          ) {
-            setEvent(e);
-            setOpen(true);
-          }
-        }}
+        select={(event) => selectEvent(event)}
         // Confirm if user wants to edit
-        eventChange={(e) => {
-          console.log(e.event);
-          dispatch(
-            asyncEditPresentation({
-              id: e.event.id,
-              title: e.event.title,
-              description: e.event.extendedProps.description,
-              link: e.event.extendedProps.link,
-              start: e.event.start.getTime(),
-              end: e.event.end.getTime(),
-              color: props.bgColour,
-            })
-          );
-        }}
+        eventChange={(event) => changeEvent(event)}
         // eventAdd={() => console.log('add')}
         // eventRemove={() => console.log('remove')}
       />

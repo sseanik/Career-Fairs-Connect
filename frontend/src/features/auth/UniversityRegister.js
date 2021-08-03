@@ -1,6 +1,9 @@
-import { Field, Formik } from 'formik';
 import * as React from 'react';
+// Formik
+import { Field, Formik } from 'formik';
 import * as Yup from 'yup';
+import { InputControl, SelectControl } from 'formik-chakra-ui';
+// Chakra
 import {
   Box,
   Heading,
@@ -9,29 +12,42 @@ import {
   FormLabel,
   FormErrorMessage,
   Button,
+  useToast,
 } from '@chakra-ui/react';
-import { InputControl, SelectControl } from 'formik-chakra-ui';
+// Components
 import Navbar from '../../components/navbar';
+// Redux
 import { useSelector, useDispatch } from 'react-redux';
 import { convertImageToBase64, selectBase64Image } from './logoSlice';
+import { asyncRegisterUniversity } from './userSlice';
 
 const initialValues = {
   email: '',
   password: '',
   confirmPassword: '',
   university: '',
+  website: '',
+  logo: '',
 };
 
 const validationSchema = Yup.object({
   email: Yup.string()
     .email('Email format is Invalid')
-    .required('University Email is Required'),
+    .required('University Email is Required')
+    .max(64),
   password: Yup.string()
     .required('Password is Required')
-    .min(6, 'Password must be at least 6 characters'),
+    .min(6, 'Password must be at least 6 characters')
+    .max(32),
   confirmPassword: Yup.string()
     .oneOf([Yup.ref('password'), null], 'Passwords must match')
+    .max(32)
     .required('Password is Required'),
+  logo: Yup.string().required('Logo upload is Required'),
+  website: Yup.string()
+    .matches(/^http(s)?:.*$/, 'Website URL is invalid')
+    .required('Website URL is Required')
+    .max(256),
   university: Yup.string()
     .oneOf([
       'Australian Catholic University',
@@ -77,22 +93,42 @@ const validationSchema = Yup.object({
       'Western Sydney University',
     ])
     .required('University is Required'),
-  logo: Yup.string(),
 });
 
 export function UniversityRegister() {
   const base64Image = useSelector(selectBase64Image);
+  const loggedIn = useSelector((state) => state.user.loggedIn);
+  const registerStatus = useSelector((state) => state.user.status);
   const dispatch = useDispatch();
+  const toast = useToast();
+
+  const uploadImage = (e, setFieldValue) => {
+    dispatch(convertImageToBase64(e));
+    setFieldValue('logo', e.target.value);
+  };
+
+  React.useState(() => {
+    if (loggedIn) {
+      console.log('Sign the user In');
+    }
+  });
+
+  const submitForm = (values, actions) => {
+    console.log(values);
+    console.log(base64Image[0]);
+    actions.setSubmitting(false);
+    dispatch(asyncRegisterUniversity({ user: {}, toast: toast }));
+  };
 
   return (
     <div>
       <Navbar />
       <Formik
         initialValues={initialValues}
-        onSubmit={() => console.log('hello')}
+        onSubmit={(values, actions) => submitForm(values, actions)}
         validationSchema={validationSchema}
       >
-        {({ isSubmitting, handleSubmit }) => (
+        {({ isSubmitting, handleSubmit, setFieldValue }) => (
           <Box
             borderWidth='1px'
             rounded='lg'
@@ -102,8 +138,8 @@ export function UniversityRegister() {
             as='form'
             onSubmit={handleSubmit}
           >
-            <Heading>University Registration</Heading>
-            <InputControl name='email' label='Student Email' />
+            <Heading mb='2'>University Registration</Heading>
+            <InputControl name='email' label='Email' />
             <Field name='password'>
               {({ field, form }) => (
                 <FormControl
@@ -236,19 +272,31 @@ export function UniversityRegister() {
               </option>
             </SelectControl>
 
-            <FormControl id='logo'>
-              <FormLabel>Logo Image (Optional)</FormLabel>
-              <input
-                type='file'
-                onChange={(e) => dispatch(convertImageToBase64(e))}
-                accept='.jpeg, .png, .jpg'
-              ></input>
-            </FormControl>
+            <InputControl name='website' label='University URL' />
+
+            <Field name='logo'>
+              {({ field, form }) => (
+                <FormControl
+                  id='logo'
+                  isInvalid={form.errors.logo && form.touched.logo}
+                >
+                  <FormLabel>Logo Image</FormLabel>
+                  <input
+                    {...field}
+                    type='file'
+                    onChange={(e) => uploadImage(e, setFieldValue)}
+                    accept='.jpeg, .png, .jpg'
+                  ></input>
+                  <FormErrorMessage>{form.errors.logo}</FormErrorMessage>
+                </FormControl>
+              )}
+            </Field>
 
             <Button
               mt={4}
               colorScheme='teal'
-              isLoading={isSubmitting}
+              isLoading={registerStatus}
+              loadingText='Registering'
               type='submit'
             >
               Join Now

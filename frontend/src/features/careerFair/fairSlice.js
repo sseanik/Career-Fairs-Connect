@@ -1,8 +1,9 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
-import { getFairData } from './exampleCareerFair';
 import { prominent } from 'color.js';
-import getDominantColour from '../../components/getDominantColour';
+import complementaryTextColour from '../../util/complementaryTextColour';
+import { getFairData } from '../../exampleData/exampleCareerFair';
 
+// Get Career Fair Event Data
 export const asyncFetchFairData = createAsyncThunk(
   'fair/university',
   async (fairID) => {
@@ -14,38 +15,69 @@ export const asyncFetchFairData = createAsyncThunk(
   }
 );
 
+/* ------------------------- University Perspective ------------------------- */
+// Edit a Career Fair Events Details
 export const asyncEditFairEvent = createAsyncThunk(
   'fair/edit',
-  async (event) => {
+  async ({ event, toast }) => {
+    await new Promise((r) => setTimeout(r, 3000));
     const response = event;
+    toast({
+      description: 'Successfully edited Career Fair Event',
+      status: 'success',
+      isClosable: true,
+    });
     return response;
   }
 );
 
+// Change a company stall's approval status
 export const asyncToggleEventPending = createAsyncThunk(
   'fair/togglePending',
-  async (id) => {
-    return id;
+  async ({ id, toggle, toast }) => {
+    await new Promise((r) => setTimeout(r, 500));
+    toast({
+      description: 'Successfully changed Stall approval status',
+      status: 'success',
+      isClosable: true,
+    });
+    return { id: id, toggle: toggle };
   }
 );
 
+/* --------------------------- Company Perspective -------------------------- */
+// Add a company stall to the career fair event
 export const asyncAddCompanyStall = createAsyncThunk(
   'fair/addStall',
-  async ({ stall, fairID }) => {
-    const response = { ...stall, id: '5545' };
+  async ({ stall, fairID, toast }) => {
+    await new Promise((r) => setTimeout(r, 3000));
+    const response = { ...stall, id: '5678' };
+    toast({
+      description: 'Successfully added Company Stall',
+      status: 'success',
+      isClosable: true,
+    });
     return response;
   }
 );
 
+// Delete a company stall from an event
 export const asyncRemoveCompanyStall = createAsyncThunk(
   'fair/removeStall',
-  async ({ fairID, name }) => {
-    return name;
+  async ({ fairID, company, toast }) => {
+    await new Promise((r) => setTimeout(r, 3000));
+    toast({
+      description: 'Successfully removed Company Stall',
+      status: 'success',
+      isClosable: true,
+    });
+    return company;
   }
 );
 
 const initialState = {
   loading: false,
+  status: false,
   //
   university: '', // Name of the University
   start: '', // Start Date of fair in epoch time
@@ -72,6 +104,7 @@ export const fairSlice = createSlice({
   },
   extraReducers: (builder) => {
     builder
+      // Get Career Fair Event Data
       .addCase(asyncFetchFairData.pending, (state) => {
         state.loading = true;
       })
@@ -87,25 +120,43 @@ export const fairSlice = createSlice({
         state.stalls = payload.stalls;
         state.events = payload.events;
         state.opportunities = payload.opportunities;
-
-        const dominantColourObj = getDominantColour(payload.colour);
+        const dominantColourObj = complementaryTextColour(payload.colour);
         state.bgColour = dominantColourObj.bgColour;
         state.textColour = dominantColourObj.textColour;
       })
+      // Edit a Career Fair Events Details
+      .addCase(asyncEditFairEvent.pending, (state, { payload }) => {
+        state.status = true;
+      })
       .addCase(asyncEditFairEvent.fulfilled, (state, { payload }) => {
+        state.status = false;
         state.title = payload.title;
         state.description = payload.description;
         state.start = payload.start;
         state.end = payload.end;
       })
+      // Change a company stall's approval status
       .addCase(asyncToggleEventPending.fulfilled, (state, { payload }) => {
-        const stall = state.stalls.find((stall) => stall.id === payload);
-        stall.pending = !stall.pending;
+        state.approvalStatus = true;
+        state.rejectStatus = true;
+        state.pendingStatus = true;
+        const stall = state.stalls.find((stall) => stall.id === payload.id);
+        stall.pending = payload.toggle;
+      })
+      // Add a company stall to the career fair event
+      .addCase(asyncAddCompanyStall.pending, (state, { payload }) => {
+        state.status = true;
       })
       .addCase(asyncAddCompanyStall.fulfilled, (state, { payload }) => {
+        state.status = false;
         state.stalls.push(payload);
       })
+      // Delete a company stall from an event
+      .addCase(asyncRemoveCompanyStall.pending, (state, { payload }) => {
+        state.status = true;
+      })
       .addCase(asyncRemoveCompanyStall.fulfilled, (state, { payload }) => {
+        state.status = false;
         state.stalls = state.stalls.filter(
           (stall) => stall.company !== payload
         );
@@ -114,7 +165,5 @@ export const fairSlice = createSlice({
 });
 
 export const { resetFair } = fairSlice.actions;
-
-// export const selectCount = (state) => state.counter.value;
 
 export default fairSlice.reducer;

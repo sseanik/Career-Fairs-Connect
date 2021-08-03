@@ -1,3 +1,10 @@
+import React from 'react';
+import { useHistory } from 'react-router-dom';
+// Redux
+import { useDispatch, useSelector } from 'react-redux';
+import { asyncFetchEventsData } from './eventsSlice';
+import { resetFair } from '../careerFair/fairSlice';
+// Chakra
 import {
   Button,
   Flex,
@@ -6,44 +13,55 @@ import {
   useDisclosure,
   useToast,
 } from '@chakra-ui/react';
-import { prominent } from 'color.js';
-import React from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-import { useHistory } from 'react-router-dom';
+import { SmallAddIcon } from '@chakra-ui/icons';
+// Components
+import Navbar from '../../components/navbar';
 import { EventModal } from '../../components/EventModal';
 import { DetailsCard } from '../../components/DetailsCard';
-import Navbar from '../../components/navbar';
-import { SkeletonFairEvent } from '../../components/SkeletonFairEvent';
-import { asyncFetchEventsData } from './eventsSlice';
-import { resetFair } from './fairSlice';
-import { SmallAddIcon } from '@chakra-ui/icons';
-
-async function getDominantColour(image) {
-  const colour = await prominent(image, {
-    amount: 2,
-  });
-  let index = -1;
-  if (colour[0][0] + colour[0][1] + colour[0][2] !== 0) {
-    index = 0;
-  } else if (colour[1][0] + colour[1][1] + colour[1][2] !== 0) {
-    index = 1;
-  }
-  return index !== -1
-    ? `rgb(${colour[index][0]}, ${colour[index][1]}, ${colour[index][2]})`
-    : 'black';
-}
+import { SkeletonFairEvent } from './SkeletonFairEvent';
+import getDominantColour from '../../util/getDominantColour';
 
 export default function CareerEvents() {
+  // React Router
   const history = useHistory();
+  // For toast and modal
   const toast = useToast();
   const { isOpen, onOpen, onClose } = useDisclosure();
   // Redux
   const dispatch = useDispatch();
   const eventsData = useSelector((state) => state.events.events);
-  const loading = useSelector((state) => state.events.loading);
   const userDetails = useSelector((state) => state.user);
+  const loading = useSelector((state) => state.events.loading);
+  const createStatus = useSelector((state) => state.events.status);
 
+  // On page load gather all career fair events
   React.useEffect(() => dispatch(asyncFetchEventsData()), [dispatch]);
+
+  // Navigate to fair event if permissions allow the user to
+  const visitFairEvent = (event, idx) => {
+    if (
+      userDetails.role === 'Student' &&
+      userDetails.university !== eventsData[idx].university
+    ) {
+      toast({
+        description: 'You are not a student of this university',
+        status: 'error',
+        isClosable: true,
+      });
+    } else if (
+      userDetails.role === 'University' &&
+      userDetails.name !== eventsData[idx].university
+    ) {
+      toast({
+        description: "You cannot visit another University's event",
+        status: 'error',
+        isClosable: true,
+      });
+    } else {
+      history.push(`/fair/${event.id}`);
+      dispatch(resetFair());
+    }
+  };
 
   return (
     <div>
@@ -61,6 +79,8 @@ export default function CareerEvents() {
               mr='6'
               mt='3'
               onClick={onOpen}
+              isLoading={createStatus}
+              loadingText='Creating Event'
             >
               Create Event
             </Button>
@@ -88,30 +108,7 @@ export default function CareerEvents() {
           role='group'
           cursor='pointer'
           _hover={{ background: 'gray.50' }}
-          onClick={() => {
-            if (
-              userDetails.role === 'Student' &&
-              userDetails.university !== eventsData[idx].university
-            ) {
-              toast({
-                title: 'You are not a student of this university',
-                status: 'error',
-                isClosable: true,
-              });
-            } else if (
-              userDetails.role === 'University' &&
-              userDetails.name !== eventsData[idx].university
-            ) {
-              toast({
-                title: "You cannot visit another University's event",
-                status: 'error',
-                isClosable: true,
-              });
-            } else {
-              history.push(`/fair/${event.id}`);
-              dispatch(resetFair());
-            }
-          }}
+          onClick={() => visitFairEvent(event, idx)}
         >
           <DetailsCard
             alt={event.university}

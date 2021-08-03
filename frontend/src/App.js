@@ -1,18 +1,22 @@
 import React from 'react';
-import './App.css';
-import { Button, ButtonGroup, ChakraProvider } from '@chakra-ui/react';
 import { Link, Route, Switch } from 'react-router-dom';
+import './App.css';
+// Redux
+import { useDispatch } from 'react-redux';
+import { asyncFetchUserData } from './features/auth/userSlice';
+// Chakra UI
+import { Button, ButtonGroup, ChakraProvider } from '@chakra-ui/react';
+// Non-Logged In Pages
 import Login from './pages/Login';
 import Register from './pages/Register';
 import { StudentRegister } from './features/auth/StudentRegister';
 import { UniversityRegister } from './features/auth/UniversityRegister';
-import CareerFair from './features/careerFair/CareerFair';
-import CompanyStall from './features/careerFair/CompanyStall';
-import CareerEvents from './features/careerFair/CareerEvents';
-import { useDispatch } from 'react-redux';
-import { asyncFetchUserData } from './features/auth/userSlice';
 import EmployerRegister from './features/auth/EmployerRegister';
 import LandingPage from './features/landing/LandingPage';
+// Logged In Pages
+import CareerFair from './features/careerFair/CareerFair';
+import CompanyStall from './features/companyStall/CompanyStall';
+import CareerEvents from './features/careerEvents/CareerEvents';
 
 function App() {
   const dispatch = useDispatch();

@@ -2,13 +2,13 @@ import { configureStore } from '@reduxjs/toolkit';
 import counterReducer from '../features/counter/counterSlice';
 import logoReducer from '../features/auth/logoSlice';
 import userReducer from '../features/auth/userSlice';
-import eventsReducer from '../features/careerFair/eventsSlice';
+import eventsReducer from '../features/careerEvents/eventsSlice';
 import fairReducer from '../features/careerFair/fairSlice';
-import stallReducer from '../features/careerFair/stallSlice';
+import stallReducer from '../features/companyStall/stallSlice';
 import windowReducer, {
   setWindowHeight,
   setWindowWidth,
-} from '../components/windowSlice';
+} from '../util/windowSlice.js';
 
 export const store = configureStore({
   reducer: {

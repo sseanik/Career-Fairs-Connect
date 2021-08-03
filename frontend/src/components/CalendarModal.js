@@ -1,3 +1,5 @@
+import React from 'react';
+// Chakra UI
 import {
   Button,
   ButtonGroup,
@@ -14,20 +16,24 @@ import {
   ModalOverlay,
   Text,
   Textarea,
+  useToast,
 } from '@chakra-ui/react';
-import * as Yup from 'yup';
-
-import React from 'react';
+// Formik
 import { Field, Form, Formik } from 'formik';
+import * as Yup from 'yup';
+// Redux
 import { useDispatch } from 'react-redux';
-import { asyncAddPresentation } from '../features/careerFair/stallSlice';
+import { asyncAddPresentation } from '../features/companyStall/stallSlice';
 
 const validationSchema = Yup.object({
-  title: Yup.string().required('Presentation Title is Required'),
-  description: Yup.string().required('Presentation Description is Required'),
+  title: Yup.string().required('Presentation Title is Required').max(126),
+  description: Yup.string()
+    .required('Presentation Description is Required')
+    .max(512),
   link: Yup.string()
     .matches(/^http(s)?:.*$/, 'Presentation URL is invalid')
-    .required('Presentation Link is Required'),
+    .required('Presentation Link is Required')
+    .max(256),
 });
 
 const initialValues = {
@@ -39,34 +45,37 @@ const initialValues = {
 export function CalendarModal(props) {
   const dispatch = useDispatch();
   const [next, setNext] = React.useState(false);
+  const toast = useToast();
+
+  const closeModal = () => {
+    setNext(false);
+    props.onClose();
+  };
+
+  const submitModal = (values, actions) => {
+    dispatch(
+      asyncAddPresentation({
+        presentation: {
+          title: values.title,
+          description: values.description,
+          link: values.link,
+          start: props.event.start.getTime(),
+          end: props.event.end.getTime(),
+          color: props.color,
+        },
+        toast: toast,
+      })
+    );
+    actions.setSubmitting(false);
+    closeModal();
+  };
 
   return (
-    <Modal
-      onClose={() => {
-        setNext(false);
-        props.onClose();
-      }}
-      isOpen={props.isOpen}
-      isCentered
-    >
+    <Modal onClose={() => closeModal()} isOpen={props.isOpen} isCentered>
       <Formik
         initialValues={initialValues}
         validationSchema={validationSchema}
-        onSubmit={(values, actions) => {
-          dispatch(
-            asyncAddPresentation({
-              title: values.title,
-              description: values.description,
-              link: values.link,
-              start: props.event.start.getTime(),
-              end: props.event.end.getTime(),
-              color: props.color,
-            })
-          );
-          actions.setSubmitting(false);
-          setNext(false);
-          props.onClose();
-        }}
+        onSubmit={(values, actions) => submitModal(values, actions)}
       >
         {({ isSubmitting }) => (
           <Form>
@@ -176,13 +185,7 @@ export function CalendarModal(props) {
               </ModalBody>
               <ModalFooter>
                 <ButtonGroup>
-                  <Button
-                    size='sm'
-                    onClick={() => {
-                      setNext(false);
-                      props.onClose();
-                    }}
-                  >
+                  <Button size='sm' onClick={() => closeModal()}>
                     Cancel
                   </Button>
                   {next ? (
