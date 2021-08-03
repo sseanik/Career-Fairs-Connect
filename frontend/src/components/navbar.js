@@ -21,6 +21,7 @@ import axios from 'axios';
 // localStorage.clear();
 // localStorage.setItem('token', 'fakeToken');
 // localStorage.setItem('name', 'fakeName');
+localStorage.setItem('userId', 'fakeId');
 
 
 function Navbar() {
@@ -97,7 +98,10 @@ function Navbar() {
           <MenuList
             minW="0" w={'140px'}
           >
-            <MenuItem>
+            <MenuItem
+              as={Link}
+              to='/company/1'
+            >
               Profile
             </MenuItem>
             <MenuDivider />
@@ -125,18 +129,18 @@ function Navbar() {
       borderColor={useColorModeValue('gray.200', 'gray.900')}
       align={'center'}
     >
-      <Box margin='auto' paddingLeft='1%'>
-        <Text
-          // fontFamily={'heading'}
-          fontWeight={600}
-          fontSize={{ base: '2xl', sm: '2xl', lg: '3xl' }}
-          color={useColorModeValue('gray.800', 'white')}
-          as={Link}
-          to='/'
-        >
-          Career Fairs Connect
-        </Text>
-      </Box>
+      {/* <Box margin='auto' paddingLeft='1%'> */}
+      <Text
+        // fontFamily={'heading'}
+        fontWeight={600}
+        fontSize={{ base: '2xl', sm: '2xl', lg: '3xl' }}
+        color={useColorModeValue('gray.800', 'white')}
+        as={Link}
+        to='/'
+      >
+        Career Fairs Connect
+      </Text>
+      {/* </Box> */}
       <Spacer />
 
       {localStorage.getItem('token') === null ?

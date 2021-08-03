@@ -68,7 +68,7 @@ export default function Login() {
           localStorage.setItem('token', info.token);
           //should it return more user information than token?
           //name, role...
-          
+
           // history.push('/')
 
         })
@@ -76,6 +76,7 @@ export default function Login() {
       //fake testing local info
       localStorage.setItem('token', 'fakeToken');
       localStorage.setItem('name', 'fakeName');
+      localStorage.setItem('role', 'company');
 
       history.push('/')
     }
