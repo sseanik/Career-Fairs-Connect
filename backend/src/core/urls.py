@@ -67,9 +67,9 @@ urlpatterns = [
     path('create_presentation/', create_presentation),
     path('edit_presentation/', edit_presentation),
 
-    re_path('^(?P<eventId>.+)/get_career_fair_data/$', get_career_fair_data),
-    re_path('^(?P<stallId>.+)/get_presentation/$', get_presentation),
-    re_path('^(?P<eventId>.+)/get_all_presentations/$', get_all_presentations),
+    re_path('^get_career_fair_data/(?P<eventId>.+)/$', get_career_fair_data),
+    re_path('^get_presentation/(?P<stallId>.+)/$', get_presentation),
+    re_path('^get_all_presentations/(?P<eventId>.+)/$', get_all_presentations),
 
     path('careerfairs/<int:eventId>/stalls/', StallList.as_view()),
     path('company/<int:companyId>/opportunities/', OpportunityList.as_view()),
