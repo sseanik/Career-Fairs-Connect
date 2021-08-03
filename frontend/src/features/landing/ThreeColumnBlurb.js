@@ -70,7 +70,7 @@ export default function ThreeColumnBlurb() {
             />
             <Feature
               icon={<Icon as={FaBuilding} color='black' w={10} h={10} />}
-              title={'Companies'}
+              title={'Employers'}
               text={
                 'Employers can apply a virtual stall in a University Careers fair event to promote their career opportunities and schedule any accompanying live presentations.'
               }

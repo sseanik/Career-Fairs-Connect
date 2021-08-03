@@ -61,14 +61,6 @@ export default function AboutUs() {
   return (
     <Container maxW={'7xl'} py={12}>
       <SimpleGrid columns={{ base: 1, md: 2 }} spacing={10}>
-        <Flex>
-          <Image
-            rounded={'md'}
-            alt={'feature image'}
-            src={featureImage[index]}
-            objectFit={'cover'}
-          />
-        </Flex>
         <Stack spacing={4}>
           <Text
             textTransform={'uppercase'}
@@ -138,6 +130,14 @@ export default function AboutUs() {
             />
           </Stack>
         </Stack>
+        <Flex>
+          <Image
+            rounded={'md'}
+            alt={'image of ' + featureTitle[index]}
+            src={featureImage[index]}
+            objectFit={'scale-down'}
+          />
+        </Flex>
       </SimpleGrid>
     </Container>
   );

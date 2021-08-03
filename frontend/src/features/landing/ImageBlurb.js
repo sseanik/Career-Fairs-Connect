@@ -13,10 +13,10 @@ export default function ImageBlurb() {
   return (
     <Flex
       w={'full'}
-      h={'50vh'}
+      h={'40vh'}
       backgroundImage={expobg}
       backgroundSize={'cover'}
-      backgroundPosition={'center center'}
+      backgroundPosition={'top center'}
       mt='10'
     >
       <VStack
@@ -44,7 +44,7 @@ export default function ImageBlurb() {
           >
             <Button
               bg={'blue.400'}
-              rounded={'xl'}
+              rounded={'lg'}
               color={'white'}
               _hover={{ bg: 'blue.500' }}
               as={Link}
