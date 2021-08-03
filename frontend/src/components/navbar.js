@@ -9,10 +9,11 @@ import {
   MenuList,
   MenuItem,
   MenuDivider,
-  // useDisclosure,
   Stack,
   useColorModeValue,
-  Link as ChakraLink
+  Link as ChakraLink,
+  Text,
+  useBreakpointValue,
 } from '@chakra-ui/react';
 import { Link, useHistory } from 'react-router-dom';
 import axios from 'axios';
@@ -68,22 +69,21 @@ function Navbar() {
       // console.log(localStorage.getItem('token'))
       const token = localStorage.getItem('token')
       localStorage.clear();
-      
+
       axios.post('/logout',
-      {
-        token: token,
-      }).then(info => {
-        console.log(info);
-        // localStorage.clear();
-      })
+        {
+          token: token,
+        }).then(info => {
+          console.log(info);
+          // localStorage.clear();
+        })
 
       history.push('/')
       window.location.reload();
 
-  }
+    }
 
     return (
-      // <div>
       <Flex alignItems={'center'}>
         <Menu>
           <MenuButton
@@ -95,23 +95,23 @@ function Navbar() {
             Hi, {localStorage.getItem('name')}
           </MenuButton>
           <MenuList
-             minW="0" w={'140px'}
+            minW="0" w={'140px'}
           >
             <MenuItem>
               Profile
             </MenuItem>
             <MenuDivider />
             <MenuItem
-            onClick={handleLogOut}
+              onClick={handleLogOut}
             >
               Log out
             </MenuItem>
           </MenuList>
         </Menu>
       </Flex>
-      // </div>
     )
   }
+
   return (
     <Flex
       id='menu'
@@ -125,10 +125,17 @@ function Navbar() {
       borderColor={useColorModeValue('gray.200', 'gray.900')}
       align={'center'}
     >
-      <Box margin='auto' paddingLeft='4%' id='logo'>
-        <ChakraLink as={Link} to='/'>
+      <Box margin='auto' paddingLeft='1%'>
+        <Text
+          // fontFamily={'heading'}
+          fontWeight={600}
+          fontSize={{ base: '2xl', sm: '2xl', lg: '3xl' }}
+          color={useColorModeValue('gray.800', 'white')}
+          as={Link}
+          to='/'
+        >
           Career Fairs Connect
-        </ChakraLink>
+        </Text>
       </Box>
       <Spacer />
 
