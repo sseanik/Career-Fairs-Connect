@@ -13,7 +13,7 @@ const testimonials = [
     name: 'John H.',
     role: 'Chief Marketing Officer at Froogle',
     content:
-      'The interface and design is so intuitive, my company has used this service now for 3 years straight! We are able to easily connect to students and have our internship and graduate intake increase from the quality and quantity of students who found our opportunities here on Career Fair Connect',
+      'The interface and design is so intuitive, my company has used this service now for 3 years straight! We are able to easily connect to students and have our internship and graduate intake increase from the quality and quantity of students who found our opportunities here on Career Fairs Connect',
     avatar:
       'https://images.unsplash.com/photo-1603415526960-f7e0328c63b1?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=334&q=80',
   },
@@ -21,7 +21,7 @@ const testimonials = [
     name: 'Jennifer C.',
     role: 'Early Careers Lead at Facenovel',
     content:
-      'It really saves me time and effort when adding my Employer Career Opportunities and schedules. It is exactly what our business has been looking for in the university space. Careers Fair Connect has helped skyrocket the number of interest applicants.',
+      'It really saves me time and effort when adding my Employer Career Opportunities and schedules. It is exactly what our business has been looking for in the university space. Career Fairs Connect has helped skyrocket the number of interest applicants.',
     avatar:
       'https://images.unsplash.com/photo-1598550874175-4d0ef436c909?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=334&q=80',
   },
@@ -29,7 +29,7 @@ const testimonials = [
     name: 'Eugenie V.',
     role: 'Marketing Student',
     content:
-      'Thank you for making it painless, pleasant and most of all, hassle free for myself and my other student cohort! I can easily stay up to date and know when companies are going live with presentations! Thank you Career Fair Connect!',
+      'Thank you for making it painless, pleasant and most of all, hassle free for myself and my other student cohort! I can easily stay up to date and know when companies are going live with presentations! Thank you Career Fairs Connect!',
     avatar:
       'https://images.unsplash.com/photo-1494790108377-be9c29b29330?ixlib=rb-1.2.1&ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&auto=format&fit=crop&w=334&q=80',
   },
@@ -37,7 +37,7 @@ const testimonials = [
     name: 'Samuel F.',
     role: 'Computer Science Student',
     content:
-      'I am so pleased with Career Fair Connect. It was so easy to use and browse to look for internships I was interested in. Without Career Fair Connect, I would not of made it to my Software Engineering Internship. Thank you for creating this product!',
+      'I am so pleased with Career Fairs Connect. It was so easy to use and browse to look for internships I was interested in. Without Career Fairs Connect, I would not of made it to my Software Engineering Internship. Thank you for creating this product!',
     avatar:
       'https://images.unsplash.com/photo-1606513542745-97629752a13b?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=334&q=80',
   },

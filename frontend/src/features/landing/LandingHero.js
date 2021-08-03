@@ -43,7 +43,7 @@ export default function LandingHero() {
                 zIndex: -1,
               }}
             >
-              Career Fair Connect
+              Career Fairs Connect
             </Text>
           </Heading>
           <Heading
@@ -56,7 +56,7 @@ export default function LandingHero() {
             </Text>
           </Heading>
           <Text color={'gray.500'}>
-            Careers Fair Connect is an online virtual careers fair platform that
+            Career Fairs Connect is an online virtual careers fair platform that
             provides Universities with a platform to organize a fair space for
             employers and students.
           </Text>
