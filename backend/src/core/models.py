@@ -109,7 +109,9 @@ class Stalls(models.Model):
 
 class Presentations(models.Model):
     presentation_id = models.AutoField(primary_key=True)
-    stall_id = models.OneToOneField(Stalls, on_delete=models.CASCADE)
+    stall_id = models.ForeignKey(Stalls, on_delete=models.CASCADE)
+    title = models.CharField(max_length=255)
+    color = models.CharField(max_length=255)
     presentation_link = models.CharField(max_length=255)
     start_time = models.DateTimeField()
     end_time = models.DateTimeField()
@@ -144,16 +146,9 @@ class Opportunities(models.Model):
 class QAMessages(models.Model):
     post_id = models.AutoField(primary_key=True)
     time = models.DateTimeField(auto_now_add=True, blank=True)
-    upvotes = models.IntegerField(default=0)
+    num_upvotes = models.IntegerField(default=0)
     question = models.TextField()
     answer = models.TextField()
-
-
-class Upvotes(models.Model):
-    user_id = models.ForeignKey(User, on_delete=models.CASCADE)
-    post_id = models.ForeignKey(QAMessages, on_delete=models.CASCADE)
-    class Meta:
-        unique_together = ('user_id', 'post_id')
 
 
 class Students_opportunities(models.Model):
