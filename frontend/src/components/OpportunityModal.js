@@ -38,7 +38,7 @@ const validationSchema = Yup.object({
     .oneOf(['Internship', 'Graduate'])
     .required('Opportunity Type is Required'),
   role: Yup.string().required('Opportunity Role Title is Required').max(64),
-  location: Yup.string().required('Opportunity Location is Required').max(64),
+  location: Yup.string().required('Opportunity Location is Required').max(128),
   wam: Yup.string().oneOf([
     'Pass',
     'Credit',
