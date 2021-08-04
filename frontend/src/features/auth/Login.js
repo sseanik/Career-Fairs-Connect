@@ -1,4 +1,8 @@
 import React from 'react'; // { useState }
+// Libraries
+import { Link, useHistory } from 'react-router-dom';
+import Fade from 'react-reveal/Fade';
+// Chakra
 import {
   Box,
   Button,
@@ -15,12 +19,13 @@ import {
   useBreakpointValue,
 } from '@chakra-ui/react';
 import { InputControl } from 'formik-chakra-ui';
-import { Field, Form, Formik } from 'formik';
-import Navbar from '../../components/navbar';
-import { Link, useHistory } from 'react-router-dom';
 import { ArrowBackIcon } from '@chakra-ui/icons';
-import Fade from 'react-reveal/Fade';
+// Formik
 import * as Yup from 'yup';
+import { Field, Form, Formik } from 'formik';
+// Components
+import Navbar from '../../components/navbar';
+// Redux
 import { useDispatch, useSelector } from 'react-redux';
 import { asyncLoginUser } from './userSlice';
 
