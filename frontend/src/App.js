@@ -18,13 +18,14 @@ import CareerFair from './features/careerFair/CareerFair';
 import CompanyStall from './features/companyStall/CompanyStall';
 import CareerEvents from './features/careerEvents/CareerEvents';
 import CompanyProfile from './features/profile/companyProfile';
+import theme from './app/theme';
 
 function App() {
   const dispatch = useDispatch();
   React.useEffect(() => dispatch(asyncFetchUserData()), [dispatch]);
 
   return (
-    <ChakraProvider>
+    <ChakraProvider theme={theme}>
       <ButtonGroup>
         <Button
           onClick={() => {

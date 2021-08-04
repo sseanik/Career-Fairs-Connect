@@ -80,9 +80,14 @@
   background: #bdc7d1 !important;
 }
 
-
 .fc .fc-button-primary:not(:disabled):active:focus, .fc .fc-button-primary:not(:disabled).fc-button-active:focus {
   background: #cedbeb !important;
-
 }
 
+.fc-list-day-text {
+  color: black !important;
+}
+
+.fc-event:hover {
+  color: black !important;
+}

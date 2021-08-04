@@ -3,12 +3,19 @@ import { Table } from 'elementz';
 // Redux
 import { useSelector } from 'react-redux';
 // Chakra UI
-import { Text, Link, Button, useDisclosure } from '@chakra-ui/react';
+import {
+  Text,
+  Link,
+  Button,
+  useDisclosure,
+  useColorMode,
+} from '@chakra-ui/react';
 import { RiPencilFill } from 'react-icons/ri';
 // Components
 import { OpportunityModal } from './OpportunityModal';
 
 export function OpportunitiesTable(props) {
+  const { colorMode } = useColorMode();
   const { isOpen, onOpen, onClose } = useDisclosure();
   const [activeRow, setActiveRow] = React.useState({});
   const userDetails = useSelector((state) => state.user);
@@ -93,7 +100,11 @@ export function OpportunitiesTable(props) {
             </Button>
           )
         }
-        onExpand={(row) => <Text color='gray.800'>{row.description}</Text>}
+        onExpand={(row) => (
+          <Text color={colorMode === 'light' ? 'gray.900' : 'gray.50'}>
+            {row.description}
+          </Text>
+        )}
         onMobile={(row) => (
           <div className='p-0 m-0'>
             {!props.interact && (

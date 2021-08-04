@@ -16,6 +16,7 @@ import {
   useToast,
   Flex,
   Text,
+  useColorMode,
 } from '@chakra-ui/react';
 // Components
 import Navbar from '../../components/navbar';
@@ -106,6 +107,7 @@ export function UniversityRegister() {
   const registerStatus = useSelector((state) => state.user.status);
   const dispatch = useDispatch();
   const toast = useToast();
+  const { colorMode } = useColorMode();
 
   const uploadImage = (e, setFieldValue) => {
     dispatch(convertImageToBase64(e));
@@ -141,13 +143,14 @@ export function UniversityRegister() {
               boxShadow={'2xl'}
               width={'full'}
               overflow={'hidden'}
-              bg='white'
               maxWidth={800}
               p={6}
               m='10px auto'
               as='form'
               onSubmit={handleSubmit}
               mt='7'
+              borderWidth='1px'
+              borderColor={colorMode === 'light' ? 'gray.200' : 'gray.900'}
             >
               <Flex justify='center'>
                 <Button
@@ -182,7 +185,7 @@ export function UniversityRegister() {
                       position: 'absolute',
                       bottom: 1,
                       left: 0,
-                      bg: 'orange.50',
+                      bg: colorMode === 'light' ? 'orange.50' : 'orange.900',
                       zIndex: -1,
                     }}
                   >

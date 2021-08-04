@@ -55,6 +55,7 @@ function TestmonialCard(props) {
   const { name, role, content, avatar, index } = props;
   return (
     <Flex
+      key={`testimonial-${index}`}
       boxShadow={'lg'}
       maxW={'640px'}
       direction={{ base: 'column-reverse', md: 'row' }}
@@ -140,7 +141,7 @@ export default function Testimonials() {
               position: 'absolute',
               bottom: 1,
               left: 0,
-              bg: 'blue.50',
+              bg: useColorModeValue('blue.50', 'blue.900'),
               zIndex: -1,
             }}
           >

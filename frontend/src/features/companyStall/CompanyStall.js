@@ -14,6 +14,7 @@ import {
   TabPanel,
   TabPanels,
   Tabs,
+  useColorModeValue,
 } from '@chakra-ui/react';
 import { ArrowBackIcon } from '@chakra-ui/icons';
 // Components
@@ -46,7 +47,12 @@ export default function CompanyStall(props) {
   return (
     <div>
       <Navbar />
-      <Box borderWidth='1px' borderColor='gray.300' borderRadius='xs' m='4'>
+      <Box
+        borderWidth='1px'
+        borderColor={useColorModeValue('gray.300', 'gray.700')}
+        borderRadius='xs'
+        m='4'
+      >
         <Tabs>
           <TabList>
             <Tab
@@ -126,7 +132,7 @@ export default function CompanyStall(props) {
       </Box>
       <Box
         borderWidth='1px'
-        borderColor='gray.300'
+        borderColor={useColorModeValue('gray.300', 'gray.700')}
         borderRadius='xl'
         m='4'
         p='4'

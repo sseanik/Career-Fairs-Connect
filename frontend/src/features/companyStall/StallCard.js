@@ -11,6 +11,7 @@ import {
   Tag,
   TagLabel,
   Tooltip,
+  useColorMode,
   useToast,
 } from '@chakra-ui/react';
 import { InfoOutlineIcon } from '@chakra-ui/icons';
@@ -22,23 +23,36 @@ export function StallCard(props) {
   const dispatch = useDispatch();
   const userRole = useSelector((state) => state.user.role);
   const toast = useToast();
+  const { colorMode } = useColorMode();
 
   return (
     <Flex direction='column'>
       <Box
         zIndex='1'
         borderWidth='1px'
-        borderColor='gray.300'
+        borderColor={colorMode === 'light' ? 'gray.300' : 'gray.700'}
         w='225px'
         borderRadius='xl'
         p='12px'
         m='2'
         role='group'
         bg={
-          (props.pending === 'Rejected' || props.pending === 'Pending') &&
-          'gray.100'
+          props.pending === 'Rejected' || props.pending === 'Pending'
+            ? colorMode === 'light'
+              ? 'gray.200'
+              : 'gray.800'
+            : colorMode === 'light'
+            ? 'white'
+            : 'gray.700'
         }
-        _hover={{ background: 'gray.100' }}
+        _hover={{
+          background:
+            colorMode === 'light'
+              ? 'gray.100'
+              : props.pending === 'Rejected' || props.pending === 'Pending'
+              ? 'gray.900'
+              : 'gray.600',
+        }}
         as={Link}
         to={`/stall/${props.id}`}
       >

@@ -10,12 +10,15 @@ import {
   Icon,
   useColorModeValue,
   Button,
+  useColorMode,
 } from '@chakra-ui/react';
 import React from 'react';
 import { SiGooglecalendar } from 'react-icons/si';
 import { RiQuestionAnswerFill } from 'react-icons/ri';
 import { FaListAlt } from 'react-icons/fa';
 import opportunityTable from './opportunityTable.png';
+import presentationCalendar from './presentationCalendar.png';
+import qandaForum from './qandaForum.png';
 import Fade from 'react-reveal/Fade';
 
 export default function AboutUs() {
@@ -24,7 +27,7 @@ export default function AboutUs() {
     'Presentation Calendar',
     'Q & A Forum',
   ];
-  const featureImage = [opportunityTable, opportunityTable, opportunityTable];
+  const featureImage = [opportunityTable, presentationCalendar, qandaForum];
   const featureDescription = [
     'A table detailing the various company internship and graduate career opportunities',
     'A calendar highlighting the scheduling of company career presentation events ',
@@ -32,7 +35,14 @@ export default function AboutUs() {
   ];
   const [index, setIndex] = React.useState(0);
 
-  const Feature = ({ text, icon, iconBg, idx }) => {
+  const { colorMode } = useColorMode();
+  const [colour, setColour] = React.useState('');
+
+  React.useEffect(() => {
+    colorMode === 'light' ? setColour('blue.50') : setColour('blue.900');
+  }, [colorMode]);
+
+  const Feature = ({ text, icon, iconBg, idx, color }) => {
     return (
       <Stack
         direction={'row'}
@@ -42,16 +52,12 @@ export default function AboutUs() {
         _hover={{ bg: 'blue.50' }}
         justify='flex-start'
         p='0'
-        onClick={() => setIndex(idx)}
+        onClick={() => {
+          setIndex(idx);
+          setColour(color);
+        }}
       >
-        <Flex
-          w={8}
-          h={8}
-          align={'center'}
-          justify={'center'}
-          rounded={'full'}
-          bg={iconBg}
-        >
+        <Flex w={8} h={8} align={'center'} justify={'center'} rounded={'full'}>
           {icon}
         </Flex>
         <Text fontWeight={600}>{text}</Text>
@@ -66,15 +72,14 @@ export default function AboutUs() {
           <Stack spacing={4}>
             <Text
               textTransform={'uppercase'}
-              color={'blue.400'}
+              bg={colour}
               fontWeight={600}
               fontSize={'sm'}
-              bg={useColorModeValue('blue.50', 'blue.900')}
               p={2}
               alignSelf={'flex-start'}
               rounded={'md'}
             >
-              Our Features
+              Features
             </Text>
             <Heading
               as={'span'}
@@ -86,7 +91,7 @@ export default function AboutUs() {
                 position: 'absolute',
                 bottom: 1,
                 left: 0,
-                bg: 'blue.50',
+                bg: colour,
                 zIndex: -1,
               }}
             >
@@ -104,31 +109,39 @@ export default function AboutUs() {
               }
             >
               <Feature
-                icon={<Icon as={FaListAlt} color={'purple.500'} w={5} h={5} />}
-                iconBg={useColorModeValue('purple.100', 'purple.900')}
+                icon={<Icon as={FaListAlt} color={'red.500'} w={5} h={5} />}
+                iconBg={useColorModeValue('red.100', 'red.900')}
                 text={featureTitle[0]}
                 idx={0}
+                color={useColorModeValue('red.50', 'red.900')}
               />
               <Feature
                 icon={
-                  <Icon as={SiGooglecalendar} color={'teal.500'} w={5} h={5} />
+                  <Icon
+                    as={SiGooglecalendar}
+                    color={'yellow.500'}
+                    w={5}
+                    h={5}
+                  />
                 }
-                iconBg={useColorModeValue('teal.100', 'teal.900')}
+                iconBg={useColorModeValue('yellow.100', 'yellow.900')}
                 text={featureTitle[1]}
                 idx={1}
+                color={useColorModeValue('yellow.50', 'yellow.900')}
               />
               <Feature
                 icon={
                   <Icon
                     as={RiQuestionAnswerFill}
-                    color={'cyan.500'}
+                    color={'teal.500'}
                     w={5}
                     h={5}
                   />
                 }
-                iconBg={useColorModeValue('cyan.100', 'cyan.900')}
+                iconBg={useColorModeValue('teal.100', 'teal.900')}
                 text={featureTitle[2]}
                 idx={2}
+                color={useColorModeValue('teal.50', 'teal.900')}
               />
             </Stack>
           </Stack>
@@ -139,7 +152,7 @@ export default function AboutUs() {
               rounded={'md'}
               alt={'image of ' + featureTitle[index]}
               src={featureImage[index]}
-              objectFit={'scale-down'}
+              objectFit={'none'}
             />
           </Fade>
         </Flex>

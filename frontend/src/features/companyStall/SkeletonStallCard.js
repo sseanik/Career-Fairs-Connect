@@ -7,13 +7,16 @@ import {
   Skeleton,
   SkeletonCircle,
   Spacer,
+  useColorMode,
 } from '@chakra-ui/react';
 
 export const SkeletonStallCard = () => {
+  const { colorMode } = useColorMode();
+
   return (
     <Box
       borderWidth='1px'
-      borderColor='gray.300'
+      borderColor={colorMode === 'light' ? 'gray.300' : 'gray.700'}
       w='225px'
       borderRadius='xl'
       p='12px'

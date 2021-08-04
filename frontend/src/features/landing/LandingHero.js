@@ -41,7 +41,7 @@ export default function LandingHero() {
                   position: 'absolute',
                   bottom: 1,
                   left: 0,
-                  bg: 'blue.50',
+                  bg: useColorModeValue('blue.50', 'blue.900'),
                   zIndex: -1,
                 }}
               >
@@ -63,7 +63,7 @@ export default function LandingHero() {
           <Fade down>
             <Text color={'gray.500'}>
               Career Fairs Connect is an online virtual careers fair platform
-              that provides Universities with a platform to organize a fair
+              that provides Universities with a means to organize an online fair
               space for employers and students.
             </Text>
           </Fade>
@@ -79,7 +79,7 @@ export default function LandingHero() {
                 px={6}
                 colorScheme={'blue'}
                 bg={'blue.400'}
-                _hover={{ bg: 'blue.500' }}
+                _hover={{ bg: useColorModeValue('blue.500', 'blue.300') }}
                 as={Link}
                 to='/register'
               >
@@ -102,7 +102,7 @@ export default function LandingHero() {
             top={'-20%'}
             left={0}
             zIndex={-1}
-            color={useColorModeValue('blue.50', 'blue.400')}
+            color={useColorModeValue('blue.50', 'blue.700')}
           />
           <Fade down duration={750}>
             <Box
@@ -114,13 +114,12 @@ export default function LandingHero() {
               overflow={'hidden'}
             >
               <Image
-                alt={'Hero Image'}
+                alt={'Handshake between a student and an employer'}
                 fit={'cover'}
                 align={'center'}
                 w={'100%'}
                 h={'125%'}
                 src={handshake}
-                transform='rotateY(180deg)'
               />
             </Box>
           </Fade>

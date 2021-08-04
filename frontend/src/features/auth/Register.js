@@ -45,7 +45,7 @@ function Register() {
                     position: 'absolute',
                     bottom: 1,
                     left: 0,
-                    bg: 'blue.50',
+                    bg: useColorModeValue('blue.50', 'blue.900'),
                     zIndex: -1,
                   }}
                 >
@@ -65,20 +65,10 @@ function Register() {
                 Choose the type of account you would like to register whether
                 you are a university, a student of a university or an employer.
               </Text>
-              <Text as='span' color={'gray.500'}>
-                Already have an account?{' '}
-                <Text
-                  as={Link}
-                  to='/login'
-                  decoration='underline'
-                  color='gray.700'
-                >
-                  Login here.
-                </Text>
-              </Text>
+
               <Stack
-                spacing={{ base: 4, sm: 6 }}
-                direction={{ base: 'column', sm: 'row' }}
+                spacing={{ base: 2, sm: 3 }}
+                direction={{ base: 'row', sm: 'row' }}
               >
                 <Button
                   rounded='lg'
@@ -90,6 +80,17 @@ function Register() {
                   to='/'
                 >
                   Go Back
+                </Button>
+                <Button
+                  rounded='lg'
+                  size={'md'}
+                  fontWeight={'normal'}
+                  px={6}
+                  colorScheme={'blue'}
+                  as={Link}
+                  to='/login'
+                >
+                  Login
                 </Button>
               </Stack>
               <Stack
@@ -112,7 +113,7 @@ function Register() {
               top={'-20%'}
               left={0}
               zIndex={-1}
-              color={useColorModeValue('blue.50', 'blue.400')}
+              color={useColorModeValue('blue.50', 'blue.700')}
             />
             <Box
               position={'relative'}
@@ -121,7 +122,7 @@ function Register() {
               boxShadow={'2xl'}
               width={'full'}
               overflow={'hidden'}
-              bg='white'
+              bg={useColorModeValue('white', 'gray.700')}
             >
               <Fade duration={500} width='100%'>
                 <Flex
@@ -151,7 +152,7 @@ function Register() {
                         position: 'absolute',
                         bottom: 1,
                         left: 0,
-                        bg: 'blue.50',
+                        bg: useColorModeValue('blue.50', 'blue.900'),
                         zIndex: -1,
                       }}
                     >
@@ -162,8 +163,8 @@ function Register() {
                   <VStack direction='column' spacing='5%'>
                     <Button
                       leftIcon={<IoSchoolSharp />}
-                      fontSize='xl'
-                      w='70%'
+                      fontSize='lg'
+                      w='75%'
                       fontWeight='medium'
                       as={Link}
                       to='/register/student'
@@ -173,8 +174,8 @@ function Register() {
                     </Button>
                     <Button
                       leftIcon={<FaBuilding />}
-                      fontSize='xl'
-                      w='70%'
+                      fontSize='lg'
+                      w='75%'
                       fontWeight='medium'
                       as={Link}
                       to='/register/employer'
@@ -184,8 +185,8 @@ function Register() {
                     </Button>
                     <Button
                       leftIcon={<FaUniversity />}
-                      fontSize='xl'
-                      w='70%'
+                      fontSize='lg'
+                      w='75%'
                       fontWeight='medium'
                       as={Link}
                       to='/register/university'
