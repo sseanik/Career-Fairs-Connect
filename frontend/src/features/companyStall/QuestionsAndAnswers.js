@@ -11,14 +11,20 @@ import {
   Text,
   Textarea,
   useToast,
+  useDisclosure,
 } from '@chakra-ui/react';
 // Redux
 import { useDispatch, useSelector } from 'react-redux';
 import { asyncPostQuestion } from './stallSlice';
+import { QuestionModal } from '../../components/QuestionModal';
+
+import { RiPencilFill } from 'react-icons/ri';
 
 export function QuestionsAndAnswers(props) {
-  const [question, setQuestion] = React.useState('');
+  const { isOpen, onOpen, onClose } = useDisclosure()
   const dispatch = useDispatch();
+  const [question, setQuestion] = React.useState('');
+  const [id, setId] = React.useState('');
   const buttonLoading = useSelector((state) => state.stall.status);
   const toast = useToast();
 
@@ -28,6 +34,14 @@ export function QuestionsAndAnswers(props) {
   };
 
   return (
+    <div>
+    <QuestionModal
+      isOpen={isOpen}
+      id={id}
+      onClose={onClose}
+      question={question}
+      setQuestion={setQuestion}
+    />
     <Box>
       <Text mb='8px' fontWeight='semibold'>
         Submit your Question:
@@ -56,6 +70,19 @@ export function QuestionsAndAnswers(props) {
               <AccordionButton>
                 <Box flex='1' textAlign='left' fontWeight='semibold'>
                   {qanda.question}
+                  {/*Change this so that this button only shows if qanda.creat*/}
+                  <Button
+                    leftIcon={<RiPencilFill />}
+                    size='sm'
+                    ml='3'
+                    onClick={() => {
+                      setQuestion(qanda.question);
+                      setId(qanda.id);
+                      onOpen();
+                    }}
+                  >
+                    Edit
+                  </Button>
                 </Box>
                 <AccordionIcon />
               </AccordionButton>
@@ -65,5 +92,6 @@ export function QuestionsAndAnswers(props) {
         ))}
       </Accordion>
     </Box>
+    </div>
   );
 }

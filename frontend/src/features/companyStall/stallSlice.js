@@ -130,6 +130,21 @@ export const asyncPostQuestion = createAsyncThunk(
   }
 );
 
+// Edit a question
+export const asyncEditQuestion = createAsyncThunk(
+  'stall/editQuestion',
+  async ({ id, question, toast }) => {
+    await new Promise((r) => setTimeout(r, 3000));
+    const response = { id: id, question: question, toast: toast };
+    toast({
+      description: 'Successfully edited Question',
+      status: 'success',
+      isClosable: true,
+    });
+    return response;
+  }
+);
+
 const initialState = {
   loading: false,
   status: false,
@@ -264,6 +279,17 @@ export const stallSlice = createSlice({
           question: payload,
           answer: '',
         });
+      })
+      .addCase(asyncEditQuestion.pending, (state, { payload }) => {
+        state.eventFormStatus = 'Pending';
+      })
+      .addCase(asyncEditQuestion.fulfilled, (state, { payload }) => {
+        state.eventFormStatus = 'Completed';
+        const index = current(state.qandas).findIndex(
+          (question) => question.id === payload.id
+        );
+        console.log(payload);
+        state.qandas[index].question = payload.question;
       });
   },
 });
