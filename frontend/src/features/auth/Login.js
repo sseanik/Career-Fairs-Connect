@@ -39,7 +39,7 @@ const initialValues = {
 const validationSchema = Yup.object({
   email: Yup.string()
     .email('Email format is Invalid')
-    .required('Company Email is Required')
+    .required('Email is Required')
     .max(64),
   password: Yup.string()
     .required('Password is Required')
