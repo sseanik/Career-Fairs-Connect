@@ -17,6 +17,7 @@ import LandingPage from './features/landing/LandingPage';
 import CareerFair from './features/careerFair/CareerFair';
 import CompanyStall from './features/companyStall/CompanyStall';
 import CareerEvents from './features/careerEvents/CareerEvents';
+import CompanyProfile from './features/profile/companyProfile';
 
 function App() {
   const dispatch = useDispatch();
@@ -75,6 +76,7 @@ function App() {
         <Route path='/events/' component={CareerEvents} exact />
         <Route path='/fair/:fairID' component={CareerFair} exact />
         <Route path='/stall/:stallID' component={CompanyStall} exact />
+        <Route path='/company/:userID' component={CompanyProfile} exact />
       </Switch>
     </ChakraProvider>
   );
