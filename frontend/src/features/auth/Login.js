@@ -220,6 +220,17 @@ export default function Login() {
                         Login
                       </Button>
                     </Flex>
+                    <Flex justify='center' pt='2'>
+                      {"Don't have an account? "}
+                      <Text
+                        pl='1'
+                        as={Link}
+                        to='/register'
+                        _hover={{ textDecoration: 'underline' }}
+                      >
+                        Click here to register.
+                      </Text>
+                    </Flex>
                   </Form>
                 )}
               </Formik>

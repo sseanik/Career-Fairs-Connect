@@ -350,6 +350,17 @@ export function StudentRegister() {
                     Join Now
                   </Button>
                 </Flex>
+                <Flex justify='center' pt='2'>
+                  {'Already have an account? '}
+                  <Text
+                    pl='1'
+                    as={Link}
+                    to='/login'
+                    _hover={{ textDecoration: 'underline' }}
+                  >
+                    Click here to login.
+                  </Text>
+                </Flex>
               </Box>
             </Flex>
           )}
