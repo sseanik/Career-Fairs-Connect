@@ -1,0 +1,650 @@
+{
+	"info": {
+		"_postman_id": "7f7bd26b-9376-4c16-b314-55487dcc3426",
+		"name": "CareerFair",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "/register/student/",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"first_name\" : \"James\",\n\t\"last_name\" : \"Bond\",\n\t\"university\" : \"UNSW\",\n\t\"email\" : \"jb@mi6.com\",\n\t\"password\" :\"123\"\n}"
+				},
+				"url": {
+					"raw": "http://127.0.0.1:8000/register/student/",
+					"protocol": "http",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "8000",
+					"path": [
+						"register",
+						"student",
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "/register/university/ (UNSW)",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n\t\"email\": \"unsw@unsw.edu.au\",\r\n\t\"password\": \"123\",\r\n\t\"university_name\": \"University of New South Wales\",\r\n\t\"university_abbreviation\": \"UNSW\",\r\n    \"university_logo_url\": \"https://unsw.edu.au/logo.png\",\r\n    \"university_site_url\": \"https://unsw.edu.au/\"\r\n}"
+				},
+				"url": {
+					"raw": "http://127.0.0.1:8000/register/university/",
+					"protocol": "http",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "8000",
+					"path": [
+						"register",
+						"university",
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "/register/university/ (USYD)",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n\t\"email\": \"usyd2@usyd.edu.au\",\r\n\t\"password\": \"123\",\r\n\t\"university_name\": \"University of Sydney\",\r\n\t\"university_abbreviation\": \"USYD\",\r\n    \"university_logo_url\": \"https://www.sydney.edu.au/etc.clientlibs/corporate-commons/clientlibs/foundation/resources/corporate-frontend/assets/img/USydLogo.svg\",\r\n    \"university_site_url\": \"https://www.sydney.edu.au/\"\r\n}"
+				},
+				"url": {
+					"raw": "http://127.0.0.1:8000/register/university/",
+					"protocol": "http",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "8000",
+					"path": [
+						"register",
+						"university",
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "/register/company/ (Google)",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"type": "text",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"email\": \"test@test.com\",\r\n  \"password\": \"123\",\r\n  \"company_name\": \"Google\",\r\n  \"company_description\": \"Test description\",\r\n  \"company_webpage_url\": \"google.com\",\r\n  \"company_logo_url\":  \"https://www.google.com/logo.png\"\r\n}"
+				},
+				"url": {
+					"raw": "http://127.0.0.1:8000/register/company/",
+					"protocol": "http",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "8000",
+					"path": [
+						"register",
+						"company",
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "/login/ (company - Google)",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});",
+							"",
+							"pm.test(\"Getting token\", function () {",
+							"    var jsonData = pm.response.json();",
+							"    pm.collectionVariables.set(\"company_token\", jsonData.token);",
+							"});",
+							"",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"username\": \"test@test.com\",\r\n  \"password\": \"123\"\r\n}"
+				},
+				"url": {
+					"raw": "http://127.0.0.1:8000/login/",
+					"protocol": "http",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "8000",
+					"path": [
+						"login",
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "/login/ (uni - UNSW)",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});",
+							"",
+							"pm.test(\"Getting token\", function () {",
+							"    var jsonData = pm.response.json();",
+							"    pm.collectionVariables.set(\"uni_token\", jsonData.token);",
+							"});",
+							"",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"username\": \"unsw@unsw.edu.au\",\r\n  \"password\": \"123\"\r\n}"
+				},
+				"url": {
+					"raw": "http://127.0.0.1:8000/login/",
+					"protocol": "http",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "8000",
+					"path": [
+						"login",
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "/company/1/",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"auth": {
+					"type": "bearer"
+				},
+				"method": "GET",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					},
+					{
+						"warning": "This is a duplicate header and will be overridden by the Authorization header generated by Postman.",
+						"key": "Authorization",
+						"value": "Token e0b8f00645cd8f79a5df8f135e83c7b644d15db3",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"company_name\": \"Google\",\r\n    \"company_description\": \"Test description\",\r\n    \"company_webpage_url\": \"google.com\",\r\n    \"company_logo_url\": \"https://www.google.com/logo.png\"\r\n}"
+				},
+				"url": {
+					"raw": "http://127.0.0.1:8000/company/1/",
+					"protocol": "http",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "8000",
+					"path": [
+						"company",
+						"1",
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "/company/1/",
+			"request": {
+				"auth": {
+					"type": "bearer"
+				},
+				"method": "PUT",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"type": "text",
+						"value": "application/json"
+					},
+					{
+						"key": "Authorization",
+						"type": "text",
+						"value": "Token {{company_token}}"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"company_name\": \"Google\",\r\n    \"company_description\": \"Test description\",\r\n    \"company_webpage_url\": \"google.com\",\r\n    \"company_logo_url\": \"https://www.google.com/logo.png\"\r\n}"
+				},
+				"url": {
+					"raw": "http://127.0.0.1:8000/company/1/",
+					"protocol": "http",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "8000",
+					"path": [
+						"company",
+						"1",
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "/student/1/",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "formdata",
+					"formdata": []
+				},
+				"url": {
+					"raw": "http://127.0.0.1:8000/student/1/",
+					"protocol": "http",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "8000",
+					"path": [
+						"student",
+						"1",
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "/student/1/",
+			"request": {
+				"method": "PUT",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"first_name\": \"First\",\r\n    \"last_name\": \"Last\",\r\n    \"university\": \"UNSW\"\r\n}"
+				},
+				"url": {
+					"raw": "http://127.0.0.1:8000/student/1/",
+					"protocol": "http",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "8000",
+					"path": [
+						"student",
+						"1",
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "/university/1/",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://127.0.0.1:8000/university/1/",
+					"protocol": "http",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "8000",
+					"path": [
+						"university",
+						"1",
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "/university/1/",
+			"request": {
+				"method": "PUT",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"university_name\": \"University of New South Wales\",\n    \"university_abbreviation\": \"UNSW\",\n    \"university_logo_url\": \"https://unsw.edu.au/logo.png\",\n    \"university_site_url\": \"https://unsw.edu.au/\"\n}"
+				},
+				"url": {
+					"raw": "http://127.0.0.1:8000/university/1/",
+					"protocol": "http",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "8000",
+					"path": [
+						"university",
+						"1",
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "/university/1/careerfairs (UNSW)",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n\t\"title\": \"UNSW Winter 2021 Virtual Careers Fair\",\r\n\t\"description\": \"UNSW is hosting a Virtual Careers Fair highlighting companies with opportunities in technology.\",\r\n\t\"start_date\": \"2021-06-01T00:00:00\",\r\n\t\"end_date\": \"2021-08-01T00:00:00\"\r\n}\r\n"
+				},
+				"url": {
+					"raw": "http://127.0.0.1:8000/university/1/careerfairs/",
+					"protocol": "http",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "8000",
+					"path": [
+						"university",
+						"1",
+						"careerfairs",
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "/university/2/careerfairs (USYD)",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"type": "text",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n\t\"title\": \"USYD Technology Virtual Careers Fair\",\r\n\t\"description\": \"USYD is hosting a Careers Fair bring technology based companies and their opportunities to USYD students\",\r\n\t\"start_date\": \"2021-07-22T00:00:00\",\r\n\t\"end_date\": \"2021-09-13T00:00:00\"\r\n}\r\n"
+				},
+				"url": {
+					"raw": "http://127.0.0.1:8000/university/2/careerfairs/",
+					"protocol": "http",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "8000",
+					"path": [
+						"university",
+						"2",
+						"careerfairs",
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "/careerfairs/",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://127.0.0.1:8000/careerfairs/",
+					"protocol": "http",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "8000",
+					"path": [
+						"careerfairs",
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "/careerfairs/1/stalls/ (Google registers for UNSW fair)",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Token {{company_token}}",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "http://127.0.0.1:8000/careerfairs/1/stalls/",
+					"protocol": "http",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "8000",
+					"path": [
+						"careerfairs",
+						"1",
+						"stalls",
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "/careerfairs/applications (Approving)",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"eventId\": 1,\n    \"companyId\": 1,\n    \"approval\": true\n}\n",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://127.0.0.1:8000/careerfairs/applications",
+					"protocol": "http",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "8000",
+					"path": [
+						"careerfairs",
+						"applications"
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "company_token",
+			"value": ""
+		},
+		{
+			"key": "uni_token",
+			"value": ""
+		}
+	]
+}
