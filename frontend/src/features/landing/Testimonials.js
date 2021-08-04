@@ -7,6 +7,7 @@ import {
   SimpleGrid,
   useColorModeValue,
 } from '@chakra-ui/react';
+import Fade from 'react-reveal/Fade';
 
 const testimonials = [
   {
@@ -54,6 +55,7 @@ function TestmonialCard(props) {
   const { name, role, content, avatar, index } = props;
   return (
     <Flex
+      key={`testimonial-${index}`}
       boxShadow={'lg'}
       maxW={'640px'}
       direction={{ base: 'column-reverse', md: 'row' }}
@@ -125,24 +127,27 @@ export default function Testimonials() {
       justifyContent={'center'}
       direction={'column'}
       width={'full'}
+      px={{ base: 5, md: 10 }}
     >
       <Box width={{ base: 'full', sm: 'lg', lg: 'xl' }} margin={'auto'}>
-        <Heading
-          as={'span'}
-          position={'relative'}
-          _after={{
-            content: "''",
-            width: 'full',
-            height: '30%',
-            position: 'absolute',
-            bottom: 1,
-            left: 0,
-            bg: 'blue.50',
-            zIndex: -1,
-          }}
-        >
-          What our users are saying
-        </Heading>
+        <Fade up>
+          <Heading
+            as={'span'}
+            position={'relative'}
+            _after={{
+              content: "''",
+              width: 'full',
+              height: '30%',
+              position: 'absolute',
+              bottom: 1,
+              left: 0,
+              bg: useColorModeValue('blue.50', 'blue.900'),
+              zIndex: -1,
+            }}
+          >
+            What our users are saying
+          </Heading>
+        </Fade>
       </Box>
       <SimpleGrid
         columns={{ base: 1, xl: 2 }}
@@ -151,7 +156,9 @@ export default function Testimonials() {
         mx={'auto'}
       >
         {testimonials.map((cardInfo, index) => (
-          <TestmonialCard {...cardInfo} index={index} />
+          <Fade up duration={700 + index * 100}>
+            <TestmonialCard {...cardInfo} index={index} />
+          </Fade>
         ))}
       </SimpleGrid>
     </Flex>

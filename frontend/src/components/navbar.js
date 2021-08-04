@@ -1,7 +1,6 @@
 import React from 'react';
 import {
   Flex,
-  Box,
   Spacer,
   Button,
   Menu,
@@ -11,22 +10,35 @@ import {
   MenuDivider,
   Stack,
   useColorModeValue,
-  Link as ChakraLink,
   Text,
-  useBreakpointValue,
+  useColorMode,
+  IconButton,
 } from '@chakra-ui/react';
 import { Link, useHistory } from 'react-router-dom';
 import axios from 'axios';
+import { useThemeDarkMode } from 'elementz';
+import { FaMoon, FaSun } from 'react-icons/fa';
 
 // localStorage.clear();
 // localStorage.setItem('token', 'fakeToken');
 // localStorage.setItem('name', 'fakeName');
 localStorage.setItem('userId', 'fakeId');
 
-
 function Navbar() {
-
   const history = useHistory();
+  const { colorMode, toggleColorMode } = useColorMode();
+  const [isDarkMode, toggleDarkMode] = useThemeDarkMode();
+
+  const toggleMode = () => {
+    toggleColorMode();
+    console.log(isDarkMode);
+    if (
+      localStorage.getItem('ez-mode') !==
+      localStorage.getItem('chakra-ui-color-mode')
+    ) {
+      toggleDarkMode();
+    }
+  };
 
   function AuthTabs() {
     return (
@@ -34,14 +46,16 @@ function Navbar() {
         flex={{ base: 1, md: 0 }}
         justify={'flex-end'}
         direction={'row'}
-        spacing={6}>
+        spacing={6}
+      >
         <Button
           as={Link}
           to='/login'
           fontSize={'sm'}
           fontWeight={400}
           variant={'link'}
-          href={'#'}>
+          href={'#'}
+        >
           Log in
         </Button>
         <Button
@@ -53,35 +67,33 @@ function Navbar() {
           href={'#'}
           _hover={{
             bg: 'blue.300',
-
           }}
           as={Link}
-          to='/register'>
+          to='/register'
+        >
           Join
         </Button>
       </Stack>
-    )
-
+    );
   }
 
   function UserTabs() {
-
     function handleLogOut() {
       // console.log(localStorage.getItem('token'))
-      const token = localStorage.getItem('token')
+      const token = localStorage.getItem('token');
       localStorage.clear();
 
-      axios.post('/logout',
-        {
+      axios
+        .post('/logout', {
           token: token,
-        }).then(info => {
+        })
+        .then((info) => {
           console.log(info);
           // localStorage.clear();
-        })
+        });
 
-      history.push('/')
+      history.push('/');
       window.location.reload();
-
     }
 
     return (
@@ -92,28 +104,20 @@ function Navbar() {
             rounded={'full'}
             variant={'ghost'}
             cursor={'pointer'}
-            minW={0}>
+            minW={0}
+          >
             Hi, {localStorage.getItem('name')}
           </MenuButton>
-          <MenuList
-            minW="0" w={'140px'}
-          >
-            <MenuItem
-              as={Link}
-              to='/company/1'
-            >
+          <MenuList minW='0' w={'140px'}>
+            <MenuItem as={Link} to='/company/1'>
               Profile
             </MenuItem>
             <MenuDivider />
-            <MenuItem
-              onClick={handleLogOut}
-            >
-              Log out
-            </MenuItem>
+            <MenuItem onClick={handleLogOut}>Log out</MenuItem>
           </MenuList>
         </Menu>
       </Flex>
-    )
+    );
   }
 
   return (
@@ -143,9 +147,14 @@ function Navbar() {
       {/* </Box> */}
       <Spacer />
 
-      {localStorage.getItem('token') === null ?
-        <AuthTabs /> : <UserTabs />
-      }
+      <IconButton
+        aria-label='Search database'
+        icon={colorMode === 'light' ? <FaSun /> : <FaMoon />}
+        onClick={() => toggleMode()}
+        mr='4'
+      />
+
+      {localStorage.getItem('token') === null ? <AuthTabs /> : <UserTabs />}
     </Flex>
   );
 }

@@ -10,6 +10,7 @@ import {
   Flex,
   Heading,
   Spacer,
+  useColorMode,
   useDisclosure,
   useToast,
 } from '@chakra-ui/react';
@@ -33,6 +34,7 @@ export default function CareerEvents() {
   const userDetails = useSelector((state) => state.user);
   const loading = useSelector((state) => state.events.loading);
   const createStatus = useSelector((state) => state.events.status);
+  const { colorMode } = useColorMode();
 
   // On page load gather all career fair events
   React.useEffect(() => dispatch(asyncFetchEventsData()), [dispatch]);
@@ -100,14 +102,16 @@ export default function CareerEvents() {
         <Flex
           key={event.id}
           borderWidth='1px'
-          borderColor='gray.300'
+          borderColor={colorMode === 'light' ? 'gray.300' : 'gray.700'}
           borderRadius='xl'
           p='12px'
           mx='5'
           my='3'
           role='group'
           cursor='pointer'
-          _hover={{ background: 'gray.50' }}
+          _hover={{
+            background: colorMode === 'light' ? 'gray.50' : 'gray.700',
+          }}
           onClick={() => visitFairEvent(event, idx)}
         >
           <DetailsCard

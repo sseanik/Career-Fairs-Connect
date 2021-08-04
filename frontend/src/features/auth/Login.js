@@ -1,11 +1,10 @@
-import
-React
-  // { useState }
-  from "react";
+import React from 'react'; // { useState }
+// Libraries
+import { Link, useHistory } from 'react-router-dom';
+import Fade from 'react-reveal/Fade';
+// Chakra
 import {
-  ChakraProvider,
   Box,
-  Heading,
   Button,
   FormControl,
   FormLabel,
@@ -13,152 +12,232 @@ import {
   InputGroup,
   InputRightElement,
   Flex,
-} from "@chakra-ui/react"
-import { Formik } from 'formik';
+  Text,
+  FormErrorMessage,
+  useToast,
+  VStack,
+  useBreakpointValue,
+  useColorModeValue,
+} from '@chakra-ui/react';
+import { InputControl } from 'formik-chakra-ui';
+import { ArrowBackIcon } from '@chakra-ui/icons';
+// Formik
+import * as Yup from 'yup';
+import { Field, Form, Formik } from 'formik';
+// Components
 import Navbar from '../../components/navbar';
-import axios from 'axios';
-import { useHistory } from 'react-router-dom';
+import fairImage from './fairImage.jpg';
+// Redux
+import { useDispatch, useSelector } from 'react-redux';
+import { asyncLoginUser } from './userSlice';
 
+const textColor = ''; //"#FFFFFF";
 
-const bgcolor = "white"; //"#2F303A";
-const textColor = ""; //"#FFFFFF";
+const initialValues = {
+  email: '',
+  password: '',
+};
 
-function PasswordInput() {
-  const [show, setShow] = React.useState(false)
-  const handleClick = () => setShow(!show)
-
-  return (
-    <InputGroup size="md">
-      <Input
-        pr="4.5rem"
-        color={textColor}
-        type={show ? "text" : "password"}
-      // placeholder="Enter password"
-      />
-      <InputRightElement width="4.5rem">
-        <Button h="1.75rem" size="sm" onClick={handleClick}>
-          {show ? "Hide" : "Show"}
-        </Button>
-      </InputRightElement>
-    </InputGroup>
-  )
-}
+const validationSchema = Yup.object({
+  email: Yup.string()
+    .email('Email format is Invalid')
+    .required('Email is Required')
+    .max(64),
+  password: Yup.string()
+    .required('Password is Required')
+    .min(6, 'Password must be at least 6 characters')
+    .max(32),
+});
 
 export default function Login() {
+  const dispatch = useDispatch();
+  const toast = useToast();
   const history = useHistory();
-  localStorage.clear();
+  const loginStatus = useSelector((state) => state.user.status);
+  const [show, setShow] = React.useState(false);
 
-  function handleSubmit(event) {
-    event.preventDefault();
-    const form = document.getElementById('login-form');
-    const email = form.email.value;
-    const password = form.password.value;
-    console.log('got from form: ', email, password)
-    if (localStorage.getItem('token')) {
-      localStorage.clear();
-    }
+  const submitForm = (values, setSubmitting) => {
+    dispatch(
+      asyncLoginUser({
+        user: { email: values.email, password: values.password },
+        toast: toast,
+        history: history,
+      })
+    );
+  };
 
-    if (email !== '' && password !== '') {
-      axios.post('/login',
-        {
-          login: email,
-          password: password,
-        }).then(info => {
-          console.log(info);
-          localStorage.setItem('token', info.token);
-          //should it return more user information than token?
-          //name, role...
-
-          // history.push('/')
-
-        })
-
-      //fake testing local info
-      localStorage.setItem('token', 'fakeToken');
-      localStorage.setItem('name', 'fakeName');
-      localStorage.setItem('role', 'company');
-
-      history.push('/')
-    }
-  }
   return (
-    <ChakraProvider>
+    <div>
       <Navbar />
-      <Flex width="100%" height="92vh" bg="#E5E5E5">
-        <Box width="50%" m="auto" textAlign="center">
-        </Box>
-        <Box width="50%">
-          <Box mt="10vh" fontWeight="medium" ml="auto" mr="auto" bg={bgcolor} width="75%" textAlign="center" padding="5%" borderRadius="10px">
-            <Heading color={textColor}>
-              Log in
-            </Heading>
-            <Formik
-              initialValues={{ email: '', password: '' }}
-              validate={values => {
-                const errors = {};
-                if (!values.email) {
-                  errors.email = 'Required';
-                } else if (
-                  !/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i.test(values.email)
-                ) {
-                  errors.email = 'Invalid email address';
-                }
-                return errors;
-              }}
-              onSubmit={(values, { setSubmitting }) => {
-                setTimeout(() => {
-                  alert(JSON.stringify(values, null, 2));
-                  setSubmitting(false);
-                }, 400);
-              }}
+      <Fade duration={750}>
+        <Flex
+          flex={1}
+          justify={'center'}
+          align={'center'}
+          position={'relative'}
+          pt='6'
+        >
+          <Box>
+            <Box
+              borderWidth='1px'
+              borderColor={useColorModeValue('gray.200', 'gray.900')}
+              position={'relative'}
+              rounded={'2xl'}
+              boxShadow={'2xl'}
+              width={'full'}
+              overflow={'hidden'}
+              maxWidth={800}
+              p={6}
+              m='10px auto'
             >
-              {({
-                values,
-                errors,
-                touched,
-                handleChange,
-                handleBlur,
-                // handleSubmit,
-                isSubmitting,
-              }) => (
-                <form
-                  id="login-form"
-                  onSubmit={handleSubmit}
+              <Flex justify='flex-start' pb='4'>
+                <Button
+                  leftIcon={<ArrowBackIcon />}
+                  rounded='lg'
+                  size={'sm'}
+                  fontWeight={'normal'}
+                  colorScheme={'gray'}
+                  as={Link}
+                  to='/register'
                 >
-                  <FormControl id="email">
-                    <FormLabel color={textColor}>Email</FormLabel>
-                    <Input color={textColor} type="email"
-                      name="email"
-                      onChange={handleChange}
-                      onBlur={handleBlur}
-                      value={values.email} />
-                  </FormControl>
-
-                  {errors.email && touched.email && errors.email}
-
-                  <FormControl id="password">
-                    <FormLabel color={textColor}>Password</FormLabel>
-                    <PasswordInput type="password"
-                      name="password"
-                      onChange={handleChange}
-                      onBlur={handleBlur}
-                      value={values.password} />
-                  </FormControl>
-                  {errors.password && touched.password && errors.password}
-                  <Button
-                    mt={4}
-                    type="submit"
-                    disabled={isSubmitting}
+                  Back
+                </Button>
+              </Flex>
+              <Flex
+                w={'100%'}
+                h={'20vh'}
+                backgroundImage={fairImage}
+                backgroundSize={'cover'}
+                backgroundPosition={'top center'}
+                mb='4'
+              >
+                <VStack
+                  w={'100%'}
+                  justify={'center'}
+                  px={useBreakpointValue({ base: 4, md: 8 })}
+                  bg='blackAlpha.600'
+                >
+                  <Flex
+                    maxW={'2xl'}
+                    align={'center'}
+                    spacing={6}
+                    justify='center'
+                    w='100%'
                   >
-                    Log in
-                  </Button>
-                </form>
-              )}
-            </Formik>
+                    <Text
+                      as={Flex}
+                      justify='center'
+                      color={'white'}
+                      fontWeight={500}
+                      lineHeight={1.2}
+                      fontSize='4xl'
+                      width={useBreakpointValue({
+                        xs: '80vw',
+                        sm: '80vw',
+                        md: '3xl',
+                        lg: '4xl',
+                      })}
+                    >
+                      Login
+                    </Text>
+                  </Flex>
+                </VStack>
+              </Flex>
+              <Formik
+                initialValues={initialValues}
+                onSubmit={(values, setSubmitting) =>
+                  submitForm(values, setSubmitting)
+                }
+                validationSchema={validationSchema}
+              >
+                {({
+                  values,
+                  errors,
+                  touched,
+                  handleChange,
+                  handleBlur,
+                  handleSubmit,
+                  isSubmitting,
+                }) => (
+                  <Form id='login-form' onSubmit={handleSubmit}>
+                    <FormControl id='email'>
+                      <FormLabel color={textColor}>Email</FormLabel>
+                      <InputControl
+                        color={textColor}
+                        type='email'
+                        name='email'
+                        onChange={handleChange}
+                        onBlur={handleBlur}
+                        value={values.email}
+                      />
+                    </FormControl>
 
+                    <Field name='password'>
+                      {({ field, form }) => (
+                        <FormControl
+                          pt='4'
+                          isInvalid={
+                            form.errors.password && form.touched.password
+                          }
+                        >
+                          <FormLabel htmlFor='password'>Password</FormLabel>
+
+                          <InputGroup size='md'>
+                            <Input
+                              {...field}
+                              id='password'
+                              pr='4.5rem'
+                              color={textColor}
+                              type={show ? 'text' : 'password'}
+                              // placeholder="Enter password"
+                            />
+                            <InputRightElement width='4.5rem'>
+                              <Button
+                                h='1.75rem'
+                                size='sm'
+                                onClick={() => setShow(!show)}
+                              >
+                                {show ? 'Hide' : 'Show'}
+                              </Button>
+                            </InputRightElement>
+                          </InputGroup>
+                          <FormErrorMessage>
+                            {form.errors.password}
+                          </FormErrorMessage>
+                        </FormControl>
+                      )}
+                    </Field>
+
+                    <Flex justify='center'>
+                      <Button
+                        w='100%'
+                        mt={4}
+                        colorScheme='blue'
+                        isLoading={loginStatus}
+                        loadingText='Logging In'
+                        type='submit'
+                      >
+                        Login
+                      </Button>
+                    </Flex>
+                    <Flex justify='center' pt='2'>
+                      {"Don't have an account? "}
+                      <Text
+                        pl='1'
+                        as={Link}
+                        to='/register'
+                        _hover={{ textDecoration: 'underline' }}
+                      >
+                        Click here to register.
+                      </Text>
+                    </Flex>
+                  </Form>
+                )}
+              </Formik>
+            </Box>
           </Box>
-        </Box>
-      </Flex>
-    </ChakraProvider >
+        </Flex>
+      </Fade>
+    </div>
   );
 }

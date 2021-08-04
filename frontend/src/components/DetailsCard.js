@@ -18,6 +18,7 @@ import {
   Tag,
   TagLabel,
   TagRightIcon,
+  useColorMode,
   useDisclosure,
   useToast,
 } from '@chakra-ui/react';
@@ -42,6 +43,7 @@ export const DetailsCard = (props) => {
   // State to determine background colour and company application status
   const [bgColour, setBgColour] = React.useState('white');
   const [applied, setApplied] = React.useState(false);
+  const { colorMode } = useColorMode();
 
   // If the crop image is given, set the background colour of the image
   React.useEffect(() => {
@@ -262,7 +264,7 @@ export const DetailsCard = (props) => {
             letterSpacing='wide'
             fontSize='xs'
             textTransform='uppercase'
-            color='gray.600'
+            color={colorMode === 'light' ? 'gray.600' : 'gray.400'}
           >
             <TagLabel>Website</TagLabel>
             <TagRightIcon boxSize='12px' as={ExternalLinkIcon} />
@@ -277,7 +279,7 @@ export const DetailsCard = (props) => {
             textTransform='uppercase'
             color='gray.600'
           >
-            <TagLabel>
+            <TagLabel color={colorMode === 'light' ? 'gray.600' : 'gray.300'}>
               Hosted by <b>{props.uni}</b>
             </TagLabel>
           </Tag>
