@@ -25,6 +25,7 @@ import * as Yup from 'yup';
 import { Field, Form, Formik } from 'formik';
 // Components
 import Navbar from '../../components/navbar';
+import fairImage from './fairImage.jpg';
 // Redux
 import { useDispatch, useSelector } from 'react-redux';
 import { asyncLoginUser } from './userSlice';
@@ -103,9 +104,7 @@ export default function Login() {
               <Flex
                 w={'100%'}
                 h={'20vh'}
-                backgroundImage={
-                  'url(https://www.rmit.edu.vn/content/dam/rmit/vn/en/assets-for-production/images/news/news-masthead-19b-cover-career-fair.jpg)'
-                }
+                backgroundImage={fairImage}
                 backgroundSize={'cover'}
                 backgroundPosition={'top center'}
                 mb='4'

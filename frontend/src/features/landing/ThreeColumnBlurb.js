@@ -12,7 +12,7 @@ import { IoSchoolSharp } from 'react-icons/io5';
 import { FaUniversity, FaBuilding } from 'react-icons/fa';
 import Fade from 'react-reveal/Fade';
 
-const Feature = ({ title, text, icon }) => {
+const Feature = ({ title, text, icon, color }) => {
   return (
     <Stack align={'center'}>
       <Flex
@@ -27,7 +27,9 @@ const Feature = ({ title, text, icon }) => {
       >
         {icon}
       </Flex>
-      <Text fontWeight={600}>{title}</Text>
+      <Text fontWeight={600} fontSize='xl' color={color}>
+        {title}
+      </Text>
       <Text color={'gray.600'}>{text}</Text>
     </Stack>
   );
@@ -71,6 +73,7 @@ export default function ThreeColumnBlurb() {
                 text={
                   'A University can host multiple types of Careers Fair Event for companies to create virtual stalls in and for their university students to explore and find relevant career opportunities'
                 }
+                color='orange.500'
               />
             </Fade>
             <Fade up duration={900}>
@@ -80,6 +83,7 @@ export default function ThreeColumnBlurb() {
                 text={
                   'Employers can apply a virtual stall in a University Careers fair event to promote their career opportunities and schedule any accompanying live presentations.'
                 }
+                color='green.500'
               />
             </Fade>
             <Fade up duration={1000}>
@@ -89,6 +93,7 @@ export default function ThreeColumnBlurb() {
                 text={
                   'Students can explore their University Career Fair Events and the participating company stalls to learn about the opportunities available for different companies and ask any questions they might have.'
                 }
+                color='blue.500'
               />
             </Fade>
           </SimpleGrid>

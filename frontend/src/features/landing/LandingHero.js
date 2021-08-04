@@ -12,6 +12,7 @@ import {
 } from '@chakra-ui/react';
 import { Link } from 'react-router-dom';
 import Fade from 'react-reveal/Fade';
+import handshake from './handshake.jpg';
 
 export default function LandingHero() {
   return (
@@ -118,9 +119,7 @@ export default function LandingHero() {
                 align={'center'}
                 w={'100%'}
                 h={'125%'}
-                src={
-                  'https://www.youniversitytv.com/wp-content/uploads/2017/04/Career-Fair-handshake.jpg'
-                }
+                src={handshake}
                 transform='rotateY(180deg)'
               />
             </Box>

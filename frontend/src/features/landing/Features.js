@@ -111,14 +111,9 @@ export default function AboutUs() {
               />
               <Feature
                 icon={
-                  <Icon
-                    as={SiGooglecalendar}
-                    color={'orange.500'}
-                    w={5}
-                    h={5}
-                  />
+                  <Icon as={SiGooglecalendar} color={'teal.500'} w={5} h={5} />
                 }
-                iconBg={useColorModeValue('orange.100', 'orange.900')}
+                iconBg={useColorModeValue('teal.100', 'teal.900')}
                 text={featureTitle[1]}
                 idx={1}
               />
@@ -126,12 +121,12 @@ export default function AboutUs() {
                 icon={
                   <Icon
                     as={RiQuestionAnswerFill}
-                    color={'green.500'}
+                    color={'cyan.500'}
                     w={5}
                     h={5}
                   />
                 }
-                iconBg={useColorModeValue('green.100', 'green.900')}
+                iconBg={useColorModeValue('cyan.100', 'cyan.900')}
                 text={featureTitle[2]}
                 idx={2}
               />
