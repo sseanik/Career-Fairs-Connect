@@ -23,6 +23,8 @@ import Navbar from '../../components/navbar';
 import { useSelector, useDispatch } from 'react-redux';
 import { convertImageToBase64, selectBase64Image } from './logoSlice';
 import { asyncRegisterUniversity } from './userSlice';
+import { ArrowBackIcon } from '@chakra-ui/icons';
+import { Link } from 'react-router-dom';
 
 const initialValues = {
   email: '',
@@ -126,7 +128,7 @@ export function UniversityRegister() {
   return (
     <div>
       <Navbar />
-      <Fade up duration={750}>
+      <Fade duration={750}>
         <Formik
           initialValues={initialValues}
           onSubmit={(values, actions) => submitForm(values, actions)}
@@ -145,32 +147,49 @@ export function UniversityRegister() {
               m='10px auto'
               as='form'
               onSubmit={handleSubmit}
+              mt='7'
             >
-              <Heading
-                lineHeight={1.1}
-                fontWeight={600}
-                fontSize={{ base: '2xl', sm: '3xl', lg: '4xl' }}
-                pb='4'
-                align='center'
-              >
-                <Text
-                  zIndex={4}
-                  as={'span'}
-                  position={'relative'}
-                  _after={{
-                    content: "''",
-                    width: 'full',
-                    height: '30%',
-                    position: 'absolute',
-                    bottom: 1,
-                    left: 0,
-                    bg: 'orange.50',
-                    zIndex: -1,
-                  }}
+              <Flex justify='center'>
+                <Button
+                  leftIcon={<ArrowBackIcon />}
+                  rounded='lg'
+                  size={'sm'}
+                  fontWeight={'normal'}
+                  colorScheme={'gray'}
+                  as={Link}
+                  to='/register'
                 >
-                  University Registration
-                </Text>
-              </Heading>{' '}
+                  Back
+                </Button>
+                <Heading
+                  flex={1}
+                  marginRight='auto'
+                  lineHeight={1.1}
+                  fontWeight={600}
+                  fontSize={{ base: '2xl', sm: '3xl', lg: '4xl' }}
+                  pb='4'
+                  align='center'
+                >
+                  <Text
+                    ml='-10'
+                    zIndex={4}
+                    as={'span'}
+                    position={'relative'}
+                    _after={{
+                      content: "''",
+                      width: 'full',
+                      height: '30%',
+                      position: 'absolute',
+                      bottom: 1,
+                      left: 0,
+                      bg: 'orange.50',
+                      zIndex: -1,
+                    }}
+                  >
+                    University Registration
+                  </Text>
+                </Heading>
+              </Flex>
               <InputControl name='email' label='Email' />
               <Field name='password'>
                 {({ field, form }) => (

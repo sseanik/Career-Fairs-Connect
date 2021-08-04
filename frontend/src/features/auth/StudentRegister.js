@@ -23,6 +23,8 @@ import Navbar from '../../components/navbar';
 // Redux
 import { asyncRegisterStudent } from './userSlice';
 import { useDispatch, useSelector } from 'react-redux';
+import { Link } from 'react-router-dom';
+import { ArrowBackIcon } from '@chakra-ui/icons';
 
 const initialValues = {
   firstName: '',
@@ -116,7 +118,7 @@ export function StudentRegister() {
   return (
     <div>
       <Navbar />
-      <Fade up duration={750}>
+      <Fade duration={750}>
         <Formik
           initialValues={initialValues}
           onSubmit={(values, actions) => submitForm(values, actions)}
@@ -128,6 +130,7 @@ export function StudentRegister() {
               justify={'center'}
               align={'center'}
               position={'relative'}
+              pt='6'
             >
               <Box
                 position={'relative'}
@@ -142,31 +145,47 @@ export function StudentRegister() {
                 as='form'
                 onSubmit={handleSubmit}
               >
-                <Heading
-                  lineHeight={1.1}
-                  fontWeight={600}
-                  fontSize={{ base: '2xl', sm: '3xl', lg: '4xl' }}
-                  pb='4'
-                  align='center'
-                >
-                  <Text
-                    zIndex={4}
-                    as={'span'}
-                    position={'relative'}
-                    _after={{
-                      content: "''",
-                      width: 'full',
-                      height: '30%',
-                      position: 'absolute',
-                      bottom: 1,
-                      left: 0,
-                      bg: 'blue.50',
-                      zIndex: -1,
-                    }}
+                <Flex justify='center'>
+                  <Button
+                    leftIcon={<ArrowBackIcon />}
+                    rounded='lg'
+                    size={'sm'}
+                    fontWeight={'normal'}
+                    colorScheme={'gray'}
+                    as={Link}
+                    to='/register'
                   >
-                    Student Registration
-                  </Text>
-                </Heading>
+                    Back
+                  </Button>
+                  <Heading
+                    ml='-10'
+                    flex={1}
+                    marginRight='auto'
+                    lineHeight={1.1}
+                    fontWeight={600}
+                    fontSize={{ base: '2xl', sm: '3xl', lg: '4xl' }}
+                    pb='4'
+                    align='center'
+                  >
+                    <Text
+                      zIndex={4}
+                      as={'span'}
+                      position={'relative'}
+                      _after={{
+                        content: "''",
+                        width: 'full',
+                        height: '30%',
+                        position: 'absolute',
+                        bottom: 1,
+                        left: 0,
+                        bg: 'blue.50',
+                        zIndex: -1,
+                      }}
+                    >
+                      Student Registration
+                    </Text>
+                  </Heading>
+                </Flex>
                 <InputControl name='firstName' label='First Name' />
                 <InputControl name='lastName' label='Last Name' />
                 <InputControl name='email' label='Student Email' />

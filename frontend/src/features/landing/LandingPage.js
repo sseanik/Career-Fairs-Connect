@@ -10,18 +10,10 @@ export default function Landing() {
   return (
     <div>
       <Navbar />
-      <Fade up>
-        <LandingHero />
-      </Fade>
-      <Fade up>
-        <ThreeColumnBlurb />
-      </Fade>
-      <Fade up>
-        <Features />
-      </Fade>
-      <Fade up>
-        <Testimonials />
-      </Fade>
+      <LandingHero />
+      <ThreeColumnBlurb />
+      <Features />
+      <Testimonials />
       <Fade>
         <ImageBlurb />
       </Fade>

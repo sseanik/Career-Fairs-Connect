@@ -21,15 +21,15 @@ function Register() {
   return (
     <div>
       <Navbar />
-      <Fade up duration={750}>
-        <Container maxW={'7xl'}>
-          <Stack
-            align={'center'}
-            spacing={{ base: 8, md: 10 }}
-            pt={{ base: 20, md: 28 }}
-            direction={{ base: 'column', md: 'row' }}
-          >
-            <Stack flex={1} spacing={{ base: 2, md: 4 }}>
+      <Container maxW={'7xl'} px={{ base: 10, md: 10 }}>
+        <Stack
+          align={'center'}
+          spacing={{ base: 8, md: 10 }}
+          pt={{ base: 20, md: 28 }}
+          direction={{ base: 'column', md: 'row' }}
+        >
+          <Stack flex={1} spacing={{ base: 2, md: 4 }}>
+            <Fade duration={750}>
               <Heading
                 lineHeight={1.1}
                 fontWeight={600}
@@ -65,36 +65,65 @@ function Register() {
                 Choose the type of account you would like to register whether
                 you are a university, a student of a university or an employer.
               </Text>
+              <Text as='span' color={'gray.500'}>
+                Already have an account?{' '}
+                <Text
+                  as={Link}
+                  to='/login'
+                  decoration='underline'
+                  color='gray.700'
+                >
+                  Login here.
+                </Text>
+              </Text>
+              <Stack
+                spacing={{ base: 4, sm: 6 }}
+                direction={{ base: 'column', sm: 'row' }}
+              >
+                <Button
+                  rounded='lg'
+                  size={'md'}
+                  fontWeight={'normal'}
+                  px={6}
+                  colorScheme={'gray'}
+                  as={Link}
+                  to='/'
+                >
+                  Go Back
+                </Button>
+              </Stack>
               <Stack
                 spacing={{ base: 4, sm: 6 }}
                 direction={{ base: 'column', sm: 'row' }}
               ></Stack>
-            </Stack>
-            <Flex
-              flex={1}
-              justify={'center'}
-              align={'center'}
+            </Fade>
+          </Stack>
+          <Flex
+            flex={1}
+            justify={'center'}
+            align={'center'}
+            position={'relative'}
+            w={'full'}
+          >
+            <Blob
+              w={'150%'}
+              h={'150%'}
+              position={'absolute'}
+              top={'-20%'}
+              left={0}
+              zIndex={-1}
+              color={useColorModeValue('blue.50', 'blue.400')}
+            />
+            <Box
               position={'relative'}
-              w={'full'}
+              height={'300px'}
+              rounded={'2xl'}
+              boxShadow={'2xl'}
+              width={'full'}
+              overflow={'hidden'}
+              bg='white'
             >
-              <Blob
-                w={'150%'}
-                h={'150%'}
-                position={'absolute'}
-                top={'-20%'}
-                left={0}
-                zIndex={-1}
-                color={useColorModeValue('blue.50', 'blue.400')}
-              />
-              <Box
-                position={'relative'}
-                height={'300px'}
-                rounded={'2xl'}
-                boxShadow={'2xl'}
-                width={'full'}
-                overflow={'hidden'}
-                bg='white'
-              >
+              <Fade duration={500} width='100%'>
                 <Flex
                   direction='column'
                   fontWeight='medium'
@@ -166,11 +195,11 @@ function Register() {
                     </Button>
                   </VStack>
                 </Flex>
-              </Box>
-            </Flex>
-          </Stack>
-        </Container>
-      </Fade>
+              </Fade>
+            </Box>
+          </Flex>
+        </Stack>
+      </Container>
     </div>
   );
 }
