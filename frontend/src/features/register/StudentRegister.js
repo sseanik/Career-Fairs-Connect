@@ -102,7 +102,7 @@ export function StudentRegister() {
               email: 'Fred5@email.com',
               password: 'Flintstone5',
               first_name: 'Flintstone5',
-              last_name: 'Finston5',
+              last_name: 'Flintstone',
               university: 'UNSW',
             },
           })

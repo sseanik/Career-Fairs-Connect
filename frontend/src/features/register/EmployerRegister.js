@@ -53,12 +53,12 @@ export function EmployerRegister() {
         onSubmit={() =>
           axios({
             method: 'post',
-            url: 'http://127.0.0.1:8000/register/student/',
+            url: 'http://127.0.0.1:8000/register/company/',
             data: {
               email: 'Fred@email.com',
               password: 'Flintstone',
               first_name: 'Flintstone',
-              last_name: 'Finstone',
+              last_name: 'Flintstone',
               university: 'UNSW',
             },
           })

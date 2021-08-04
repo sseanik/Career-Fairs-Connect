@@ -5,7 +5,8 @@ from rest_framework import status
 from .models import *
 from serializers import OpportunitySerializer
 from django.shortcuts import get_object_or_404
-
+from drf_yasg import openapi
+from drf_yasg.utils import swagger_auto_schema
 
 class Opportunity(APIView):
     def get(self, request, id, format=None):
@@ -13,6 +14,7 @@ class Opportunity(APIView):
         serializer = OpportunitySerializer(opportunity)
         return Response(serializer.data, status=200)
 
+    @swagger_auto_schema(request_body=OpportunitySerializer)
     def post(self, request, id, format=None):
         opportunity = get_object_or_404(self, pk=id)
         serializer = OpportunitySerializer(opportunity, data=request.data)
