@@ -278,6 +278,7 @@ export const stallSlice = createSlice({
           id: '2223',
           question: payload,
           answer: '',
+          creatorId: '2',
         });
       })
       .addCase(asyncEditQuestion.pending, (state, { payload }) => {
