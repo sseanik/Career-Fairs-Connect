@@ -70,8 +70,10 @@ export function QuestionsAndAnswers(props) {
               <AccordionButton>
                 <Box flex='1' textAlign='left' fontWeight='semibold'>
                   {qanda.question}
-                  {/*Change this so that this button only shows if qanda.creat*/}
-                  <Button
+                  {/*Change this so that this button only shows if qanda.creatorId == currentUserId*/}
+                  
+                  { (qanda.creatorId === '0') ?
+                    <Button
                     leftIcon={<RiPencilFill />}
                     size='sm'
                     ml='3'
@@ -82,7 +84,7 @@ export function QuestionsAndAnswers(props) {
                     }}
                   >
                     Edit
-                  </Button>
+                  </Button> : <> </>}
                 </Box>
                 <AccordionIcon />
               </AccordionButton>
