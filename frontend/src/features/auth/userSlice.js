@@ -1,4 +1,6 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
+import axios from 'axios';
+import { useHistory } from 'react-router-dom';
 import { getUserDetails } from '../../exampleData/exampleUser';
 
 export const asyncFetchUserData = createAsyncThunk(
@@ -9,6 +11,7 @@ export const asyncFetchUserData = createAsyncThunk(
   }
 );
 
+/* -------------------------------- Register -------------------------------- */
 export const asyncRegisterUniversity = createAsyncThunk(
   'user/registerUniversity',
   async ({ user, toast }) => {
@@ -30,6 +33,32 @@ export const asyncRegisterStudent = createAsyncThunk(
   async ({ user, toast }) => {
     await new Promise((r) => setTimeout(r, 3000));
     return user;
+  }
+);
+
+/* ---------------------------------- Login --------------------------------- */
+export const asyncLoginUser = createAsyncThunk(
+  'user/login',
+  async ({ user, toast, history }) => {
+    await new Promise((r) => setTimeout(r, 3000));
+    // axios
+    //   .post('/login', {
+    //     login: user.email,
+    //     password: user.password,
+    //   })
+    //   .then(
+    //     (response) => {
+    //       console.log(response);
+    //       localStorage.setItem('token', response.token);
+    //       // Fake testing local info
+    //       localStorage.setItem('token', 'fakeToken');
+    //       history.push('/');
+    //     },
+    //     (error) => {
+    //       console.log(error);
+    //     }
+    //   );
+    return;
   }
 );
 
@@ -107,6 +136,13 @@ export const userSlice = createSlice({
         state.status = true;
       })
       .addCase(asyncRegisterStudent.fulfilled, (state) => {
+        state.status = false;
+      })
+      // login
+      .addCase(asyncLoginUser.pending, (state) => {
+        state.status = true;
+      })
+      .addCase(asyncLoginUser.fulfilled, (state) => {
         state.status = false;
       });
   },

@@ -91,6 +91,7 @@ export default function CareerFair(props) {
           <TabPanels align='start'>
             <TabPanel>
               {fairData.loading && <SkeletonFairEvent />}
+
               <DetailsCard
                 alt={fairData.university}
                 image={fairData.logo}
