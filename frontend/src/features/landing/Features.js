@@ -49,7 +49,7 @@ export default function AboutUs() {
         align={'center'}
         as={Button}
         bg='none'
-        _hover={{ bg: 'blue.50' }}
+        _hover={{ bg: useColorModeValue('blue.50', 'blue.900') }}
         justify='flex-start'
         p='0'
         onClick={() => {

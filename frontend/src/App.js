@@ -75,8 +75,8 @@ function App() {
           exact
         />
         <Route path='/events/' component={CareerEvents} exact />
-        <Route path='/fair/:fairID' component={CareerFair} exact />
-        <Route path='/stall/:stallID' component={CompanyStall} exact />
+        <Route path='/fair/:fairID/:tab?' component={CareerFair} exact />
+        <Route path='/stall/:stallID/:tab?' component={CompanyStall} exact />
         <Route path='/company/:userID' component={CompanyProfile} exact />
       </Switch>
     </ChakraProvider>

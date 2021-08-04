@@ -1,5 +1,5 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 // Redux
 import { useDispatch, useSelector } from 'react-redux';
 import { asyncFetchFairData, resetFair } from './fairSlice';
@@ -29,6 +29,7 @@ import { SkeletonStallCard } from '../companyStall/SkeletonStallCard';
 
 export default function CareerFair(props) {
   const fairID = props.match.params.fairID;
+  const location = useLocation();
   // Redux
   const dispatch = useDispatch();
   const width = useSelector((state) => state.window.width);
@@ -45,6 +46,30 @@ export default function CareerFair(props) {
     dispatch(resetFair());
   };
 
+  const updateURL = (tab) => {
+    if (location.pathname.includes('presentation')) {
+      window.history.replaceState(
+        null,
+        tab,
+        location.pathname.replace('presentation', tab)
+      );
+    } else if (location.pathname.includes('opportunity')) {
+      window.history.replaceState(
+        null,
+        tab,
+        location.pathname.replace('opportunity', tab)
+      );
+    } else if (location.pathname.endsWith('/')) {
+      window.history.replaceState(null, tab, location.pathname.concat(tab));
+    } else {
+      window.history.replaceState(
+        null,
+        tab,
+        location.pathname.concat(`/${tab}`)
+      );
+    }
+  };
+
   return (
     <div>
       <Navbar />
@@ -54,9 +79,18 @@ export default function CareerFair(props) {
         borderRadius='xs'
         m='4'
       >
-        <Tabs>
+        <Tabs
+          defaultIndex={
+            !props.match.params.tab
+              ? 0
+              : props.match.params.tab === 'presentation'
+              ? 1
+              : 2
+          }
+        >
           <TabList>
             <Tab
+              onClick={() => updateURL('')}
               _selected={{
                 color: fairData.textColour,
                 bg: fairData.bgColour,
@@ -65,6 +99,7 @@ export default function CareerFair(props) {
               {width <= 775 ? 'Details' : 'Career Fair Details'}
             </Tab>
             <Tab
+              onClick={() => updateURL('presentation')}
               _selected={{
                 color: fairData.textColour,
                 bg: fairData.bgColour,
@@ -73,6 +108,7 @@ export default function CareerFair(props) {
               {width <= 775 ? 'Calendar' : 'Presentation Calendar'}
             </Tab>
             <Tab
+              onClick={() => updateURL('opportunity')}
               _selected={{
                 color: fairData.textColour,
                 bg: fairData.bgColour,
