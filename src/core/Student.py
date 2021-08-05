@@ -13,7 +13,6 @@ class Student(APIView):
     authentication_classes = [TokenAuthentication, SessionAuthentication]
     permission_classes = [IsAuthenticated]
     
-    
     @swagger_auto_schema(responses={
         200 : openapi.Schema(type=openapi.TYPE_OBJECT,properties={
             "student_id": openapi.Schema(type=openapi.TYPE_NUMBER),
