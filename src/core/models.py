@@ -84,7 +84,7 @@ class Companies(models.Model):
 class Universities(models.Model):
     university_id = models.AutoField(primary_key=True)
     university_name = models.CharField(max_length=50)
-    university_abbreviation = models.CharField(max_length=10)
+    # university_abbreviation = models.CharField(max_length=10)
     university_logo_64 = models.CharField(max_length=2000000)
     university_site_url = models.CharField(max_length=150, default='')
     # Potential cause of issues on deleting
