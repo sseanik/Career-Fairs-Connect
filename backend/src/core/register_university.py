@@ -36,7 +36,7 @@ def register_university(request):
 
     user_serializer = UserSerializer(user, data=request.data, fields=('email', 'password',))
     university = Universities(user_id=user)
-    university_serializer = UniversitySerializer(university, data=request.data, fields=('university_name', 'university_logo_64', 'university_site_64'))
+    university_serializer = UniversitySerializer(university, data=request.data, fields=('university_name', 'university_logo_64', 'university_site_url'))
     if not user_serializer.is_valid() and not university_serializer.is_valid():
         return Response([university_serializer.errors, user_serializer.errors])
     if not user_serializer.is_valid():
