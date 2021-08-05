@@ -15,7 +15,7 @@ import {
 } from '@chakra-ui/react';
 // Redux
 import { useDispatch, useSelector } from 'react-redux';
-import { asyncPostQuestion } from './stallSlice';
+import { asyncAnswerQuestion, asyncPostQuestion } from './stallSlice';
 import { QuestionModal } from '../../components/QuestionModal';
 
 import { RiPencilFill } from 'react-icons/ri';
@@ -24,6 +24,7 @@ export function QuestionsAndAnswers(props) {
   const { isOpen, onOpen, onClose } = useDisclosure()
   const dispatch = useDispatch();
   const [question, setQuestion] = React.useState('');
+  const [answer, setAnswer] = React.useState('');
   const [id, setId] = React.useState('');
   const buttonLoading = useSelector((state) => state.stall.status);
   const toast = useToast();
@@ -32,6 +33,12 @@ export function QuestionsAndAnswers(props) {
     question &&
       dispatch(asyncPostQuestion({ question: question, toast: toast }));
   };
+
+  const postAnswer = (id) => {
+    answer &&
+      dispatch(asyncAnswerQuestion({id: id, answer: answer, toast: toast}))
+      .then(setAnswer(''))
+  }
 
   return (
     <div>
@@ -65,7 +72,8 @@ export function QuestionsAndAnswers(props) {
 
       <Accordion allowMultiple>
         {props.qandas.map((qanda, idx) => (
-          <AccordionItem isDisabled={!qanda.answer} key={`qanda-${idx}`}>
+          /*Change (9 != 9) to userId != stall.companyId*/
+          <AccordionItem isDisabled={!qanda.answer && (9 != 9)} key={`qanda-${idx}`}>
             <h2>
               <AccordionButton>
                 <Box flex='1' textAlign='left' fontWeight='semibold'>
@@ -89,7 +97,30 @@ export function QuestionsAndAnswers(props) {
                 <AccordionIcon />
               </AccordionButton>
             </h2>
-            <AccordionPanel pb={4}>{qanda.answer}</AccordionPanel>
+            <AccordionPanel pb={4}>
+              {!qanda.answer ?
+              <>
+              <Textarea
+                value={answer}
+                onChange={(e) => setAnswer(e.target.value)}
+                size='sm'
+              />
+              <Button
+                size='sm'
+                mt='2'
+                mb='4'
+                onClick={() => {
+                  postAnswer(qanda.id)
+                }}
+                isLoading={buttonLoading}
+                loadingText='Submitting'
+                spinnerPlacement='end'
+              >
+                Submit
+              </Button></>
+            :
+            qanda.answer}
+             </AccordionPanel>
           </AccordionItem>
         ))}
       </Accordion>

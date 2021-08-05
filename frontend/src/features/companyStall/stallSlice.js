@@ -145,6 +145,21 @@ export const asyncEditQuestion = createAsyncThunk(
   }
 );
 
+// Add answer to a question
+export const asyncAnswerQuestion = createAsyncThunk(
+  'stall/answerQuestion',
+  async ({ id, answer, toast }) => {
+    await new Promise((r) => setTimeout(r, 3000));
+    const response = { id: id, answer: answer, toast: toast };
+    toast({
+      description: 'Successfully Answered Question',
+      status: 'success',
+      isClosable: true,
+    });
+    return response;
+  }
+);
+
 const initialState = {
   loading: false,
   status: false,
@@ -289,8 +304,17 @@ export const stallSlice = createSlice({
         const index = current(state.qandas).findIndex(
           (question) => question.id === payload.id
         );
-        console.log(payload);
         state.qandas[index].question = payload.question;
+      })
+      .addCase(asyncAnswerQuestion.pending, (state, { payload }) => {
+        state.eventFormStatus = 'Pending';
+      })
+      .addCase(asyncAnswerQuestion.fulfilled, (state, { payload }) => {
+        state.eventFormStatus = 'Completed';
+        const index = current(state.qandas).findIndex(
+          (question) => question.id === payload.id
+        );
+        state.qandas[index].answer = payload.answer;
       });
   },
 });
