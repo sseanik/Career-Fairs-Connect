@@ -23,15 +23,21 @@ class userData(APIView):
         if usertype == 0: #student
             data = Students.objects.get(user_id = userid)
             serializer=StudentSerializer(data)
-            return Response(serializer.data, status=200)
+            data = serializer.data
+            data["user_type"] = "Student"
+            return Response(data, status=200)
         if usertype == 1: #university
             data = Universities.objects.get(user_id = userid)
             serializer=UniversitySerializer(data)
-            return Response(serializer.data, status=200)
+            data = serializer.data
+            data["user_type"] = "University"
+            return Response(data, status=200)
         if usertype == 2: #company
             data = Companies.objects.get(user_id = userid)
             serializer=CompanySerializer(data)
-            return Response(serializer.data, status=200)
+            data = serializer.data
+            data["user_type"] = "Student"
+            return Response(data, status=200)
         else:
             return Response(status=404)
             
