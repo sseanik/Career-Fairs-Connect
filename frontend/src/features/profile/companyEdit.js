@@ -182,7 +182,7 @@ export default function Profile() {
                 size={'sm'}
                 fontWeight={'normal'}
                 colorScheme={'gray'}
-              onClick={setEditing(true)}
+              // onClick={setEditing(true)}
               >
                 Edit Profile
               </Button>
@@ -198,6 +198,7 @@ export default function Profile() {
       <Navbar />
       <Flex
         minH={'80vh'}
+        // align={'center'}
         justify={'center'}
       >
         <Container
