@@ -8,7 +8,7 @@ from drf_yasg.utils import swagger_auto_schema
 
 
 class StallList(APIView):
-    @swagger_auto_schema(
+    @swagger_auto_schema(request_body = StallsSerializer,
         responses={
             400: "Bad request",
             401: "Unauthorized",

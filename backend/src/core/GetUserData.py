@@ -6,11 +6,16 @@ from .serializers import StallsSerializer, UserSerializer, CompanySerializer, Un
 from rest_framework.authentication import TokenAuthentication, SessionAuthentication
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.authtoken.models import Token
-
-
+from drf_yasg import openapi
+from drf_yasg.utils import swagger_auto_schema
 class userData(APIView):
     authentication_classes = [TokenAuthentication, SessionAuthentication]
     permission_classes = [IsAuthenticated]
+    
+    @swagger_auto_schema(responses={
+        200 : "Returns user data specific to user type based on Token",
+        404 : "Not found",
+    })
     def get(self, request, *args, **kwargs):
         token = request.user.auth_token
         try:
@@ -23,13 +28,15 @@ class userData(APIView):
         if usertype == 0: #student
             data = Students.objects.get(user_id = userid)
             serializer=StudentSerializer(data)
-            data.user_type = "Student"
-            return Response(serializer.data, status=200)
+            data = serializer.data
+            data["user_type"] = "Student"
+            return Response(data, status=200)
         if usertype == 1: #university
             data = Universities.objects.get(user_id = userid)
             serializer=UniversitySerializer(data)
-            data.user_type = "University"
-            return Response(serializer.data, status=200)
+            data = serializer.data
+            data["user_type"] = "University"
+            return Response(data, status=200)
         if usertype == 2: #company
             data = Companies.objects.get(user_id = userid)
             serializer=CompanySerializer(data)
@@ -38,7 +45,3 @@ class userData(APIView):
             return Response(data, status=200)
         else:
             return Response(status=404)
-            
-        # serializer = UserSerializer(usertype)
-        # stallData = Stalls.objects.filter(approval_status = "Pending")
-        # serializer = StallsSerializer(stallData, many=True)
