@@ -4,7 +4,14 @@ from rest_framework.decorators import api_view
 from rest_framework import status
 from .models import *
 from django.contrib.auth.hashers import make_password
+from drf_yasg import openapi
+from drf_yasg.utils import swagger_auto_schema
 
+
+@swagger_auto_schema(method="post", request_body=UniversitySerializer, responses={
+        400: "Bad request",
+        201: "Successful Registration",  
+    })
 @api_view(['POST', ])
 def register_university(request):
     user = User(user_type=User.UNIVERSITY)
