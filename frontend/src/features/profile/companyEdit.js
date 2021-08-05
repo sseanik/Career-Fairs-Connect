@@ -1,28 +1,24 @@
 import React from 'react';
-import Navbar from '../../components/navbar';
+import { useHistory } from 'react-router-dom';
+
 import { convertImageToBase64, selectBase64Image } from '../auth/logoSlice';
 import { asyncFetchUserData, asyncRegisterCompany } from '../auth/userSlice';
 import {
-  Box,
   Stack,
-  useColorModeValue,
+
   Container,
   Heading,
-  Text,
   FormControl,
   FormLabel,
   FormErrorMessage,
   Button,
   useToast,
-  Flex,
-  useColorMode,
+
   Image,
 } from '@chakra-ui/react';
 import { Field, Formik } from 'formik';
 import * as Yup from 'yup';
 import { InputControl, TextareaControl } from 'formik-chakra-ui';
-import { EditIcon } from '@chakra-ui/icons';
-
 import { useSelector, useDispatch } from 'react-redux';
 
 const companyData = {
@@ -53,15 +49,13 @@ const validationSchema = Yup.object({
 });
 
 export default function Profile() {
-  const [editing, setEditing] = React.useState(false);
+  const history = useHistory();
+
   const base64Image = useSelector(selectBase64Image);
   const dispatch = useDispatch();
   const toast = useToast();
-  const { colorMode } = useColorMode();
   // ?
   const saveStatus = useSelector((state) => state.user.status);
-
-  console.log('initial editng state', editing);
 
   const uploadImage = (e, setFieldValue) => {
     dispatch(convertImageToBase64(e));
@@ -75,9 +69,16 @@ export default function Profile() {
     dispatch(asyncRegisterCompany({ user: {}, toast: toast }));
   };
 
-  function EditProfile() {
-    return (
-      <>
+  function handleCancel() {
+    history.push('/company');
+  }
+
+  return (
+    <>
+      <Container
+        maxW={'container.md'}
+        p={12}
+      >
         <Heading
           as={'h2'}
           fontSize={{ base: 'xl', sm: '2xl' }}
@@ -132,7 +133,7 @@ export default function Profile() {
                   colorScheme={'blue'}
                   variant={'outline'}
                   w={'150px'}
-                // onClick={setEditing(false)}
+                  onClick={handleCancel}
                 >
                   Cancel
                 </Button>
@@ -150,67 +151,7 @@ export default function Profile() {
             </Stack>
           )}
         </Formik>
-      </>
-    )
-  }
-
-  function ViewProfile() {
-    return (
-      <>
-        <Stack  align='center'>
-          <Stack direction='row' spacing={10} justify='center'>
-            <Image
-              src={companyData.logo}
-              alt={`${companyData.company}-logo`}
-              boxSize="150px"
-              objectFit='contain'
-            />
-            <Box>
-              <Heading
-                as={'h2'}
-                fontSize={{ base: 'xl', sm: '2xl' }}
-                textAlign={'center'}
-                mb={5}>
-                {companyData.company}
-              </Heading>
-              <Text fontSize="2xl">{companyData.website}</Text>
-            </Box>
-            <Flex justify='flex-end' pb='4'>
-              <Button
-                leftIcon={<EditIcon />}
-                rounded='lg'
-                size={'sm'}
-                fontWeight={'normal'}
-                colorScheme={'gray'}
-              // onClick={setEditing(true)}
-              >
-                Edit Profile
-              </Button>
-            </Flex>
-          </Stack>
-          <Text fontSize="2xl">{companyData.description}</Text>
-        </Stack>
-      </>
-    )
-  }
-  return (
-    <>
-      <Navbar />
-      <Flex
-        minH={'80vh'}
-        // align={'center'}
-        justify={'center'}
-      >
-        <Container
-          maxW={'container.md'}
-          bg={useColorModeValue('white', 'whiteAlpha.100')}
-          p={6}
-          direction={'column'}
-        >
-          {console.log("editing?", editing)}
-          {editing ? <EditProfile /> : <ViewProfile />}
-        </Container>
-      </Flex>
+      </Container>
     </>
   );
 }

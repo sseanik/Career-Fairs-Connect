@@ -17,7 +17,10 @@ import LandingPage from './features/landing/LandingPage';
 import CareerFair from './features/careerFair/CareerFair';
 import CompanyStall from './features/companyStall/CompanyStall';
 import CareerEvents from './features/careerEvents/CareerEvents';
+//Profile Pages
 import CompanyProfile from './features/profile/companyProfile';
+import CompanyEdit from './features/profile/companyEdit';
+
 import theme from './app/theme';
 import Navbar from './components/Navbar';
 
@@ -93,7 +96,10 @@ function App() {
         <Route path='/events/' component={CareerEvents} exact />
         <Route path='/fair/:fairID/:tab?' component={CareerFair} exact />
         <Route path='/stall/:stallID/:tab?' component={CompanyStall} exact />
-        <Route path='/company/:userID' component={CompanyProfile} exact />
+        {/* profile */}
+        <Route path='/company/' component={CompanyProfile} exact />
+        <Route path='/company/edit' component={CompanyEdit} exact />
+
       </Switch>
     </ChakraProvider>
   );
