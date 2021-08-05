@@ -83,15 +83,16 @@ export default function EmployerRegister() {
 
   const submitForm = (values, actions) => {
     actions.setSubmitting(false);
+    console.log(values);
     dispatch(
       asyncRegisterCompany({
         user: {
           email: values.email,
           password: values.password,
           company_name: values.company,
-          company_description: values.university,
+          company_description: values.description,
           company_webpage_url: values.website,
-          company_logo: values.base64Image[0],
+          company_logo_64: base64Image[0],
         },
         toast: toast,
       })

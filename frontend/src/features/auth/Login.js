@@ -59,7 +59,7 @@ export default function Login() {
   const submitForm = (values, setSubmitting) => {
     dispatch(
       asyncLoginUser({
-        user: { email: values.email, password: values.password },
+        user: { username: values.email, password: values.password },
         toast: toast,
         history: history,
       })

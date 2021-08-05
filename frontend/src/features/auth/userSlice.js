@@ -6,8 +6,17 @@ import { getUserDetails } from '../../exampleData/exampleUser';
 export const asyncFetchUserData = createAsyncThunk(
   'user/details',
   async (token) => {
-    const response = await getUserDetails(token);
-    return response;
+    const response = await axios({
+      method: 'get',
+      url: '/user/data/',
+      headers: {
+        Authorization: `Token ${token}`,
+      },
+    });
+
+    const data = await response.data;
+
+    return data;
   }
 );
 
@@ -15,41 +24,43 @@ export const asyncFetchUserData = createAsyncThunk(
 export const asyncRegisterUniversity = createAsyncThunk(
   'user/registerUniversity',
   async ({ user, toast }) => {
-    const payload = {
-      email: user.email,
-      password: user.password,
-      first_name: user.firstName,
-      last_name: user.lastName,
-      university: user.university,
-    };
-
     const response = await axios({
       method: 'post',
-      url: '/register/student/',
-      data: payload,
+      url: '/register/university/',
+      data: user,
     });
 
-    return response;
+    if (response.status === 200) {
+      toast({
+        description: 'Successfully created event',
+        status: 'success',
+        isClosable: true,
+      });
+    } else {
+      toast({
+        description: 'Register Failed',
+        status: 'error',
+        isClosable: true,
+      });
+    }
+
+    const data = await response.data;
+
+    return data;
   }
 );
 
 export const asyncRegisterCompany = createAsyncThunk(
   'user/registerCompany',
   async ({ user, toast }) => {
-    const payload = {
-      email: user.email,
-      password: user.password,
-      first_name: user.firstName,
-      last_name: user.lastName,
-      university: user.university,
-    };
-
     const response = await axios({
       method: 'post',
-      url: '/register/student/',
-      data: payload,
+      url: '/register/company/',
+      data: user,
     });
-    return response;
+    const data = await response.data;
+
+    return data;
   }
 );
 
@@ -61,8 +72,9 @@ export const asyncRegisterStudent = createAsyncThunk(
       url: '/register/student/',
       data: user,
     });
+    const data = await response.data;
 
-    return response;
+    return data;
   }
 );
 
@@ -70,7 +82,19 @@ export const asyncRegisterStudent = createAsyncThunk(
 export const asyncLoginUser = createAsyncThunk(
   'user/login',
   async ({ user, toast, history }) => {
-    await new Promise((r) => setTimeout(r, 3000));
+    const response = await axios({
+      method: 'post',
+      url: '/login/',
+      data: user,
+    });
+    const data = await response.data;
+
+    if (response.status === 200) {
+      localStorage.setItem('token', data.token);
+    }
+
+    history.push('/');
+    return data;
     // axios
     //   .post('/login', {
     //     login: user.email,
@@ -88,7 +112,6 @@ export const asyncLoginUser = createAsyncThunk(
     //       console.log(error);
     //     }
     //   );
-    return;
   }
 );
 
@@ -126,12 +149,13 @@ export const userSlice = createSlice({
       })
       .addCase(asyncFetchUserData.fulfilled, (state, { payload }) => {
         state.loading = false;
-        state.role = payload.role;
+        state.loggedIn = true;
+        state.role = payload.user_type;
         state.email = payload.email;
-        switch (payload.role) {
+        switch (payload.user_type) {
           case 'Student':
-            state.fname = payload.fname;
-            state.lname = payload.lname;
+            state.fname = payload.first_name;
+            state.lname = payload.last_name;
             state.university = payload.university;
             break;
           case 'Company':

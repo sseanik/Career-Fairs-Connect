@@ -2,7 +2,7 @@ import React from 'react';
 import { Link, Route, Switch } from 'react-router-dom';
 import './App.css';
 // Redux
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { asyncFetchUserData } from './features/auth/userSlice';
 // Chakra UI
 import { Button, ButtonGroup, ChakraProvider } from '@chakra-ui/react';
@@ -22,7 +22,12 @@ import theme from './app/theme';
 
 function App() {
   const dispatch = useDispatch();
-  React.useEffect(() => dispatch(asyncFetchUserData()), [dispatch]);
+  React.useEffect(() => {
+    const token = localStorage.getItem('token');
+    if (token) {
+      dispatch(asyncFetchUserData(token));
+    }
+  }, [dispatch]);
 
   return (
     <ChakraProvider theme={theme}>
@@ -64,7 +69,12 @@ function App() {
         </Button>
       </ButtonGroup>
       <Switch>
-        <Route path='/' component={LandingPage} exact />
+        {localStorage.getItem('token') ? (
+          <Route path='/' component={CareerEvents} exact />
+        ) : (
+          <Route path='/' component={LandingPage} exact />
+        )}
+
         <Route path='/login' component={Login} exact />
         <Route path='/register' component={Register} exact />
         <Route path='/register/employer' component={EmployerRegister} exact />
