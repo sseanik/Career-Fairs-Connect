@@ -39,6 +39,8 @@ from .get_stall_data import *
 from .Approvals import *
 from .GetUserData import *
 from .Logout import *
+from .StallMessages import *
+from .Upvote import *
 
 
 schema_view = get_schema_view(
@@ -88,5 +90,7 @@ urlpatterns = [
     path('careerfairs/', CareerFairListGlobal.as_view()),
     path('careerfairs/applications', Approvals.as_view()),
     path('careerfairs/stalls/<int:stallId>/', CompanyStallData.as_view()),
+    path('questions/<int:stallId>/', StallMessages.as_view()),
+    path('questions/<int:stallId>/<int:postId>/upvotes/', Upvote.as_view()),
 ]
 
