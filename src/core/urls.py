@@ -94,5 +94,7 @@ urlpatterns = [
     
     path('university/<int:universityId>/careerfairs/', CareerFairListForUni.as_view()),
     re_path('^university/(?P<universityId>.+)/$', University.as_view()),
+    path('questions/<int:stallId>/', StallMessages.as_view()),
+    path('questions/<int:stallId>/<int:postId>/upvotes/', Upvote.as_view()),
 ]
 
