@@ -71,7 +71,11 @@ export default function CareerEvents() {
           Career Fair Events
         </Heading>
         <Spacer />
-        {userDetails.role === 'University' && (
+        
+        {/* condition comment out until match with backend format
+        {userDetails.role === 'University' && ( */}
+        {(
+
           <div>
             <Button
               colorScheme='blue'

@@ -5,9 +5,18 @@ import { getEventsData } from '../../exampleData/exampleCareerEvents';
 // Fetch Career Fair Events
 export const asyncFetchEventsData = createAsyncThunk(
   'events/careerFairs',
-  async () => {
-    const response = await getEventsData();
-    return response;
+  async (token) => {
+    const response = await axios({
+      method: 'get',
+      url: '/careerfairs/',
+      headers: {
+        Authorization: `Token ${token}`,
+      },
+    });
+
+    const data = await response.data;
+
+    return data;
   }
 );
 

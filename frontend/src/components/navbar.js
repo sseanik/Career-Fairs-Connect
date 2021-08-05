@@ -1,34 +1,33 @@
-import React from 'react';
 import {
-  Flex,
-  Spacer,
   Button,
-  Menu,
-  MenuButton,
-  MenuList,
-  MenuItem,
-  MenuDivider,
+  chakra,
+  Collapse,
+  Flex,
+  HStack,
+  IconButton,
   Stack,
-  useColorModeValue,
   Text,
   useColorMode,
-  IconButton,
+  useColorModeValue,
 } from '@chakra-ui/react';
+import { useViewportScroll } from 'framer-motion';
+import React from 'react';
 import { Link, useHistory } from 'react-router-dom';
-import axios from 'axios';
-import { useThemeDarkMode } from 'elementz';
 import { FaMoon, FaSun } from 'react-icons/fa';
+import { AiOutlineMenu } from 'react-icons/ai';
+import { Logo } from './Logo';
+import { useThemeDarkMode } from 'elementz';
+import { useDispatch, useSelector } from 'react-redux';
+import { asyncLoginUser, asyncLogout } from '../features/auth/userSlice';
 
-// localStorage.clear();
-// localStorage.setItem('token', 'fakeToken');
-// localStorage.setItem('name', 'fakeName');
-localStorage.setItem('userId', 'fakeId');
-
-function Navbar() {
-  const history = useHistory();
-  const { colorMode, toggleColorMode } = useColorMode();
+export default function Navbar(props) {
+  // Icon
+  const SwitchIcon = useColorModeValue(FaMoon, FaSun);
+  // Colour
+  const text = useColorModeValue('dark', 'light');
+  const bg = useColorModeValue('white', 'gray.700');
+  const { toggleColorMode } = useColorMode();
   const [isDarkMode, toggleDarkMode] = useThemeDarkMode();
-
   const toggleMode = () => {
     toggleColorMode();
     console.log(isDarkMode);
@@ -39,124 +38,183 @@ function Navbar() {
       toggleDarkMode();
     }
   };
+  // State
+  const [y, setY] = React.useState(0);
+  const [show, setShow] = React.useState(false);
+  const handleToggle = () => setShow(!show);
+  // Ref
+  const ref = React.useRef();
+  const { height = 0 } = ref.current ? ref.current.getBoundingClientRect() : {};
+  // Scroll
+  const { scrollY } = useViewportScroll();
+  React.useEffect(() => {
+    return scrollY.onChange(() => setY(scrollY.get()));
+  }, [scrollY]);
 
-  function AuthTabs() {
+  const loggedIn = useSelector((state) => state.user.loggedIn);
+  const dispatch = useDispatch();
+  const history = useHistory();
+
+  const MobileNav = () => {
     return (
       <Stack
-        flex={{ base: 1, md: 0 }}
-        justify={'flex-end'}
-        direction={'row'}
-        spacing={6}
+        bg={useColorModeValue('white', 'gray.700')}
+        p={4}
+        display={{ md: 'none' }}
       >
-        <Button
-          as={Link}
-          to='/login'
-          fontSize={'sm'}
-          fontWeight={400}
-          variant={'link'}
-          href={'#'}
-        >
-          Log in
-        </Button>
-        <Button
-          display={{ base: 'none', md: 'inline-flex' }}
-          fontSize={'sm'}
-          fontWeight={600}
-          color={'white'}
-          bg={'blue.400'}
-          href={'#'}
-          _hover={{
-            bg: 'blue.300',
-          }}
-          as={Link}
-          to='/register'
-        >
-          Join
-        </Button>
+        {NAV_ITEMS.map((navItem) => (
+          <Stack spacing={4}>
+            <Flex
+              px={4}
+              py={2}
+              justify={'space-between'}
+              align={'center'}
+              _hover={{
+                textDecoration: 'none',
+              }}
+            >
+              <Text
+                as={Link}
+                to={navItem.to}
+                fontWeight={600}
+                onClick={handleToggle}
+              >
+                {navItem.label}
+              </Text>
+            </Flex>
+          </Stack>
+        ))}
       </Stack>
     );
-  }
-
-  function UserTabs() {
-    function handleLogOut() {
-      // console.log(localStorage.getItem('token'))
-      const token = localStorage.getItem('token');
-      localStorage.clear();
-
-      axios
-        .post('/logout', {
-          token: token,
-        })
-        .then((info) => {
-          console.log(info);
-          // localStorage.clear();
-        });
-
-      history.push('/');
-      window.location.reload();
-    }
-
-    return (
-      <Flex alignItems={'center'}>
-        <Menu>
-          <MenuButton
-            as={Button}
-            rounded={'full'}
-            variant={'ghost'}
-            cursor={'pointer'}
-            minW={0}
-          >
-            Hi, {localStorage.getItem('name')}
-          </MenuButton>
-          <MenuList minW='0' w={'140px'}>
-            <MenuItem as={Link} to='/company/1'>
-              Profile
-            </MenuItem>
-            <MenuDivider />
-            <MenuItem onClick={handleLogOut}>Log out</MenuItem>
-          </MenuList>
-        </Menu>
-      </Flex>
-    );
-  }
+  };
 
   return (
-    <Flex
-      id='menu'
-      bg={useColorModeValue('white', 'gray.800')}
-      color={useColorModeValue('gray.600', 'white')}
-      minH={'60px'}
-      py={{ base: 2 }}
-      px={{ base: 4 }}
-      borderBottom={1}
-      borderStyle={'solid'}
-      borderColor={useColorModeValue('gray.200', 'gray.900')}
-      align={'center'}
-    >
-      {/* <Box margin='auto' paddingLeft='1%'> */}
-      <Text
-        // fontFamily={'heading'}
-        fontWeight={600}
-        fontSize={{ base: '2xl', sm: '2xl', lg: '3xl' }}
-        color={useColorModeValue('gray.800', 'white')}
-        as={Link}
-        to='/'
+    <React.Fragment>
+      <chakra.header
+        ref={ref}
+        shadow={y > height ? 'sm' : undefined}
+        transition='box-shadow 0.2s'
+        bg={bg}
+        borderTop='6px solid'
+        borderTopColor='blue.400'
+        w='full'
+        overflowY='hidden'
+        borderBottomWidth={2}
+        borderBottomColor={useColorModeValue('gray.100', 'gray.900')}
       >
-        Career Fairs Connect
-      </Text>
-      {/* </Box> */}
-      <Spacer />
+        <chakra.div h='4.5rem' mx='auto'>
+          <Flex
+            w='full'
+            h='full'
+            px='7'
+            alignItems='center'
+            justifyContent='space-between'
+            fontWeight={500}
+          >
+            <Flex align='flex-start'>
+              <Link to='/'>
+                <HStack>
+                  <Logo boxSize={12} mt='2'></Logo>
+                  <Text fontSize='xl' display={{ base: 'none', sm: 'flex' }}>
+                    Career Fairs Connect
+                  </Text>
+                </HStack>
+              </Link>
+            </Flex>
 
-      <IconButton
-        aria-label='Search database'
-        icon={colorMode === 'light' ? <FaSun /> : <FaMoon />}
-        onClick={() => toggleMode()}
-        mr='4'
-      />
+            <Flex justify='flex-end' align='center' color='gray.400'>
+              <IconButton
+                mr='4'
+                size='md'
+                fontSize='lg'
+                aria-label={`Switch to ${text} mode`}
+                variant='ghost'
+                color='current'
+                ml={{ base: '0', md: '3' }}
+                onClick={toggleMode}
+                icon={<SwitchIcon />}
+              />
+              {loggedIn ? (
+                <HStack spacing='5' display={{ base: 'none', md: 'flex' }}>
+                  <Button
+                    onClick={() =>
+                      dispatch(
+                        asyncLogout({
+                          token: localStorage.getItem('token'),
+                          history: history,
+                        })
+                      )
+                    }
+                    colorScheme='blue'
+                    variant='ghost'
+                    size='sm'
+                  >
+                    Logout
+                  </Button>
+                  <Button
+                    as={Link}
+                    to='/register'
+                    colorScheme='blue'
+                    variant='solid'
+                    size='sm'
+                  >
+                    Profile
+                  </Button>
+                </HStack>
+              ) : (
+                <HStack spacing='5' display={{ base: 'none', md: 'flex' }}>
+                  <Button
+                    as={Link}
+                    to='/login'
+                    colorScheme='blue'
+                    variant='ghost'
+                    size='sm'
+                  >
+                    Sign in
+                  </Button>
+                  <Button
+                    as={Link}
+                    to='/register'
+                    colorScheme='blue'
+                    variant='solid'
+                    size='sm'
+                  >
+                    Sign up
+                  </Button>
+                </HStack>
+              )}
 
-      {localStorage.getItem('token') === null ? <AuthTabs /> : <UserTabs />}
-    </Flex>
+              <IconButton
+                display={{ base: 'flex', md: 'none' }}
+                aria-label='Open menu'
+                fontSize='20px'
+                color={useColorModeValue('gray.800', 'inherit')}
+                variant='ghost'
+                icon={<AiOutlineMenu />}
+                onClick={handleToggle}
+              />
+            </Flex>
+          </Flex>
+        </chakra.div>
+        <Collapse in={show}>
+          <MobileNav />
+        </Collapse>
+      </chakra.header>
+    </React.Fragment>
   );
 }
 
-export default Navbar;
+const NAV_ITEMS = [
+  {
+    label: 'Landing Page',
+    to: '/',
+  },
+  {
+    label: 'Sign Up',
+    to: '/register',
+  },
+  {
+    label: 'Login',
+    to: '/login',
+  },
+];
