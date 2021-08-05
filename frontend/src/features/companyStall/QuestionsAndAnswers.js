@@ -12,22 +12,25 @@ import {
   Textarea,
   useToast,
   useDisclosure,
+  Flex,
 } from '@chakra-ui/react';
 // Redux
 import { useDispatch, useSelector } from 'react-redux';
-import { asyncAnswerQuestion, asyncPostQuestion } from './stallSlice';
+import { asyncAnswerQuestion, asyncDeleteQuestion, asyncPostQuestion } from './stallSlice';
 import { QuestionModal } from '../../components/QuestionModal';
+import { AnswerModal } from '../../components/AnswerModal';
 
 import { RiPencilFill } from 'react-icons/ri';
 
 export function QuestionsAndAnswers(props) {
-  const { isOpen, onOpen, onClose } = useDisclosure()
-  const dispatch = useDispatch();
+  const { isOpen1, onOpen1, onClose1 } = useDisclosure()
+  const { isOpen2, onOpen2, onClose2 } = useDisclosure()
   const [question, setQuestion] = React.useState('');
   const [answer, setAnswer] = React.useState('');
   const [id, setId] = React.useState('');
   const buttonLoading = useSelector((state) => state.stall.status);
   const toast = useToast();
+  const dispatch = useDispatch();
 
   const postQuestion = () => {
     question &&
@@ -40,14 +43,26 @@ export function QuestionsAndAnswers(props) {
       .then(setAnswer(''))
   }
 
+  const deleteQuestion = (id) => {
+    id &&
+      dispatch(asyncDeleteQuestion({id: id, toast: toast}))
+  }
+
   return (
     <div>
     <QuestionModal
-      isOpen={isOpen}
+      isOpen={isOpen1}
       id={id}
-      onClose={onClose}
+      onClose={onClose1}
       question={question}
       setQuestion={setQuestion}
+    />
+    <AnswerModal
+      isOpen={isOpen2}
+      id={id}
+      onClose={onClose2}
+      answer={answer}
+      setAnswer={setAnswer}
     />
     <Box>
       <Text mb='8px' fontWeight='semibold'>
@@ -81,23 +96,41 @@ export function QuestionsAndAnswers(props) {
                   {/*Change this so that this button only shows if qanda.creatorId == currentUserId*/}
                   
                   { (qanda.creatorId === '0') ?
-                    <Button
-                    leftIcon={<RiPencilFill />}
-                    size='sm'
-                    ml='3'
-                    onClick={() => {
-                      setQuestion(qanda.question);
-                      setId(qanda.id);
-                      onOpen();
-                    }}
-                  >
-                    Edit
-                  </Button> : <> </>}
+                    <>
+                      <Button
+                      leftIcon={<RiPencilFill />}
+                      size='sm'
+                      ml='3'
+                      onClick={() => {
+                        setQuestion(qanda.question);
+                        setId(qanda.id);
+                        onOpen1();
+                      }}
+                      >
+                        Edit
+                      </Button>
+                      <Button
+                        bg='red'
+                        color='white'
+                        marginLeft="100%"
+                        size='sm'
+                        ml='3'
+                        onClick={() => {
+                          setId(qanda.id);
+                          deleteQuestion(id);
+                        }}
+                      >
+                        Delete
+                      </Button>
+                    </>
+                   :
+                  <> </>}
                 </Box>
                 <AccordionIcon />
               </AccordionButton>
             </h2>
             <AccordionPanel pb={4}>
+              
               {!qanda.answer ?
               <>
               <Textarea
@@ -119,7 +152,30 @@ export function QuestionsAndAnswers(props) {
                 Submit
               </Button></>
             :
-            qanda.answer}
+            <Flex>
+              <Box>
+                {qanda.answer}
+              </Box>
+              {/*Change (9 != 9) to userId != stall.companyId*/}
+              {(9 == 9) ?
+              <Button
+                leftIcon={<RiPencilFill />}
+                marginLeft="100%"
+                size='sm'
+                ml='3'
+                onClick={() => {
+                  setAnswer(qanda.answer);
+                  setId(qanda.id);
+                  onOpen2();
+                }}
+              >
+                Edit
+              </Button>
+                :
+                <> </>
+              }
+            </Flex>
+            }
              </AccordionPanel>
           </AccordionItem>
         ))}

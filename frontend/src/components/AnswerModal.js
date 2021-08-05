@@ -14,27 +14,27 @@ import {
 
 // Redux
 import { useSelector, useDispatch } from 'react-redux';
-import { asyncEditQuestion } from '../features/companyStall/stallSlice';
+import { asyncEditAnswer } from '../features/companyStall/stallSlice';
 
-export function QuestionModal(props) {
+export function AnswerModal(props) {
   const buttonLoading = useSelector((state) => state.stall.status);
   const dispatch = useDispatch();
   const toast = useToast();
 
-  const editQuestion = () => {
-    props.question &&
-      dispatch(asyncEditQuestion({ id: props.id, question: props.question, toast: toast }));
+  const editAnswer = () => {
+    props.answer &&
+      dispatch(asyncEditAnswer({ id: props.id, answer: props.answer, toast: toast }));
   };
 
   const submitForm = () => {
-    editQuestion({
+    editAnswer({
     qandas: {
       id: props.id,
-      question: props.question
+      answer: props.answer
     },
     toast: toast
     })
-    props.setQuestion("");
+    props.setAnswer("");
     props.onClose();
   }
 
@@ -45,11 +45,11 @@ export function QuestionModal(props) {
         <ModalContent>
           <ModalCloseButton />
           <Text mb='8px' fontWeight='semibold'>
-            Edit your Question:
+            Edit your Answer:
           </Text>
           <Textarea
-            value={props.question}
-            onChange={(e) => props.setQuestion(e.target.value)}
+            value={props.answer}
+            onChange={(e) => props.setAnswer(e.target.value)}
             size='sm'
           />
           <Button

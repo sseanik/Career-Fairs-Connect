@@ -137,7 +137,7 @@ export const asyncEditQuestion = createAsyncThunk(
     await new Promise((r) => setTimeout(r, 3000));
     const response = { id: id, question: question, toast: toast };
     toast({
-      description: 'Successfully edited Question',
+      description: 'Successfully Edited Question',
       status: 'success',
       isClosable: true,
     });
@@ -157,6 +157,35 @@ export const asyncAnswerQuestion = createAsyncThunk(
       isClosable: true,
     });
     return response;
+  }
+);
+
+// Edit answer to a question
+export const asyncEditAnswer = createAsyncThunk(
+  'stall/editQuestion',
+  async ({ id, answer, toast }) => {
+    await new Promise((r) => setTimeout(r, 3000));
+    const response = { id: id, answer: answer, toast: toast };
+    toast({
+      description: 'Successfully Edited Answer',
+      status: 'success',
+      isClosable: true,
+    });
+    return response;
+  }
+);
+
+// Delete a question
+export const asyncDeleteQuestion = createAsyncThunk(
+  'stall/deleteQuestion',
+  async ({ id, toast }) => {
+    await new Promise((r) => setTimeout(r, 3000));
+    toast({
+      description: 'Successfully deleted Question',
+      status: 'success',
+      isClosable: true,
+    });
+    return id;
   }
 );
 
@@ -315,7 +344,14 @@ export const stallSlice = createSlice({
           (question) => question.id === payload.id
         );
         state.qandas[index].answer = payload.answer;
-      });
+      })
+      .addCase(asyncDeleteQuestion.pending, (state, { payload }) => {
+        state.eventFormStatus = 'Pending';
+      })
+      .addCase(asyncDeleteQuestion.fulfilled, (state, { payload }) => {
+        state.eventFormStatus = 'Completed';
+        state.qandas = state.qandas.filter((qanda) => qanda.id !== payload);
+      })
   },
 });
 
