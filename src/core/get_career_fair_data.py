@@ -11,8 +11,18 @@ from django.core import serializers
 from django.utils import timezone
 from django.db.models import Q
 from django.contrib.auth.hashers import make_password
+from drf_yasg import openapi
+from drf_yasg.utils import swagger_auto_schema
 
-
+@swagger_auto_schema(method='get', responses= {
+    200 : openapi.Schema(type=openapi.TYPE_OBJECT,properties={
+        "event_id": openapi.Schema(type=openapi.TYPE_NUMBER),
+        "companies": openapi.Schema(type=openapi.TYPE_ARRAY, items=openapi.Items(type="fill this in later")),
+        "stalls": openapi.Schema(type=openapi.TYPE_ARRAY, items=openapi.Items(type="fill this in later")),
+        }),
+    401 : "Unauthorized",
+    404 : "Not found",
+})
 @api_view(['GET', ])
 def get_career_fair_data(request, eventId):
     if not request.user.is_authenticated:

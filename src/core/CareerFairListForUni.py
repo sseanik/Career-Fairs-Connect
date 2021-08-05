@@ -13,7 +13,14 @@ class CareerFairListForUni(APIView):
     authentication_classes = [TokenAuthentication, SessionAuthentication]
     permission_classes = [IsAuthenticated]
     @swagger_auto_schema(responses={
-        200 : "Ok",
+        200 : openapi.Schema(type=openapi.TYPE_OBJECT,properties={
+            "event_id": openapi.Schema(type=openapi.TYPE_NUMBER),
+            "university_id": openapi.Schema(type=openapi.TYPE_NUMBER),
+            "title": openapi.Schema(type=openapi.TYPE_STRING),
+            "description": openapi.Schema(type=openapi.TYPE_STRING),
+            "start_date": openapi.Schema(type=openapi.TYPE_STRING),
+            "end_date": openapi.Schema(type=openapi.TYPE_STRING),
+            }),
         403 : "Forbidden",
     })
     def get (self, request, *args, **kwargs):

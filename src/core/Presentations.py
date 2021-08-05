@@ -15,7 +15,16 @@ from drf_yasg.utils import swagger_auto_schema
 
 @swagger_auto_schema(method="get",
     responses={
-        200: "Ok",  
+        200 : openapi.Schema(type=openapi.TYPE_OBJECT,properties={
+            "presentation_id": openapi.Schema(type=openapi.TYPE_NUMBER),
+            "stall_id": openapi.Schema(type=openapi.TYPE_NUMBER),
+            "title": openapi.Schema(type=openapi.TYPE_STRING),
+            "colour": openapi.Schema(type=openapi.TYPE_STRING),
+            "presentation_link": openapi.Schema(type=openapi.TYPE_STRING),
+            "start_time": openapi.Schema(type=openapi.TYPE_STRING),
+            "end_time": openapi.Schema(type=openapi.TYPE_STRING),
+            "presentation_description": openapi.Schema(type=openapi.TYPE_STRING),
+        }),  
         404: "Not found",
     })
 @api_view(['GET', ])
@@ -42,8 +51,10 @@ def get_all_presentations(request, eventId):
  
 @swagger_auto_schema(method="get",
     responses={
-        200: "Ok",  
-        404: "Not found",
+            200 : openapi.Schema(type=openapi.TYPE_OBJECT,properties={
+            "presentations": openapi.Schema(type=openapi.TYPE_ARRAY,items=openapi.Items(type="stall_id, start_time,end_time, presentation_link, presentation_description, title, color")),   
+            404: "Not found",
+        })
     })
 @api_view(['GET', ])
 def get_presentation(request, stallId):

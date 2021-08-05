@@ -13,15 +13,11 @@ class Approvals(APIView):
     permission_classes = [IsAuthenticated]
     
     @swagger_auto_schema(responses={
-        # 200 : openapi.Schema(type=openapi.TYPE_OBJECT,properties={
-        #     "event_id": openapi.Schema(type=openapi.TYPE_NUMBER),
-        #     "title": openapi.Schema(type=openapi.TYPE_STRING),
-        #     "description": openapi.Schema(type=openapi.TYPE_STRING),
-        #     "start_date": openapi.Schema(type=openapi.TYPE_STRING),
-        #     "end_date": openapi.Schema(type=openapi.TYPE_STRING),
-        #     "university_id": openapi.Schema(type=openapi.TYPE_NUMBER),
-        #     }),
-        200 : "Ok",
+        200 : openapi.Schema(type=openapi.TYPE_OBJECT,properties={
+            "fair title": openapi.Schema(type=openapi.TYPE_NUMBER),
+            "event_id": openapi.Schema(type=openapi.TYPE_STRING),
+            "pending stalls": openapi.Schema(type=openapi.TYPE_ARRAY, items=openapi.Items(type="stall_id, company_id, event_id, stall_description, approval status")),
+            }),
         403 : "Forbidden",
         404 : "Not found",
     })
@@ -49,7 +45,12 @@ class Approvals(APIView):
 
 
     @swagger_auto_schema(request_body=StallsSerializer, responses={
-        200 : "Application processed",
+        200 : openapi.Schema(type=openapi.TYPE_OBJECT,properties={
+            "approval_status": openapi.Schema(type=openapi.TYPE_STRING),
+            "company_id": openapi.Schema(type=openapi.TYPE_NUMBER),
+            "event_id": openapi.Schema(type=openapi.TYPE_NUMBER),
+            "stall_description": openapi.Schema(type=openapi.TYPE_STRING),
+        }),
         400 : "Bad request",
         404 : "Not found",
     })
