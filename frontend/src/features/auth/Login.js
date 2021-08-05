@@ -77,7 +77,6 @@ export default function Login() {
           position={'relative'}
           pt='6'
         >
-          <Box>
             <Box
               borderWidth='1px'
               borderColor={useColorModeValue('gray.200', 'gray.900')}
@@ -235,7 +234,6 @@ export default function Login() {
                 )}
               </Formik>
             </Box>
-          </Box>
         </Flex>
       </Fade>
     </div>

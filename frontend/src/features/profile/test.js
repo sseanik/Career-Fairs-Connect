@@ -41,6 +41,64 @@ const LinkItems: Array<LinkItemProps> = [
 
 export default function SimpleSidebar({ children }: { children: ReactNode }) {
   const { isOpen, onOpen, onClose } = useDisclosure();
+
+
+  function testEditProfile() {
+    return (
+      <>
+        <Heading
+          as={'h2'}
+          fontSize={{ base: 'xl', sm: '2xl' }}
+          textAlign={'center'}
+          mb={5}>
+          Edit Profile
+        </Heading>
+        <Stack
+          direction='column'
+          as={'form'}
+          spacing={'12px'}
+          onSubmit={
+            console.log("==handling submit")
+          }>
+          <FormControl id="name">
+            <FormLabel>Company Name</FormLabel>
+            <Input type="text" value="Canvas" />
+          </FormControl>
+
+          <FormControl id="website">
+            <FormLabel>Website URL</FormLabel>
+            <Input type="text" value="https://www.canva.com/" />
+          </FormControl>
+
+          <FormControl id="logo">
+            <FormLabel>Logo URL</FormLabel>
+            <Input type="text" value="https://upload.wikimedia.org/wikipedia/en/3/3b/Canva_Logo.png" />
+          </FormControl>
+
+          <FormControl id="description">
+            <FormLabel>Description</FormLabel>
+            <Textarea type="text" value="Previous description" />
+          </FormControl>
+
+          <Stack direction="row" spacing={4} justify="center">
+            <Button
+              colorScheme={'blue'}
+              variant={'outline'}
+              w={'150px'}
+            // onClick={setEditing(false)}
+            >
+              Cancel
+            </Button>
+            <Button colorScheme={'blue'} variant={'solid'} w={'150px'}>
+              Save
+            </Button>
+          </Stack>
+
+        </Stack>
+      </>
+    )
+  }
+  
   return (
     <>
       <Navbar />

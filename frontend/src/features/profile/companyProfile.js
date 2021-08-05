@@ -1,196 +1,218 @@
+import React from 'react';
 import Navbar from '../../components/navbar';
-import React, { ReactNode } from 'react';
+import { convertImageToBase64, selectBase64Image } from '../auth/logoSlice';
+import { asyncFetchUserData, asyncRegisterCompany } from '../auth/userSlice';
 import {
-  IconButton,
-  Box,
-  CloseButton,
-  Flex,
-  Icon,
+  Stack,
   useColorModeValue,
-  Link,
-  Drawer,
-  DrawerContent,
-  Text,
-  useDisclosure,
-  BoxProps,
-  FlexProps,
-  Button,
-  FormControl,
-  FormLabel,
+  Container,
+  Textarea,
   Heading,
   Input,
-  Stack,
-  Textarea,
+  FormControl,
+  FormLabel,
+  FormErrorMessage,
+  Button,
+  useToast,
+  Flex,
+  useColorMode,
+  Image,
 } from '@chakra-ui/react';
-import {
-  FiHome,
-  FiSettings,
-  FiMenu,
-} from 'react-icons/fi';
-import { IconType } from 'react-icons';
-import { ReactText } from 'react';
+import { Field, Formik } from 'formik';
+import * as Yup from 'yup';
+import { InputControl, TextareaControl } from 'formik-chakra-ui';
+import { EditIcon } from '@chakra-ui/icons';
 
-interface LinkItemProps {
-  name: string;
-  icon: IconType;
-}
-const LinkItems: Array<LinkItemProps> = [
-  { name: 'My Profile', icon: FiHome },
-  { name: 'Edit profile', icon: FiSettings },
-];
+import { useSelector, useDispatch } from 'react-redux';
 
-export default function SimpleSidebar({ children }: { children: ReactNode }) {
-  const { isOpen, onOpen, onClose } = useDisclosure();
+const companyData = {
+  companyID: '1',
+  company: 'Canva',
+  description: 'Canva is a graphic design company',
+  logo: 'https://upload.wikimedia.org/wikipedia/en/3/3b/Canva_Logo.png',
+  website: 'https://canva.com',
+};
+
+const initialValues = {
+  company: companyData.company,
+  website: companyData.website,
+  logo: '',
+  description: companyData.description,
+};
+
+const validationSchema = Yup.object({
+  company: Yup.string().required('Company Name is Required').max(128),
+  description: Yup.string()
+    .required('Company Description is Required')
+    .max(512),
+  website: Yup.string()
+    .matches(/^http(s)?:.*$/, 'Website URL is invalid')
+    .required('Website URL is Required')
+    .max(256),
+  logo: Yup.string().required('Logo upload is Required'),
+});
+
+export default function Profile() {
+  const [editing, setEditing] = React.useState(false);
+  const base64Image = useSelector(selectBase64Image);
+  const dispatch = useDispatch();
+  const toast = useToast();
+  const { colorMode } = useColorMode();
+  // ?
+  const saveStatus = useSelector((state) => state.user.status);
+
+  console.log('initial editng state', editing);
+
+  const uploadImage = (e, setFieldValue) => {
+    dispatch(convertImageToBase64(e));
+    setFieldValue('logo', e.target.value);
+  };
+
+  const submitForm = (values, actions) => {
+    console.log(values);
+    console.log(base64Image[0]);
+    actions.setSubmitting(false);
+    dispatch(asyncRegisterCompany({ user: {}, toast: toast }));
+  };
+
+  function EditProfile() {
+    return (
+      <>
+        <Heading
+          as={'h2'}
+          fontSize={{ base: 'xl', sm: '2xl' }}
+          textAlign={'center'}
+          mb={5}>
+          Edit Profile
+        </Heading>
+        <Formik
+          initialValues={initialValues}
+          onSubmit={(values, actions) => submitForm(values, actions)}
+          validationSchema={validationSchema}
+        >
+          {({ isSubmitting, handleSubmit, setFieldValue }) => (
+            <Stack
+              direction='column'
+              as={'form'}
+              spacing={'12px'}
+              onSubmit={handleSubmit}
+            >
+              <Stack direction="row" spacing={10} align='center' justify='center'>
+                <Image
+                  src={companyData.logo}
+                  alt={`${companyData.company}-logo`}
+                  boxSize="150px"
+                  objectFit='cover'
+                />
+                <Field name='logo'>
+                  {({ field, form }) => (
+                    <FormControl
+                      id='logo'
+                      isInvalid={form.errors.logo && form.touched.logo}
+                    >
+                      <FormLabel>Update New Logo</FormLabel>
+                      <input
+                        {...field}
+                        type='file'
+                        onChange={(e) => uploadImage(e, setFieldValue)}
+                        accept='.jpeg, .png, .jpg'
+                      ></input>
+                      <FormErrorMessage>{form.errors.logo}</FormErrorMessage>
+                    </FormControl>
+                  )}
+                </Field>
+              </Stack>
+
+              <InputControl name='company' label='Company Name' />
+              <TextareaControl name='description' label='Company Description' />
+              <InputControl name='website' label='Website URL' />
+
+              <Stack direction="row" spacing={4} justify='center'>
+                <Button
+                  colorScheme={'blue'}
+                  variant={'outline'}
+                  w={'150px'}
+                // onClick={setEditing(false)}
+                >
+                  Cancel
+                </Button>
+                <Button
+                  colorScheme={'blue'}
+                  variant={'solid'}
+                  w={'150px'}
+                  isLoading={saveStatus}
+                  loadingText='Saving'
+                  type='submit'
+                >
+                  Save
+                </Button>
+              </Stack>
+            </Stack>
+          )}
+        </Formik>
+      </>
+    )
+  }
+
+  function ViewProfile() {
+    return (
+      <>
+        {/* <Heading
+          as={'h2'}
+          fontSize={{ base: 'xl', sm: '2xl' }}
+          textAlign={'center'}
+          mb={5}>
+          My Profile
+        </Heading> */}
+        <Flex justify='flex-end' pb='4'>
+          <Button
+            leftIcon={<EditIcon />}
+            rounded='lg'
+            size={'sm'}
+            fontWeight={'normal'}
+            colorScheme={'gray'}
+          // onClick={setEditing(true)}
+          >
+            Edit Profile
+          </Button>
+        </Flex>
+        <Stack spacing={10} align='center' justify='center'>
+
+          <Image
+            src={companyData.logo}
+            alt={`${companyData.company}-logo`}
+            boxSize="150px"
+            objectFit='contain'
+          />
+          <Heading
+            as={'h2'}
+            fontSize={{ base: 'xl', sm: '2xl' }}
+            textAlign={'center'}
+            mb={5}>
+            {companyData.company}
+          </Heading>
+        </Stack>
+      </>
+    )
+  }
   return (
     <>
       <Navbar />
-
-      <Box minH="100vh">
-        <SidebarContent
-          onClose={() => onClose}
-          display={{ base: 'none', md: 'block' }}
-        />
-        <Drawer
-          autoFocus={false}
-          isOpen={isOpen}
-          placement="left"
-          onClose={onClose}
-          returnFocusOnClose={false}
-          onOverlayClick={onClose}
-          size="full">
-          <DrawerContent>
-            <SidebarContent onClose={onClose} />
-          </DrawerContent>
-        </Drawer>
-        {/* mobilenav */}
-        <MobileNav display={{ base: 'flex', md: 'none' }} onOpen={onOpen} />
-        <Box ml={{ base: 0, md: 60 }} p="4">
-          <Flex p={8} flex={1} align={'center'} justify={'center'}>
-            <Stack spacing={5} w={'full'} maxW={'md'}>
-              <Heading fontSize={'2xl'}>Edit your profile</Heading>
-              <FormControl id="name">
-                <FormLabel>Company Name</FormLabel>
-                <Input type="text" value="Canvas"/>
-              </FormControl>
-
-              <FormControl id="website">
-                <FormLabel>Website URL</FormLabel>
-                <Input type="text" value="https://www.canva.com/"/>
-              </FormControl>
-
-              <FormControl id="logo">
-                <FormLabel>Logo URL</FormLabel>
-                <Input type="text" value="https://upload.wikimedia.org/wikipedia/en/3/3b/Canva_Logo.png"/>
-              </FormControl>
-
-              <FormControl id="description">
-                <FormLabel>Description</FormLabel>
-                <Textarea type="text" value="Previous description"/>
-              </FormControl>
-
-              <Button colorScheme={'blue'} variant={'solid'} w={'150px'}>
-                Save
-              </Button>
-            </Stack>
-            
-          </Flex>
-        </Box>
-      </Box>
-
-
+      <Flex
+        minH={'80vh'}
+        // align={'center'}
+        justify={'center'}
+      >
+        <Container
+          maxW={'container.md'}
+          bg={useColorModeValue('white', 'whiteAlpha.100')}
+          p={6}
+          direction={'column'}
+        >
+          {console.log("editing?", editing)}
+          {editing ? <EditProfile /> : <ViewProfile />}
+        </Container>
+      </Flex>
     </>
   );
 }
-
-interface SidebarProps extends BoxProps {
-  onClose: () => void;
-}
-
-const SidebarContent = ({ onClose, ...rest }: SidebarProps) => {
-  return (
-    <Box
-      bg={useColorModeValue('white', 'gray.900')}
-      borderRight="1px"
-      borderRightColor={useColorModeValue('gray.200', 'gray.700')}
-      w={{ base: 'full', md: 60 }}
-      pos="fixed"
-      h="full"
-      {...rest}>
-      <Flex h="20" alignItems="center" mx="8" justifyContent="space-between">
-        <Text fontSize="2xl" fontFamily="monospace" fontWeight="bold">
-          Company Profile
-        </Text>
-        <CloseButton display={{ base: 'flex', md: 'none' }} onClick={onClose} />
-      </Flex>
-      {LinkItems.map((link) => (
-        <NavItem key={link.name} icon={link.icon}>
-          {link.name}
-        </NavItem>
-      ))}
-    </Box>
-  );
-};
-
-interface NavItemProps extends FlexProps {
-  icon: IconType;
-  children: ReactText;
-}
-const NavItem = ({ icon, children, ...rest }: NavItemProps) => {
-  return (
-    <Link href="#" style={{ textDecoration: 'none' }}>
-      <Flex
-        align="center"
-        p="4"
-        mx="4"
-        borderRadius="lg"
-        role="group"
-        cursor="pointer"
-        _hover={{
-          bg: 'blue.300',
-          color: 'white',
-        }}
-        {...rest}>
-        {icon && (
-          <Icon
-            mr="4"
-            fontSize="16"
-            _groupHover={{
-              color: 'white',
-            }}
-            as={icon}
-          />
-        )}
-        {children}
-      </Flex>
-    </Link>
-  );
-};
-
-interface MobileProps extends FlexProps {
-  onOpen: () => void;
-}
-const MobileNav = ({ onOpen, ...rest }: MobileProps) => {
-  return (
-    <Flex
-      ml={{ base: 0, md: 60 }}
-      px={{ base: 4, md: 24 }}
-      height="20"
-      alignItems="center"
-      bg={useColorModeValue('white', 'gray.900')}
-      borderBottomWidth="1px"
-      borderBottomColor={useColorModeValue('gray.200', 'gray.700')}
-      justifyContent="flex-start"
-      {...rest}>
-      <IconButton
-        variant="outline"
-        onClick={onOpen}
-        aria-label="open menu"
-        icon={<FiMenu />}
-      />
-
-      <Text fontSize="2xl" ml="8" fontFamily="monospace" fontWeight="bold">
-        Company Profile
-      </Text>
-    </Flex>
-  );
-};
