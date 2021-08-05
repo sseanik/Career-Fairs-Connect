@@ -23,7 +23,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import { convertImageToBase64, selectBase64Image } from './logoSlice';
 import { asyncRegisterUniversity } from './userSlice';
 import { ArrowBackIcon } from '@chakra-ui/icons';
-import { Link } from 'react-router-dom';
+import { Link, useHistory } from 'react-router-dom';
 
 const initialValues = {
   email: '',
@@ -106,6 +106,7 @@ export function UniversityRegister() {
   const dispatch = useDispatch();
   const toast = useToast();
   const { colorMode } = useColorMode();
+  const history = useHistory();
 
   const uploadImage = (e, setFieldValue) => {
     dispatch(convertImageToBase64(e));
@@ -130,6 +131,7 @@ export function UniversityRegister() {
           university_logo_64: base64Image[0],
         },
         toast: toast,
+        history: history,
       })
     );
   };

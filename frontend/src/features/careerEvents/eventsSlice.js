@@ -1,4 +1,5 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
+import axios from 'axios';
 import { getEventsData } from '../../exampleData/exampleCareerEvents';
 
 // Fetch Career Fair Events
@@ -13,15 +14,34 @@ export const asyncFetchEventsData = createAsyncThunk(
 // Create a Career Fair Event
 export const asyncCreateFairEvent = createAsyncThunk(
   'events/create',
-  async ({ event, toast }) => {
-    await new Promise((r) => setTimeout(r, 3000));
-    const response = { ...event, id: '555' };
-    toast({
-      description: 'Successfully created event',
-      status: 'success',
-      isClosable: true,
+  async ({ event, toast, id }) => {
+    const response = await axios({
+      method: 'post',
+      url: `/university/${id}/careerfairs/`,
+      data: event,
+      headers: {
+        Authorization: `Token ${localStorage.getItem('token')}`,
+      },
     });
-    return response;
+
+    console.log(response);
+
+    const data = await response.data;
+
+    if (response.status === 200) {
+      toast({
+        description: 'Successfully created Career Fair',
+        status: 'success',
+        isClosable: true,
+      });
+    } else {
+      toast({
+        description: 'Login Failed',
+        status: 'error',
+        isClosable: true,
+      });
+    }
+    return data;
   }
 );
 
@@ -70,6 +90,7 @@ export const eventsSlice = createSlice({
       })
       .addCase(asyncCreateFairEvent.fulfilled, (state, { payload }) => {
         state.status = false;
+        console.log(payload);
         state.events.push(payload);
       })
       // Deleting a Career Fair Event

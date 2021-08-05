@@ -1,5 +1,5 @@
 import React from 'react';
-import { Link, Route, Switch } from 'react-router-dom';
+import { Link, Route, Switch, useHistory } from 'react-router-dom';
 import './App.css';
 // Redux
 import { useDispatch, useSelector } from 'react-redux';
@@ -23,12 +23,16 @@ import Navbar from './components/Navbar';
 
 function App() {
   const dispatch = useDispatch();
+  const history = useHistory();
+
   React.useEffect(() => {
     const token = localStorage.getItem('token');
     if (token) {
-      dispatch(asyncFetchUserData(token));
+      dispatch(asyncFetchUserData(localStorage.getItem('token')));
     }
-  }, [dispatch]);
+  }, [dispatch, history]);
+
+  const loggedIn = useSelector((state) => state.user.loggedIn);
 
   return (
     <ChakraProvider theme={theme}>
@@ -71,7 +75,7 @@ function App() {
       </ButtonGroup>
       <Navbar />
       <Switch>
-        {localStorage.getItem('token') ? (
+        {loggedIn ? (
           <Route path='/' component={CareerEvents} exact />
         ) : (
           <Route path='/' component={LandingPage} exact />
