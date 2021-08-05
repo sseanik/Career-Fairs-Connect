@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { useHistory } from 'react-router-dom';
 
 import { convertImageToBase64, selectBase64Image } from '../auth/logoSlice';
@@ -50,6 +50,12 @@ const validationSchema = Yup.object({
 
 export default function Profile() {
   const history = useHistory();
+  const [picture, setPicture] = useState(null);
+  const [imgSrc, setImgSrc] = useState(companyData.logo);
+  useEffect(() => {
+    const image = document.getElementById("oldLogo");
+    image.src = imgSrc;
+  }, [imgSrc]);
 
   const base64Image = useSelector(selectBase64Image);
   const dispatch = useDispatch();
@@ -60,6 +66,8 @@ export default function Profile() {
   const uploadImage = (e, setFieldValue) => {
     dispatch(convertImageToBase64(e));
     setFieldValue('logo', e.target.value);
+    console.log('e.target.value: ', e.target.value);
+    setImgSrc(e.target.value);
   };
 
   const submitForm = (values, actions) => {
@@ -86,6 +94,7 @@ export default function Profile() {
           mb={5}>
           Edit Profile
         </Heading>
+
         <Formik
           initialValues={initialValues}
           onSubmit={(values, actions) => submitForm(values, actions)}
@@ -98,9 +107,11 @@ export default function Profile() {
               spacing={'6'}
               onSubmit={handleSubmit}
             >
+
               <Stack direction="row" spacing={10} align='center' justify='center'>
                 <Image
-                  src={companyData.logo}
+                  id='oldLogo'
+                  src={imgSrc}
                   alt={`${companyData.company}-logo`}
                   boxSize="150px"
                   objectFit='cover'
@@ -148,6 +159,7 @@ export default function Profile() {
                   Save
                 </Button>
               </Stack>
+
             </Stack>
           )}
         </Formik>
