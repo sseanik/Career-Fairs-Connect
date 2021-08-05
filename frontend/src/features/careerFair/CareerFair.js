@@ -15,11 +15,14 @@ import {
   TabPanel,
   TabPanels,
   Tabs,
+  useBreakpointValue,
   useColorModeValue,
 } from '@chakra-ui/react';
 import { ArrowBackIcon } from '@chakra-ui/icons';
+import { BiDetail } from 'react-icons/bi';
+import { IoCalendar } from 'react-icons/io5';
+import { ImTable2 } from 'react-icons/im';
 // Components
-import Navbar from '../../components/navbar';
 import { StallCard } from '../companyStall/StallCard';
 import { DetailsCard } from '../../components/DetailsCard';
 import { OpportunitiesTable } from '../../components/OpportunitiesTable';
@@ -32,7 +35,6 @@ export default function CareerFair(props) {
   const location = useLocation();
   // Redux
   const dispatch = useDispatch();
-  const width = useSelector((state) => state.window.width);
   const fairData = useSelector((state) => state.fair);
 
   // On page load, gather all fair data
@@ -72,7 +74,6 @@ export default function CareerFair(props) {
 
   return (
     <div>
-      <Navbar />
       <Box
         borderWidth='1px'
         borderColor={useColorModeValue('gray.300', 'gray.700')}
@@ -96,7 +97,11 @@ export default function CareerFair(props) {
                 bg: fairData.bgColour,
               }}
             >
-              {width <= 775 ? 'Details' : 'Career Fair Details'}
+              {useBreakpointValue({
+                base: <BiDetail />,
+                sm: 'Details',
+                md: 'Career Details',
+              })}
             </Tab>
             <Tab
               onClick={() => updateURL('presentation')}
@@ -105,7 +110,11 @@ export default function CareerFair(props) {
                 bg: fairData.bgColour,
               }}
             >
-              {width <= 775 ? 'Calendar' : 'Presentation Calendar'}
+              {useBreakpointValue({
+                base: <IoCalendar />,
+                sm: 'Calendar',
+                md: 'Presentation Calendar',
+              })}
             </Tab>
             <Tab
               onClick={() => updateURL('opportunity')}
@@ -114,7 +123,11 @@ export default function CareerFair(props) {
                 bg: fairData.bgColour,
               }}
             >
-              Opportunities
+              {useBreakpointValue({
+                base: <ImTable2 />,
+                sm: 'Opportunities',
+                md: 'Opportunities',
+              })}
             </Tab>
             <Spacer />
             <Button
@@ -127,7 +140,11 @@ export default function CareerFair(props) {
               to='/events'
               onClick={() => navigateBack()}
             >
-              {width <= 775 ? 'Back' : 'Back to Fair List'}
+              {useBreakpointValue({
+                base: '',
+                sm: 'Back',
+                md: 'Back to Fair List',
+              })}
             </Button>
           </TabList>
           <TabPanels align='start'>

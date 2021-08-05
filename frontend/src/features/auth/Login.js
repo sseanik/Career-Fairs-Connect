@@ -25,7 +25,6 @@ import { ArrowBackIcon } from '@chakra-ui/icons';
 import * as Yup from 'yup';
 import { Field, Form, Formik } from 'formik';
 // Components
-import Navbar from '../../components/navbar';
 import fairImage from './fairImage.jpg';
 // Redux
 import { useDispatch, useSelector } from 'react-redux';
@@ -68,14 +67,13 @@ export default function Login() {
 
   return (
     <div>
-      <Navbar />
       <Fade duration={750}>
         <Flex
           flex={1}
           justify={'center'}
           align={'center'}
           position={'relative'}
-          pt='6'
+          pt='3'
         >
           <Box>
             <Box
@@ -88,7 +86,7 @@ export default function Login() {
               overflow={'hidden'}
               maxWidth={800}
               p={6}
-              m='10px auto'
+              mx='4 auto'
             >
               <Flex justify='flex-start' pb='4'>
                 <Button
@@ -220,7 +218,12 @@ export default function Login() {
                         Login
                       </Button>
                     </Flex>
-                    <Flex justify='center' pt='2'>
+                    <Flex
+                      justify='center'
+                      pt='2'
+                      direction={{ base: 'column', sm: 'row' }}
+                      align='center'
+                    >
                       {"Don't have an account? "}
                       <Text
                         pl='1'
