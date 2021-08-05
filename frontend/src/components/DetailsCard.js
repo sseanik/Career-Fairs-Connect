@@ -18,6 +18,7 @@ import {
   Tag,
   TagLabel,
   TagRightIcon,
+  useBreakpointValue,
   useColorMode,
   useDisclosure,
   useToast,
@@ -94,14 +95,14 @@ export const DetailsCard = (props) => {
   };
 
   return (
-    <Flex p='0.5' direction={width <= '723' ? 'column' : 'row'}>
+    <Flex p='0.5' direction={width <= '723' ? 'column' : 'row'} align='center'>
       {props.crop ? (
-        <Center h='125px' w='175px' mr='5' bg={bgColour}>
+        <Center h='125px' w='175px' bg={bgColour}>
           <Image
             src={props.image}
             alt={`${props.alt}-logo`}
             maxHeight='125px'
-            maxWidth='175px'
+            minWidth='175px'
             objectFit='contain'
             fallbackSrc={!props.loading && 'https://via.placeholder.com/150'}
           />
@@ -111,20 +112,33 @@ export const DetailsCard = (props) => {
           src={props.image}
           alt={!props.loading ? `${props.alt}-logo` : ''}
           maxHeight='120px'
-          maxWidth='200px'
+          minWidth='175px'
           objectFit={'contain'}
-          mr='5'
           fallbackSrc={!props.loading ? 'https://via.placeholder.com/150' : ''}
         />
       )}
 
-      <Box>
-        <Flex pb='1' fontWeight='semibold' fontSize='lg' align='center'>
+      <Flex
+        ml='4'
+        direction='column'
+        justify='center'
+        align={{ base: 'center', sm: 'flex-start' }}
+      >
+        <Flex
+          py='2'
+          fontWeight='semibold'
+          fontSize='lg'
+          direction={useBreakpointValue({
+            base: 'column',
+            sm: 'row',
+          })}
+          align={{ base: 'center', md: 'flex-start' }}
+        >
           {props.title}
           {props.fair &&
             userDetails.role === 'University' &&
             userDetails.name === props.alt && (
-              <div>
+              <Flex align='center' justify='center'>
                 <Spacer />
 
                 <Button
@@ -149,7 +163,7 @@ export const DetailsCard = (props) => {
                   end={props.endDate}
                   edit
                 />
-              </div>
+              </Flex>
             )}
           {props.isLive && (
             <Badge
@@ -284,7 +298,7 @@ export const DetailsCard = (props) => {
             </TagLabel>
           </Tag>
         )}
-      </Box>
+      </Flex>
     </Flex>
   );
 };

@@ -13,7 +13,7 @@ def register_student(request):
     try:
         request.data['password'] = make_password(request.data['password'])
     except:
-        return Response({"error":"password field is requred"}, status=status.HTTP_400_BAD_REQUEST)
+        return Response({"error":"password field is required"}, status=status.HTTP_400_BAD_REQUEST)
 
     user_serializer = UserSerializer(user, data=request.data, fields=('email', 'password'))
     student = Students(user_id=user)

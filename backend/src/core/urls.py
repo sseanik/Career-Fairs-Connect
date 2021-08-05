@@ -35,9 +35,12 @@ from .Student import *
 from .University import *
 from .OpportunityList import *
 from .get_career_fair_data import *
+from .get_stall_data import *
 from .Approvals import *
 from .GetUserData import *
 from .Logout import *
+from .StallMessages import *
+from .Upvote import *
 
 
 schema_view = get_schema_view(
@@ -71,9 +74,11 @@ urlpatterns = [
     path('create_presentation/', create_presentation),
     path('edit_presentation/', edit_presentation),
 
+    re_path('^get_stall_data/(?P<stallId>.+)/$', get_stall_data),
     re_path('^get_career_fair_data/(?P<eventId>.+)/$', get_career_fair_data),
     re_path('^get_presentation/(?P<stallId>.+)/$', get_presentation),
     re_path('^get_all_presentations/(?P<eventId>.+)/$', get_all_presentations),
+
 
     path('careerfairs/<int:eventId>/stalls/', StallList.as_view()),
     path('company/<int:stallId>/opportunities/', OpportunityList.as_view()),
@@ -85,5 +90,7 @@ urlpatterns = [
     path('careerfairs/', CareerFairListGlobal.as_view()),
     path('careerfairs/applications', Approvals.as_view()),
     path('careerfairs/stalls/<int:stallId>/', CompanyStallData.as_view()),
+    path('questions/<int:stallId>/', StallMessages.as_view()),
+    path('questions/<int:stallId>/<int:postId>/upvotes/', Upvote.as_view()),
 ]
 

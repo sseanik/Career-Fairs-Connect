@@ -1,8 +1,8 @@
 import React from 'react';
-import { Link, Route, Switch } from 'react-router-dom';
+import { Link, Route, Switch, useHistory } from 'react-router-dom';
 import './App.css';
 // Redux
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { asyncFetchUserData } from './features/auth/userSlice';
 // Chakra UI
 import { Button, ButtonGroup, ChakraProvider } from '@chakra-ui/react';
@@ -19,10 +19,20 @@ import CompanyStall from './features/companyStall/CompanyStall';
 import CareerEvents from './features/careerEvents/CareerEvents';
 import CompanyProfile from './features/profile/companyProfile';
 import theme from './app/theme';
+import Navbar from './components/Navbar';
 
 function App() {
   const dispatch = useDispatch();
-  React.useEffect(() => dispatch(asyncFetchUserData()), [dispatch]);
+  const history = useHistory();
+
+  React.useEffect(() => {
+    const token = localStorage.getItem('token');
+    if (token) {
+      dispatch(asyncFetchUserData(localStorage.getItem('token')));
+    }
+  }, [dispatch, history]);
+
+  const loggedIn = useSelector((state) => state.user.loggedIn);
 
   return (
     <ChakraProvider theme={theme}>
@@ -33,7 +43,7 @@ function App() {
             window.location.reload(false);
           }}
         >
-          Student
+          S
         </Button>
         <Button
           onClick={() => {
@@ -41,7 +51,7 @@ function App() {
             window.location.reload(false);
           }}
         >
-          Company
+          C
         </Button>
         <Button
           onClick={() => {
@@ -49,7 +59,7 @@ function App() {
             window.location.reload(false);
           }}
         >
-          Unlisted Company
+          UC
         </Button>
         <Button
           onClick={() => {
@@ -57,14 +67,20 @@ function App() {
             window.location.reload(false);
           }}
         >
-          University
+          U
         </Button>
         <Button as={Link} to='/events'>
-          Events
+          E
         </Button>
       </ButtonGroup>
+      <Navbar />
       <Switch>
-        <Route path='/' component={LandingPage} exact />
+        {loggedIn ? (
+          <Route path='/' component={CareerEvents} exact />
+        ) : (
+          <Route path='/' component={LandingPage} exact />
+        )}
+
         <Route path='/login' component={Login} exact />
         <Route path='/register' component={Register} exact />
         <Route path='/register/employer' component={EmployerRegister} exact />

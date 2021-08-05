@@ -15,12 +15,11 @@ import {
   useToast,
 } from '@chakra-ui/react';
 import { SmallAddIcon } from '@chakra-ui/icons';
-// Components
-import Navbar from '../../components/navbar';
-import { EventModal } from '../../components/EventModal';
+// Componentsimport { EventModal } from '../../components/EventModal';
 import { DetailsCard } from '../../components/DetailsCard';
 import { SkeletonFairEvent } from './SkeletonFairEvent';
 import getDominantColour from '../../util/getDominantColour';
+import { EventModal } from '../../components/EventModal';
 
 export default function CareerEvents() {
   // React Router
@@ -67,13 +66,16 @@ export default function CareerEvents() {
 
   return (
     <div>
-      <Navbar />
       <Flex align='center'>
         <Heading ml='6' mt='3' as='h3' size='md' fontWeight='semibold'>
           Career Fair Events
         </Heading>
         <Spacer />
-        {userDetails.role === 'University' && (
+        
+        {/* condition comment out until match with backend format
+        {userDetails.role === 'University' && ( */}
+        {(
+
           <div>
             <Button
               colorScheme='blue'
