@@ -7,6 +7,20 @@ from drf_yasg import openapi
 from drf_yasg.utils import swagger_auto_schema
 
 class CareerFairListGlobal(APIView):
+    @swagger_auto_schema(
+    responses={
+        200 : openapi.Schema(type=openapi.TYPE_OBJECT,properties={
+            "id": openapi.Schema(type=openapi.TYPE_NUMBER),
+            "university": openapi.Schema(type=openapi.TYPE_STRING),
+            "start": openapi.Schema(type=openapi.TYPE_STRING),
+            "end": openapi.Schema(type=openapi.TYPE_STRING),
+            "title": openapi.Schema(type=openapi.TYPE_STRING),
+            "description": openapi.Schema(type=openapi.TYPE_STRING),
+            "webiste": openapi.Schema(type=openapi.TYPE_STRING),
+            "lgoo": openapi.Schema(type=openapi.TYPE_STRING),
+            }),
+        401 : "Unauthorized"
+    })
     def get(self, request):
         all_fairs = CareerFairs.objects.select_related("university_id")\
             .all().values('event_id', 'title','description', 'start_date', 'end_date',

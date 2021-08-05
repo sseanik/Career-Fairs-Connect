@@ -22,7 +22,10 @@ class Opportunity(APIView):
             serializer.save()
             return Response(serializer.data, status=200)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
-
+    @swagger_auto_schema(responses={
+        200 : "Ok",
+        404 : "Not found"
+    })
     def delete(self, request, id):
         opportunity = get_object_or_404(self, pk=id)
         opportunity.delete()

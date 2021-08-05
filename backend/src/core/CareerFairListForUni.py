@@ -33,7 +33,7 @@ class CareerFairListForUni(APIView):
         serializer = CareerFairSerializer(data=request.data)
         if serializer.is_valid():
             serializer.save()
-            return Response(serializer.data)
+            return Response(serializer.data, status=200)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 

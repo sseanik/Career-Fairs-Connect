@@ -17,7 +17,12 @@ class Company(APIView):
 
 
 
-    @swagger_auto_schema(request_body=CompanySerializer)
+    @swagger_auto_schema(request_body=CompanySerializer, responses= {
+        401 : "Unauthorized",
+        403 : "Forbidden",
+        400 : "Bad request",
+        200 : "Ok"
+    })
     def put(self, request, companyId, format=None):
         if not request.user.is_authenticated:
             return Response("Please pass Token in the Authorisation header", status=status.HTTP_401_UNAUTHORIZED)
