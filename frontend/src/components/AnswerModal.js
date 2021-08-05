@@ -14,7 +14,7 @@ import {
 
 // Redux
 import { useSelector, useDispatch } from 'react-redux';
-import { asyncEditAnswer } from '../features/companyStall/stallSlice';
+import { asyncAnswerQuestion } from '../features/companyStall/stallSlice';
 
 export function AnswerModal(props) {
   const buttonLoading = useSelector((state) => state.stall.status);
@@ -23,7 +23,7 @@ export function AnswerModal(props) {
 
   const editAnswer = () => {
     props.answer &&
-      dispatch(asyncEditAnswer({ id: props.id, answer: props.answer, toast: toast }));
+      dispatch(asyncAnswerQuestion({ id: props.id, answer: props.answer, toast: toast }));
   };
 
   const submitForm = () => {
