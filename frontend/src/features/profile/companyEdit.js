@@ -2,7 +2,7 @@ import React from 'react';
 import { useHistory } from 'react-router-dom';
 
 import { convertImageToBase64, selectBase64Image } from '../auth/logoSlice';
-import { asyncFetchUserData, asyncRegisterCompany } from '../auth/userSlice';
+import { asyncUpdateCompany } from '../auth/userSlice';
 import {
   Stack,
 
@@ -66,7 +66,7 @@ export default function Profile() {
     console.log(values);
     console.log(base64Image[0]);
     actions.setSubmitting(false);
-    dispatch(asyncRegisterCompany({ user: {}, toast: toast }));
+    dispatch(asyncUpdateCompany({ user: {}, toast: toast }));
   };
 
   function handleCancel() {
@@ -95,7 +95,7 @@ export default function Profile() {
             <Stack
               direction='column'
               as={'form'}
-              spacing={'8'}
+              spacing={'6'}
               onSubmit={handleSubmit}
             >
               <Stack direction="row" spacing={10} align='center' justify='center'>

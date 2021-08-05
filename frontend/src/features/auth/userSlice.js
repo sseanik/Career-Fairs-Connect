@@ -136,6 +136,83 @@ export const asyncLogout = createAsyncThunk(
   }
 );
 
+/* -------------------------------- Update -------------------------------- */
+export const asyncUpdateUniversity = createAsyncThunk(
+  'user/updateUniversity',
+  async ({ id, user, toast, history }) => {
+    const response = await axios({
+      method: 'put',
+      url: `/university/${id}/`,
+      data: user,
+    });
+
+    if (response.status === 201) {
+      history.push('/university');
+    } else {
+      toast({
+        description: 'Failed to save',
+        status: 'error',
+        isClosable: true,
+      });
+    }
+
+    const data = await response.data;
+
+    return data;
+  }
+);
+
+export const asyncUpdateCompany = createAsyncThunk(
+  'user/updateCompany',
+  async ({ id, user, toast, history }) => {
+    const response = await axios({
+      method: 'put',
+      url: `/company/${id}/`,
+      data: user,
+    });
+
+    if (response.status === 201) {
+      history.push('/company');
+    } else {
+      toast({
+        description: 'Failed to save',
+        status: 'error',
+        isClosable: true,
+      });
+    }
+
+    const data = await response.data;
+
+    return data;
+  }
+);
+
+export const asyncUpdateStudent = createAsyncThunk(
+  'user/updateStudent',
+  async ({ id, user, toast, history }) => {
+    const response = await axios({
+      method: 'put',
+      url: `/student/${id}/`,
+      data: user,
+    });
+
+    if (response.status === 201) {
+      history.push('/student');
+    } else {
+      toast({
+        description: 'Failed to save',
+        status: 'error',
+        isClosable: true,
+      });
+    }
+
+    const data = await response.data;
+
+    return data;
+  }
+);
+
+
 const initialState = {
   loggedIn: false,
   loading: false,

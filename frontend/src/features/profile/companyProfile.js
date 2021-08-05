@@ -15,7 +15,13 @@ import {
 } from '@chakra-ui/react';
 import { EditIcon } from '@chakra-ui/icons';
 // import { useSelector, useDispatch } from 'react-redux';
-// import { asyncFetchUserData } from '../auth/userSlice';
+
+// const create = (id) => {
+//   return async (dispatch, getState) => {
+//     const firstName = getState().example.firstName;
+//     console.log(firstName)
+//   };
+// };
 
 const companyData = {
   companyID: '1',
