@@ -13,7 +13,11 @@ class userData(APIView):
     permission_classes = [IsAuthenticated]
     
     @swagger_auto_schema(responses={
-        200 : "Returns user data specific to user type based on Token",
+        200 : openapi.Schema(type=openapi.TYPE_OBJECT,properties={
+            "user_type": openapi.Schema(type=openapi.TYPE_STRING),
+            "user_id": openapi.Schema(type=openapi.TYPE_STRING),
+            "additional user characteristics": openapi.Schema(type=openapi.TYPE_ARRAY, items=openapi.Items(type="university, wam, student_id, company_id, university_id")),
+            }),
         404 : "Not found",
     })
     def get(self, request, *args, **kwargs):
