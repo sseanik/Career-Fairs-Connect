@@ -40,6 +40,7 @@ class Student(APIView):
         'university': openapi.Schema(type=openapi.TYPE_STRING, description='max length 50\nnot null'),
         'wam': openapi.Schema(type=openapi.TYPE_NUMBER, description='decimal\nmax digits = 5\n decimal places = 2'),
         'degree': openapi.Schema(type=openapi.TYPE_STRING, description='max length 100'),
+        'student_logo_64': openapi.Schema(type=openapi.TYPE_STRING, description='base 64 image'),
         }))
     def put(self, request, studentId, format=None):
         student = get_object_or_404(Students, pk=studentId)
