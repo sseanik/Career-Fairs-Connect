@@ -165,7 +165,7 @@ function Register() {
                   <VStack direction='column' spacing='5%'>
                     <Button
                       leftIcon={<IoSchoolSharp />}
-                      fontSize={{ base: 'md', sm: 'lg', lg: '2xl' }}
+                      fontSize={{ base: 'md', sm: 'lg', lg: 'xl' }}
                       w='100%'
                       fontWeight='medium'
                       as={Link}
@@ -176,7 +176,7 @@ function Register() {
                     </Button>
                     <Button
                       leftIcon={<FaBuilding />}
-                      fontSize={{ base: 'md', sm: 'lg', lg: '2xl' }}
+                      fontSize={{ base: 'md', sm: 'lg', lg: 'xl' }}
                       w='100%'
                       fontWeight='medium'
                       as={Link}
@@ -187,7 +187,7 @@ function Register() {
                     </Button>
                     <Button
                       leftIcon={<FaUniversity />}
-                      fontSize={{ base: 'md', sm: 'lg', lg: '2xl' }}
+                      fontSize={{ base: 'md', sm: 'lg', lg: 'xl' }}
                       w='100%'
                       fontWeight='medium'
                       as={Link}
