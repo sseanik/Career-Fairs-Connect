@@ -11,6 +11,20 @@ from drf_yasg import openapi
 class Approvals(APIView):
     authentication_classes = [TokenAuthentication, SessionAuthentication]
     permission_classes = [IsAuthenticated]
+    
+    @swagger_auto_schema(responses={
+        # 200 : openapi.Schema(type=openapi.TYPE_OBJECT,properties={
+        #     "event_id": openapi.Schema(type=openapi.TYPE_NUMBER),
+        #     "title": openapi.Schema(type=openapi.TYPE_STRING),
+        #     "description": openapi.Schema(type=openapi.TYPE_STRING),
+        #     "start_date": openapi.Schema(type=openapi.TYPE_STRING),
+        #     "end_date": openapi.Schema(type=openapi.TYPE_STRING),
+        #     "university_id": openapi.Schema(type=openapi.TYPE_NUMBER),
+        #     }),
+        200 : "Ok",
+        403 : "Forbidden",
+        404 : "Not found",
+    })
     def get(self, request, *args, **kwargs):
         if request.user.user_type != 1:
             return Response(status = 403) #forbidden
@@ -34,14 +48,18 @@ class Approvals(APIView):
 
 
 
-    @swagger_auto_schema(request_body=StallsSerializer)
+    @swagger_auto_schema(request_body=StallsSerializer, responses={
+        200 : "Application processed",
+        400 : "Bad request",
+        404 : "Not found",
+    })
     def post(self, request, format=None): 
         company_id = request.data['companyId']
         event_id = request.data['eventId']
         stall = Stalls.objects.filter(company_id=request.data['companyId'], event_id=request.data["eventId"])
         if not stall:
             return Response('Cannot find stall for company_id= '+ str(company_id) + ' and event_id= ' + str(event_id),
-                            status=status.HTTP_400_BAD_REQUEST)
+                            status=404)
         stall = stall[0]
         if request.data["approval"] == True:
             stall.approval_status = "Approved"

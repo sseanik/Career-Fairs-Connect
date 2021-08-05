@@ -3,7 +3,8 @@ from django.core.serializers.json import DjangoJSONEncoder
 from django.http import HttpResponse
 from rest_framework.views import APIView
 from .models import CareerFairs
-
+from drf_yasg import openapi
+from drf_yasg.utils import swagger_auto_schema
 
 class CareerFairListGlobal(APIView):
     def get(self, request):
