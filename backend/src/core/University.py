@@ -10,6 +10,18 @@ from drf_yasg.utils import swagger_auto_schema
 
 class University(APIView):
     serializer_class = UniversitySerializer
+    
+    @swagger_auto_schema(responses={
+        200 : openapi.Schema(type=openapi.TYPE_OBJECT,properties={
+            "university_id": openapi.Schema(type=openapi.TYPE_NUMBER),
+            "university_name": openapi.Schema(type=openapi.TYPE_STRING),
+            "university_logo_64": openapi.Schema(type=openapi.TYPE_STRING),
+            "university_site_url": openapi.Schema(type=openapi.TYPE_STRING),
+            "user_id": openapi.Schema(type=openapi.TYPE_STRING),
+            }),
+        403 : "Forbidden",
+        404 : "Not found",
+    })
     def get(self, request, universityId):
         university = get_object_or_404(Universities, pk=universityId)
         serializer = UniversitySerializer(university, fields=("university_id", "university_name", "university_abbreviation", "university_logo_url", "university_site_url"))
