@@ -1,4 +1,3 @@
-import Navbar from '../../components/navbar';
 // import Features from './Features';
 // import ImageBlurb from './ImageBlurb';
 // import LandingHero from './LandingHero';
@@ -7,10 +6,5 @@ import Navbar from '../../components/navbar';
 // import Fade from 'react-reveal/Fade';
 
 export default function Landing() {
-  return (
-    <div>
-      <Navbar />
-      Hmm
-    </div>
-  );
+  return <div>Hmm</div>;
 }
