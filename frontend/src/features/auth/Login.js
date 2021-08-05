@@ -17,6 +17,7 @@ import {
   useToast,
   VStack,
   useBreakpointValue,
+  useColorModeValue,
 } from '@chakra-ui/react';
 import { InputControl } from 'formik-chakra-ui';
 import { ArrowBackIcon } from '@chakra-ui/icons';
@@ -78,12 +79,13 @@ export default function Login() {
         >
           <Box>
             <Box
+              borderWidth='1px'
+              borderColor={useColorModeValue('gray.200', 'gray.900')}
               position={'relative'}
               rounded={'2xl'}
               boxShadow={'2xl'}
               width={'full'}
               overflow={'hidden'}
-              bg='white'
               maxWidth={800}
               p={6}
               m='10px auto'
@@ -96,7 +98,7 @@ export default function Login() {
                   fontWeight={'normal'}
                   colorScheme={'gray'}
                   as={Link}
-                  to='/'
+                  to='/register'
                 >
                   Back
                 </Button>
@@ -217,6 +219,17 @@ export default function Login() {
                       >
                         Login
                       </Button>
+                    </Flex>
+                    <Flex justify='center' pt='2'>
+                      {"Don't have an account? "}
+                      <Text
+                        pl='1'
+                        as={Link}
+                        to='/register'
+                        _hover={{ textDecoration: 'underline' }}
+                      >
+                        Click here to register.
+                      </Text>
                     </Flex>
                   </Form>
                 )}

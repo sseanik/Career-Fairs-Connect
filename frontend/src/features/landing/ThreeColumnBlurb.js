@@ -7,6 +7,7 @@ import {
   Flex,
   Container,
   Heading,
+  useColorModeValue,
 } from '@chakra-ui/react';
 import { IoSchoolSharp } from 'react-icons/io5';
 import { FaUniversity, FaBuilding } from 'react-icons/fa';
@@ -57,7 +58,7 @@ export default function ThreeColumnBlurb() {
                   position: 'absolute',
                   bottom: 1,
                   left: 0,
-                  bg: 'blue.50',
+                  bg: useColorModeValue('blue.50', 'blue.900'),
                   zIndex: -1,
                 }}
               >

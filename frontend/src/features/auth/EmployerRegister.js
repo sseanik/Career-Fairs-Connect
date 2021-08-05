@@ -16,6 +16,7 @@ import {
   useToast,
   Flex,
   Text,
+  useColorMode,
 } from '@chakra-ui/react';
 import { InputControl, TextareaControl } from 'formik-chakra-ui';
 // Components
@@ -67,6 +68,7 @@ export default function EmployerRegister() {
   const registerStatus = useSelector((state) => state.user.status);
   const dispatch = useDispatch();
   const toast = useToast();
+  const { colorMode } = useColorMode();
 
   const uploadImage = (e, setFieldValue) => {
     dispatch(convertImageToBase64(e));
@@ -102,13 +104,14 @@ export default function EmployerRegister() {
               boxShadow={'2xl'}
               width={'full'}
               overflow={'hidden'}
-              bg='white'
               maxWidth={800}
               p={6}
               m='10px auto'
               as='form'
               onSubmit={handleSubmit}
               mt='7'
+              borderWidth='1px'
+              borderColor={colorMode === 'light' ? 'gray.200' : 'gray.900'}
             >
               <Flex justify='center'>
                 <Button
@@ -143,7 +146,7 @@ export default function EmployerRegister() {
                       position: 'absolute',
                       bottom: 1,
                       left: 0,
-                      bg: 'green.50',
+                      bg: colorMode === 'light' ? 'green.50' : 'green.900',
                       zIndex: -1,
                     }}
                   >
@@ -212,6 +215,17 @@ export default function EmployerRegister() {
                 >
                   Join Now
                 </Button>
+              </Flex>
+              <Flex justify='center' pt='2'>
+                {'Already have an account? '}
+                <Text
+                  pl='1'
+                  as={Link}
+                  to='/login'
+                  _hover={{ textDecoration: 'underline' }}
+                >
+                  Click here to login.
+                </Text>
               </Flex>
             </Box>
           )}

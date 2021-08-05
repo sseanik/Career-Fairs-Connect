@@ -1,12 +1,15 @@
 import React from 'react';
 // Chakra
-import { Flex, Skeleton, Stack } from '@chakra-ui/react';
+import { Flex, Skeleton, Stack, useColorMode } from '@chakra-ui/react';
 
 export const SkeletonFairEvent = (props) => {
+  const { colorMode } = useColorMode();
   return (
     <Flex
       borderWidth={props.card && '1px'}
-      borderColor={props.card && 'gray.300'}
+      borderColor={
+        props.card && colorMode === 'light' ? 'gray.300' : 'gray.700'
+      }
       borderRadius={props.card && 'xl'}
       p={props.card && '12px'}
       mx={props.card && '5'}

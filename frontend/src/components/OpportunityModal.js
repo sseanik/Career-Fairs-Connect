@@ -53,6 +53,7 @@ const validationSchema = Yup.object({
       'Expiry date cannot be before today'
     ),
   link: Yup.string()
+    .required('Opportunity URL is Required')
     .matches(/^http(s)?:.*$/, 'Application URL is invalid')
     .max(128),
   description: Yup.string().max(512),
@@ -186,8 +187,10 @@ export function OpportunityModal(props) {
                       isInvalid={form.errors.wam && form.touched.wam}
                     >
                       <FormLabel htmlFor='wam'>WAM Requirement</FormLabel>
-                      <Select {...field} id='wam' placeholder='Select Option'>
-                        <option value='None'>None</option>
+                      <Select {...field} id='wam'>
+                        <option value='None' selected='selected'>
+                          None
+                        </option>
                         <option value='Pass'>Pass</option>
                         <option value='Credit'>Credit</option>{' '}
                         <option value='Distinction'>Distinction</option>
