@@ -80,6 +80,7 @@ class Companies(models.Model):
     company_logo_64 = models.CharField(max_length=2000000)
 
 
+
 class Universities(models.Model):
     university_id = models.AutoField(primary_key=True)
     university_name = models.CharField(max_length=50)
@@ -105,7 +106,7 @@ class Stalls(models.Model):
     event_id = models.ForeignKey(CareerFairs, on_delete=models.CASCADE)
     approval_status = models.CharField(max_length=20, default='Pending')
     stall_description = models.TextField()
-
+    title = models.CharField(max_length=100)
 
 class Presentations(models.Model):
     presentation_id = models.AutoField(primary_key=True)
@@ -149,6 +150,8 @@ class QAMessages(models.Model):
     num_upvotes = models.IntegerField(default=0)
     question = models.TextField()
     answer = models.TextField()
+    stall_id = models.ForeignKey(Stalls, on_delete=models.CASCADE)
+
 
 
 class Students_opportunities(models.Model):
