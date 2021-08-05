@@ -8,7 +8,18 @@ from drf_yasg import openapi
 from drf_yasg.utils import swagger_auto_schema
 
 
-@swagger_auto_schema(method="post", request_body=CompanySerializer, responses={
+@swagger_auto_schema(method="post", request_body=openapi.Schema(
+    type=openapi.TYPE_OBJECT,
+    properties={
+        'company_id': openapi.Schema(type=openapi.TYPE_NUMBER),
+        'company_name': openapi.Schema(type=openapi.TYPE_STRING),
+        'company_description': openapi.Schema(type=openapi.TYPE_STRING),
+        'company_webpage_url': openapi.Schema(type=openapi.TYPE_STRING),
+        'company_logo_64': openapi.Schema(type=openapi.TYPE_STRING),
+        'user_id': openapi.Schema(type=openapi.TYPE_NUMBER),
+        'password': openapi.Schema(type=openapi.TYPE_STRING),
+        }),
+    responses={
         400: "Bad request",
         201: "Successful Registration",  
     })
@@ -24,7 +35,7 @@ def register_company(request):
 
     user_serializer = UserSerializer(user, data=request.data, fields=('email', 'password'))
     company = Companies(user_id=user)
-    company_serializer = CompanySerializer(company, data=request.data, fields=('company_name', 'company_description', 'company_webpage_url', 'company_logo_url'))
+    company_serializer = CompanySerializer(company, data=request.data, fields=('company_name', 'company_description', 'company_webpage_64', 'company_logo_64'))
     if not user_serializer.is_valid() and not company_serializer.is_valid():
         return Response([company_serializer.errors, user_serializer.errors])
     if not user_serializer.is_valid():

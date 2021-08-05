@@ -8,7 +8,14 @@ from drf_yasg.utils import swagger_auto_schema
 
 
 class StallList(APIView):
-    @swagger_auto_schema(request_body=StallsSerializer)
+    @swagger_auto_schema(
+        responses={
+            400: "Bad request",
+            401: "Unauthorized",
+            403: "Forbidden",
+            404: "Not found",
+            20: "OK",  
+    })
     def post(self, request, eventId, format=None):
         request.data["event_id"] = eventId
         # company_id needs to be taken from auth token

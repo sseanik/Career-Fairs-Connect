@@ -8,7 +8,20 @@ from drf_yasg import openapi
 from drf_yasg.utils import swagger_auto_schema
 
 
-@swagger_auto_schema(method="post", request_body=StudentSerializer, responses={
+@swagger_auto_schema(method="post", request_body=openapi.Schema(
+    type=openapi.TYPE_OBJECT,
+    properties={
+        'student_id': openapi.Schema(type=openapi.TYPE_NUMBER),
+        'university': openapi.Schema(type=openapi.TYPE_STRING),
+        'first_name': openapi.Schema(type=openapi.TYPE_STRING),
+        'last_name': openapi.Schema(type=openapi.TYPE_STRING),
+        'degree': openapi.Schema(type=openapi.TYPE_STRING),
+        'wam': openapi.Schema(type=openapi.TYPE_NUMBER),
+        'student_logo_64': openapi.Schema(type=openapi.TYPE_STRING),
+        'user_id': openapi.Schema(type=openapi.TYPE_NUMBER),
+        'password': openapi.Schema(type=openapi.TYPE_STRING),
+        }),
+    responses={
         400: "Bad request",
         201: "Successful Registration",  
     })

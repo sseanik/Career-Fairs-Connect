@@ -8,7 +8,18 @@ from drf_yasg import openapi
 from drf_yasg.utils import swagger_auto_schema
 
 
-@swagger_auto_schema(method="post", request_body=UniversitySerializer, responses={
+@swagger_auto_schema(method="post", request_body=openapi.Schema(
+    type=openapi.TYPE_OBJECT,
+    properties={
+        'university_id': openapi.Schema(type=openapi.TYPE_NUMBER),
+        'university_name': openapi.Schema(type=openapi.TYPE_STRING),
+        'university_logo_64': openapi.Schema(type=openapi.TYPE_STRING),
+        'university_site_url': openapi.Schema(type=openapi.TYPE_STRING),
+        'student_logo_64': openapi.Schema(type=openapi.TYPE_STRING),
+        'user_id': openapi.Schema(type=openapi.TYPE_NUMBER),
+        'password': openapi.Schema(type=openapi.TYPE_STRING),
+        }),
+    responses={
         400: "Bad request",
         201: "Successful Registration",  
     })
@@ -25,7 +36,7 @@ def register_university(request):
 
     user_serializer = UserSerializer(user, data=request.data, fields=('email', 'password',))
     university = Universities(user_id=user)
-    university_serializer = UniversitySerializer(university, data=request.data, fields=('university_name', 'university_logo_url', 'university_site_url'))
+    university_serializer = UniversitySerializer(university, data=request.data, fields=('university_name', 'university_logo_64', 'university_site_64'))
     if not user_serializer.is_valid() and not university_serializer.is_valid():
         return Response([university_serializer.errors, user_serializer.errors])
     if not user_serializer.is_valid():
