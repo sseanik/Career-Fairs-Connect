@@ -121,10 +121,19 @@ export function UniversityRegister() {
   });
 
   const submitForm = (values, actions) => {
-    console.log(values);
-    console.log(base64Image[0]);
     actions.setSubmitting(false);
-    dispatch(asyncRegisterUniversity({ user: {}, toast: toast }));
+    dispatch(
+      asyncRegisterUniversity({
+        user: {
+          email: values.email,
+          password: values.password,
+          university_name: values.university,
+          university_website: values.website,
+          university_logo: base64Image[0],
+        },
+        toast: toast,
+      })
+    );
   };
 
   return (

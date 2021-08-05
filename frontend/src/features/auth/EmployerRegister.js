@@ -82,10 +82,20 @@ export default function EmployerRegister() {
   });
 
   const submitForm = (values, actions) => {
-    console.log(values);
-    console.log(base64Image[0]);
     actions.setSubmitting(false);
-    dispatch(asyncRegisterCompany({ user: {}, toast: toast }));
+    dispatch(
+      asyncRegisterCompany({
+        user: {
+          email: values.email,
+          password: values.password,
+          company_name: values.company,
+          company_description: values.university,
+          company_webpage_url: values.website,
+          company_logo: values.base64Image[0],
+        },
+        toast: toast,
+      })
+    );
   };
 
   return (

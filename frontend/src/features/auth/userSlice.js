@@ -15,24 +15,54 @@ export const asyncFetchUserData = createAsyncThunk(
 export const asyncRegisterUniversity = createAsyncThunk(
   'user/registerUniversity',
   async ({ user, toast }) => {
-    await new Promise((r) => setTimeout(r, 3000));
-    return user;
+    const payload = {
+      email: user.email,
+      password: user.password,
+      first_name: user.firstName,
+      last_name: user.lastName,
+      university: user.university,
+    };
+
+    const response = await axios({
+      method: 'post',
+      url: '/register/student/',
+      data: payload,
+    });
+
+    return response;
   }
 );
 
 export const asyncRegisterCompany = createAsyncThunk(
   'user/registerCompany',
   async ({ user, toast }) => {
-    await new Promise((r) => setTimeout(r, 3000));
-    return user;
+    const payload = {
+      email: user.email,
+      password: user.password,
+      first_name: user.firstName,
+      last_name: user.lastName,
+      university: user.university,
+    };
+
+    const response = await axios({
+      method: 'post',
+      url: '/register/student/',
+      data: payload,
+    });
+    return response;
   }
 );
 
 export const asyncRegisterStudent = createAsyncThunk(
   'user/registerStudent',
   async ({ user, toast }) => {
-    await new Promise((r) => setTimeout(r, 3000));
-    return user;
+    const response = await axios({
+      method: 'post',
+      url: '/register/student/',
+      data: user,
+    });
+
+    return response;
   }
 );
 
