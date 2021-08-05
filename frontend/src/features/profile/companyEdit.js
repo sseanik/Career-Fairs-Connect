@@ -95,7 +95,7 @@ export default function Profile() {
             <Stack
               direction='column'
               as={'form'}
-              spacing={'12px'}
+              spacing={'8'}
               onSubmit={handleSubmit}
             >
               <Stack direction="row" spacing={10} align='center' justify='center'>
