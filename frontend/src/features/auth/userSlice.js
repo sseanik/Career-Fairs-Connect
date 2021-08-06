@@ -261,6 +261,7 @@ export const userSlice = createSlice({
             break;
           case 'Company':
             state.name = payload.company_name;
+            state.id = payload.company_id;
             state.description = payload.company_description;
             state.website = payload.company_webpage_url;
             state.logo = payload.company_logo_64;

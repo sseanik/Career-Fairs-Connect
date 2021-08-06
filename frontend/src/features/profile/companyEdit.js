@@ -21,20 +21,6 @@ import * as Yup from 'yup';
 import { InputControl, TextareaControl } from 'formik-chakra-ui';
 import { useSelector, useDispatch } from 'react-redux';
 
-const companyData = {
-  companyID: '1',
-  company: 'Canva',
-  description: 'Canva is a graphic design company',
-  logo: 'https://upload.wikimedia.org/wikipedia/en/3/3b/Canva_Logo.png',
-  website: 'https://canva.com',
-};
-
-const initialValues = {
-  company: companyData.company,
-  website: companyData.website,
-  logo: '',
-  description: companyData.description,
-};
 
 const validationSchema = Yup.object({
   company: Yup.string().required('Company Name is Required').max(128),
@@ -45,13 +31,33 @@ const validationSchema = Yup.object({
     .matches(/^http(s)?:.*$/, 'Website URL is invalid')
     .required('Website URL is Required')
     .max(256),
-  logo: Yup.string().required('Logo upload is Required'),
+  // logo: Yup.string().required('Logo upload is Required'),
 });
 
 export default function Profile() {
   const history = useHistory();
-  const [picture, setPicture] = useState(null);
+  const userData = useSelector((state) => state.user);
+
+  const companyData = {
+    companyID: userData.id,
+    company: userData.name,
+    description: userData.description,
+    logo: userData.logo,
+    website: userData.website,
+  };
+
+  const initialValues = {
+    company: companyData.company,
+    website: companyData.website,
+    logo: '', //companyData.logo,
+    description: companyData.description,
+  };
+  console.log('initial_logo',initialValues.logo);
+
+  // const [picture, setPicture] = useState(null);
   const [imgSrc, setImgSrc] = useState(companyData.logo);
+  console.log('imgSrc=',imgSrc)
+
   useEffect(() => {
     const image = document.getElementById("oldLogo");
     image.src = imgSrc;
@@ -70,11 +76,10 @@ export default function Profile() {
     setImgSrc(e.target.value);
   };
 
-  const submitForm = (values, actions) => {
-    console.log(values);
-    console.log(base64Image[0]);
+  const submitForm = (companyID, values, actions) => {
+    console.log('logo', values.logo);
     actions.setSubmitting(false);
-    dispatch(asyncUpdateCompany({ user: {}, toast: toast }));
+    dispatch(asyncUpdateCompany({ id: companyID, user: {}, toast: toast }));
   };
 
   function handleCancel() {
