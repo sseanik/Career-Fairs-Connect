@@ -13,23 +13,34 @@ from drf_yasg.utils import swagger_auto_schema
 class OpportunityList(APIView):
     authentication_classes = [TokenAuthentication, SessionAuthentication]
     permission_classes = [IsAuthenticated]
-    @swagger_auto_schema(request_body=OpportunitySerializer)
+    @swagger_auto_schema(request_body=OpportunitySerializer,responses={
+        200 : openapi.Schema(type=openapi.TYPE_OBJECT,properties={
+            "job_id": openapi.Schema(type=openapi.TYPE_NUMBER),
+            "job_description": openapi.Schema(type=openapi.TYPE_STRING),
+            "stall_id": openapi.Schema(type=openapi.TYPE_NUMBER),
+            "role": openapi.Schema(type=openapi.TYPE_STRING),
+            "location": openapi.Schema(type=openapi.TYPE_STRING),
+            "wam": openapi.Schema(type=openapi.TYPE_NUMBER),
+            "expiry": openapi.Schema(type=openapi.TYPE_STRING),
+            "link": openapi.Schema(type=openapi.TYPE_STRING),
+            }),
+        400 : "Bad request",
+        403 : "Forbidden"
+    })
     def post(self, request, stallId, format=None):
         if request.user.user_type != 2:
             return Response(status=403)
         requestUserCompany = Companies.objects.get(user_id = request.user.userID).company_id
         opportunityOwner = Stalls.objects.get(stall_id = stallId).company_id
-        if request.user.user_type != 2:
+        if requestUserCompany != opportunityOwner:
             return Response(status=403)
         serializer = OpportunitySerializer(data=request.data)
         if serializer.is_valid():
             serializer.save()
-            return Response(serializer.data)
-        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+            return Response(serializer.data, status=200)
+        return Response(serializer.errors, status=400)
 
     def get(self, request, stallId, format=None):
         opportunities = Opportunities.objects.filter(stall_id=stallId)
         serializer = OpportunitySerializer(opportunities, many=True)
         return Response(serializer.data, status=200)
-
-
