@@ -86,8 +86,8 @@ urlpatterns = [
     re_path('^presentation/get/stall/(?P<stallId>.+)/$', get_presentation),
     re_path('^presentation/get/(?P<eventId>.+)/$', get_all_presentations),
 
-    path('company/<int:stallId>/opportunities/', Opportunity.as_view()),
-    path('company/<int:companyId>/opportunities/<int:job_id>', OpportunityList.as_view()), #I think endpoints are wrong for opportunityList and opportinity behaviours, have they been mixed up? 'Post' function is not required for job_id endpoint because the job id shouldnt exist yet. Can somebody please confirm (one should be post and one should be put.)
+    path('company/<int:stallId>/opportunities/', OpportunityList.as_view()),
+    path('company/<int:companyId>/opportunities/<int:job_id>', Opportunity.as_view()),
     re_path('^company/(?P<companyId>.+)/$', Company.as_view()),
     
     re_path('^student/(?P<studentId>.+)/$', Student.as_view()),
