@@ -135,7 +135,7 @@ class Opportunities(models.Model):
     job_id = models.AutoField(primary_key=True)
     job_description = models.TextField()
     application_link = models.CharField(max_length=100)
-    stall_id = models.OneToOneField(Stalls, on_delete=models.CASCADE)
+    stall_id = models.ForeignKey(Stalls, on_delete=models.CASCADE)
     type = models.CharField(max_length=100)
     role = models.CharField(max_length=100)
     location = models.CharField(max_length=100)
