@@ -2,18 +2,28 @@ import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import { prominent } from 'color.js';
 import complementaryTextColour from '../../util/complementaryTextColour';
 import { getFairData } from '../../exampleData/exampleCareerFair';
+import axios from 'axios';
 
 // Get Career Fair Event Data
 export const asyncFetchFairData = createAsyncThunk(
   'fair/university',
   async (fairID) => {
-    const response = await getFairData(fairID);
+    const response = await axios({
+      method: 'get',
+      url: `/get_career_fair_data/${fairID}/`,
+      headers: {
+        Authorization: `Token ${localStorage.getItem('token')}`,
+      },
+    });
+    console.log('response = ' + {...response})
     const colour = await prominent(response.logo, {
       amount: 2,
     });
+    
     return { ...response, colour: colour };
   }
 );
+
 
 /* ------------------------- University Perspective ------------------------- */
 // Edit a Career Fair Events Details
