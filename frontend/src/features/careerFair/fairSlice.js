@@ -63,13 +63,33 @@ export const asyncToggleEventPending = createAsyncThunk(
 export const asyncAddCompanyStall = createAsyncThunk(
   'fair/addStall',
   async ({ stall, fairID, toast }) => {
-    await new Promise((r) => setTimeout(r, 3000));
-    const response = { ...stall, id: '5678' };
+    // await new Promise((r) => setTimeout(r, 3000));
+    // const response = { ...stall, id: '5678' };
+    const response = await axios({
+      method: 'post',
+      url: `/careerfairs/${fairID}/stalls/`,
+      data: stall,
+      headers: {
+        Authorization: `Token ${localStorage.getItem('token')}`,
+      },
+    });
+    console.log('asyncAddCompanyStall response=',response);
+
+    if (response.status === 200) {
     toast({
       description: 'Successfully added Company Stall',
       status: 'success',
       isClosable: true,
     });
+    } else {
+      toast({
+        description: 'Failed to apply',
+        status: 'error',
+        isClosable: true,
+      });
+    }
+
+
     return response;
   }
 );
