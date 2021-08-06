@@ -1,4 +1,3 @@
-import Navbar from '../../components/navbar';
 import Features from './Features';
 import ImageBlurb from './ImageBlurb';
 import LandingHero from './LandingHero';
@@ -9,7 +8,6 @@ import Fade from 'react-reveal/Fade';
 export default function Landing() {
   return (
     <div>
-      <Navbar />
       <LandingHero />
       <ThreeColumnBlurb />
       <Features />
