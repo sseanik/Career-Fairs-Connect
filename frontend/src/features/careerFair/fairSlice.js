@@ -15,12 +15,15 @@ export const asyncFetchFairData = createAsyncThunk(
         Authorization: `Token ${localStorage.getItem('token')}`,
       },
     });
-    console.log('response = ' + JSON.stringify(response))
-    const colour = await prominent(response.logo, {
+
+    const data = await response.data;
+
+    console.log('response = ', data)
+    const colour = await prominent(data.logo, {
       amount: 2,
     });
     
-    return { ...response, colour: colour };
+    return { ...data, colour: colour };
   }
 );
 
