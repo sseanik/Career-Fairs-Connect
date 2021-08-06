@@ -19,6 +19,7 @@ import CompanyStall from './features/companyStall/CompanyStall';
 import CareerEvents from './features/careerEvents/CareerEvents';
 import CompanyProfile from './features/profile/companyProfile';
 import theme from './app/theme';
+import Navbar from './components/Navbar';
 
 function App() {
   const dispatch = useDispatch();
@@ -33,7 +34,7 @@ function App() {
             window.location.reload(false);
           }}
         >
-          Student
+          S
         </Button>
         <Button
           onClick={() => {
@@ -41,7 +42,7 @@ function App() {
             window.location.reload(false);
           }}
         >
-          Company
+          C
         </Button>
         <Button
           onClick={() => {
@@ -49,7 +50,7 @@ function App() {
             window.location.reload(false);
           }}
         >
-          Unlisted Company
+          UC
         </Button>
         <Button
           onClick={() => {
@@ -57,12 +58,13 @@ function App() {
             window.location.reload(false);
           }}
         >
-          University
+          U
         </Button>
         <Button as={Link} to='/events'>
-          Events
+          E
         </Button>
       </ButtonGroup>
+      <Navbar />
       <Switch>
         <Route path='/' component={LandingPage} exact />
         <Route path='/login' component={Login} exact />

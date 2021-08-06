@@ -97,9 +97,7 @@ export default function AboutUs() {
             >
               {featureTitle[index]}
             </Heading>
-            <Text color={'gray.500'} fontSize={'lg'}>
-              {featureDescription[index]}
-            </Text>
+            <Text fontSize={'lg'}>{featureDescription[index]}</Text>
             <Stack
               spacing={4}
               divider={
