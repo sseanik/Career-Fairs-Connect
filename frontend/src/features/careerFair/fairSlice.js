@@ -15,7 +15,7 @@ export const asyncFetchFairData = createAsyncThunk(
         Authorization: `Token ${localStorage.getItem('token')}`,
       },
     });
-    console.log('response = ' + {...response})
+    console.log('response = ' + JSON.stringify(response))
     const colour = await prominent(response.logo, {
       amount: 2,
     });
