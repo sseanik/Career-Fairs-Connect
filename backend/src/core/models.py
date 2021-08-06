@@ -105,8 +105,6 @@ class Stalls(models.Model):
     company_id = models.ForeignKey(Companies, on_delete=models.CASCADE)
     event_id = models.ForeignKey(CareerFairs, on_delete=models.CASCADE)
     approval_status = models.CharField(max_length=20, default='Pending')
-    stall_description = models.TextField()
-    title = models.CharField(max_length=100)
 
 class Presentations(models.Model):
     presentation_id = models.AutoField(primary_key=True)

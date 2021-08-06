@@ -35,10 +35,8 @@ def get_stall_data(request, stallId):
     for i,presentation in enumerate(presentations):
         presentations[i] = {
             "id": presentation["presentation_id"],
-            "title":presentation["title"],
             "start":presentation["start_time"],
             "end":presentation["end_time"],
-            "description":presentation["presentation_description"],
             "link": presentation["presentation_link"],
             "color":presentation["color"],
             "live":False
