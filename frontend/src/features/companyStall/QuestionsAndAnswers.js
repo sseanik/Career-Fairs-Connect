@@ -13,6 +13,8 @@ import {
   useToast,
   useDisclosure,
   Flex,
+  Modal,
+  ModalOverlay,
 } from '@chakra-ui/react';
 // Redux
 import { useDispatch, useSelector } from 'react-redux';
@@ -23,8 +25,8 @@ import { AnswerModal } from '../../components/AnswerModal';
 import { RiPencilFill } from 'react-icons/ri';
 
 export function QuestionsAndAnswers(props) {
-  const { isOpen1, onOpen1, onClose1 } = useDisclosure()
-  const { isOpen2, onOpen2, onClose2 } = useDisclosure()
+  const { isOpen, onOpen, onClose } = useDisclosure()
+  const [isQuestion, setIsQuestion] = React.useState(true)
   const [question, setQuestion] = React.useState('');
   const [answer, setAnswer] = React.useState('');
   const [id, setId] = React.useState('');
@@ -50,20 +52,26 @@ export function QuestionsAndAnswers(props) {
 
   return (
     <div>
-    <QuestionModal
-      isOpen={isOpen1}
-      id={id}
-      onClose={onClose1}
-      question={question}
-      setQuestion={setQuestion}
-    />
-    <AnswerModal
-      isOpen={isOpen2}
-      id={id}
-      onClose={onClose2}
-      answer={answer}
-      setAnswer={setAnswer}
-    />
+    <Modal isOpen={isOpen} onClose={onClose}>
+      <ModalOverlay />
+      {isQuestion ?
+      <QuestionModal
+          isOpen={isOpen}
+          id={id}
+          onClose={onClose}
+          question={question}
+          setQuestion={setQuestion}
+      />
+      :
+      <AnswerModal
+        isOpen={isOpen}
+        id={id}
+        onClose={onClose}
+        answer={answer}
+        setAnswer={setAnswer}
+      />
+      }
+    </Modal>
     <Box>
       <Text mb='8px' fontWeight='semibold'>
         Submit your Question:
@@ -104,7 +112,8 @@ export function QuestionsAndAnswers(props) {
                       onClick={() => {
                         setQuestion(qanda.question);
                         setId(qanda.id);
-                        onOpen1();
+                        setIsQuestion(true)
+                        onOpen();
                       }}
                       >
                         Edit
@@ -166,7 +175,8 @@ export function QuestionsAndAnswers(props) {
                 onClick={() => {
                   setAnswer(qanda.answer);
                   setId(qanda.id);
-                  onOpen2();
+                  setIsQuestion(false)
+                  onOpen();
                 }}
               >
                 Edit

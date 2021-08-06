@@ -39,9 +39,6 @@ export function QuestionModal(props) {
   }
 
   return (
-    <>
-      <Modal isOpen={props.isOpen} onClose={props.onClose}>
-        <ModalOverlay />
         <ModalContent>
           <ModalCloseButton />
           <Text mb='8px' fontWeight='semibold'>
@@ -64,7 +61,5 @@ export function QuestionModal(props) {
             Submit
           </Button>
         </ModalContent>
-      </Modal>
-    </>
   )
 }
