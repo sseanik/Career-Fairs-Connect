@@ -11,6 +11,16 @@ from drf_yasg import openapi
 class Approvals(APIView):
     authentication_classes = [TokenAuthentication, SessionAuthentication]
     permission_classes = [IsAuthenticated]
+    
+    @swagger_auto_schema(responses={
+        200 : openapi.Schema(type=openapi.TYPE_OBJECT,properties={
+            "fair title": openapi.Schema(type=openapi.TYPE_NUMBER),
+            "event_id": openapi.Schema(type=openapi.TYPE_STRING),
+            "pending stalls": openapi.Schema(type=openapi.TYPE_ARRAY, items=openapi.Items(type="stall_id, company_id, event_id, stall_description, approval status")),
+            }),
+        403 : "Forbidden",
+        404 : "Not found",
+    })
     def get(self, request, *args, **kwargs):
         if request.user.user_type != 1:
             return Response(status = 403) #forbidden
@@ -34,14 +44,23 @@ class Approvals(APIView):
 
 
 
-    @swagger_auto_schema(request_body=StallsSerializer)
+    @swagger_auto_schema(request_body=StallsSerializer, responses={
+        200 : openapi.Schema(type=openapi.TYPE_OBJECT,properties={
+            "approval_status": openapi.Schema(type=openapi.TYPE_STRING),
+            "company_id": openapi.Schema(type=openapi.TYPE_NUMBER),
+            "event_id": openapi.Schema(type=openapi.TYPE_NUMBER),
+            "stall_description": openapi.Schema(type=openapi.TYPE_STRING),
+        }),
+        400 : "Bad request",
+        404 : "Not found",
+    })
     def post(self, request, format=None): 
         company_id = request.data['companyId']
         event_id = request.data['eventId']
         stall = Stalls.objects.filter(company_id=request.data['companyId'], event_id=request.data["eventId"])
         if not stall:
             return Response('Cannot find stall for company_id= '+ str(company_id) + ' and event_id= ' + str(event_id),
-                            status=status.HTTP_400_BAD_REQUEST)
+                            status=404)
         stall = stall[0]
         if request.data["approval"] == True:
             stall.approval_status = "Approved"
