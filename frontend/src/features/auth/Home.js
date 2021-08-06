@@ -1,12 +1,10 @@
 import React from 'react';
-import Navbar from '../../components/navbar';
 import { ChakraProvider, Box, Button } from '@chakra-ui/react';
 import { Link } from 'react-router-dom';
 
 function Home() {
   return (
     <ChakraProvider>
-      <Navbar />
       <Box
         width='100%'
         height='92vh'

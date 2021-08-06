@@ -2,18 +2,31 @@ import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import { prominent } from 'color.js';
 import complementaryTextColour from '../../util/complementaryTextColour';
 import { getFairData } from '../../exampleData/exampleCareerFair';
+import axios from 'axios';
 
 // Get Career Fair Event Data
 export const asyncFetchFairData = createAsyncThunk(
   'fair/university',
   async (fairID) => {
-    const response = await getFairData(fairID);
-    const colour = await prominent(response.logo, {
+    const response = await axios({
+      method: 'get',
+      url: `/get_career_fair_data/${fairID}/`,
+      headers: {
+        Authorization: `Token ${localStorage.getItem('token')}`,
+      },
+    });
+
+    const data = await response.data;
+
+    console.log('response = ', data)
+    const colour = await prominent(data.logo, {
       amount: 2,
     });
-    return { ...response, colour: colour };
+    
+    return { ...data, colour: colour };
   }
 );
+
 
 /* ------------------------- University Perspective ------------------------- */
 // Edit a Career Fair Events Details
@@ -50,13 +63,33 @@ export const asyncToggleEventPending = createAsyncThunk(
 export const asyncAddCompanyStall = createAsyncThunk(
   'fair/addStall',
   async ({ stall, fairID, toast }) => {
-    await new Promise((r) => setTimeout(r, 3000));
-    const response = { ...stall, id: '5678' };
+    // await new Promise((r) => setTimeout(r, 3000));
+    // const response = { ...stall, id: '5678' };
+    const response = await axios({
+      method: 'post',
+      url: `/careerfairs/${fairID}/stalls/`,
+      data: stall,
+      headers: {
+        Authorization: `Token ${localStorage.getItem('token')}`,
+      },
+    });
+    console.log('asyncAddCompanyStall response=',response);
+
+    if (response.status === 200) {
     toast({
       description: 'Successfully added Company Stall',
       status: 'success',
       isClosable: true,
     });
+    } else {
+      toast({
+        description: 'Failed to apply',
+        status: 'error',
+        isClosable: true,
+      });
+    }
+
+
     return response;
   }
 );

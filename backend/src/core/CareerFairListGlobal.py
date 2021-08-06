@@ -23,7 +23,9 @@ class CareerFairListGlobal(APIView):
     })
     def get(self, request):
         all_fairs = CareerFairs.objects.select_related("university_id")\
-            .all().values('event_id', 'title','description', 'start_date', 'end_date', 'university_id__university_site_url', 'university_id__university_logo_64')
+            .all().values('event_id', 'title','description', 'start_date', 'end_date',
+                          'university_id__university_name', 'university_id__university_site_url',
+                          'university_id__university_logo_64')
         response_items = []
         for item in all_fairs:
             response_item = {
