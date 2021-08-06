@@ -8,6 +8,7 @@ from drf_yasg import openapi
 from drf_yasg.utils import swagger_auto_schema
 
 
+<<<<<<< HEAD
 @swagger_auto_schema(method="post", request_body=openapi.Schema(
     type=openapi.TYPE_OBJECT,
     properties={
@@ -24,18 +25,42 @@ from drf_yasg.utils import swagger_auto_schema
         201: "Successful Registration",  
     })
 @api_view(['POST'])
+=======
+@api_view(
+    [
+        "POST",
+    ]
+)
+>>>>>>> origin/connect_get_event
 def register_company(request):
     user = User(user_type=User.COMPANY)
     request.POST._mutable = True
     # hash passwords
     try:
-        request.data['password'] = make_password(request.data['password'])
+        request.data["password"] = make_password(request.data["password"])
     except:
-        return Response({"error":"password field is requred"}, status=status.HTTP_400_BAD_REQUEST)
+        return Response(
+            {"error": "password field is requred"}, status=status.HTTP_400_BAD_REQUEST
+        )
 
-    user_serializer = UserSerializer(user, data=request.data, fields=('email', 'password'))
+    user_serializer = UserSerializer(
+        user, data=request.data, fields=("email", "password")
+    )
     company = Companies(user_id=user)
+<<<<<<< HEAD
     company_serializer = CompanySerializer(company, data=request.data, fields=('company_name', 'company_description', 'company_webpage_64', 'company_logo_64'))
+=======
+    company_serializer = CompanySerializer(
+        company,
+        data=request.data,
+        fields=(
+            "company_name",
+            "company_description",
+            "company_webpage_url",
+            "company_logo_64",
+        ),
+    )
+>>>>>>> origin/connect_get_event
     if not user_serializer.is_valid() and not company_serializer.is_valid():
         return Response([company_serializer.errors, user_serializer.errors])
     if not user_serializer.is_valid():
@@ -44,4 +69,6 @@ def register_company(request):
         return Response(company_serializer.errors, status=status.HTTP_400_BAD_REQUEST)
     user_serializer.save()
     company_serializer.save()
-    return Response({"message":"Account successfully created"}, status=status.HTTP_201_CREATED)
+    return Response(
+        {"message": "Account successfully created"}, status=status.HTTP_201_CREATED
+    )
