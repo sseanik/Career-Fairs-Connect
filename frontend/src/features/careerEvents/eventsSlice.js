@@ -9,9 +9,9 @@ export const asyncFetchEventsData = createAsyncThunk(
     const response = await axios({
       method: 'get',
       url: '/careerfairs/',
-      headers: {
-        Authorization: `Token ${token}`,
-      },
+      // headers: {
+      //   Authorization: `Token ${token}`,
+      // },
     });
 
     const data = await response.data;
