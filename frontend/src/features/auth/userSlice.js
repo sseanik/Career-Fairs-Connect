@@ -6,33 +6,76 @@ import { getUserDetails } from '../../exampleData/exampleUser';
 export const asyncFetchUserData = createAsyncThunk(
   'user/details',
   async (token) => {
-    const response = await getUserDetails(token);
-    return response;
+    const response = await axios({
+      method: 'get',
+      url: '/user/data/',
+      headers: {
+        Authorization: `Token ${token}`,
+      },
+    });
+
+    const data = await response.data;
+
+    return data;
   }
 );
 
 /* -------------------------------- Register -------------------------------- */
 export const asyncRegisterUniversity = createAsyncThunk(
   'user/registerUniversity',
-  async ({ user, toast }) => {
-    await new Promise((r) => setTimeout(r, 3000));
-    return user;
+  async ({ user, toast, history }) => {
+    const response = await axios({
+      method: 'post',
+      url: '/register/university/',
+      data: user,
+    });
+
+    if (response.status === 201) {
+      toast({
+        description: 'Successfully created account',
+        status: 'success',
+        isClosable: true,
+      });
+      history.push('/login');
+    } else {
+      toast({
+        description: 'Register Failed',
+        status: 'error',
+        isClosable: true,
+      });
+    }
+
+    const data = await response.data;
+
+    return data;
   }
 );
 
 export const asyncRegisterCompany = createAsyncThunk(
   'user/registerCompany',
   async ({ user, toast }) => {
-    await new Promise((r) => setTimeout(r, 3000));
-    return user;
+    const response = await axios({
+      method: 'post',
+      url: '/register/company/',
+      data: user,
+    });
+    const data = await response.data;
+
+    return data;
   }
 );
 
 export const asyncRegisterStudent = createAsyncThunk(
   'user/registerStudent',
   async ({ user, toast }) => {
-    await new Promise((r) => setTimeout(r, 3000));
-    return user;
+    const response = await axios({
+      method: 'post',
+      url: '/register/student/',
+      data: user,
+    });
+    const data = await response.data;
+
+    return data;
   }
 );
 
@@ -40,27 +83,135 @@ export const asyncRegisterStudent = createAsyncThunk(
 export const asyncLoginUser = createAsyncThunk(
   'user/login',
   async ({ user, toast, history }) => {
-    await new Promise((r) => setTimeout(r, 3000));
-    // axios
-    //   .post('/login', {
-    //     login: user.email,
-    //     password: user.password,
-    //   })
-    //   .then(
-    //     (response) => {
-    //       console.log(response);
-    //       localStorage.setItem('token', response.token);
-    //       // Fake testing local info
-    //       localStorage.setItem('token', 'fakeToken');
-    //       history.push('/');
-    //     },
-    //     (error) => {
-    //       console.log(error);
-    //     }
-    //   );
-    return;
+    const response = await axios({
+      method: 'post',
+      url: '/login/',
+      data: user,
+    });
+    const data = await response.data;
+
+    if (response.status === 200) {
+      localStorage.setItem('token', data.token);
+      toast({
+        description: 'Successfully logged in',
+        status: 'success',
+        isClosable: true,
+      });
+      history.push('/login');
+    } else {
+      toast({
+        description: 'Login Failed',
+        status: 'error',
+        isClosable: true,
+      });
+    }
+
+    history.push('/');
+    return data;
   }
 );
+
+export const asyncLogout = createAsyncThunk(
+  'user/logout',
+  async ({ token, history }) => {
+    console.log('I WANT TO LOGOUT');
+
+    const response = await axios({
+      method: 'get',
+      url: '/logout/',
+      headers: {
+        Authorization: `Token ${token}`,
+      },
+    });
+
+    console.log(response);
+
+    if (response.status === 200) {
+      localStorage.removeItem('token');
+      history.push('/');
+    }
+    const data = await response.data;
+
+    return data;
+  }
+);
+
+/* -------------------------------- Update -------------------------------- */
+export const asyncUpdateUniversity = createAsyncThunk(
+  'user/updateUniversity',
+  async ({ id, user, toast, history }) => {
+    const response = await axios({
+      method: 'put',
+      url: `/university/${id}/`,
+      data: user,
+    });
+
+    if (response.status === 201) {
+      history.push('/university');
+    } else {
+      toast({
+        description: 'Failed to save',
+        status: 'error',
+        isClosable: true,
+      });
+    }
+
+    const data = await response.data;
+
+    return data;
+  }
+);
+
+export const asyncUpdateCompany = createAsyncThunk(
+  'user/updateCompany',
+  async ({ id, user, toast, history }) => {
+    const response = await axios({
+      method: 'put',
+      url: `/company/${id}/`,
+      data: user,
+    });
+
+    if (response.status === 201) {
+      history.push('/company');
+    } else {
+      toast({
+        description: 'Failed to save',
+        status: 'error',
+        isClosable: true,
+      });
+    }
+
+    const data = await response.data;
+
+    return data;
+  }
+);
+
+export const asyncUpdateStudent = createAsyncThunk(
+  'user/updateStudent',
+  async ({ id, user, toast, history }) => {
+    const response = await axios({
+      method: 'put',
+      url: `/student/${id}/`,
+      data: user,
+    });
+
+    if (response.status === 201) {
+      history.push('/student');
+    } else {
+      toast({
+        description: 'Failed to save',
+        status: 'error',
+        isClosable: true,
+      });
+    }
+
+    const data = await response.data;
+
+    return data;
+  }
+);
+
 
 const initialState = {
   loggedIn: false,
@@ -78,6 +229,8 @@ const initialState = {
   description: '',
   website: '',
   logo: '',
+  // University
+  universityID: 0,
 };
 
 export const userSlice = createSlice({
@@ -95,13 +248,15 @@ export const userSlice = createSlice({
         state.loading = true;
       })
       .addCase(asyncFetchUserData.fulfilled, (state, { payload }) => {
+        console.log(payload);
         state.loading = false;
-        state.role = payload.role;
+        state.loggedIn = true;
+        state.role = payload.user_type;
         state.email = payload.email;
-        switch (payload.role) {
+        switch (payload.user_type) {
           case 'Student':
-            state.fname = payload.fname;
-            state.lname = payload.lname;
+            state.fname = payload.first_name;
+            state.lname = payload.last_name;
             state.university = payload.university;
             break;
           case 'Company':
@@ -111,10 +266,13 @@ export const userSlice = createSlice({
             state.logo = payload.logo;
             break;
           case 'University':
-            state.name = payload.name;
+            state.universityID = payload.university_id;
+            //
+            state.name = payload.university_name;
+            state.website = payload.university_site_url;
+            state.logo = payload.university_logo_64;
+            // Missing
             state.description = payload.description;
-            state.website = payload.website;
-            state.logo = payload.logo;
             break;
           default:
             break;
@@ -143,7 +301,11 @@ export const userSlice = createSlice({
         state.status = true;
       })
       .addCase(asyncLoginUser.fulfilled, (state) => {
+        state.loggedIn = true;
         state.status = false;
+      })
+      .addCase(asyncLogout.fulfilled, (state) => {
+        state.loggedIn = false;
       });
   },
 });

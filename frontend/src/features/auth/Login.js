@@ -58,7 +58,7 @@ export default function Login() {
   const submitForm = (values, setSubmitting) => {
     dispatch(
       asyncLoginUser({
-        user: { email: values.email, password: values.password },
+        user: { username: values.email, password: values.password },
         toast: toast,
         history: history,
       })
@@ -75,7 +75,6 @@ export default function Login() {
           position={'relative'}
           pt='3'
         >
-          <Box>
             <Box
               borderWidth='1px'
               borderColor={useColorModeValue('gray.200', 'gray.900')}
@@ -238,7 +237,6 @@ export default function Login() {
                 )}
               </Formik>
             </Box>
-          </Box>
         </Flex>
       </Fade>
     </div>

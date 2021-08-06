@@ -110,9 +110,19 @@ export function StudentRegister() {
   });
 
   const submitForm = (values, actions) => {
-    console.log(values);
     actions.setSubmitting(false);
-    dispatch(asyncRegisterStudent({ user: {}, toast: toast }));
+    dispatch(
+      asyncRegisterStudent({
+        user: {
+          first_name: values.firstName,
+          last_name: values.lastName,
+          email: values.email,
+          password: values.password,
+          university: values.university,
+        },
+        toast: toast,
+      })
+    );
   };
 
   return (

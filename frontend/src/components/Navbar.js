@@ -12,11 +12,13 @@ import {
 } from '@chakra-ui/react';
 import { useViewportScroll } from 'framer-motion';
 import React from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useHistory } from 'react-router-dom';
 import { FaMoon, FaSun } from 'react-icons/fa';
 import { AiOutlineMenu } from 'react-icons/ai';
 import { Logo } from './Logo';
 import { useThemeDarkMode } from 'elementz';
+import { useDispatch, useSelector } from 'react-redux';
+import { asyncLoginUser, asyncLogout } from '../features/auth/userSlice';
 
 export default function Navbar(props) {
   // Icon
@@ -48,6 +50,10 @@ export default function Navbar(props) {
   React.useEffect(() => {
     return scrollY.onChange(() => setY(scrollY.get()));
   }, [scrollY]);
+
+  const loggedIn = useSelector((state) => state.user.loggedIn);
+  const dispatch = useDispatch();
+  const history = useHistory();
 
   const MobileNav = () => {
     return (
@@ -128,26 +134,56 @@ export default function Navbar(props) {
                 onClick={toggleMode}
                 icon={<SwitchIcon />}
               />
-              <HStack spacing='5' display={{ base: 'none', md: 'flex' }}>
-                <Button
-                  as={Link}
-                  to='/login'
-                  colorScheme='blue'
-                  variant='ghost'
-                  size='sm'
-                >
-                  Sign in
-                </Button>
-                <Button
-                  as={Link}
-                  to='/register'
-                  colorScheme='blue'
-                  variant='solid'
-                  size='sm'
-                >
-                  Sign up
-                </Button>
-              </HStack>
+              {loggedIn ? (
+                <HStack spacing='5' display={{ base: 'none', md: 'flex' }}>
+                  <Button
+                    onClick={() =>
+                      dispatch(
+                        asyncLogout({
+                          token: localStorage.getItem('token'),
+                          history: history,
+                        })
+                      )
+                    }
+                    colorScheme='blue'
+                    variant='ghost'
+                    size='sm'
+                  >
+                    Logout
+                  </Button>
+                  <Button
+                    as={Link}
+                    to='/register'
+                    colorScheme='blue'
+                    variant='solid'
+                    size='sm'
+                  >
+                    Profile
+                  </Button>
+                </HStack>
+              ) : (
+                <HStack spacing='5' display={{ base: 'none', md: 'flex' }}>
+                  <Button
+                    as={Link}
+                    to='/login'
+                    colorScheme='blue'
+                    variant='ghost'
+                    size='sm'
+                  >
+                    Sign in
+                  </Button>
+                  <Button
+                    as={Link}
+                    to='/register'
+                    colorScheme='blue'
+                    variant='solid'
+                    size='sm'
+                  >
+                    Sign up
+                  </Button>
+                </HStack>
+              )}
+
               <IconButton
                 display={{ base: 'flex', md: 'none' }}
                 aria-label='Open menu'
