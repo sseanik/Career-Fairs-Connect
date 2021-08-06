@@ -24,7 +24,6 @@ def get_stall_data(request, stallId):
     return_dict = {
         "fairID":  tmp_dict["event_id"],
         "company":  tmp_dict["company_name"],
-        "description":  tmp_dict["stall_description"],
         "logo":  tmp_dict["company_logo_64"],
         "website":  tmp_dict["company_webpage_url"],
         "live":  False
@@ -35,8 +34,10 @@ def get_stall_data(request, stallId):
     for i,presentation in enumerate(presentations):
         presentations[i] = {
             "id": presentation["presentation_id"],
+            "title":presentation["title"],
             "start":presentation["start_time"],
             "end":presentation["end_time"],
+            "description":presentation["presentation_description"],
             "link": presentation["presentation_link"],
             "color":presentation["color"],
             "live":False
