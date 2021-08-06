@@ -9,9 +9,24 @@ from django.http import HttpResponse
 from .models import *
 import json
 from django.core.serializers.json import DjangoJSONEncoder
-# from drf_yasg import openapi
-# from drf_yasg.utils import swagger_auto_schema
+from drf_yasg import openapi
+from drf_yasg.utils import swagger_auto_schema
 
+
+@swagger_auto_schema(method="get",
+    responses={
+        200 : openapi.Schema(type=openapi.TYPE_OBJECT,properties={
+            "presentation_id": openapi.Schema(type=openapi.TYPE_NUMBER),
+            "stall_id": openapi.Schema(type=openapi.TYPE_NUMBER),
+            "title": openapi.Schema(type=openapi.TYPE_STRING),
+            "colour": openapi.Schema(type=openapi.TYPE_STRING),
+            "presentation_link": openapi.Schema(type=openapi.TYPE_STRING),
+            "start_time": openapi.Schema(type=openapi.TYPE_STRING),
+            "end_time": openapi.Schema(type=openapi.TYPE_STRING),
+            "presentation_description": openapi.Schema(type=openapi.TYPE_STRING),
+        }),  
+        404: "Not found",
+    })
 @api_view(['GET', ])
 def get_all_presentations(request, eventId):
     try:
@@ -34,7 +49,13 @@ def get_all_presentations(request, eventId):
 
     return HttpResponse(data, content_type="application/json")
  
-
+@swagger_auto_schema(method="get",
+    responses={
+            200 : openapi.Schema(type=openapi.TYPE_OBJECT,properties={
+            "presentations": openapi.Schema(type=openapi.TYPE_ARRAY,items=openapi.Items(type="stall_id, start_time,end_time, presentation_link, presentation_description, title, color")),   
+            404: "Not found",
+        })
+    })
 @api_view(['GET', ])
 def get_presentation(request, stallId):
     print(stallId)
@@ -44,7 +65,32 @@ def get_presentation(request, stallId):
         return Response(status=status.HTTP_404_NOT_FOUND)
     presentation_serializer = PresentationSerializer(presentation, fields=('stall_id','start_time','end_time', 'presentation_link', 'presentation_description', 'title', 'color'))
     return Response(presentation_serializer.data, status=status.HTTP_201_CREATED)   
-
+    
+@swagger_auto_schema(method="post", request_body=openapi.Schema(
+    type=openapi.TYPE_OBJECT,
+    properties={
+        'stall_id': openapi.Schema(type=openapi.TYPE_NUMBER),
+        'start_time': openapi.Schema(type=openapi.TYPE_STRING),
+        'end_time': openapi.Schema(type=openapi.TYPE_STRING),
+        'presentation_description': openapi.Schema(type=openapi.TYPE_STRING),
+        'presentation_link': openapi.Schema(type=openapi.TYPE_STRING),
+        'title': openapi.Schema(type=openapi.TYPE_STRING),
+        'color': openapi.Schema(type=openapi.TYPE_STRING),
+        }),
+    responses={
+        400: "Bad request",
+        201: openapi.Schema(
+            type=openapi.TYPE_OBJECT,
+            properties={
+                'stall_id': openapi.Schema(type=openapi.TYPE_NUMBER),
+                'start_time': openapi.Schema(type=openapi.TYPE_STRING),
+                'end_time': openapi.Schema(type=openapi.TYPE_STRING),
+                'presentation_description': openapi.Schema(type=openapi.TYPE_STRING),
+                'presentation_link': openapi.Schema(type=openapi.TYPE_STRING),
+                'title': openapi.Schema(type=openapi.TYPE_STRING),
+                'color': openapi.Schema(type=openapi.TYPE_STRING),
+        }),  
+    }) #MISSING CHECKS ON STALL OWNERSHIP
 @api_view(['POST', ])
 def create_presentation(request):
     presentation_serializer = PresentationSerializer(data=request.data, fields=('stall_id','start_time','end_time', 'presentation_link', 'presentation_description', 'title', 'color'))
@@ -54,6 +100,33 @@ def create_presentation(request):
     presentation_serializer.save()
     return Response(presentation_serializer.data, status=status.HTTP_201_CREATED)   
 
+
+
+@swagger_auto_schema(method="put", request_body=openapi.Schema(
+    type=openapi.TYPE_OBJECT,
+    properties={
+        'stall_id': openapi.Schema(type=openapi.TYPE_NUMBER),
+        'start_time': openapi.Schema(type=openapi.TYPE_STRING),
+        'end_time': openapi.Schema(type=openapi.TYPE_STRING),
+        'presentation_description': openapi.Schema(type=openapi.TYPE_STRING),
+        'presentation_link': openapi.Schema(type=openapi.TYPE_STRING),
+        'title': openapi.Schema(type=openapi.TYPE_STRING),
+        'color': openapi.Schema(type=openapi.TYPE_STRING),
+        },
+    responses={
+        400: "Bad request",
+        201: openapi.Schema(
+            type=openapi.TYPE_OBJECT,
+            properties={
+                'stall_id': openapi.Schema(type=openapi.TYPE_NUMBER),
+                'start_time': openapi.Schema(type=openapi.TYPE_STRING),
+                'end_time': openapi.Schema(type=openapi.TYPE_STRING),
+                'presentation_description': openapi.Schema(type=openapi.TYPE_STRING),
+                'presentation_link': openapi.Schema(type=openapi.TYPE_STRING),
+                'title': openapi.Schema(type=openapi.TYPE_STRING),
+                'color': openapi.Schema(type=openapi.TYPE_STRING),
+        })
+    })) #MISSING CHECKS ON STALL OWNERSHIP
 @api_view(['PUT', ])
 def edit_presentation(request):
     try:

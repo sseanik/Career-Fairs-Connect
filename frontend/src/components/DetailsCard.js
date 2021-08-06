@@ -69,11 +69,13 @@ export const DetailsCard = (props) => {
     [userDetails, props, stalls]
   );
 
+  console.log('userDetails=', userDetails);
   const createStall = () => {
     dispatch(
       asyncAddCompanyStall({
         stall: {
           pending: 'Pending',
+          companyId: userDetails.id,
           company: userDetails.name,
           description: userDetails.description,
           logo: userDetails.logo,

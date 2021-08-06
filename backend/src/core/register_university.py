@@ -4,13 +4,26 @@ from rest_framework.decorators import api_view
 from rest_framework import status
 from .models import *
 from django.contrib.auth.hashers import make_password
+from drf_yasg import openapi
+from drf_yasg.utils import swagger_auto_schema
 
 
-@api_view(
-    [
-        "POST",
-    ]
-)
+@swagger_auto_schema(method="post", request_body=openapi.Schema(
+    type=openapi.TYPE_OBJECT,
+    properties={
+        'university_id': openapi.Schema(type=openapi.TYPE_NUMBER),
+        'university_name': openapi.Schema(type=openapi.TYPE_STRING),
+        'university_logo_64': openapi.Schema(type=openapi.TYPE_STRING),
+        'university_site_url': openapi.Schema(type=openapi.TYPE_STRING),
+        'student_logo_64': openapi.Schema(type=openapi.TYPE_STRING),
+        'user_id': openapi.Schema(type=openapi.TYPE_NUMBER),
+        'password': openapi.Schema(type=openapi.TYPE_STRING),
+        }),
+    responses={
+        400: "Bad request",
+        201: "Successful Registration",  
+    })
+@api_view(['POST', ])
 def register_university(request):
     user = User(user_type=User.UNIVERSITY)
     print(request.data)
