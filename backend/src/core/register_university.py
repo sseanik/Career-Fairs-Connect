@@ -7,8 +7,6 @@ from django.contrib.auth.hashers import make_password
 from drf_yasg import openapi
 from drf_yasg.utils import swagger_auto_schema
 
-
-<<<<<<< HEAD
 @swagger_auto_schema(method="post", request_body=openapi.Schema(
     type=openapi.TYPE_OBJECT,
     properties={
@@ -25,13 +23,6 @@ from drf_yasg.utils import swagger_auto_schema
         201: "Successful Registration",  
     })
 @api_view(['POST', ])
-=======
-@api_view(
-    [
-        "POST",
-    ]
-)
->>>>>>> origin/connect_get_event
 def register_university(request):
     user = User(user_type=User.UNIVERSITY)
     print(request.data)
