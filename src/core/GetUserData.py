@@ -36,7 +36,7 @@ class userData(APIView):
             data = Companies.objects.get(user_id = userid)
             serializer=CompanySerializer(data)
             data = serializer.data
-            data["user_type"] = "Student"
+            data["user_type"] = "Company"
             return Response(data, status=200)
         else:
             return Response(status=404)
