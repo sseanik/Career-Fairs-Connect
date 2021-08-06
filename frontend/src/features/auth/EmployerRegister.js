@@ -90,7 +90,7 @@ export default function EmployerRegister() {
           company_name: values.company,
           company_description: values.description,
           company_webpage_url: values.website,
-          company_logo_64: base64Image[0],
+          company_logo_64: base64Image,
         },
         toast: toast,
       })

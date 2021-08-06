@@ -128,7 +128,7 @@ export function UniversityRegister() {
           password: values.password,
           university_name: values.university,
           university_site_url: values.website,
-          university_logo_64: base64Image[0],
+          university_logo_64: base64Image,
         },
         toast: toast,
         history: history,
