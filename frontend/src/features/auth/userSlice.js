@@ -260,10 +260,10 @@ export const userSlice = createSlice({
             state.university = payload.university;
             break;
           case 'Company':
-            state.name = payload.name;
-            state.description = payload.description;
-            state.website = payload.website;
-            state.logo = payload.logo;
+            state.name = payload.company_name;
+            state.description = payload.company_description;
+            state.website = payload.company_webpage_url;
+            state.logo = payload.company_logo_64;
             break;
           case 'University':
             state.universityID = payload.university_id;
