@@ -26,7 +26,7 @@ export const asyncRegisterUniversity = createAsyncThunk(
   async ({ user, toast, history }) => {
     const response = await axios({
       method: 'post',
-      url: '/register/university/',
+      url: '/user/register/university/',
       data: user,
     });
 
@@ -53,12 +53,28 @@ export const asyncRegisterUniversity = createAsyncThunk(
 
 export const asyncRegisterCompany = createAsyncThunk(
   'user/registerCompany',
-  async ({ user, toast }) => {
+  async ({ user, toast, history }) => {
     const response = await axios({
       method: 'post',
-      url: '/register/company/',
+      url: '/user/register/company/',
       data: user,
     });
+
+    if (response.status === 201) {
+      toast({
+        description: 'Successfully created account',
+        status: 'success',
+        isClosable: true,
+      });
+      history.push('/login');
+    } else {
+      toast({
+        description: 'Register Failed',
+        status: 'error',
+        isClosable: true,
+      });
+    }
+
     const data = await response.data;
 
     return data;
@@ -67,12 +83,28 @@ export const asyncRegisterCompany = createAsyncThunk(
 
 export const asyncRegisterStudent = createAsyncThunk(
   'user/registerStudent',
-  async ({ user, toast }) => {
+  async ({ user, toast, history }) => {
     const response = await axios({
       method: 'post',
-      url: '/register/student/',
+      url: '/user/register/student/',
       data: user,
     });
+
+    if (response.status === 201) {
+      toast({
+        description: 'Successfully created account',
+        status: 'success',
+        isClosable: true,
+      });
+      history.push('/login');
+    } else {
+      toast({
+        description: 'Register Failed',
+        status: 'error',
+        isClosable: true,
+      });
+    }
+
     const data = await response.data;
 
     return data;
@@ -83,9 +115,10 @@ export const asyncRegisterStudent = createAsyncThunk(
 export const asyncLoginUser = createAsyncThunk(
   'user/login',
   async ({ user, toast, history }) => {
+    console.log('tell me Im logging in');
     const response = await axios({
       method: 'post',
-      url: '/login/',
+      url: '/user/login/',
       data: user,
     });
     const data = await response.data;
@@ -114,11 +147,11 @@ export const asyncLoginUser = createAsyncThunk(
 export const asyncLogout = createAsyncThunk(
   'user/logout',
   async ({ token, history }) => {
-    console.log('I WANT TO LOGOUT');
+    // console.log('I WANT TO LOGOUT');
 
     const response = await axios({
       method: 'get',
-      url: '/logout/',
+      url: '/user/logout/',
       headers: {
         Authorization: `Token ${token}`,
       },

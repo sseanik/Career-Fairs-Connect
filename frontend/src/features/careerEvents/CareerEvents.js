@@ -72,10 +72,7 @@ export default function CareerEvents() {
         </Heading>
         <Spacer />
         
-        {/* condition comment out until match with backend format
-        {userDetails.role === 'University' && ( */}
-        {(
-
+        {userDetails.role === 'University' && (
           <div>
             <Button
               colorScheme='blue'
@@ -97,6 +94,8 @@ export default function CareerEvents() {
             />
           </div>
         )}
+        
+
       </Flex>
       {loading &&
         [...Array(2)].map((x, i) => <SkeletonFairEvent key={i} card />)}

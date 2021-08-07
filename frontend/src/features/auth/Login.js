@@ -210,7 +210,7 @@ export default function Login() {
                         w='100%'
                         mt={4}
                         colorScheme='blue'
-                        isLoading={loginStatus}
+                        // isLoading={loginStatus}
                         loadingText='Logging In'
                         type='submit'
                       >
