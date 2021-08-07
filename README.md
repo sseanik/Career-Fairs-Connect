@@ -5,9 +5,10 @@
 
 ## To run the backend
 - install Docker https://docs.docker.com/get-docker/
-- run command "docker-compose run --service-ports backend"
+- run command "docker-compose run --service-ports frontend"
 
-It will create a docker image with all the dependencies and start the Django development server locally (port 80).
+It will create a docker image with all the dependencies, start the Django development server locally (port 80),
+install react app and run it locally as well.
 It will use local sqlite database and set it up on the first run.
 
-Just navigate to http://localhost/swagger/ to see all the endpoints
+Just navigate to http://localhost:3000/ to see our app
