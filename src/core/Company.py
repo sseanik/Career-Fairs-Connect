@@ -10,17 +10,20 @@ from drf_yasg.utils import swagger_auto_schema
 class Company(APIView):
     serializer_class = CompanySerializer
     @swagger_auto_schema(responses={
-        200 : openapi.Schema(type=openapi.TYPE_OBJECT,properties={
-            "company_id": openapi.Schema(type=openapi.TYPE_NUMBER),
-            "company_name": openapi.Schema(type=openapi.TYPE_STRING),
-            "company_description": openapi.Schema(type=openapi.TYPE_STRING),
-            "company_webpage_url": openapi.Schema(type=openapi.TYPE_STRING),
-            "company_logo_64": openapi.Schema(type=openapi.TYPE_STRING),
-        }),
-        401 : "Unauthorized",
-        403 : "Forbidden",
-        400 : "Bad request",
-    })
+            200 : openapi.Schema(type=openapi.TYPE_OBJECT,properties={
+                "company_id": openapi.Schema(type=openapi.TYPE_NUMBER),
+                "company_name": openapi.Schema(type=openapi.TYPE_STRING),
+                "company_description": openapi.Schema(type=openapi.TYPE_STRING),
+                "company_webpage_url": openapi.Schema(type=openapi.TYPE_STRING),
+                "company_logo_64": openapi.Schema(type=openapi.TYPE_STRING),
+            }),
+            401 : "Unauthorized",
+            403 : "Forbidden",
+            400 : "Bad request",
+        },
+        operation_summary="Get company details",
+        # operation_description="",
+    )
     def get(self, request, companyId, format=None):
         company = get_object_or_404(Companies, pk=companyId)
         serializer = CompanySerializer(company, fields=("company_id", "company_name", "company_description", "company_webpage_url", "company_logo_64"))
@@ -28,7 +31,10 @@ class Company(APIView):
 
 
 
-    @swagger_auto_schema(request_body=CompanySerializer)
+    @swagger_auto_schema(request_body=CompanySerializer,
+        operation_summary="Update company details",
+        # operation_description="",
+    )
     def put(self, request, companyId, format=None):
         if not request.user.is_authenticated:
             return Response("Please pass Token in the Authorisation header", status=status.HTTP_401_UNAUTHORIZED)

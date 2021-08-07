@@ -26,7 +26,10 @@ from drf_yasg.utils import swagger_auto_schema
             "presentation_description": openapi.Schema(type=openapi.TYPE_STRING),
         }),  
         404: "Not found",
-    })
+    },
+    operation_summary="Get all presentations for careerfair",
+    # operation_description="",
+)
 @api_view(['GET', ])
 def get_all_presentations(request, eventId):
     try:
@@ -55,7 +58,10 @@ def get_all_presentations(request, eventId):
             "presentations": openapi.Schema(type=openapi.TYPE_ARRAY,items=openapi.Items(type="stall_id, start_time,end_time, presentation_link, presentation_description, title, color")),   
             404: "Not found",
         })
-    })
+    },
+    operation_summary="Get presentation for stall",
+    # operation_description="",
+)
 @api_view(['GET', ])
 def get_presentation(request, stallId):
     print(stallId)
@@ -90,7 +96,11 @@ def get_presentation(request, stallId):
                 'title': openapi.Schema(type=openapi.TYPE_STRING),
                 'color': openapi.Schema(type=openapi.TYPE_STRING),
         }),  
-    }) #MISSING CHECKS ON STALL OWNERSHIP
+    },
+    operation_summary="Create presentation",
+    # operation_description="",
+)
+#MISSING CHECKS ON STALL OWNERSHIP
 @api_view(['POST', ])
 def create_presentation(request):
     presentation_serializer = PresentationSerializer(data=request.data, fields=('stall_id','start_time','end_time', 'presentation_link', 'presentation_description', 'title', 'color'))
@@ -126,7 +136,11 @@ def create_presentation(request):
                 'title': openapi.Schema(type=openapi.TYPE_STRING),
                 'color': openapi.Schema(type=openapi.TYPE_STRING),
         })
-    })) #MISSING CHECKS ON STALL OWNERSHIP
+    })
+    ,
+    operation_summary="Update presentation",
+    operation_description="",
+)#MISSING CHECKS ON STALL OWNERSHIP
 @api_view(['PUT', ])
 def edit_presentation(request):
     try:

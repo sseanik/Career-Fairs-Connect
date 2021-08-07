@@ -8,7 +8,11 @@ from drf_yasg.utils import swagger_auto_schema
 
 class Upvote(APIView):
 
-    @swagger_auto_schema(request_body=UpvoteSerializer)
+    @swagger_auto_schema(
+        request_body=UpvoteSerializer,
+        operation_summary="Add new vote",
+        # operation_description="",
+    )
     def post(self, request, stallId, postId, format=None):
         if not request.user.is_authenticated:
             return Response("Please pass Token in the Authorisation header", status=status.HTTP_401_UNAUTHORIZED)
@@ -27,7 +31,15 @@ class Upvote(APIView):
                 return Response(serializer.data, status=status.HTTP_200_OK)
 
         return Response('Already upvoted', status=status.HTTP_200_OK)
-
+    
+    
+    @swagger_auto_schema(
+        responses={
+            204 : "Deleted",
+        },
+        operation_summary="Remove vote",
+        # operation_description="",
+    )
     def delete(self, request, stallId, postId, format=None):
         if not request.user.is_authenticated:
             return Response("Please pass Token in the Authorisation header", status=status.HTTP_401_UNAUTHORIZED)

@@ -13,6 +13,22 @@ from drf_yasg.utils import swagger_auto_schema
 class StallMessages(APIView):
     serializer_class = QAMessageSerializer
 
+
+    @swagger_auto_schema(
+        responses={
+            200 : openapi.Schema(type=openapi.TYPE_OBJECT,properties={
+            "post_id": openapi.Schema(type=openapi.TYPE_NUMBER),
+            "author_id": openapi.Schema(type=openapi.TYPE_NUMBER),
+            "parent_post_id": openapi.Schema(type=openapi.TYPE_NUMBER),
+            "time": openapi.Schema(type=openapi.TYPE_NUMBER),
+            "content": openapi.Schema(type=openapi.TYPE_NUMBER),
+            "already_upvoted_by_this_user": openapi.Schema(type=openapi.TYPE_NUMBER),
+            }),
+            400 : "Not found",
+        },
+        operation_summary="Get Q&A messages for stall",
+        # operation_description="",
+    )
     def get(self, request, stallId, format=None):
         if not request.user.is_authenticated:
             return Response("Please pass Token in the Authorisation header", status=status.HTTP_401_UNAUTHORIZED)
@@ -39,7 +55,11 @@ class StallMessages(APIView):
         return HttpResponse(json.dumps([item for item in response_items], cls=DjangoJSONEncoder), content_type='application/json')
 
 
-    @swagger_auto_schema(request_body=QAMessageSerializer)
+    @swagger_auto_schema(
+        request_body=QAMessageSerializer,
+        operation_summary="Create new message",
+        # operation_description="",
+    )
     def post(self, request, stallId, format=None):
         if not request.user.is_authenticated:
             return Response("Please pass Token in the Authorisation header", status=status.HTTP_401_UNAUTHORIZED)
