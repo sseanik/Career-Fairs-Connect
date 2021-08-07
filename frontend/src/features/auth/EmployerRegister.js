@@ -23,7 +23,7 @@ import { InputControl, TextareaControl } from 'formik-chakra-ui';
 import { useSelector, useDispatch } from 'react-redux';
 import { convertImageToBase64, selectBase64Image } from './logoSlice';
 import { asyncRegisterCompany } from './userSlice';
-import { Link } from 'react-router-dom';
+import { Link, useHistory } from 'react-router-dom';
 import { ArrowBackIcon } from '@chakra-ui/icons';
 
 const initialValues = {
@@ -67,6 +67,7 @@ export default function EmployerRegister() {
   const dispatch = useDispatch();
   const toast = useToast();
   const { colorMode } = useColorMode();
+  const history = useHistory();
 
   const uploadImage = (e, setFieldValue) => {
     dispatch(convertImageToBase64(e));
@@ -92,6 +93,7 @@ export default function EmployerRegister() {
           company_webpage_url: values.website,
           company_logo_64: base64Image,
         },
+        history: history,
         toast: toast,
       })
     );

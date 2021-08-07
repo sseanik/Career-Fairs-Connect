@@ -16,6 +16,8 @@ export const asyncFetchUserData = createAsyncThunk(
 
     const data = await response.data;
 
+    console.log('dsasdasda' + JSON.stringify(data))
+
     return data;
   }
 );
@@ -53,12 +55,28 @@ export const asyncRegisterUniversity = createAsyncThunk(
 
 export const asyncRegisterCompany = createAsyncThunk(
   'user/registerCompany',
-  async ({ user, toast }) => {
+  async ({ user, toast, history }) => {
     const response = await axios({
       method: 'post',
       url: '/user/register/company/',
       data: user,
     });
+
+    if (response.status === 201) {
+      toast({
+        description: 'Successfully created account',
+        status: 'success',
+        isClosable: true,
+      });
+      history.push('/login');
+    } else {
+      toast({
+        description: 'Register Failed',
+        status: 'error',
+        isClosable: true,
+      });
+    }
+
     const data = await response.data;
 
     return data;
@@ -67,12 +85,28 @@ export const asyncRegisterCompany = createAsyncThunk(
 
 export const asyncRegisterStudent = createAsyncThunk(
   'user/registerStudent',
-  async ({ user, toast }) => {
+  async ({ user, toast, history }) => {
     const response = await axios({
       method: 'post',
       url: '/user/register/student/',
       data: user,
     });
+
+    if (response.status === 201) {
+      toast({
+        description: 'Successfully created account',
+        status: 'success',
+        isClosable: true,
+      });
+      history.push('/login');
+    } else {
+      toast({
+        description: 'Register Failed',
+        status: 'error',
+        isClosable: true,
+      });
+    }
+
     const data = await response.data;
 
     return data;
@@ -249,6 +283,7 @@ export const userSlice = createSlice({
         state.loading = true;
       })
       .addCase(asyncFetchUserData.fulfilled, (state, { payload }) => {
+        console.log('checking')
         console.log(payload);
         state.loading = false;
         state.loggedIn = true;
@@ -261,10 +296,10 @@ export const userSlice = createSlice({
             state.university = payload.university;
             break;
           case 'Company':
-            state.name = payload.name;
-            state.description = payload.description;
-            state.website = payload.website;
-            state.logo = payload.logo;
+            state.name = payload.company_name;
+            state.description = payload.company_description;
+            state.website = payload.company_website;
+            state.logo = payload.company_logo_64;
             break;
           case 'University':
             state.universityID = payload.university_id;

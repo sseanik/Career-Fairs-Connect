@@ -18,10 +18,11 @@ export const asyncFetchStallData = createAsyncThunk(
       },
     });
 
-    const colour = await prominent(response.logo, {
+    const colour = await prominent(response.data.logo, {
       amount: 2,
     });
-    return { ...response, colour: colour };
+
+    return { ...response.data, colour: colour };
   }
 );
 

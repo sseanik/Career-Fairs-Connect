@@ -96,6 +96,9 @@ export const DetailsCard = (props) => {
     );
   };
 
+  console.log('------ user role = ' + userDetails.role + 'user Name = ' +
+  userDetails.name + 'props.title =' + props.title)
+
   return (
     <Flex p='0.5' direction={width <= '723' ? 'column' : 'row'} align='center'>
       {props.crop ? (
