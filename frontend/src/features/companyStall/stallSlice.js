@@ -2,16 +2,25 @@ import { createAsyncThunk, createSlice, current } from '@reduxjs/toolkit';
 import { getStallData } from '../../exampleData/exampleCompanyStall';
 import { prominent } from 'color.js';
 import complementaryTextColour from '../../util/complementaryTextColour';
+import axios from 'axios';
 
 // Get Stall Data
 export const asyncFetchStallData = createAsyncThunk(
   'stall/company',
   async (stallID) => {
-    const response = await getStallData(stallID);
-    const colour = await prominent(response.logo, {
+    const response = await axios({
+      method: 'get',
+      //REPLACE BELOW LINE
+      url: `/careerfairs/stalls/1/`,
+      headers: {
+        Authorization: `Token ${localStorage.getItem('token')}`,
+      },
+    });
+    console.log()
+    const colour = await prominent(response.data.logo, {
       amount: 2,
     });
-    return { ...response, colour: colour };
+    return { ...response.data, colour: colour };
   }
 );
 

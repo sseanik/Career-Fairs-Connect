@@ -76,10 +76,11 @@ urlpatterns = [
 
 
     path('careerfairs/<int:eventId>/stalls/', StallList.as_view()),
+    path('careerfairs/stalls/<int:stallId>/', get_stall_data),
     re_path('^careerfairs/(?P<eventId>.+)/$', get_career_fair_data),
     path('careerfairs/', CareerFairListGlobal.as_view()),
     path('careerfairs/applications', Approvals.as_view()),
-    path('careerfairs/stalls/<int:stallId>/', CompanyStallData.as_view()),
+    
     
     path('presentation/create/', create_presentation),
     path('presentation/edit/', edit_presentation),
