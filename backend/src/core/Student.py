@@ -44,12 +44,31 @@ class Student(APIView):
             'degree': openapi.Schema(type=openapi.TYPE_STRING, description='max length 100'),
             'student_logo_64': openapi.Schema(type=openapi.TYPE_STRING, description='base 64 image'),
             }),
+        responses={
+            200 : openapi.Schema(type=openapi.TYPE_OBJECT,properties={
+                "university": openapi.Schema(type=openapi.TYPE_STRING),
+                "first_name": openapi.Schema(type=openapi.TYPE_STRING),
+                "last_name": openapi.Schema(type=openapi.TYPE_STRING),
+                "degree": openapi.Schema(type=openapi.TYPE_STRING),
+                "wam": openapi.Schema(type=openapi.TYPE_NUMBER),
+                "student_logo_64": openapi.Schema(type=openapi.TYPE_STRING),
+            }),
+            400 : "Bad request",
+            403 : "Forbidden",
+            404 : "Not found",
+        },
         operation_summary="Update student data",
-        # operation_description="",
+        operation_description="Student profile must be the same as caller or 403",
     )
     def put(self, request, studentId, format=None):
+        
+        if request.user.user_type != 0:
+            return Response({"Forbidden" : "Incorrect user type"}, status=403)
+    #require auth
         student = get_object_or_404(Students, pk=studentId)
-        #require auth?
+        userStudentId = Students.objects.get(user_id = request.user.userID).student_id
+        if int(studentId) != userStudentId:
+            return Response({"Forbidden" : "Student does not belong to user"}, status=403)
         serializer = StudentSerializer(student, data=request.data, fields=("first_name", "last_name", "university", "wam", "degree", "student_logo_64"))
         if serializer.is_valid():
             serializer.save()
