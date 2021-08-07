@@ -10,7 +10,7 @@ export const asyncFetchFairData = createAsyncThunk(
   async (fairID) => {
     const response = await axios({
       method: 'get',
-      url: `/get_career_fair_data/${fairID}/`,
+      url: `/careerfairs/${fairID}/`,
       headers: {
         Authorization: `Token ${localStorage.getItem('token')}`,
       },
