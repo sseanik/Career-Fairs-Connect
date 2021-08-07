@@ -61,6 +61,7 @@ export default function Profile() {
         <Image
           src={companyData.logo}
           alt={`${companyData.company}-logo`}
+          fallbackSrc="https://via.placeholder.com/200"
           boxSize="200px"
           objectFit='contain'
         />
