@@ -22,7 +22,10 @@ from drf_yasg.utils import swagger_auto_schema
     responses={
         400: "Bad request",
         201: "Successful Registration",  
-    })
+    },
+    operation_summary="Register as company",
+    # operation_description="",
+)
 @api_view(['POST'])
 def register_company(request):
     user = User(user_type=User.COMPANY)

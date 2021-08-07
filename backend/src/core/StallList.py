@@ -15,7 +15,10 @@ class StallList(APIView):
             403: "Forbidden",
             404: "Not found",
             20: "OK",  
-    })
+    },
+        operation_summary="Create stalls for given careerfair",
+        operation_description="Create stall for given company caller at specified careerfair",
+    )
     def post(self, request, eventId, format=None):
         request.data["event_id"] = eventId
         # company_id needs to be taken from auth token
