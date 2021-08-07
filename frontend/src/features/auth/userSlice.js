@@ -115,7 +115,7 @@ export const asyncLoginUser = createAsyncThunk(
 export const asyncLogout = createAsyncThunk(
   'user/logout',
   async ({ token, history }) => {
-    console.log('I WANT TO LOGOUT??');
+    // console.log('I WANT TO LOGOUT');
 
     const response = await axios({
       method: 'get',
