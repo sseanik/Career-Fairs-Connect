@@ -14,26 +14,20 @@ import {
   Box,
 } from '@chakra-ui/react';
 import { EditIcon } from '@chakra-ui/icons';
-// import { useSelector, useDispatch } from 'react-redux';
-
-// const create = (id) => {
-//   return async (dispatch, getState) => {
-//     const firstName = getState().example.firstName;
-//     console.log(firstName)
-//   };
-// };
-
-const companyData = {
-  companyID: '1',
-  company: 'Canva',
-  description: 'Canva is a graphic design company',
-  logo: 'https://upload.wikimedia.org/wikipedia/en/3/3b/Canva_Logo.png',
-  website: 'https://canva.com',
-};
+import { useSelector, useDispatch } from 'react-redux';
 
 export default function Profile() {
   const history = useHistory();
+  const userData = useSelector((state) => state.user);
 
+  const companyData = {
+    companyID: userData.id,  //checked
+    company: userData.name,
+    description: userData.description,
+    logo: userData.logo,
+    website: userData.website,
+  };
+  
   function handleClick() {
     history.push('/company/edit');
   }
@@ -67,6 +61,7 @@ export default function Profile() {
         <Image
           src={companyData.logo}
           alt={`${companyData.company}-logo`}
+          fallbackSrc="https://via.placeholder.com/200"
           boxSize="200px"
           objectFit='contain'
         />
