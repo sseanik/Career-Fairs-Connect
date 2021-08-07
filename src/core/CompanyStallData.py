@@ -20,7 +20,10 @@ class CompanyStallData(APIView):
             "approval_status": openapi.Schema(type=openapi.TYPE_STRING),
         }),
         401 : "Unauthorized"
-    })
+        },
+        operation_summary="Get company stall data",
+        operation_description="Deprecated - see get_stall_data",
+    )
     def get(self, request, stallId, format=None):
         stallData = Stalls.objects.all()
         serializer = StallsSerializer(stallData, many=True)

@@ -22,7 +22,10 @@ from drf_yasg.utils import swagger_auto_schema
         }),
     401 : "Unauthorized",
     404 : "Not found",
-})
+    },
+    operation_summary="Get all stalls and stall data for a career fair",
+    operation_description="Returns a set of all stalls for a career fair, including fields for the company host, stall opportunities and presentations",
+)
 @api_view(['GET', ])
 def get_career_fair_data(request, eventId):
     if not request.user.is_authenticated:
