@@ -20,7 +20,11 @@ class CareerFairListGlobal(APIView):
             "logo": openapi.Schema(type=openapi.TYPE_STRING),
             }),
         401 : "Unauthorized"
-    })
+        },
+        operation_summary="Get all career fairs",
+        # operation_description="", #date qualification?
+    )
+    #need date qualification?
     def get(self, request):
         all_fairs = CareerFairs.objects.select_related("university_id")\
             .all().values('event_id', 'title','description', 'start_date', 'end_date',

@@ -15,12 +15,15 @@ class Approvals(APIView):
     @swagger_auto_schema(responses={
         200 : openapi.Schema(type=openapi.TYPE_OBJECT,properties={
             "fair title": openapi.Schema(type=openapi.TYPE_NUMBER),
-            "event_id": openapi.Schema(type=openapi.TYPE_STRING),
+            "event_id": openapi.Schema(type=openapi.TYPE_NUMBER),
             "pending stalls": openapi.Schema(type=openapi.TYPE_ARRAY, items=openapi.Items(type="stall_id, company_id, event_id, stall_description, approval status")),
             }),
         403 : "Forbidden",
         404 : "Not found",
-    })
+        },
+        operation_summary="Get all stalls pending Uni approval",
+        operation_description="Returns only the pending stalls from the caller's owned careerfairs",
+    )
     def get(self, request, *args, **kwargs):
         if request.user.user_type != 1:
             return Response(status = 403) #forbidden
@@ -44,33 +47,25 @@ class Approvals(APIView):
 
 
 
-    @swagger_auto_schema(request_body=StallsSerializer, responses={
-        200 : openapi.Schema(type=openapi.TYPE_OBJECT,properties={
-            "approval_status": openapi.Schema(type=openapi.TYPE_STRING),
-            "company_id": openapi.Schema(type=openapi.TYPE_NUMBER),
-            "event_id": openapi.Schema(type=openapi.TYPE_NUMBER),
-            "stall_description": openapi.Schema(type=openapi.TYPE_STRING),
-        }),
-        400 : "Bad request",
-        404 : "Not found",
-    })
-    def post(self, request, format=None): 
-        company_id = request.data['companyId']
-        event_id = request.data['eventId']
-        stall = Stalls.objects.filter(company_id=request.data['companyId'], event_id=request.data["eventId"])
-        if not stall:
-            return Response('Cannot find stall for company_id= '+ str(company_id) + ' and event_id= ' + str(event_id),
-                            status=404)
-        stall = stall[0]
+    @swagger_auto_schema(request_body=StallsSerializer,
+        operation_summary="University approve or deny stall application",
+        operation_description="Updates 'approval_status' field in Stalls from Pending",
+    )
+    def put(self, request, format=None): 
+        try:
+            stall = Stalls.objects.get(stall_id = request.data['stall_id'])
+        except:
+            return Response(status=404)
         if request.data["approval"] == True:
             stall.approval_status = "Approved"
-            stall.save()
-            return Response("Application approved")
-        else:
+        elif request.data["approval"] == False:
             stall.approval_status = "Rejected"
-            stall.save()
-            return Response("Application denied")
-
+        else:
+            return Response(status=400)
+        serializer = StallsSerializer(stall)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data, status=200)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
