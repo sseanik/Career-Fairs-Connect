@@ -80,6 +80,5 @@ class Approvals(APIView):
         serializer = StallsSerializer(stall)
         stall.save()
         return Response(serializer.data, status=200)
-        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
