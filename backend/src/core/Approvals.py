@@ -15,12 +15,15 @@ class Approvals(APIView):
     @swagger_auto_schema(responses={
         200 : openapi.Schema(type=openapi.TYPE_OBJECT,properties={
             "fair title": openapi.Schema(type=openapi.TYPE_NUMBER),
-            "event_id": openapi.Schema(type=openapi.TYPE_STRING),
+            "event_id": openapi.Schema(type=openapi.TYPE_NUMBER),
             "pending stalls": openapi.Schema(type=openapi.TYPE_ARRAY, items=openapi.Items(type="stall_id, company_id, event_id, stall_description, approval status")),
             }),
         403 : "Forbidden",
         404 : "Not found",
-    })
+        },
+        operation_summary="Get all stalls pending Uni approval",
+        operation_description="Returns only the pending stalls from the caller's owned careerfairs",
+    )
     def get(self, request, *args, **kwargs):
         if request.user.user_type != 1:
             return Response(status = 403) #forbidden
@@ -53,8 +56,11 @@ class Approvals(APIView):
         }),
         400 : "Bad request",
         404 : "Not found",
-    })
-    def post(self, request, format=None): 
+        },
+        operation_summary="University approve or deny stall application",
+        operation_description="Updates 'approved_status' field in Stalls from Pending",
+    )
+    def put(self, request, format=None): 
         company_id = request.data['companyId']
         event_id = request.data['eventId']
         stall = Stalls.objects.filter(company_id=request.data['companyId'], event_id=request.data["eventId"])
@@ -70,7 +76,6 @@ class Approvals(APIView):
             stall.approval_status = "Rejected"
             stall.save()
             return Response("Application denied")
-
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
