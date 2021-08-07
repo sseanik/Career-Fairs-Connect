@@ -16,8 +16,6 @@ export const asyncFetchUserData = createAsyncThunk(
 
     const data = await response.data;
 
-    console.log('dsasdasda' + JSON.stringify(data))
-
     return data;
   }
 );
@@ -117,7 +115,6 @@ export const asyncRegisterStudent = createAsyncThunk(
 export const asyncLoginUser = createAsyncThunk(
   'user/login',
   async ({ user, toast, history }) => {
-    console.log('tell me Im logging in');
     const response = await axios({
       method: 'post',
       url: '/user/login/',
@@ -149,8 +146,6 @@ export const asyncLoginUser = createAsyncThunk(
 export const asyncLogout = createAsyncThunk(
   'user/logout',
   async ({ token, history }) => {
-    // console.log('I WANT TO LOGOUT');
-
     const response = await axios({
       method: 'get',
       url: '/user/logout/',
@@ -158,8 +153,6 @@ export const asyncLogout = createAsyncThunk(
         Authorization: `Token ${token}`,
       },
     });
-
-    console.log(response);
 
     if (response.status === 200) {
       localStorage.removeItem('token');
@@ -283,8 +276,6 @@ export const userSlice = createSlice({
         state.loading = true;
       })
       .addCase(asyncFetchUserData.fulfilled, (state, { payload }) => {
-        console.log('checking')
-        console.log(payload);
         state.loading = false;
         state.loggedIn = true;
         state.role = payload.user_type;

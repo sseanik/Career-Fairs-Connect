@@ -9,7 +9,6 @@ export const asyncFetchStallData = createAsyncThunk(
   'stall/company',
   async (stallID) => {
     // const response = await getStallData(stallID);
-    console.log('fetching stall data');
     const response = await axios({
       method: 'get',
       url: `/careerfairs/stalls/${stallID}/`,
@@ -30,14 +29,22 @@ export const asyncFetchStallData = createAsyncThunk(
 // Add a Job Opportunity
 export const asyncAddOpportunity = createAsyncThunk(
   'stall/addOpportunity',
-  async ({ opportunity, toast }) => {
-    await new Promise((r) => setTimeout(r, 3000));
-    const response = { ...opportunity, id: '555' };
+  async ({ stallID, opportunity, toast }) => {
+    const response = await axios({
+      method: 'post',
+      url: `/company/${stallID}/opportunities/`,
+      data: opportunity,
+      headers: {
+        Authorization: `Token ${localStorage.getItem('token')}`,
+      },
+    });
+
     toast({
       description: 'Successfully added Opportunity',
       status: 'success',
       isClosable: true,
     });
+
     return response;
   }
 );

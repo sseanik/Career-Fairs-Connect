@@ -26,7 +26,6 @@ export function StallCard(props) {
   const toast = useToast();
   const { colorMode } = useColorMode();
 
-  console.log('props of stall card', props);
   return (
     <Flex direction='column' justify='center' align='center'>
       <Box
@@ -117,7 +116,6 @@ export function StallCard(props) {
           sm: '225px',
         })}
       >
-        {console.log('userRole', userRole)}
         {userRole === 'University' && (
           <Box
             borderBottomWidth='1px'

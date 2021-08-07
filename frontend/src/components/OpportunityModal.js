@@ -88,7 +88,7 @@ export function OpportunityModal(props) {
   }, [dispatch, closeModal, formStatus]);
 
   const deleteOpportunity = () => {
-    dispatch(asyncDeleteOpportunity({ id: props.id, toast: toast }));
+    dispatch(asyncDeleteOpportunity({ id: props.stallID, toast: toast }));
   };
 
   const submitForm = (values, actions) => {
@@ -119,6 +119,7 @@ export function OpportunityModal(props) {
               link: values.link,
               description: values.description,
             },
+            stallID: props.stallID,
             toast: toast,
           })
         );

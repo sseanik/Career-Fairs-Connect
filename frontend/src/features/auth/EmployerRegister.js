@@ -82,7 +82,6 @@ export default function EmployerRegister() {
 
   const submitForm = (values, actions) => {
     actions.setSubmitting(false);
-    console.log(values);
     dispatch(
       asyncRegisterCompany({
         user: {

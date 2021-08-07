@@ -69,7 +69,6 @@ export const DetailsCard = (props) => {
     [userDetails, props, stalls]
   );
 
-  console.log('userDetails=', userDetails);
   const createStall = () => {
     dispatch(
       asyncAddCompanyStall({
@@ -95,9 +94,6 @@ export const DetailsCard = (props) => {
       })
     );
   };
-
-  console.log('------ user role = ' + userDetails.role + 'user Name = ' +
-  userDetails.name + 'props.title =' + props.title)
 
   return (
     <Flex p='0.5' direction={width <= '723' ? 'column' : 'row'} align='center'>
@@ -229,7 +225,7 @@ export const DetailsCard = (props) => {
                 >
                   Add Opportunity
                 </Button>
-                <OpportunityModal isOpen={isOpen} onClose={onClose} />
+                <OpportunityModal isOpen={isOpen} onClose={onClose} stallID={props.fairID}/>
               </div>
             )}
         </Flex>

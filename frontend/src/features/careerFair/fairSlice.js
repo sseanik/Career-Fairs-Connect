@@ -18,7 +18,6 @@ export const asyncFetchFairData = createAsyncThunk(
 
     const data = await response.data;
 
-    console.log('response = ', data)
     const colour = await prominent(data.logo, {
       amount: 2,
     });
@@ -48,7 +47,6 @@ export const asyncEditFairEvent = createAsyncThunk(
 export const asyncToggleEventPending = createAsyncThunk(
   'fair/togglePending',
   async ({ id, approval_status, toast }) => {
-    console.log('approval_status is: ',approval_status);
     const response = await axios({
       method: 'put',
       url: '/careerfairs/applications',
@@ -88,7 +86,6 @@ export const asyncAddCompanyStall = createAsyncThunk(
         Authorization: `Token ${localStorage.getItem('token')}`,
       },
     });
-    console.log('asyncAddCompanyStall response=',response);
 
     if (response.status === 200) {
     toast({

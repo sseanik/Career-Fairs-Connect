@@ -33,7 +33,6 @@ export const asyncCreateFairEvent = createAsyncThunk(
       },
     });
 
-    console.log(response);
 
     const data = await response.data;
 
@@ -99,7 +98,6 @@ export const eventsSlice = createSlice({
       })
       .addCase(asyncCreateFairEvent.fulfilled, (state, { payload }) => {
         state.status = false;
-        console.log(payload);
         state.events.push(payload);
       })
       // Deleting a Career Fair Event
