@@ -47,15 +47,19 @@ export const asyncEditFairEvent = createAsyncThunk(
 // Change a company stall's approval status
 export const asyncToggleEventPending = createAsyncThunk(
   'fair/togglePending',
-  async ({ id, toggle, toast }) => {
+  async ({ id, approval_status, toast }) => {
+    console.log('approval_status is: ',approval_status);
     const response = await axios({
-      method: 'post',
-      url: '/careerfairs/applications/',
+      method: 'put',
+      url: '/careerfairs/applications',
       data: {
         stall_id: id,
-        approval_status: toggle,
-        company_id: null,
-        event_id: null,
+        approval: approval_status,
+        // company_id: null,
+        // event_id: null,
+      },
+      headers: {
+        Authorization: `Token ${localStorage.getItem('token')}`,
       },
     });
     
@@ -65,7 +69,7 @@ export const asyncToggleEventPending = createAsyncThunk(
       isClosable: true,
     });
     
-    return { id: id, toggle: toggle };
+    // return { id: id, approval_status: approval_status };
   }
 );
 
