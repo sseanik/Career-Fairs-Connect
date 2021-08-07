@@ -57,11 +57,12 @@ export function CalendarModal(props) {
       asyncAddPresentation({
         presentation: {
           title: values.title,
-          description: values.description,
-          link: values.link,
-          start: props.event.start.getTime(),
-          end: props.event.end.getTime(),
+          presentation_description: values.description,
+          presentation_link: values.link,
+          start_time: props.start,
+          end_time: props.end,
           color: props.color,
+          stall_id: props.stallID
         },
         toast: toast,
       })

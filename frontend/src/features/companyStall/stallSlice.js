@@ -84,9 +84,10 @@ export const asyncDeleteOpportunity = createAsyncThunk(
 export const asyncAddPresentation = createAsyncThunk(
   'stall/addPresentation',
   async ({ presentation, toast }) => {
+    console.log(presentation)
     const response = await axios({
       method: 'post',
-      url: `/presentation​/create​/`,
+      url: '/presentation/create/',
       data: presentation,
       headers: {
         Authorization: `Token ${localStorage.getItem('token')}`,

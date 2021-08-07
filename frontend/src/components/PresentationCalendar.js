@@ -102,6 +102,7 @@ export function PresentationCalendar(props) {
           onClose={() => setOpen(false)}
           event={event}
           color={props.bgColour}
+          stallID={props.fairID}
         />
       )}
 
