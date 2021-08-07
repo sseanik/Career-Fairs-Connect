@@ -24,6 +24,7 @@ import { asyncRegisterStudent } from './userSlice';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { ArrowBackIcon } from '@chakra-ui/icons';
+import { useHistory } from 'react-router-dom';
 
 const initialValues = {
   firstName: '',
@@ -102,6 +103,7 @@ export function StudentRegister() {
   const dispatch = useDispatch();
   const toast = useToast();
   const { colorMode } = useColorMode();
+  const history = useHistory();
 
   React.useState(() => {
     if (loggedIn) {
@@ -121,6 +123,7 @@ export function StudentRegister() {
           university: values.university,
         },
         toast: toast,
+        history: history,
       })
     );
   };

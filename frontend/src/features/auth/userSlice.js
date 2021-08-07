@@ -53,12 +53,28 @@ export const asyncRegisterUniversity = createAsyncThunk(
 
 export const asyncRegisterCompany = createAsyncThunk(
   'user/registerCompany',
-  async ({ user, toast }) => {
+  async ({ user, toast, history }) => {
     const response = await axios({
       method: 'post',
       url: '/user/register/company/',
       data: user,
     });
+
+    if (response.status === 201) {
+      toast({
+        description: 'Successfully created account',
+        status: 'success',
+        isClosable: true,
+      });
+      history.push('/login');
+    } else {
+      toast({
+        description: 'Register Failed',
+        status: 'error',
+        isClosable: true,
+      });
+    }
+
     const data = await response.data;
 
     return data;
@@ -67,12 +83,28 @@ export const asyncRegisterCompany = createAsyncThunk(
 
 export const asyncRegisterStudent = createAsyncThunk(
   'user/registerStudent',
-  async ({ user, toast }) => {
+  async ({ user, toast, history }) => {
     const response = await axios({
       method: 'post',
       url: '/user/register/student/',
       data: user,
     });
+
+    if (response.status === 201) {
+      toast({
+        description: 'Successfully created account',
+        status: 'success',
+        isClosable: true,
+      });
+      history.push('/login');
+    } else {
+      toast({
+        description: 'Register Failed',
+        status: 'error',
+        isClosable: true,
+      });
+    }
+
     const data = await response.data;
 
     return data;
