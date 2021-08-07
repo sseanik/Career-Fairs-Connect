@@ -69,7 +69,7 @@ export const asyncToggleEventPending = createAsyncThunk(
       isClosable: true,
     });
     
-    // return { id: id, approval_status: approval_status };
+    return { id: id, approval_status: approval_status };
   }
 );
 
