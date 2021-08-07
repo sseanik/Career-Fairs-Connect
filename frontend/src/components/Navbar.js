@@ -52,6 +52,10 @@ export default function Navbar(props) {
   }, [scrollY]);
 
   const loggedIn = useSelector((state) => state.user.loggedIn);
+  const role = useSelector((state) => state.user.role);
+  const profilePath = '/'+role;
+  // console.log('path=', profilePath, typeof(profilePath));
+  
   const dispatch = useDispatch();
   const history = useHistory();
 
@@ -153,7 +157,7 @@ export default function Navbar(props) {
                   </Button>
                   <Button
                     as={Link}
-                    to='/register'
+                    to={profilePath}
                     colorScheme='blue'
                     variant='solid'
                     size='sm'

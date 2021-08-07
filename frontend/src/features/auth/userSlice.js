@@ -115,11 +115,18 @@ export const asyncRegisterStudent = createAsyncThunk(
 export const asyncLoginUser = createAsyncThunk(
   'user/login',
   async ({ user, toast, history }) => {
-    console.log('tell me Im logging in');
     const response = await axios({
       method: 'post',
       url: '/user/login/',
       data: user,
+    })
+    .catch((error) => {
+      console.error('Error logging in:', error);
+      toast({
+        description: 'Account name or password is incorrect',
+        status: 'error',
+        isClosable: true,
+      });
     });
     const data = await response.data;
 
@@ -271,8 +278,8 @@ export const userSlice = createSlice({
   initialState,
   reducers: {
     resetUser: (state) => {
-      state = initialState;
-      return state;
+    state = initialState;
+    return state;
     },
   },
   extraReducers: (builder) => {

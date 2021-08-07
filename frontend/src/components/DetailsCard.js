@@ -69,7 +69,6 @@ export const DetailsCard = (props) => {
     [userDetails, props, stalls]
   );
 
-  console.log('userDetails=', userDetails);
   const createStall = () => {
     dispatch(
       asyncAddCompanyStall({
