@@ -1,4 +1,5 @@
 /venv/
+/data/
 backend/src/.DS_Store
 .idea/
 /backend/tutorial-env/
