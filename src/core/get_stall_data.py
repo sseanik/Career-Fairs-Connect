@@ -26,7 +26,8 @@ def get_stall_data(request, stallId):
         "company":  tmp_dict["company_name"],
         "logo":  tmp_dict["company_logo_64"],
         "website":  tmp_dict["company_webpage_url"],
-        "live":  False
+        "live":  False,
+        "approval_status": tmp_dict["approval_status"]
     }
 
 
