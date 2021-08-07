@@ -1,0 +1,161 @@
+import React, { useState, useEffect } from 'react';
+import { useHistory } from 'react-router-dom';
+
+import { convertImageToBase64, selectBase64Image } from '../auth/logoSlice';
+import { asyncUpdateUniversity } from '../auth/userSlice';
+import {
+  Stack,
+  Container,
+  Heading,
+  FormControl,
+  FormLabel,
+  FormErrorMessage,
+  Button,
+  useToast,
+  Image,
+} from '@chakra-ui/react';
+import { Field, Formik } from 'formik';
+import * as Yup from 'yup';
+import { InputControl, TextareaControl } from 'formik-chakra-ui';
+import { useSelector, useDispatch } from 'react-redux';
+import UniSelector from './UniSelector.js';
+
+
+const validationSchema = Yup.object({
+  website: Yup.string()
+    .matches(/^http(s)?:.*$/, 'Website URL is invalid')
+    .required('Website URL is Required')
+    .max(256),
+  university: Yup.string()
+    .required('University is Required'),
+
+});
+
+export default function Profile() {
+  const history = useHistory();
+  const user = useSelector((state) => state.user);
+
+  const initialValues = {
+    university: user.name,
+    website: user.website,
+    logo: '', //companyData.logo,
+  };
+
+  // const [picture, setPicture] = useState(null);
+  // const [imgSrc, setImgSrc] = useState(companyData.logo);
+  // console.log('imgSrc=',imgSrc)
+
+  // useEffect(() => {
+  //   const image = document.getElementById("oldLogo");
+  //   image.src = imgSrc;
+  // }, [imgSrc]);
+
+  // const base64Image = useSelector(selectBase64Image);
+  const dispatch = useDispatch();
+  const toast = useToast();
+  // ?
+  const saveStatus = useSelector((state) => state.user.status);
+
+  // const uploadImage = (e, setFieldValue) => {
+  //   dispatch(convertImageToBase64(e));
+  //   setFieldValue('logo', e.target.value);
+  //   console.log('e.target.value: ', e.target.value);
+  //   setImgSrc(e.target.value);
+  // };
+
+  const submitForm = (universityID, values, actions) => {
+    // console.log('logo', values.logo);
+    actions.setSubmitting(false);
+    dispatch(asyncUpdateUniversity({ id: universityID, user: {}, toast: toast }));
+  };
+
+  function handleCancel() {
+    history.push('/university');
+  }
+
+  return (
+    <>
+      <Container
+        maxW={'container.md'}
+        p={12}
+      >
+        <Heading
+          as={'h2'}
+          fontSize={{ base: 'xl', sm: '2xl' }}
+          textAlign={'center'}
+          mb={5}>
+          Edit Profile
+        </Heading>
+
+        <Formik
+          initialValues={initialValues}
+          onSubmit={(values, actions) => submitForm(values, actions)}
+          validationSchema={validationSchema}
+        >
+          {({ isSubmitting, handleSubmit, setFieldValue }) => (
+            <Stack
+              direction='column'
+              as={'form'}
+              spacing={'6'}
+              onSubmit={handleSubmit}
+            >
+
+              {/* <Stack direction="row" spacing={10} align='center' justify='center'>
+                <Image
+                  id='oldLogo'
+                  src={imgSrc}
+                  alt={`${companyData.company}-logo`}
+                  boxSize="150px"
+                  objectFit='contain'
+                />
+                <Field name='logo'>
+                  {({ field, form }) => (
+                    <FormControl
+                      id='logo'
+                      isInvalid={form.errors.logo && form.touched.logo}
+                    >
+                      <FormLabel>Update New Logo</FormLabel>
+                      <input
+                        {...field}
+                        type='file'
+                        onChange={(e) => uploadImage(e, setFieldValue)}
+                        accept='.jpeg, .png, .jpg'
+                      ></input>
+                      <FormErrorMessage>{form.errors.logo}</FormErrorMessage>
+                    </FormControl>
+                  )}
+                </Field>
+              </Stack> */}
+
+              <InputControl name='website' label='Website URL' />
+              <FormLabel htmlFor='university'>Select University</FormLabel>
+              <UniSelector />
+
+              <Stack direction="row" spacing={4} justify='center'>
+                <Button
+                  colorScheme={'blue'}
+                  variant={'outline'}
+                  w={'150px'}
+                  onClick={handleCancel}
+                >
+                  Cancel
+                </Button>
+                <Button
+                  colorScheme={'blue'}
+                  variant={'solid'}
+                  w={'150px'}
+                  isLoading={saveStatus}
+                  loadingText='Saving'
+                  type='submit'
+                >
+                  Save
+                </Button>
+              </Stack>
+
+            </Stack>
+          )}
+        </Formik>
+      </Container>
+    </>
+  );
+}
