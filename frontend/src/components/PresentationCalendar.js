@@ -94,6 +94,7 @@ export function PresentationCalendar(props) {
         color={modalEventDetails.color}
         start={modalEventDetails.start}
         end={modalEventDetails.end}
+        stallID={props.fairID}
       />
       {props.edit && (
         <CalendarModal

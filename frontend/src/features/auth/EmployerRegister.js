@@ -25,7 +25,6 @@ import { convertImageToBase64, selectBase64Image } from './logoSlice';
 import { asyncRegisterCompany } from './userSlice';
 import { Link, useHistory } from 'react-router-dom';
 import { ArrowBackIcon } from '@chakra-ui/icons';
-import { useHistory } from 'react-router-dom';
 
 const initialValues = {
   email: '',

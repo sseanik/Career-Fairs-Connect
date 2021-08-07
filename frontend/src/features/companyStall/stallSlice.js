@@ -30,6 +30,7 @@ export const asyncFetchStallData = createAsyncThunk(
 export const asyncAddOpportunity = createAsyncThunk(
   'stall/addOpportunity',
   async ({ stallID, opportunity, toast }) => {
+    console.log(opportunity)
     const response = await axios({
       method: 'post',
       url: `/company/${stallID}/opportunities/`,
@@ -83,8 +84,14 @@ export const asyncDeleteOpportunity = createAsyncThunk(
 export const asyncAddPresentation = createAsyncThunk(
   'stall/addPresentation',
   async ({ presentation, toast }) => {
-    await new Promise((r) => setTimeout(r, 3000));
-    const response = { ...presentation, id: '555' };
+    const response = await axios({
+      method: 'post',
+      url: `/presentation​/create​/`,
+      data: presentation,
+      headers: {
+        Authorization: `Token ${localStorage.getItem('token')}`,
+      },
+    });
     toast({
       description: 'Successfully added Presentation',
       status: 'success',

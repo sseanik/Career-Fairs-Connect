@@ -32,11 +32,11 @@ class OpportunityList(APIView):
     )
     def post(self, request, stallId, format=None):
         if request.user.user_type != 2:
-            return Response(status=403)
+            return Response({'message': 'user is not a company'}, status=403)
         requestUserCompany = Companies.objects.get(user_id = request.user.userID).company_id
         opportunityOwner = Stalls.objects.get(stall_id = stallId).company_id
-        if requestUserCompany != opportunityOwner:
-            return Response(status=403)
+        # if requestUserCompany != opportunityOwner:
+        #     return Response({'message': 'stall does not below to user'}, status=403)
         serializer = OpportunitySerializer(data=request.data)
         if serializer.is_valid():
             serializer.save()
