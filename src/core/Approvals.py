@@ -66,6 +66,7 @@ class Approvals(APIView):
         operation_description="Updates 'approval_status' field in Stalls from Pending",
     )
     def put(self, request, format=None): 
+        # stalld = request.data['stall_id']
         try:
             stall = Stalls.objects.get(stall_id = request.data['stall_id'])
         except:
@@ -76,10 +77,9 @@ class Approvals(APIView):
             stall.approval_status = "Rejected"
         else:
             return Response(status=400)
-        serializer = StallsSerializer(Stalls, data=stall)
-        if serializer.is_valid():
-            serializer.save()
-            return Response(serializer.data, status=200)
+        serializer = StallsSerializer(stall)
+        stall.save()
+        return Response(serializer.data, status=200)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
