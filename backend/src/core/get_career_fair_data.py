@@ -82,7 +82,6 @@ def get_career_fair_data(request, eventId):
             "id": stall["stall_id"],
             "approval_status": stall["approval_status"],
             "company": stall["company_name"],
-            "description": stall["stall_description"],
             "logo": stall["company_logo_64"],
             "live": stall["live"]
         }
