@@ -70,13 +70,13 @@ class Approvals(APIView):
             stall = Stalls.objects.get(stall_id = request.data['stall_id'])
         except:
             return Response(status=404)
-        if request.data["approval"] == True:
+        if request.data["approval"] == 'true':
             stall.approval_status = "Approved"
-        elif request.data["approval"] == False:
+        elif request.data["approval"] == 'false':
             stall.approval_status = "Rejected"
         else:
             return Response(status=400)
-        serializer = StallsSerializer(stall)
+        serializer = StallsSerializer(Stalls, data=stall)
         if serializer.is_valid():
             serializer.save()
             return Response(serializer.data, status=200)
