@@ -6,7 +6,7 @@ from django.contrib.auth.models import AbstractBaseUser, BaseUserManager
 class MyUserManager(BaseUserManager):
     def create_user(self, email, user_type, username="", password=None):
         if not email:
-            raise ValueError('Users must have an email address')
+            raise ValueError("Users must have an email address")
 
         user = self.model(
             email=self.normalize_email(email),
@@ -41,9 +41,8 @@ class User(AbstractBaseUser):
     userID = models.AutoField(primary_key=True)
     email = models.EmailField(verbose_name="email", max_length=60, unique=True)
     username = models.CharField(max_length=30)
-    date_joined = models.DateTimeField(
-        verbose_name='date joined', auto_now_add=True)
-    last_login = models.DateTimeField(verbose_name='last login', auto_now=True)
+    date_joined = models.DateTimeField(verbose_name="date joined", auto_now_add=True)
+    last_login = models.DateTimeField(verbose_name="last login", auto_now=True)
     is_admin = models.BooleanField(default=False)
     is_active = models.BooleanField(default=True)
     is_staff = models.BooleanField(default=False)
@@ -51,9 +50,15 @@ class User(AbstractBaseUser):
 
     # extra fields
     user_type = models.IntegerField(
-        choices=((STUDENT, 'student'), (UNIVERSITY, 'university'), (COMPANY, 'company')), default=0)
-    USERNAME_FIELD = 'email'
-    REQUIRED_FIELDS = ['user_type']
+        choices=(
+            (STUDENT, "student"),
+            (UNIVERSITY, "university"),
+            (COMPANY, "company"),
+        ),
+        default=0,
+    )
+    USERNAME_FIELD = "email"
+    REQUIRED_FIELDS = ["user_type"]
 
     objects = MyUserManager()
 
@@ -67,6 +72,8 @@ class User(AbstractBaseUser):
     # Does this user have permission to view this app? (ALWAYS YES FOR SIMPLICITY)
     def has_module_perms(self, app_label):
         return True
+
+
 # Extend using onetoonelink
 
 
@@ -80,13 +87,12 @@ class Companies(models.Model):
     company_logo_64 = models.CharField(max_length=2000000)
 
 
-
 class Universities(models.Model):
     university_id = models.AutoField(primary_key=True)
     university_name = models.CharField(max_length=50)
     # university_abbreviation = models.CharField(max_length=10)
     university_logo_64 = models.CharField(max_length=2000000)
-    university_site_url = models.CharField(max_length=150, default='')
+    university_site_url = models.CharField(max_length=150, default="")
     # Potential cause of issues on deleting
     user_id = models.ForeignKey(User, on_delete=models.RESTRICT)
 
@@ -95,7 +101,7 @@ class CareerFairs(models.Model):
     event_id = models.AutoField(primary_key=True)
     university_id = models.ForeignKey(Universities, on_delete=models.CASCADE)
     title = models.CharField(max_length=100)
-    description = models.TextField(default='')
+    description = models.TextField(default="")
     start_date = models.DateTimeField()
     end_date = models.DateTimeField()
 
@@ -105,8 +111,8 @@ class Stalls(models.Model):
     company_id = models.ForeignKey(Companies, on_delete=models.CASCADE)
     event_id = models.ForeignKey(CareerFairs, on_delete=models.CASCADE)
     approval_status = models.CharField(max_length=20, default='Pending')
-    stall_description = models.TextField()
-    title = models.CharField(max_length=100)
+
+
 
 class Presentations(models.Model):
     presentation_id = models.AutoField(primary_key=True)
@@ -116,7 +122,7 @@ class Presentations(models.Model):
     presentation_link = models.CharField(max_length=255)
     start_time = models.DateTimeField()
     end_time = models.DateTimeField()
-    presentation_description = models.TextField(default='')
+    presentation_description = models.TextField(default="")
 
 
 class Students(models.Model):
@@ -135,7 +141,7 @@ class Opportunities(models.Model):
     job_id = models.AutoField(primary_key=True)
     job_description = models.TextField()
     application_link = models.CharField(max_length=100)
-    stall_id = models.OneToOneField(Stalls, on_delete=models.CASCADE)
+    stall_id = models.ForeignKey(Stalls, on_delete=models.CASCADE)
     type = models.CharField(max_length=100)
     role = models.CharField(max_length=100)
     location = models.CharField(max_length=100)
@@ -150,20 +156,24 @@ class QAMessages(models.Model):
     stall_id = models.ForeignKey(Stalls, on_delete=models.CASCADE)
     time = models.DateTimeField(auto_now_add=True, blank=True)
     num_upvotes = models.IntegerField(default=0)
-    content = models.TextField(default='')
+    content = models.TextField(default="")
     # https://stackoverflow.com/questions/50878551/how-to-create-hierarchy-of-models
-    parent_post_id = models.ForeignKey('self', null=True, blank=True, related_name='replies', on_delete=models.CASCADE)
+    parent_post_id = models.ForeignKey(
+        "self", null=True, blank=True, related_name="replies", on_delete=models.CASCADE
+    )
 
 
 class Upvotes(models.Model):
     user_id = models.ForeignKey(User, on_delete=models.CASCADE)
     post_id = models.ForeignKey(QAMessages, on_delete=models.CASCADE)
+
     class Meta:
-        unique_together = ('user_id', 'post_id')
+        unique_together = ("user_id", "post_id")
+
 
 class Students_opportunities(models.Model):
     student_id = models.ForeignKey(Students, on_delete=models.CASCADE)
     job_id = models.ForeignKey(Opportunities, on_delete=models.CASCADE)
-    class Meta:
-        unique_together = ('student_id', 'job_id')
 
+    class Meta:
+        unique_together = ("student_id", "job_id")
