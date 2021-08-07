@@ -130,6 +130,7 @@ export const asyncLogout = createAsyncThunk(
     if (response.status === 200) {
       localStorage.removeItem('token');
       history.push('/');
+      window.location.reload()
     }
     const data = await response.data;
 
