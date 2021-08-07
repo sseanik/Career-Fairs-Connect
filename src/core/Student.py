@@ -25,24 +25,31 @@ class Student(APIView):
             "user_id": openapi.Schema(type=openapi.TYPE_NUMBER),
             }),
         404 : "Not found",
-    })
+        },
+        operation_summary="Get student data",
+        # operation_description="",
+    )
     def get(self, request, studentId):
         student = get_object_or_404(Students, pk=studentId)
         serializer = StudentSerializer(student)
         return Response(serializer.data, status=200)
         
     @swagger_auto_schema(request_body=openapi.Schema(
-    type=openapi.TYPE_OBJECT,
-    properties={
-        'first_name': openapi.Schema(type=openapi.TYPE_STRING, description='max length 50\nnot null'),
-        'last_name': openapi.Schema(type=openapi.TYPE_STRING, description='max length 50\nnot null'),
-        'university': openapi.Schema(type=openapi.TYPE_STRING, description='max length 50\nnot null'),
-        'wam': openapi.Schema(type=openapi.TYPE_NUMBER, description='decimal\nmax digits = 5\n decimal places = 2'),
-        'degree': openapi.Schema(type=openapi.TYPE_STRING, description='max length 100'),
-        'student_logo_64': openapi.Schema(type=openapi.TYPE_STRING, description='base 64 image'),
-        }))
+        type=openapi.TYPE_OBJECT,
+        properties={
+            'first_name': openapi.Schema(type=openapi.TYPE_STRING, description='max length 50\nnot null'),
+            'last_name': openapi.Schema(type=openapi.TYPE_STRING, description='max length 50\nnot null'),
+            'university': openapi.Schema(type=openapi.TYPE_STRING, description='max length 50\nnot null'),
+            'wam': openapi.Schema(type=openapi.TYPE_NUMBER, description='decimal\nmax digits = 5\n decimal places = 2'),
+            'degree': openapi.Schema(type=openapi.TYPE_STRING, description='max length 100'),
+            'student_logo_64': openapi.Schema(type=openapi.TYPE_STRING, description='base 64 image'),
+            }),
+        operation_summary="Update student data",
+        # operation_description="",
+    )
     def put(self, request, studentId, format=None):
         student = get_object_or_404(Students, pk=studentId)
+        #require auth?
         serializer = StudentSerializer(student, data=request.data, fields=("first_name", "last_name", "university", "wam", "degree", "student_logo_64"))
         if serializer.is_valid():
             serializer.save()
