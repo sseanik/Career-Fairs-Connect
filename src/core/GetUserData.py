@@ -19,7 +19,10 @@ class userData(APIView):
             "additional user characteristics": openapi.Schema(type=openapi.TYPE_ARRAY, items=openapi.Items(type="university, wam, student_id, company_id, university_id")),
             }),
         404 : "Not found",
-    })
+        },
+        operation_summary="Get detailed user data",
+        operation_description="Returns user data specific to user type (Student, University, Company)",
+    )
     def get(self, request, *args, **kwargs):
         token = request.user.auth_token
         try:

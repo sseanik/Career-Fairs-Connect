@@ -24,7 +24,10 @@ from drf_yasg.utils import swagger_auto_schema
     responses={
         400: "Bad request",
         201: "Successful Registration",  
-    })
+    },
+    operation_summary="Register as student",
+    # operation_description="",
+)
 @api_view(['POST', ])
 def register_student(request):
     user = User(user_type=User.STUDENT)
