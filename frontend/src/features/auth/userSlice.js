@@ -26,7 +26,7 @@ export const asyncRegisterUniversity = createAsyncThunk(
   async ({ user, toast, history }) => {
     const response = await axios({
       method: 'post',
-      url: '/register/university/',
+      url: '/user/register/university/',
       data: user,
     });
 
@@ -56,7 +56,7 @@ export const asyncRegisterCompany = createAsyncThunk(
   async ({ user, toast }) => {
     const response = await axios({
       method: 'post',
-      url: '/register/company/',
+      url: '/user/register/company/',
       data: user,
     });
     const data = await response.data;
@@ -70,7 +70,7 @@ export const asyncRegisterStudent = createAsyncThunk(
   async ({ user, toast }) => {
     const response = await axios({
       method: 'post',
-      url: '/register/student/',
+      url: '/user/register/student/',
       data: user,
     });
     const data = await response.data;
@@ -83,9 +83,10 @@ export const asyncRegisterStudent = createAsyncThunk(
 export const asyncLoginUser = createAsyncThunk(
   'user/login',
   async ({ user, toast, history }) => {
+    console.log('tell me Im logging in');
     const response = await axios({
       method: 'post',
-      url: '/login/',
+      url: '/user/login/',
       data: user,
     });
     const data = await response.data;
@@ -114,11 +115,11 @@ export const asyncLoginUser = createAsyncThunk(
 export const asyncLogout = createAsyncThunk(
   'user/logout',
   async ({ token, history }) => {
-    console.log('I WANT TO LOGOUT');
+    console.log('I WANT TO LOGOUT??');
 
     const response = await axios({
       method: 'get',
-      url: '/logout/',
+      url: '/user/logout/',
       headers: {
         Authorization: `Token ${token}`,
       },
