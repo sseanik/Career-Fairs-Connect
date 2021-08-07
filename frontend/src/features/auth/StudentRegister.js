@@ -24,6 +24,7 @@ import { asyncRegisterStudent } from './userSlice';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link, useHistory } from 'react-router-dom';
 import { ArrowBackIcon } from '@chakra-ui/icons';
+import { useHistory } from 'react-router-dom';
 
 const initialValues = {
   firstName: '',
@@ -123,6 +124,7 @@ export function StudentRegister() {
         },
         history: history,
         toast: toast,
+        history: history,
       })
     );
   };
