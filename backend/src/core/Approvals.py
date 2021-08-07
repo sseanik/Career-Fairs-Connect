@@ -50,7 +50,7 @@ class Approvals(APIView):
     @swagger_auto_schema(
         request_body=openapi.Schema(type=openapi.TYPE_OBJECT, properties={
         'stall_id': openapi.Schema(type=openapi.TYPE_NUMBER),
-        'approval': openapi.Schema(type=openapi.TYPE_BOOLEAN),
+        'approval': openapi.Schema(type=openapi.TYPE_STRING),
         }),
         responses={
         200 : openapi.Schema(type=openapi.TYPE_OBJECT,properties={
@@ -59,7 +59,7 @@ class Approvals(APIView):
             "company_id": openapi.Schema(type=openapi.TYPE_NUMBER),
             "approval_status": openapi.Schema(type=openapi.TYPE_STRING),
             }),
-        400 : "Bad request - approval must be boolean 'true' : 'approved || 'false' : 'rejected'",
+        400 : "Bad request - approval must be either 'true' or 'false' for Approved and Rejected respectively",
         404 : "Not found",
         },
         operation_summary="University approve or deny stall application",
