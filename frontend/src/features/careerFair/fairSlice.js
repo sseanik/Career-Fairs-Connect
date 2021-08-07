@@ -48,12 +48,23 @@ export const asyncEditFairEvent = createAsyncThunk(
 export const asyncToggleEventPending = createAsyncThunk(
   'fair/togglePending',
   async ({ id, toggle, toast }) => {
-    await new Promise((r) => setTimeout(r, 500));
+    const response = await axios({
+      method: 'post',
+      url: '/careerfairs/applications/',
+      data: {
+        stall_id: id,
+        approval_status: toggle,
+        company_id: null,
+        event_id: null,
+      },
+    });
+    
     toast({
       description: 'Successfully changed Stall approval status',
       status: 'success',
       isClosable: true,
     });
+    
     return { id: id, toggle: toggle };
   }
 );
