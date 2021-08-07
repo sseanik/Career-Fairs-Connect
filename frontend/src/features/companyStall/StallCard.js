@@ -26,6 +26,7 @@ export function StallCard(props) {
   const toast = useToast();
   const { colorMode } = useColorMode();
 
+  console.log('props of stall card', props);
   return (
     <Flex direction='column' justify='center' align='center'>
       <Box
@@ -46,16 +47,16 @@ export function StallCard(props) {
               ? 'gray.200'
               : 'gray.800'
             : colorMode === 'light'
-            ? 'white'
-            : 'gray.700'
+              ? 'white'
+              : 'gray.700'
         }
         _hover={{
           background:
             colorMode === 'light'
               ? 'gray.100'
               : props.pending === 'Rejected' || props.pending === 'Pending'
-              ? 'gray.900'
-              : 'gray.600',
+                ? 'gray.900'
+                : 'gray.600',
         }}
         as={Link}
         to={`/stall/${props.id}`}
@@ -116,6 +117,7 @@ export function StallCard(props) {
           sm: '225px',
         })}
       >
+        {console.log('userRole', userRole)}
         {userRole === 'University' && (
           <Box
             borderBottomWidth='1px'
@@ -138,49 +140,61 @@ export function StallCard(props) {
             justify='space-around'
           >
             <Button
-              w={props.pending !== 'Pending' ? '100%' : '45%'}
+              // w={props.pending !== 'Pending' ? '100%' : '45%'}
+              w='45%'
               size='sm'
               fontSize='md'
-              colorScheme={props.pending === 'Pending' ? 'green' : 'gray'}
+              // colorScheme={props.pending === 'Pending' ? 'green' : 'gray'}
+              colorScheme='green'
+
               onClick={() =>
-                props.pending === 'Pending'
-                  ? dispatch(
-                      asyncToggleEventPending({
-                        id: props.id,
-                        toggle: 'Approve',
-                        toast: toast,
-                      })
-                    )
-                  : dispatch(
-                      asyncToggleEventPending({
-                        id: props.id,
-                        toggle: 'Pending',
-                        toast: toast,
-                      })
-                    )
+                // props.pending === 'Pending'
+                //   ? 
+                dispatch(
+                  asyncToggleEventPending({
+                    id: props.id,
+                    // toggle: 'Approve',
+                    approval_status: 'true',
+                    toast: toast,
+                  })
+                )
+                // : 
+                // dispatch(
+                //     asyncToggleEventPending({
+                //       id: props.id,
+                //       // toggle: 'Pending',
+                //       approval_status: 'pending',
+                //       toast: toast,
+                //     })
+                //   )
               }
             >
-              {props.pending === 'Pending' ? 'Approve' : 'Set Pending'}
+              {/* {props.pending === 'Pending' ? 'Approve' : 'Set Pending'} */}
+              {/* remove "Set pending" */}
+              Approve
             </Button>
-            {props.pending === 'Pending' && (
-              <Button
-                w='45%'
-                size='sm'
-                fontSize='md'
-                colorScheme='red'
-                onClick={() =>
-                  dispatch(
-                    asyncToggleEventPending({
-                      id: props.id,
-                      toggle: 'Rejected',
-                      toast: toast,
-                    })
-                  )
-                }
-              >
-                Reject
-              </Button>
-            )}
+
+            {/* {props.pending === 'Pending' && ( */}
+            <Button
+              w='45%'
+              size='sm'
+              fontSize='md'
+              colorScheme='red'
+              onClick={() =>
+                dispatch(
+                  asyncToggleEventPending({
+                    id: props.id,
+                    // toggle: 'Rejected',
+                    approval_status: 'false',
+                    toast: toast,
+                  })
+                )
+              }
+            >
+              Reject
+            </Button>
+            {/* )} */}
+
           </Box>
         )}
       </Flex>

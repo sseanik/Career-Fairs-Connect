@@ -9,7 +9,27 @@ from rest_framework.decorators import api_view
 from django.forms.models import model_to_dict
 from django.core import serializers 
 from django.utils import timezone
+from drf_yasg import openapi
+from drf_yasg.utils import swagger_auto_schema
 
+
+@swagger_auto_schema(method = "get",
+    responses= {
+        200 : openapi.Schema(type=openapi.TYPE_OBJECT,properties={
+            "fairID": openapi.Schema(type=openapi.TYPE_NUMBER),
+            "company": openapi.Schema(type=openapi.TYPE_STRING),
+            "logo": openapi.Schema(type=openapi.TYPE_STRING),
+            "website": openapi.Schema(type=openapi.TYPE_STRING),
+            "live": openapi.Schema(type=openapi.TYPE_BOOLEAN),
+            "opportunities": openapi.Schema(type=openapi.TYPE_ARRAY, items=openapi.Items(type="id, type, role, location, wam, expiry, link ,description")),
+            "presentations": openapi.Schema(type=openapi.TYPE_ARRAY, items=openapi.Items(type="id, title, start, end, description, link, colour, live")),
+            "qandas": openapi.Schema(type=openapi.TYPE_ARRAY, items=openapi.Items(type="id, question, answer")),
+        }),
+        401 : "Unauthorized"
+    },
+    operation_summary="Get detailed stall data",
+    operation_description="Get stall data and context including associated opportunities, presentations and Q&A - Required for loading detailed stall view",
+)
 @api_view(['GET', ])
 def get_stall_data(request, stallId):
     if not request.user.is_authenticated:

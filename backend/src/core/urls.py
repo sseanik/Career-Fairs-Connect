@@ -24,7 +24,7 @@ from rest_framework.authtoken.views import obtain_auth_token
 
 from .CareerFairListForUni import *
 from .CareerFairListGlobal import *
-from .CompanyStallData import *
+# from .CompanyStallData import *
 from .StallList import StallList
 from .register_student import *
 from .register_company import *
@@ -74,12 +74,11 @@ urlpatterns = [
     path('user/register/company/', register_company),
     path('user/data/', userData.as_view()),
 
-
+    path('careerfairs/stalls/<int:stallId>/', get_stall_data),
     path('careerfairs/<int:eventId>/stalls/', StallList.as_view()),
     re_path('^careerfairs/(?P<eventId>.+)/$', get_career_fair_data),
     path('careerfairs/', CareerFairListGlobal.as_view()),
     path('careerfairs/applications', Approvals.as_view()),
-    path('careerfairs/stalls/<int:stallId>/', CompanyStallData.as_view()),
     
     path('presentation/create/', create_presentation),
     path('presentation/edit/', edit_presentation),
@@ -89,6 +88,7 @@ urlpatterns = [
     path('company/<int:stallId>/opportunities/', OpportunityList.as_view()),
     path('company/<int:companyId>/opportunities/<int:job_id>', Opportunity.as_view()),
     re_path('^company/(?P<companyId>.+)/$', Company.as_view()),
+    # neeed get all opportunities for a company?
     
     re_path('^student/(?P<studentId>.+)/$', Student.as_view()),
     
