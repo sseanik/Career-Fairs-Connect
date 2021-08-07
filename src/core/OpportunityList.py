@@ -28,7 +28,7 @@ class OpportunityList(APIView):
         403 : "Forbidden"
     },
         operation_summary="Create new opportunity",
-        operation_description="Create opportunity as company, under a particular stall",
+        operation_description="Create opportunity as company, under a particular stall. Stall must be owned by caller",
     )
     def post(self, request, stallId, format=None):
         if request.user.user_type != 2:
