@@ -7,6 +7,7 @@ from django.contrib.auth.hashers import make_password
 from drf_yasg import openapi
 from drf_yasg.utils import swagger_auto_schema
 
+
 @swagger_auto_schema(method="post", request_body=openapi.Schema(
     type=openapi.TYPE_OBJECT,
     properties={
@@ -44,15 +45,11 @@ def register_university(request):
         ),
     )
     university = Universities(user_id=user)
-<<<<<<< HEAD
-    university_serializer = UniversitySerializer(university, data=request.data, fields=('university_name', 'university_logo_64', 'university_site_url'))
-=======
     university_serializer = UniversitySerializer(
         university,
         data=request.data,
         fields=("university_name", "university_logo_64", "university_site_url"),
     )
->>>>>>> origin/connect_get_event
     if not user_serializer.is_valid() and not university_serializer.is_valid():
         return Response([university_serializer.errors, user_serializer.errors])
     if not user_serializer.is_valid():
