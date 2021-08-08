@@ -236,7 +236,13 @@ export const asyncEditAnswer = createAsyncThunk(
 export const asyncDeleteQuestion = createAsyncThunk(
   'stall/deleteQuestion',
   async ({ id, toast }) => {
-    await new Promise((r) => setTimeout(r, 3000));
+    await axios({
+      method: 'delete',
+      url: `/presentation/delete/${id}/`,
+      headers: {
+        Authorization: `Token ${localStorage.getItem('token')}`,
+      },
+    });
     toast({
       description: 'Successfully deleted Question',
       status: 'success',
