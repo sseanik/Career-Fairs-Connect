@@ -36,8 +36,8 @@ class CareerFairListGlobal(APIView):
             response_item = {
                 'id': item['event_id'],
                 'university': item['university_id__university_name'],
-                'start': item['start_date'].timestamp(),
-                'end': item['end_date'].timestamp(),
+                'start': item['start_date'],
+                'end': item['end_date'],
                 'title': item['title'],
                 'description': item['description'],
                 'website': item['university_id__university_site_url'],
