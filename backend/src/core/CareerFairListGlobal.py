@@ -44,6 +44,22 @@ class CareerFairListGlobal(APIView):
             }
             response_items.append(response_item)
         return HttpResponse(json.dumps([item for item in response_items], cls=DjangoJSONEncoder), content_type='application/json')
-
-# REVIEW REQUIRED, Thornton replaced logo_url with logo_64 & removed ref to univ_abbreviations
         
+    @swagger_auto_schema(
+    responses={
+        200 : openapi.Schema(type=openapi.TYPE_OBJECT,properties={
+            "id": openapi.Schema(type=openapi.TYPE_NUMBER),
+            "university": openapi.Schema(type=openapi.TYPE_STRING),
+            "start": openapi.Schema(type=openapi.TYPE_STRING),
+            "end": openapi.Schema(type=openapi.TYPE_STRING),
+            "title": openapi.Schema(type=openapi.TYPE_STRING),
+            "description": openapi.Schema(type=openapi.TYPE_STRING),
+            "webiste": openapi.Schema(type=openapi.TYPE_STRING),
+            "logo": openapi.Schema(type=openapi.TYPE_STRING),
+            }),
+        401 : "Unauthorized"
+        },
+        operation_summary="Get all career fairs",
+        # operation_description="", #date qualification?
+    )
+    def delete(self, request):
