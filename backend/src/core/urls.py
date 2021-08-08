@@ -44,6 +44,7 @@ from .GetUserData import *
 from .Logout import *
 from .StallMessages import *
 from .Upvote import *
+from .DeleteCareerFair import *
 from .Answer import *
 from .Question import *
 
@@ -64,13 +65,7 @@ schema_view = get_schema_view(
 
 urlpatterns = [
     path("admin/", admin.site.urls),
-    # ???
-    # path(r'^swagger(?P<format>\.json|\.yaml)$', schema_view.without_ui(cache_timeout=0), name='schema-json'),
-    path(
-        "swagger/",
-        schema_view.with_ui("swagger", cache_timeout=0),
-        name="schema-swagger-ui",
-    ),
+    path("swagger/", schema_view.with_ui("swagger", cache_timeout=0), name="schema-swagger-ui"),
     path("redoc/", schema_view.with_ui("redoc", cache_timeout=0), name="schema-redoc"),
     #
     path("user/login/", obtain_auth_token),
@@ -81,7 +76,7 @@ urlpatterns = [
     path("user/data/", userData.as_view()),
     #
     path("careerfairs/delete/stalls/", delete_stall),
-    path("careerfairs/delete/<int:eventId>/", CareerFairListGlobal.as_view()),
+    path("careerfairs/delete/<int:eventId>/", DeleteCareerFair.as_view()),
     path("careerfairs/applications/", Approvals.as_view()),
     path("careerfairs/stalls/<int:stallId>/", get_stall_data),
     path("careerfairs/<int:eventId>/stalls/", StallList.as_view()),
