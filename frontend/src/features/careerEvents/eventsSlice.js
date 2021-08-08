@@ -23,8 +23,6 @@ export const asyncFetchEventsData = createAsyncThunk(
 export const asyncCreateFairEvent = createAsyncThunk(
   'events/create',
   async ({ event, toast, id, university }) => {
-    console.log(event);
-
     const response = await axios({
       method: 'post',
       url: `/university/${id}/careerfairs/`,
@@ -49,22 +47,31 @@ export const asyncCreateFairEvent = createAsyncThunk(
     }
 
     const data = await response.data;
-    return { ...data, university: university };
+    return { data: data, university: university };
   }
 );
 
-// TODO
 // Delete a Career Fair Event
 export const asyncDeleteFairEvent = createAsyncThunk(
   'events/delete',
-  async ({ id, toast }) => {
-    await new Promise((r) => setTimeout(r, 3000));
-    toast({
-      description: 'Successfully deleted event',
-      status: 'success',
-      isClosable: true,
+  async ({ eventID, toast }) => {
+    const response = await axios({
+      method: 'delete',
+      url: `/careerfairs/delete/${eventID}/`,
+      headers: {
+        Authorization: `Token ${localStorage.getItem('token')}`,
+      },
     });
-    return;
+
+    if (response.status === 200) {
+      toast({
+        description: 'Successfully deleted event',
+        status: 'success',
+        isClosable: true,
+      });
+    }
+
+    return parseInt(eventID);
   }
 );
 
@@ -101,13 +108,13 @@ export const eventsSlice = createSlice({
       .addCase(asyncCreateFairEvent.fulfilled, (state, { payload }) => {
         state.status = false;
         state.events.push({
-          id: payload.event_id,
-          title: payload.title,
-          description: payload.description,
+          id: payload.data.event_id,
+          title: payload.data.title,
+          description: payload.data.description,
           university: payload.university,
-          logo: payload.logo,
-          start: new Date(payload.start_date),
-          end: new Date(payload.end_date),
+          logo: payload.data.logo,
+          start: new Date(payload.data.start_date),
+          end: new Date(payload.data.end_date),
         });
       })
       // Deleting a Career Fair Event
@@ -116,6 +123,7 @@ export const eventsSlice = createSlice({
       })
       .addCase(asyncDeleteFairEvent.fulfilled, (state, { payload }) => {
         state.status = false;
+        state.events = state.events.filter((event) => event.id !== payload);
       });
   },
 });
