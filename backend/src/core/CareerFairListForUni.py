@@ -49,8 +49,9 @@ class CareerFairListForUni(APIView):
         if serializer.is_valid():
             university = get_object_or_404(Universities, pk=universityId)
             serializer.save()
-            serializer.data.update({"logo":university.university_logo_64})
-            return Response(serializer.data, status=200)
+            return_dict = dict(serializer.data)
+            return_dict["logo"] = university.university_logo_64
+            return Response(return_dict, status=200)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
