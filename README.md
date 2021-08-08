@@ -13,4 +13,4 @@ It will use local sqlite database and set it up on the first run.
 
 Just navigate to http://localhost:3000/ to see our app
 
-To see our backend endpoints via Swagger - navigate to  http://localhost:3000/swagger/
+To see our backend endpoints via Swagger - navigate to  http://localhost:8000/swagger/
