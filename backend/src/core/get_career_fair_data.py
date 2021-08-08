@@ -23,7 +23,7 @@ from drf_yasg.utils import swagger_auto_schema
         "description": openapi.Schema(type=openapi.TYPE_STRING),
         "website": openapi.Schema(type=openapi.TYPE_STRING),
         "logo": openapi.Schema(type=openapi.TYPE_STRING),
-        "stalls": openapi.Schema(type=openapi.TYPE_ARRAY, items=openapi.Items(type="id, approval_status, company, logo, live")),
+        "stalls": openapi.Schema(type=openapi.TYPE_ARRAY, items=openapi.Items(type="id, company description, approval_status, company, logo, live")),
         "presentations": openapi.Schema(type=openapi.TYPE_ARRAY, items=openapi.Items(type="id, title, start, end, description, link, colour")),
         "opportunities": openapi.Schema(type=openapi.TYPE_ARRAY, items=openapi.Items(type="id, company, type, role, location, wam, expiry, link, description")),
         }),
@@ -93,7 +93,8 @@ def get_career_fair_data(request, eventId):
             "approval_status": stall["approval_status"],
             "company": stall["company_name"],
             "logo": stall["company_logo_64"],
-            "live": stall["live"]
+            "live": stall["live"],
+            "description" : company["stall_description"],
         }
 
 
