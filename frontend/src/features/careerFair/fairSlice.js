@@ -78,12 +78,10 @@ export const asyncToggleEventPending = createAsyncThunk(
 // Add a company stall to the career fair event
 export const asyncAddCompanyStall = createAsyncThunk(
   'fair/addStall',
-  async ({ stall, fairID, toast }) => {
-    // await new Promise((r) => setTimeout(r, 3000));
-    // const response = { ...stall, id: '5678' };
+  async ({ stall, toast }) => {
     const response = await axios({
       method: 'post',
-      url: `/careerfairs/${fairID}/stalls/`,
+      url: `/careerfairs/${stall.event_id}/stalls/`,
       data: stall,
       headers: {
         Authorization: `Token ${localStorage.getItem('token')}`,
@@ -104,6 +102,8 @@ export const asyncAddCompanyStall = createAsyncThunk(
       });
     }
 
+    console.log(response);
+    const data = await response.data;
     return response;
   }
 );
@@ -112,7 +112,6 @@ export const asyncAddCompanyStall = createAsyncThunk(
 export const asyncRemoveCompanyStall = createAsyncThunk(
   'fair/removeStall',
   async ({ fairID, company, toast }) => {
-    await new Promise((r) => setTimeout(r, 3000));
     toast({
       description: 'Successfully removed Company Stall',
       status: 'success',

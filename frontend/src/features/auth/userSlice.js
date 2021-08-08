@@ -154,7 +154,6 @@ export const asyncLogout = createAsyncThunk(
     if (response.status === 200) {
       localStorage.removeItem('token');
       history.push('/');
-      window.location.reload()
     }
     const data = await response.data;
 
@@ -255,7 +254,8 @@ const initialState = {
   website: '',
   logo: '',
   // University
-  universityID: 0,
+  universityID: null,
+  companyID: null,
 };
 
 export const userSlice = createSlice({
@@ -273,6 +273,8 @@ export const userSlice = createSlice({
         state.loading = true;
       })
       .addCase(asyncFetchUserData.fulfilled, (state, { payload }) => {
+        console.log(payload);
+
         state.loading = false;
         state.loggedIn = true;
         state.role = payload.user_type;
@@ -284,6 +286,8 @@ export const userSlice = createSlice({
             state.university = payload.university;
             break;
           case 'Company':
+            state.companyID = payload.company_id;
+            //
             state.name = payload.company_name;
             state.description = payload.company_description;
             state.website = payload.company_website;

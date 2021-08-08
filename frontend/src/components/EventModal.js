@@ -77,7 +77,7 @@ export function EventModal(props) {
   };
 
   const deleteEvent = () => {
-    dispatch(asyncDeleteFairEvent({ id: props.id, toast: toast }));
+    dispatch(asyncDeleteFairEvent({ eventID: props.fairID, toast: toast }));
     dispatch(resetEvents());
     history.push('/events');
   };
