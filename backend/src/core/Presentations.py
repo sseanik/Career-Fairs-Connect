@@ -121,6 +121,7 @@ def create_presentation(request):
 @swagger_auto_schema(method="put", request_body=openapi.Schema(
     type=openapi.TYPE_OBJECT,
     properties={
+        'presentation_id': openapi.Schema(type=openapi.TYPE_NUMBER),
         'stall_id': openapi.Schema(type=openapi.TYPE_NUMBER),
         'start_time': openapi.Schema(type=openapi.TYPE_STRING),
         'end_time': openapi.Schema(type=openapi.TYPE_STRING),
@@ -133,6 +134,7 @@ def create_presentation(request):
         201: openapi.Schema(
             type=openapi.TYPE_OBJECT,
             properties={
+                'presentation_id': openapi.Schema(type=openapi.TYPE_NUMBER),
                 'stall_id': openapi.Schema(type=openapi.TYPE_NUMBER),
                 'start_time': openapi.Schema(type=openapi.TYPE_STRING),
                 'end_time': openapi.Schema(type=openapi.TYPE_STRING),
@@ -157,11 +159,11 @@ def edit_presentation(request):
     if requestUserCompany != opportunityOwner:
         return Response({"Forbidden" : "Stall does not belong to user"}, status=403)
     try:
-        presentation = Presentations.objects.get(stall_id=request.data['stall_id'])
+        presentation = Presentations.objects.get(presentation_id=request.data['presentation_id'])
     except:
         return Response(status=status.HTTP_404_NOT_FOUND)
-    presentation_serializer = PresentationSerializer(presentation, data=request.data, fields=('stall_id','start_time','end_time', 'presentation_link', 'presentation_description', 'title', 'color'))
+    presentation_serializer = PresentationSerializer(presentation, data=request.data, fields=('presentation_id','stall_id','start_time','end_time', 'presentation_link', 'presentation_description', 'title', 'color'))
     if not presentation_serializer.is_valid():
         return Response(presentation_serializer.errors, status=status.HTTP_400_BAD_REQUEST)
     presentation_serializer.save()
-    return Response(presentation_serializer.data, status=status.HTTP_201_CREATED)   
+    return Response(presentation_serializer.data, status=status.HTTP_201_CREATED)
