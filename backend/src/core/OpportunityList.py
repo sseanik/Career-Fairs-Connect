@@ -28,15 +28,16 @@ class OpportunityList(APIView):
         403 : "Forbidden"
     },
         operation_summary="Create new opportunity",
-        operation_description="Create opportunity as company, under a particular stall",
+        operation_description="Create opportunity as company, under a particular stall. Stall must be owned by caller",
     )
     def post(self, request, stallId, format=None):
         if request.user.user_type != 2:
-            return Response(status=403)
+            return Response({"Forbidden" : "Incorrect user_type"}, status=403)
         requestUserCompany = Companies.objects.get(user_id = request.user.userID).company_id
-        opportunityOwner = Stalls.objects.get(stall_id = stallId).company_id
+        opportunityOwner = Stalls.objects.get(stall_id = stallId).company_id.company_id
+        # fixed 
         if requestUserCompany != opportunityOwner:
-            return Response(status=403)
+            return Response({"Forbidden" : "Stall does not belong to user"}, status=403)
         serializer = OpportunitySerializer(data=request.data)
         if serializer.is_valid():
             serializer.save()
