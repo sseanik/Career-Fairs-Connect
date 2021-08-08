@@ -71,6 +71,7 @@ export default function Profile() {
         company_logo_64: user.logo,
       },
       toast: toast,
+      history: history,
     }));
   };
 
