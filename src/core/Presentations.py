@@ -84,7 +84,6 @@ def get_presentation(request, stallId):
         'color': openapi.Schema(type=openapi.TYPE_STRING),
         }),
     responses={
-        400: "Bad request",
         201: openapi.Schema(
             type=openapi.TYPE_OBJECT,
             properties={
@@ -96,13 +95,20 @@ def get_presentation(request, stallId):
                 'title': openapi.Schema(type=openapi.TYPE_STRING),
                 'color': openapi.Schema(type=openapi.TYPE_STRING),
         }),  
+        400: "Bad request",
+        403: "Permission denied"
     },
     operation_summary="Create presentation",
     # operation_description="",
 )
-#MISSING CHECKS ON STALL OWNERSHIP
 @api_view(['POST', ])
 def create_presentation(request):
+    if request.user.user_type != 2:
+        return Response({"Forbidden" : "Incorrect user_type"}, status=403)
+    requestUserCompany = Companies.objects.get(user_id = request.user.userID).company_id
+    opportunityOwner = Stalls.objects.get(stall_id = request.data['stall_id']).company_id.company_id
+    if requestUserCompany != opportunityOwner:
+        return Response({"Forbidden" : "Stall does not belong to user"}, status=403)
     presentation_serializer = PresentationSerializer(data=request.data, fields=('stall_id','start_time','end_time', 'presentation_link', 'presentation_description', 'title', 'color'))
     
     if not presentation_serializer.is_valid():
@@ -125,7 +131,6 @@ def create_presentation(request):
         'color': openapi.Schema(type=openapi.TYPE_STRING),
         },
     responses={
-        400: "Bad request",
         201: openapi.Schema(
             type=openapi.TYPE_OBJECT,
             properties={
@@ -137,14 +142,22 @@ def create_presentation(request):
                 'presentation_link': openapi.Schema(type=openapi.TYPE_STRING),
                 'title': openapi.Schema(type=openapi.TYPE_STRING),
                 'color': openapi.Schema(type=openapi.TYPE_STRING),
-        })
+        }),
+        400: "Bad request",
+        403: "Permission denied"
     })
     ,
     operation_summary="Update presentation",
     operation_description="",
-)#MISSING CHECKS ON STALL OWNERSHIP
+)
 @api_view(['PUT', ])
 def edit_presentation(request):
+    if request.user.user_type != 2:
+        return Response({"Forbidden" : "Incorrect user_type"}, status=403)
+    requestUserCompany = Companies.objects.get(user_id = request.user.userID).company_id
+    opportunityOwner = Stalls.objects.get(stall_id = request.data['stall_id']).company_id.company_id
+    if requestUserCompany != opportunityOwner:
+        return Response({"Forbidden" : "Stall does not belong to user"}, status=403)
     try:
         presentation = Presentations.objects.get(presentation_id=request.data['presentation_id'])
     except:
@@ -153,4 +166,4 @@ def edit_presentation(request):
     if not presentation_serializer.is_valid():
         return Response(presentation_serializer.errors, status=status.HTTP_400_BAD_REQUEST)
     presentation_serializer.save()
-    return Response(presentation_serializer.data, status=status.HTTP_201_CREATED)   
+    return Response(presentation_serializer.data, status=status.HTTP_201_CREATED)
