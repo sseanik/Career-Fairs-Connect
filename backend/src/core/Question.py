@@ -25,6 +25,8 @@ class Question(APIView):
         operation_summary="Update a previously created question",
     )
     def put(self, request, stallId, postId, format=None):
+        if not request.data['question']:
+            return Response("Missing field 'question'", status=400)
         if not request.user.is_authenticated:
             return Response("Please pass Token in the Authorisation header", status=status.HTTP_401_UNAUTHORIZED)
         userId = request.user.userID
