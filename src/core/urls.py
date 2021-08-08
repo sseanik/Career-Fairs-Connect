@@ -65,7 +65,11 @@ schema_view = get_schema_view(
 
 urlpatterns = [
     path("admin/", admin.site.urls),
-    path("swagger/", schema_view.with_ui("swagger", cache_timeout=0), name="schema-swagger-ui"),
+    path(
+        "swagger/",
+        schema_view.with_ui("swagger", cache_timeout=0),
+        name="schema-swagger-ui",
+    ),
     path("redoc/", schema_view.with_ui("redoc", cache_timeout=0), name="schema-redoc"),
     #
     path("user/login/", obtain_auth_token),
@@ -89,8 +93,8 @@ urlpatterns = [
     re_path("^presentation/get/stall/(?P<stallId>.+)/$", get_presentation),
     re_path("^presentation/get/(?P<eventId>.+)/$", get_all_presentations),
     #
-    path("company/<int:stallId>/opportunities/", OpportunityList.as_view()),
     path("company/opportunities/<int:job_id>/", Opportunity.as_view()),
+    path("company/<int:stallId>/opportunities/", OpportunityList.as_view()),
     re_path("^company/(?P<companyId>.+)/$", Company.as_view()),
     #
     re_path("^student/(?P<studentId>.+)/$", Student.as_view()),
