@@ -1,4 +1,4 @@
-import React, { useEffect }  from 'react';
+import React, { useEffect } from 'react';
 import { useHistory } from 'react-router-dom';
 import { asyncUpdateCompany } from '../auth/userSlice';
 import {
@@ -34,7 +34,6 @@ const validationSchema = Yup.object({
 export default function Profile() {
   const history = useHistory();
   const user = useSelector((state) => state.user);
-  console.log('user. in company edit:', user);
 
   const base64Image = useSelector(selectBase64Image);
 
@@ -46,10 +45,9 @@ export default function Profile() {
   };
 
   useEffect(() => {
-    const image = document.getElementById("oldLogo");
+    const image = document.getElementById('oldLogo');
     image.src = base64Image;
   }, [base64Image]);
-
 
   const dispatch = useDispatch();
   const toast = useToast();
@@ -58,24 +56,24 @@ export default function Profile() {
   const uploadImage = (e, setFieldValue) => {
     dispatch(convertImageToBase64(e));
     setFieldValue('logo', e.target.value);
-    // console.log('e.target.value: ', e.target.value);
   };
 
   const submitForm = (values, actions) => {
-    const update_logo = (values.logo) ? base64Image : user.logo;
-    console.log('update_logo=', update_logo)
+    const update_logo = values.logo ? base64Image : user.logo;
     actions.setSubmitting(false);
-    dispatch(asyncUpdateCompany({
-      id: user.id,
-      user: {
-        company_name: values.company,
-        company_description: values.description,
-        company_webpage_url: values.website,
-        company_logo_64: update_logo,
-      },
-      toast: toast,
-      history: history,
-    }));
+    dispatch(
+      asyncUpdateCompany({
+        id: user.id,
+        user: {
+          company_name: values.company,
+          company_description: values.description,
+          company_webpage_url: values.website,
+          company_logo_64: update_logo,
+        },
+        toast: toast,
+        history: history,
+      })
+    );
   };
 
   function handleCancel() {
@@ -84,15 +82,13 @@ export default function Profile() {
 
   return (
     <>
-      <Container
-        maxW={'container.md'}
-        p={12}
-      >
+      <Container maxW={'container.md'} p={12}>
         <Heading
           as={'h2'}
           fontSize={{ base: 'xl', sm: '2xl' }}
           textAlign={'center'}
-          mb={5}>
+          mb={5}
+        >
           Edit Profile
         </Heading>
 
@@ -108,13 +104,17 @@ export default function Profile() {
               spacing={'6'}
               onSubmit={handleSubmit}
             >
-
-              <Stack direction="row" spacing={10} align='center' justify='center'>
+              <Stack
+                direction='row'
+                spacing={10}
+                align='center'
+                justify='center'
+              >
                 <Image
                   id='oldLogo'
                   src={user.logo}
                   alt={`${user.name}-logo`}
-                  boxSize="150px"
+                  boxSize='150px'
                   objectFit='contain'
                 />
                 <Field name='logo'>
@@ -136,12 +136,11 @@ export default function Profile() {
                 </Field>
               </Stack>
 
-
               <InputControl name='company' label='Company Name' />
               <TextareaControl name='description' label='Company Description' />
               <InputControl name='website' label='Website URL' />
 
-              <Stack direction="row" spacing={4} justify='center'>
+              <Stack direction='row' spacing={4} justify='center'>
                 <Button
                   colorScheme={'blue'}
                   variant={'outline'}
@@ -161,7 +160,6 @@ export default function Profile() {
                   Save
                 </Button>
               </Stack>
-
             </Stack>
           )}
         </Formik>

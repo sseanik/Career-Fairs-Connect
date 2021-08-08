@@ -33,7 +33,6 @@ export default function Navbar() {
 
   const toggleMode = () => {
     toggleColorMode();
-    console.log(isDarkMode);
     if (
       localStorage.getItem('ez-mode') !==
       localStorage.getItem('chakra-ui-color-mode')

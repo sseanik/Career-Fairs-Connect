@@ -45,8 +45,6 @@ export const asyncEditFairEvent = createAsyncThunk(
 export const asyncToggleEventPending = createAsyncThunk(
   'fair/togglePending',
   async ({ id, approval_status, toast }) => {
-    console.log(approval_status);
-
     const response = await axios({
       method: 'put',
       url: '/careerfairs/applications/',
@@ -103,8 +101,6 @@ export const asyncAddCompanyStall = createAsyncThunk(
     }
 
     const data = await response.data;
-
-    console.log(response.data);
 
     return {
       data: data,

@@ -45,8 +45,6 @@ export function PresentationCalendar(props) {
   const toast = useToast();
 
   const eventClick = (info) => {
-    console.log(info.event);
-    console.log(info.event.extendedProps);
     setModalEventDetails({
       id: info.event.id,
       title: info.event.title,
@@ -69,7 +67,6 @@ export function PresentationCalendar(props) {
   };
 
   const changeEvent = (e) => {
-    console.log(e.event.start);
     dispatch(
       asyncEditPresentation({
         presentation: {
@@ -178,8 +175,6 @@ export function PresentationCalendar(props) {
         select={(event) => selectEvent(event)}
         // Confirm if user wants to edit
         eventChange={(event) => changeEvent(event)}
-        // eventAdd={() => console.log('add')}
-        // eventRemove={() => console.log('remove')}
       />
 
       {props.edit && (

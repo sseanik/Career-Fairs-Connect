@@ -7,7 +7,6 @@ import axios from 'axios';
 export const asyncFetchStallData = createAsyncThunk(
   'stall/company',
   async ({ stallID }) => {
-    console.log(stallID);
     const response = await axios({
       method: 'get',
       url: `/careerfairs/stalls/${stallID}/`,
@@ -20,8 +19,6 @@ export const asyncFetchStallData = createAsyncThunk(
       amount: 2,
     });
 
-    console.log(response.data);
-
     return { ...response.data, colour: colour };
   }
 );
@@ -31,7 +28,6 @@ export const asyncFetchStallData = createAsyncThunk(
 export const asyncAddOpportunity = createAsyncThunk(
   'stall/addOpportunity',
   async ({ stallID, opportunity, toast }) => {
-    console.log(opportunity);
     const response = await axios({
       method: 'post',
       url: `/company/${stallID}/opportunities/`,
@@ -55,7 +51,6 @@ export const asyncAddOpportunity = createAsyncThunk(
 export const asyncEditOpportunity = createAsyncThunk(
   'stall/editOpportunity',
   async ({ stallID, opportunity, toast }) => {
-    console.log(opportunity)
     const response = await axios({
       method: 'put',
       url: `/company/${stallID}/opportunities/`,
@@ -98,7 +93,6 @@ export const asyncDeleteOpportunity = createAsyncThunk(
 export const asyncAddPresentation = createAsyncThunk(
   'stall/addPresentation',
   async ({ presentation, toast }) => {
-    console.log(presentation);
     const response = await axios({
       method: 'post',
       url: '/presentation/create/',
@@ -283,7 +277,6 @@ export const stallSlice = createSlice({
         state.website = payload.website;
         state.opportunities = payload.opportunities;
         state.events = payload.presentations;
-        console.log(current(state).events);
         state.qandas = payload.qandas;
         const dominantColourObj = complementaryTextColour(payload.colour);
         state.bgColour = dominantColourObj.bgColour;
@@ -325,7 +318,6 @@ export const stallSlice = createSlice({
         state.eventFormStatus = 'Pending';
       })
       .addCase(asyncAddPresentation.fulfilled, (state, { payload }) => {
-        console.log(current(state).events);
         state.eventFormStatus = 'Completed';
         state.events.push(payload);
       })
@@ -388,7 +380,7 @@ export const stallSlice = createSlice({
       .addCase(asyncDeleteQuestion.fulfilled, (state, { payload }) => {
         state.eventFormStatus = 'Completed';
         state.qandas = state.qandas.filter((qanda) => qanda.id !== payload);
-      })
+      });
   },
 });
 

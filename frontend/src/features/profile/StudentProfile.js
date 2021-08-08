@@ -18,22 +18,14 @@ export default function Profile() {
   const history = useHistory();
   const user = useSelector((state) => state.user);
 
-  console.log(JSON.stringify(user));
-  
-  
   function handleClick() {
     history.push('/student/edit');
   }
 
   return (
-    <Container
-      maxW={'container.md'}
-      p={12}
-    >
+    <Container maxW={'container.md'} p={12}>
       <Flex>
-        <Heading
-          fontSize='2xl'
-          mb={5}>
+        <Heading fontSize='2xl' mb={5}>
           Student Profile
         </Heading>
         <Spacer />
@@ -50,33 +42,41 @@ export default function Profile() {
 
       <Divider />
 
-      <Stack spacing={10} p={8} >
+      <Stack spacing={10} p={8}>
         <Box>
-          <Text fontSize="xl" fontWeight='semibold'>Name</Text>
+          <Text fontSize='xl' fontWeight='semibold'>
+            Name
+          </Text>
           <Divider />
-          <Text fontSize="xl">{user.fname} {user.lname}</Text>
+          <Text fontSize='xl'>
+            {user.fname} {user.lname}
+          </Text>
         </Box>
 
         <Box>
-          <Text fontSize="xl" fontWeight='semibold'>University</Text>
+          <Text fontSize='xl' fontWeight='semibold'>
+            University
+          </Text>
           <Divider />
-          <Text fontSize="xl">{user.university}</Text>
+          <Text fontSize='xl'>{user.university}</Text>
         </Box>
 
         <Box>
-          <Text fontSize="xl" fontWeight='semibold'>Degree</Text>
+          <Text fontSize='xl' fontWeight='semibold'>
+            Degree
+          </Text>
           <Divider />
-          <Text fontSize="xl">{user.degree}</Text>
+          <Text fontSize='xl'>{user.degree}</Text>
         </Box>
 
         <Box>
-          <Text fontSize="xl" fontWeight='semibold'>WAM</Text>
+          <Text fontSize='xl' fontWeight='semibold'>
+            WAM
+          </Text>
           <Divider />
-          <Text fontSize="xl">{user.wam}</Text>
+          <Text fontSize='xl'>{user.wam}</Text>
         </Box>
-
       </Stack>
-
     </Container>
   );
 }
