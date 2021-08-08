@@ -13,7 +13,6 @@ from drf_yasg.utils import swagger_auto_schema
 class OpportunityList(APIView):
     authentication_classes = [TokenAuthentication, SessionAuthentication]
     permission_classes = [IsAuthenticated]
-
     @swagger_auto_schema(
         request_body=OpportunitySerializer,
         responses={
@@ -88,6 +87,7 @@ class OpportunityList(APIView):
                 "job_description": openapi.Schema(type=openapi.TYPE_STRING),
                 "stall_id": openapi.Schema(type=openapi.TYPE_NUMBER),
                 "role": openapi.Schema(type=openapi.TYPE_STRING),
+                "type": openapi.Schema(type=openapi.TYPE_STRING),
                 "location": openapi.Schema(type=openapi.TYPE_STRING),
                 "wam": openapi.Schema(type=openapi.TYPE_NUMBER),
                 "expiry": openapi.Schema(type=openapi.TYPE_STRING),

@@ -182,12 +182,12 @@ def edit_presentation(request):
     # operation_description="",
 )
 @api_view(['DELETE', ])
-def delete_presentation(self, request, presentationId):
-    if request.user.user_type != "2":
+def delete_presentation(request, presentationId):
+    if request.user.user_type != 2:
         return Response({"Forbidden" : "Incorrect user_type"}, status=403)
     requestUserCompany = Companies.objects.get(user_id = request.user.userID).company_id
     presentation = get_object_or_404(Presentations, pk = presentationId)
-    presentationOwner = presentation.stall_id.company_id
+    presentationOwner = presentation.stall_id.company_id.company_id
     if requestUserCompany != presentationOwner:
         return Response({"Forbidden" : "Presentation does not belong to user"}, status=403)
     presentation.delete()

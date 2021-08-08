@@ -44,6 +44,8 @@ from .GetUserData import *
 from .Logout import *
 from .StallMessages import *
 from .Upvote import *
+from .Answer import *
+from .Question import *
 
 
 schema_view = get_schema_view(
