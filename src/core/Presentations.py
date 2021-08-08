@@ -139,7 +139,7 @@ def create_presentation(request):
     })
     ,
     operation_summary="Update presentation",
-    operation_description="",
+    operation_description="Update an opportunity, can alter the assigned stall to undefined (Beware!), omit stall_id if possible. Presentation must be owned by caller.",
 )#MISSING CHECKS ON STALL OWNERSHIP
 @api_view(['PUT', ])
 def edit_presentation(request):
