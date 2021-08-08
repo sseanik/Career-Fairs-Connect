@@ -1,5 +1,4 @@
 import { createAsyncThunk, createSlice, current } from '@reduxjs/toolkit';
-import { getStallData } from '../../exampleData/exampleCompanyStall';
 import { prominent } from 'color.js';
 import complementaryTextColour from '../../util/complementaryTextColour';
 import axios from 'axios';
@@ -9,7 +8,6 @@ export const asyncFetchStallData = createAsyncThunk(
   'stall/company',
   async (stallID) => {
     // const response = await getStallData(stallID);
-    console.log('fetching stall data');
     const response = await axios({
       method: 'get',
       url: `/careerfairs/stalls/${stallID}/`,
@@ -18,10 +16,13 @@ export const asyncFetchStallData = createAsyncThunk(
       },
     });
 
-    const colour = await prominent(response.logo, {
+    const colour = await prominent(response.data.logo, {
       amount: 2,
     });
-    return { ...response, colour: colour };
+
+    console.log(response.data);
+
+    return { ...response.data, colour: colour };
   }
 );
 
@@ -29,14 +30,23 @@ export const asyncFetchStallData = createAsyncThunk(
 // Add a Job Opportunity
 export const asyncAddOpportunity = createAsyncThunk(
   'stall/addOpportunity',
-  async ({ opportunity, toast }) => {
-    await new Promise((r) => setTimeout(r, 3000));
-    const response = { ...opportunity, id: '555' };
+  async ({ stallID, opportunity, toast }) => {
+    console.log(opportunity);
+    const response = await axios({
+      method: 'post',
+      url: `/company/${stallID}/opportunities/`,
+      data: opportunity,
+      headers: {
+        Authorization: `Token ${localStorage.getItem('token')}`,
+      },
+    });
+
     toast({
       description: 'Successfully added Opportunity',
       status: 'success',
       isClosable: true,
     });
+
     return response;
   }
 );
@@ -44,9 +54,16 @@ export const asyncAddOpportunity = createAsyncThunk(
 // Edit Job Opportunity
 export const asyncEditOpportunity = createAsyncThunk(
   'stall/editOpportunity',
-  async ({ opportunity, toast }) => {
-    await new Promise((r) => setTimeout(r, 3000));
-    const response = opportunity;
+  async ({ stallID, opportunity, toast }) => {
+    console.log(opportunity)
+    const response = await axios({
+      method: 'put',
+      url: `/company/${stallID}/opportunities/`,
+      data: opportunity,
+      headers: {
+        Authorization: `Token ${localStorage.getItem('token')}`,
+      },
+    });
     toast({
       description: 'Successfully edited Opportunity',
       status: 'success',
@@ -60,7 +77,13 @@ export const asyncEditOpportunity = createAsyncThunk(
 export const asyncDeleteOpportunity = createAsyncThunk(
   'stall/deleteOpportunity',
   async ({ id, toast }) => {
-    await new Promise((r) => setTimeout(r, 3000));
+    await axios({
+      method: 'delete',
+      url: `/company/opportunities/${id}/`,
+      headers: {
+        Authorization: `Token ${localStorage.getItem('token')}`,
+      },
+    });
     toast({
       description: 'Successfully removed Opportunity',
       status: 'success',
@@ -75,8 +98,15 @@ export const asyncDeleteOpportunity = createAsyncThunk(
 export const asyncAddPresentation = createAsyncThunk(
   'stall/addPresentation',
   async ({ presentation, toast }) => {
-    await new Promise((r) => setTimeout(r, 3000));
-    const response = { ...presentation, id: '555' };
+    console.log(presentation);
+    const response = await axios({
+      method: 'post',
+      url: '/presentation/create/',
+      data: presentation,
+      headers: {
+        Authorization: `Token ${localStorage.getItem('token')}`,
+      },
+    });
     toast({
       description: 'Successfully added Presentation',
       status: 'success',
@@ -91,7 +121,14 @@ export const asyncEditPresentation = createAsyncThunk(
   'stall/editPresentation',
   async ({ presentation, toast }) => {
     await new Promise((r) => setTimeout(r, 3000));
-    const response = presentation;
+    const response = await axios({
+      method: 'put',
+      url: '/presentation/edit/',
+      data: presentation,
+      headers: {
+        Authorization: `Token ${localStorage.getItem('token')}`,
+      },
+    });
     toast({
       description: 'Successfully edited Presentation',
       status: 'success',
@@ -101,21 +138,17 @@ export const asyncEditPresentation = createAsyncThunk(
   }
 );
 
-// Edit a presentation Time
-export const asyncEditPresentationTime = createAsyncThunk(
-  'stall/editPresentationTime',
-  async (presentation) => {
-    await new Promise((r) => setTimeout(r, 3000));
-    const response = presentation;
-    return response;
-  }
-);
-
 // Delete a presentation
 export const asyncDeletePresentation = createAsyncThunk(
   'stall/deletePresentation',
   async ({ id, toast }) => {
-    await new Promise((r) => setTimeout(r, 3000));
+    await axios({
+      method: 'delete',
+      url: `/presentation/delete/${id}/`,
+      headers: {
+        Authorization: `Token ${localStorage.getItem('token')}`,
+      },
+    });
     toast({
       description: 'Successfully removed Presentation',
       status: 'success',
@@ -190,7 +223,8 @@ export const stallSlice = createSlice({
         state.live = payload.live;
         state.website = payload.website;
         state.opportunities = payload.opportunities;
-        state.events = payload.events;
+        state.events = payload.presentations;
+        console.log(current(state).events);
         state.qandas = payload.qandas;
         const dominantColourObj = complementaryTextColour(payload.colour);
         state.bgColour = dominantColourObj.bgColour;
@@ -232,6 +266,7 @@ export const stallSlice = createSlice({
         state.eventFormStatus = 'Pending';
       })
       .addCase(asyncAddPresentation.fulfilled, (state, { payload }) => {
+        console.log(current(state).events);
         state.eventFormStatus = 'Completed';
         state.events.push(payload);
       })
@@ -241,14 +276,6 @@ export const stallSlice = createSlice({
       })
       .addCase(asyncEditPresentation.fulfilled, (state, { payload }) => {
         state.eventFormStatus = 'Completed';
-        const index = current(state.events).findIndex(
-          (event) => event.id === payload.id
-        );
-        state.events[index] = payload;
-      })
-      // Edit a Presentation Time
-      .addCase(asyncEditPresentationTime.fulfilled, (state, { payload }) => {
-        state.status = false;
         const index = current(state.events).findIndex(
           (event) => event.id === payload.id
         );

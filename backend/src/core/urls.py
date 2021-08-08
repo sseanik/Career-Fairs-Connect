@@ -24,6 +24,7 @@ from rest_framework.authtoken.views import obtain_auth_token
 
 from .CareerFairListForUni import *
 from .CareerFairListGlobal import *
+
 # from .CompanyStallData import *
 from .StallList import StallList
 from .register_student import *
@@ -42,12 +43,14 @@ from .GetUserData import *
 from .Logout import *
 from .StallMessages import *
 from .Upvote import *
+from .Answer import *
+from .Question import *
 
 
 schema_view = get_schema_view(
     openapi.Info(
         title="Online Careers Fair API",
-        default_version='v1',
+        default_version="v1",
         description="Fun for students employers and universities",
         terms_of_service="https://www.google.com/policies/terms/",
         contact=openapi.Contact(email="arthur.fung@ad.unsw.edu.au"),
@@ -58,10 +61,8 @@ schema_view = get_schema_view(
 )
 
 
-
-
 urlpatterns = [
-    path('admin/', admin.site.urls),
+    path("admin/", admin.site.urls),
     # ???
     # path(r'^swagger(?P<format>\.json|\.yaml)$', schema_view.without_ui(cache_timeout=0), name='schema-json'),
     path('swagger/', schema_view.with_ui('swagger', cache_timeout=0), name='schema-swagger-ui'),
@@ -74,27 +75,30 @@ urlpatterns = [
     path('user/register/company/', register_company),
     path('user/data/', userData.as_view()),
 
-    path('careerfairs/stalls/<int:stallId>/', get_stall_data),
+
     path('careerfairs/<int:eventId>/stalls/', StallList.as_view()),
-    re_path('^careerfairs/(?P<eventId>.+)/$', get_career_fair_data),
+    path('careerfairs/delete/<int:eventId>/', CareerFairListGlobal.as_view()),
+    path('careerfairs/applications/', Approvals.as_view()),
     path('careerfairs/', CareerFairListGlobal.as_view()),
-    path('careerfairs/applications', Approvals.as_view()),
+    path('careerfairs/stalls/<int:stallId>/', get_stall_data),
+    re_path('^careerfairs/(?P<eventId>.+)/$', get_career_fair_data),
     
     path('presentation/create/', create_presentation),
     path('presentation/edit/', edit_presentation),
+    path('presentation/delete/<int:presentationId>/', delete_presentation),
     re_path('^presentation/get/stall/(?P<stallId>.+)/$', get_presentation),
     re_path('^presentation/get/(?P<eventId>.+)/$', get_all_presentations),
 
     path('company/<int:stallId>/opportunities/', OpportunityList.as_view()),
-    path('company/<int:companyId>/opportunities/<int:job_id>', Opportunity.as_view()),
+    path('company/opportunities/<int:job_id>/', Opportunity.as_view()),
     re_path('^company/(?P<companyId>.+)/$', Company.as_view()),
-    # neeed get all opportunities for a company?
     
     re_path('^student/(?P<studentId>.+)/$', Student.as_view()),
     
     path('university/<int:universityId>/careerfairs/', CareerFairListForUni.as_view()),
     re_path('^university/(?P<universityId>.+)/$', University.as_view()),
     path('questions/<int:stallId>/', StallMessages.as_view()),
+    path('questions/<int:stallId>/<int:postId>/', Question.as_view()),
+    path('answers/<int:stallId>/<int:postId>/', Answer.as_view()),
     path('questions/<int:stallId>/<int:postId>/upvotes/', Upvote.as_view()),
 ]
-

@@ -96,15 +96,17 @@ export function OpportunityModal(props) {
       ? dispatch(
           asyncEditOpportunity({
             opportunity: {
-              id: props.id,
+              job_id: props.id,
               type: values.type,
               role: values.role,
               location: values.location,
               wam: values.wam === 'None' ? null : values.wam,
               expiry: new Date(values.expiry).getTime(),
-              link: values.link,
-              description: values.description,
+              application_link: values.link,
+              job_description: values.description,
+              stall_id: props.stallID
             },
+            stallID: props.stallID,
             toast: toast,
           })
         )
@@ -116,9 +118,11 @@ export function OpportunityModal(props) {
               location: values.location,
               wam: values.wam === 'None' ? null : values.wam,
               expiry: new Date(values.expiry).getTime(),
-              link: values.link,
-              description: values.description,
+              application_link: values.link,
+              job_description: values.description,
+              stall_id: props.stallID,
             },
+            stallID: props.stallID,
             toast: toast,
           })
         );

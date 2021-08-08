@@ -1,7 +1,5 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import axios from 'axios';
-import { useHistory } from 'react-router-dom';
-import { getUserDetails } from '../../exampleData/exampleUser';
 
 export const asyncFetchUserData = createAsyncThunk(
   'user/details',
@@ -137,7 +135,6 @@ export const asyncLoginUser = createAsyncThunk(
         status: 'success',
         isClosable: true,
       });
-      history.push('/login');
     } else {
       toast({
         description: 'Login Failed',
@@ -154,8 +151,6 @@ export const asyncLoginUser = createAsyncThunk(
 export const asyncLogout = createAsyncThunk(
   'user/logout',
   async ({ token, history }) => {
-    // console.log('I WANT TO LOGOUT');
-
     const response = await axios({
       method: 'get',
       url: '/user/logout/',
@@ -164,11 +159,10 @@ export const asyncLogout = createAsyncThunk(
       },
     });
 
-    console.log(response);
-
     if (response.status === 200) {
       localStorage.removeItem('token');
       history.push('/');
+      window.location.reload()
     }
     const data = await response.data;
 
@@ -261,7 +255,6 @@ export const asyncUpdateStudent = createAsyncThunk(
   }
 );
 
-
 const initialState = {
   loggedIn: false,
   loading: false,
@@ -297,7 +290,6 @@ export const userSlice = createSlice({
         state.loading = true;
       })
       .addCase(asyncFetchUserData.fulfilled, (state, { payload }) => {
-        console.log('payload user data: ', payload);
         state.loading = false;
         state.loggedIn = true;
         state.role = payload.user_type;

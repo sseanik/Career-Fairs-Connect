@@ -19,7 +19,7 @@ import { FaListAlt } from 'react-icons/fa';
 import opportunityTable from './opportunityTable.png';
 import presentationCalendar from './presentationCalendar.png';
 import qandaForum from './qandaForum.png';
-import Fade from 'react-reveal/Fade';
+import { Fade } from 'react-awesome-reveal';
 
 export default function AboutUs() {
   const featureTitle = [

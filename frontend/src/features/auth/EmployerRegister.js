@@ -1,5 +1,5 @@
 import * as React from 'react';
-import Fade from 'react-reveal/Fade';
+import { Fade } from 'react-awesome-reveal';
 
 // Formik
 import { Field, Formik } from 'formik';
@@ -23,9 +23,8 @@ import { InputControl, TextareaControl } from 'formik-chakra-ui';
 import { useSelector, useDispatch } from 'react-redux';
 import { convertImageToBase64, selectBase64Image } from './logoSlice';
 import { asyncRegisterCompany } from './userSlice';
-import { Link } from 'react-router-dom';
+import { Link, useHistory } from 'react-router-dom';
 import { ArrowBackIcon } from '@chakra-ui/icons';
-import { useHistory } from 'react-router-dom';
 
 const initialValues = {
   email: '',
@@ -83,7 +82,6 @@ export default function EmployerRegister() {
 
   const submitForm = (values, actions) => {
     actions.setSubmitting(false);
-    console.log(values);
     dispatch(
       asyncRegisterCompany({
         user: {
@@ -94,8 +92,8 @@ export default function EmployerRegister() {
           company_webpage_url: values.website,
           company_logo_64: base64Image,
         },
-        toast: toast,
         history: history,
+        toast: toast,
       })
     );
   };

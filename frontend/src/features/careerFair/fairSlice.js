@@ -1,7 +1,6 @@
-import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
+import { createAsyncThunk, createSlice, current } from '@reduxjs/toolkit';
 import { prominent } from 'color.js';
 import complementaryTextColour from '../../util/complementaryTextColour';
-import { getFairData } from '../../exampleData/exampleCareerFair';
 import axios from 'axios';
 
 // Get Career Fair Event Data
@@ -18,15 +17,13 @@ export const asyncFetchFairData = createAsyncThunk(
 
     const data = await response.data;
 
-    console.log('response = ', data)
     const colour = await prominent(data.logo, {
       amount: 2,
     });
-    
+
     return { ...data, colour: colour };
   }
 );
-
 
 /* ------------------------- University Perspective ------------------------- */
 // Edit a Career Fair Events Details
@@ -48,28 +45,32 @@ export const asyncEditFairEvent = createAsyncThunk(
 export const asyncToggleEventPending = createAsyncThunk(
   'fair/togglePending',
   async ({ id, approval_status, toast }) => {
-    console.log('approval_status is: ',approval_status);
+    console.log(approval_status);
+
     const response = await axios({
       method: 'put',
-      url: '/careerfairs/applications',
+      url: '/careerfairs/applications/',
       data: {
         stall_id: id,
-        approval: approval_status,
-        // company_id: null,
-        // event_id: null,
+        approval_status: approval_status,
       },
       headers: {
         Authorization: `Token ${localStorage.getItem('token')}`,
       },
     });
-    
-    toast({
-      description: 'Successfully changed Stall approval status',
-      status: 'success',
-      isClosable: true,
-    });
-    
-    return { id: id, approval_status: approval_status };
+
+    if (response.status === 200) {
+      toast({
+        description:
+          'Successfully changed Stall approval status to ' + approval_status,
+        status: 'success',
+        isClosable: true,
+      });
+    }
+
+    const data = await response.data;
+
+    return { id: data.stall_id, approval_status: data.approval_status };
   }
 );
 
@@ -88,14 +89,13 @@ export const asyncAddCompanyStall = createAsyncThunk(
         Authorization: `Token ${localStorage.getItem('token')}`,
       },
     });
-    console.log('asyncAddCompanyStall response=',response);
 
     if (response.status === 200) {
-    toast({
-      description: 'Successfully added Company Stall',
-      status: 'success',
-      isClosable: true,
-    });
+      toast({
+        description: 'Successfully added Company Stall',
+        status: 'success',
+        isClosable: true,
+      });
     } else {
       toast({
         description: 'Failed to apply',
@@ -103,7 +103,6 @@ export const asyncAddCompanyStall = createAsyncThunk(
         isClosable: true,
       });
     }
-
 
     return response;
   }
@@ -185,11 +184,8 @@ export const fairSlice = createSlice({
       })
       // Change a company stall's approval status
       .addCase(asyncToggleEventPending.fulfilled, (state, { payload }) => {
-        state.approvalStatus = true;
-        state.rejectStatus = true;
-        state.pendingStatus = true;
         const stall = state.stalls.find((stall) => stall.id === payload.id);
-        stall.pending = payload.toggle;
+        stall.approval_status = payload.approval_status;
       })
       // Add a company stall to the career fair event
       .addCase(asyncAddCompanyStall.pending, (state, { payload }) => {

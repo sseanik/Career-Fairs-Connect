@@ -1,5 +1,5 @@
 import * as React from 'react';
-import Fade from 'react-reveal/Fade';
+import { Fade } from 'react-awesome-reveal';
 
 // Formik
 import { Field, Formik } from 'formik';
@@ -22,9 +22,8 @@ import {
 // Redux
 import { asyncRegisterStudent } from './userSlice';
 import { useDispatch, useSelector } from 'react-redux';
-import { Link } from 'react-router-dom';
+import { Link, useHistory } from 'react-router-dom';
 import { ArrowBackIcon } from '@chakra-ui/icons';
-import { useHistory } from 'react-router-dom';
 
 const initialValues = {
   firstName: '',
@@ -122,8 +121,8 @@ export function StudentRegister() {
           password: values.password,
           university: values.university,
         },
-        toast: toast,
         history: history,
+        toast: toast,
       })
     );
   };

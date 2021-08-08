@@ -14,7 +14,7 @@ import { Link } from 'react-router-dom';
 import { Blob } from '../landing/LandingHero';
 import { FaBuilding, FaUniversity } from 'react-icons/fa';
 import { IoSchoolSharp } from 'react-icons/io5';
-import Fade from 'react-reveal/Fade';
+import { Fade } from 'react-awesome-reveal';
 
 function Register() {
   return (
