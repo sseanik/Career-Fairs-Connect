@@ -81,10 +81,11 @@ class StallMessages(APIView):
             )
         userId = request.user.userID
         get_object_or_404(Stalls, pk=stallId)
-        request.data["author_id"] = userId
-        request.data["stall_id"] = stallId
+        newResponse = request.data.copy()
+        newResponse["author_id"] = userId
+        newResponse["stall_id"] = stallId
 
-        serializer = QAMessageSerializer(data=request.data)
+        serializer = QAMessageSerializer(data=newResponse)
         if serializer.is_valid():
             serializer.save()
             return Response(serializer.data, status=200)
