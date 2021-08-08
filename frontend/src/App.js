@@ -5,7 +5,7 @@ import './App.css';
 import { useDispatch, useSelector } from 'react-redux';
 import { asyncFetchUserData } from './features/auth/userSlice';
 // Chakra UI
-import { ChakraProvider } from '@chakra-ui/react';
+import { Box, ChakraProvider } from '@chakra-ui/react';
 // Non-Logged In Pages
 import Login from './features/auth/Login';
 import Register from './features/auth/Register';
@@ -23,6 +23,7 @@ import CompanyEdit from './features/profile/companyEdit';
 
 import theme from './app/theme';
 import Navbar from './components/Navbar';
+import Footer from './components/Footer';
 
 function App() {
   const dispatch = useDispatch();
@@ -38,30 +39,43 @@ function App() {
 
   return (
     <ChakraProvider theme={theme}>
-      <Navbar />
-      <Switch>
-        {loggedIn ? (
-          <Route path='/' component={CareerEvents} exact />
-        ) : (
-          <Route path='/' component={LandingPage} exact />
-        )}
+      <Box display='flex' flexDirection='column' minHeight='100vh'>
+        <Navbar />
+        <Box flex={1}>
+          <Switch>
+            {loggedIn ? (
+              <Route path='/' component={CareerEvents} exact />
+            ) : (
+              <Route path='/' component={LandingPage} exact />
+            )}
 
-        <Route path='/login' component={Login} exact />
-        <Route path='/register' component={Register} exact />
-        <Route path='/register/employer' component={EmployerRegister} exact />
-        <Route path='/register/student' component={StudentRegister} exact />
-        <Route
-          path='/register/university'
-          component={UniversityRegister}
-          exact
-        />
-        <Route path='/events/' component={CareerEvents} exact />
-        <Route path='/fair/:fairID/:tab?' component={CareerFair} exact />
-        <Route path='/stall/:stallID/:tab?' component={CompanyStall} exact />
-        {/* profile */}
-        <Route path='/company/' component={CompanyProfile} exact />
-        <Route path='/company/edit' component={CompanyEdit} exact />
-      </Switch>
+            <Route path='/login' component={Login} exact />
+            <Route path='/register' component={Register} exact />
+            <Route
+              path='/register/employer'
+              component={EmployerRegister}
+              exact
+            />
+            <Route path='/register/student' component={StudentRegister} exact />
+            <Route
+              path='/register/university'
+              component={UniversityRegister}
+              exact
+            />
+            <Route path='/events/' component={CareerEvents} exact />
+            <Route path='/fair/:fairID/:tab?' component={CareerFair} exact />
+            <Route
+              path='/stall/:stallID/:tab?'
+              component={CompanyStall}
+              exact
+            />
+            {/* profile */}
+            <Route path='/company/' component={CompanyProfile} exact />
+            <Route path='/company/edit' component={CompanyEdit} exact />
+          </Switch>
+        </Box>
+        <Footer />
+      </Box>
     </ChakraProvider>
   );
 }

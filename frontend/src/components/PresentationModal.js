@@ -51,8 +51,6 @@ export function PresentationModal(props) {
   const dispatch = useDispatch();
   const toast = useToast();
 
-   console.log(props)
-
   const initialValues = {
     title: props.title,
     description: props.description,
