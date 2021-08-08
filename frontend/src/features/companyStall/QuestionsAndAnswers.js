@@ -53,7 +53,7 @@ export function QuestionsAndAnswers(props) {
 
   const deleteQuestion = (id) => {
     id &&
-      dispatch(asyncDeleteQuestion({id: id, toast: toast}))
+      dispatch(asyncDeleteQuestion({stallId: props.stallID, postId: id, toast: toast}))
   }
 
   return (
@@ -130,8 +130,7 @@ export function QuestionsAndAnswers(props) {
                         size='sm'
                         ml='3'
                         onClick={() => {
-                          setId(qanda.id);
-                          deleteQuestion(id);
+                          deleteQuestion(qanda.id);
                         }}
                       >
                         Delete

@@ -235,10 +235,10 @@ export const asyncEditAnswer = createAsyncThunk(
 // Delete a question
 export const asyncDeleteQuestion = createAsyncThunk(
   'stall/deleteQuestion',
-  async ({ id, toast }) => {
+  async ({ stallId, postId, toast }) => {
     await axios({
       method: 'delete',
-      url: `/presentation/delete/${id}/`,
+      url: `/questions/question/${stallId}/${postId}/`,
       headers: {
         Authorization: `Token ${localStorage.getItem('token')}`,
       },
@@ -248,7 +248,7 @@ export const asyncDeleteQuestion = createAsyncThunk(
       status: 'success',
       isClosable: true,
     });
-    return id;
+    return postId;
   }
 );
 
