@@ -184,9 +184,12 @@ export const asyncUpdateUniversity = createAsyncThunk(
       method: 'put',
       url: `/university/${id}/`,
       data: user,
+      headers: {
+        Authorization: `Token ${localStorage.getItem('token')}`,
+      },
     });
 
-    if (response.status === 201) {
+    if (response.status === 200) {
       history.push('/university');
     } else {
       toast({
@@ -209,9 +212,12 @@ export const asyncUpdateCompany = createAsyncThunk(
       method: 'put',
       url: `/company/${id}/`,
       data: user,
+      headers: {
+        Authorization: `Token ${localStorage.getItem('token')}`,
+      },
     });
 
-    if (response.status === 201) {
+    if (response.status === 200) {
       history.push('/company');
     } else {
       toast({
@@ -234,9 +240,15 @@ export const asyncUpdateStudent = createAsyncThunk(
       method: 'put',
       url: `/student/${id}/`,
       data: user,
-    });
+      headers: {
+        Authorization: `Token ${localStorage.getItem('token')}`,
+      },
+    })
 
-    if (response.status === 201) {
+    const data = await response.data;
+
+    console.log('put profile response: ', response);
+    if (response.status === 200) {
       history.push('/student');
     } else {
       toast({
@@ -245,8 +257,6 @@ export const asyncUpdateStudent = createAsyncThunk(
         isClosable: true,
       });
     }
-
-    const data = await response.data;
 
     return data;
   }
@@ -288,7 +298,7 @@ export const userSlice = createSlice({
         state.loading = true;
       })
       .addCase(asyncFetchUserData.fulfilled, (state, { payload }) => {
-        console.log(payload);
+        console.log('getting user data: ', payload);
         state.loading = false;
         state.loggedIn = true;
         state.role = payload.user_type;
@@ -298,6 +308,7 @@ export const userSlice = createSlice({
             state.fname = payload.first_name;
             state.lname = payload.last_name;
             state.university = payload.university;
+            state.studentId = payload.student_id;
             break;
           case 'Company':
             state.name = payload.company_name;

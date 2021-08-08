@@ -47,7 +47,9 @@ export default function Profile() {
           first_name: values.firstName,
           last_name: values.lastName,
           university: values.university,
+          student_logo_64: '.',
         },
+        id: user.studentId,
         toast: toast,
         history: history,
       })
