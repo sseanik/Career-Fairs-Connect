@@ -37,7 +37,7 @@ from drf_yasg.utils import swagger_auto_schema
                 "presentations": openapi.Schema(
                     type=openapi.TYPE_ARRAY,
                     items=openapi.Items(
-                        type="id, title, start, end, description, link, colour"
+                        type="id, title, start, end, description, link, color, textColor"
                     ),
                 ),
                 "opportunities": openapi.Schema(
@@ -158,6 +158,7 @@ def get_career_fair_data(request, eventId):
             "link": presentation["presentation_link"],
             "company": company.company_name,
             "color": presentation["color"],
+            "textColor": presentation["textColor"],
         }
 
     try:
