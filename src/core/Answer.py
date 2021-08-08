@@ -21,7 +21,7 @@ class Answer(APIView):
         operation_summary="Creates or updates an answer for a question",
     )
     def put(self, request, stallId, postId, format=None):
-        if not request.data['answer']:
+        if not request.data and request.data['answer']:
             return Response("Missing field 'answer'", status=400)
         if not request.user.is_authenticated:
             return Response("Please pass Token in the Authorisation header", status=status.HTTP_401_UNAUTHORIZED)
