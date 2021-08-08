@@ -24,7 +24,7 @@ from rest_framework.authtoken.views import obtain_auth_token
 
 from .CareerFairListForUni import *
 from .CareerFairListGlobal import *
-from .CompanyStallData import *
+# from .CompanyStallData import *
 from .StallList import StallList
 from .register_student import *
 from .register_company import *
@@ -80,7 +80,7 @@ urlpatterns = [
     re_path('^careerfairs/(?P<eventId>.+)/$', get_career_fair_data),
     path('careerfairs/', CareerFairListGlobal.as_view()),
     path('careerfairs/applications', Approvals.as_view()),
-    path('careerfairs/stalls/<int:stallId>/', CompanyStallData.as_view()),
+    path('careerfairs/stalls/<int:stallId>/', get_stall_data),
     
     path('presentation/create/', create_presentation),
     path('presentation/edit/', edit_presentation),
