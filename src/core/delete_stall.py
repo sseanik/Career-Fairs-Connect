@@ -23,11 +23,14 @@ from drf_yasg.utils import swagger_auto_schema
     # operation_description="",
 )
 @api_view(['DELETE', ])
-def delete_stall(request, stallId):
-    if request.user.user_type != "2":
+def delete_stall(request):
+    
+    if request.user.user_type != 2:
         return Response({"Forbidden" : "Incorrect user_type"}, status=403)
+    company_id = request.DELETE.companyID
+    event_id = request.DELETE.employerID
+    stall = get_object_or_404(Stalls, company_id=company_id, event_id=event_id)
     requestUserCompany = Companies.objects.get(user_id = request.user.userID).company_id
-    stall = get_object_or_404(Stalls, pk = stallId)
     stallOwner = stall.company_id
     if requestUserCompany != stallOwner:
         return Response({"Forbidden" : "Stall does not belong to user"}, status=403)
