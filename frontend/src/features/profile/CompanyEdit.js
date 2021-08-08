@@ -1,4 +1,4 @@
-import React, { useState, useEffect }  from 'react';
+import React, { useEffect }  from 'react';
 import { useHistory } from 'react-router-dom';
 import { asyncUpdateCompany } from '../auth/userSlice';
 import {
@@ -19,8 +19,6 @@ import { InputControl, TextareaControl } from 'formik-chakra-ui';
 import { useSelector, useDispatch } from 'react-redux';
 //process image
 import { convertImageToBase64, selectBase64Image } from '../auth/logoSlice';
-
-
 
 const validationSchema = Yup.object({
   company: Yup.string().required('Company Name is Required').max(128),
@@ -47,10 +45,7 @@ export default function Profile() {
     logo: '', //user.logo,
   };
 
-  // const [picture, setPicture] = useState(null);
-  // const [imgSrc, setImgSrc] = useState(user.logo);
   useEffect(() => {
-    console.log('wwwwwhat is base64Image now? ',base64Image);
     const image = document.getElementById("oldLogo");
     image.src = base64Image;
   }, [base64Image]);
@@ -63,8 +58,7 @@ export default function Profile() {
   const uploadImage = (e, setFieldValue) => {
     dispatch(convertImageToBase64(e));
     setFieldValue('logo', e.target.value);
-    console.log('e.target.value: ', e.target.value);
-    // setImgSrc(e.target.value);
+    // console.log('e.target.value: ', e.target.value);
   };
 
   const submitForm = (values, actions) => {
