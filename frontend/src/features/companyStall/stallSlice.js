@@ -55,9 +55,16 @@ export const asyncAddOpportunity = createAsyncThunk(
 // Edit Job Opportunity
 export const asyncEditOpportunity = createAsyncThunk(
   'stall/editOpportunity',
-  async ({ opportunity, toast }) => {
-    await new Promise((r) => setTimeout(r, 3000));
-    const response = opportunity;
+  async ({ stallID, opportunity, toast }) => {
+    console.log(opportunity)
+    const response = await axios({
+      method: 'put',
+      url: `/company/${stallID}/opportunities/`,
+      data: opportunity,
+      headers: {
+        Authorization: `Token ${localStorage.getItem('token')}`,
+      },
+    });
     toast({
       description: 'Successfully edited Opportunity',
       status: 'success',

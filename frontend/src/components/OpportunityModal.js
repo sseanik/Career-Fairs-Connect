@@ -96,7 +96,7 @@ export function OpportunityModal(props) {
       ? dispatch(
           asyncEditOpportunity({
             opportunity: {
-              id: props.id,
+              job_id: props.id,
               type: values.type,
               role: values.role,
               location: values.location,
@@ -106,6 +106,7 @@ export function OpportunityModal(props) {
               job_description: values.description,
               stall_id: props.stallID
             },
+            stallID: props.stallID,
             toast: toast,
           })
         )
