@@ -145,9 +145,8 @@ class Opportunities(models.Model):
     type = models.CharField(max_length=100)
     role = models.CharField(max_length=100)
     location = models.CharField(max_length=100)
-    wam = models.CharField(max_length=100)
+    wam = models.CharField(max_length=100, blank=True)
     expiry = models.DateTimeField(auto_now_add=True, blank=True)
-    link = models.CharField(max_length=500)
 
 
 class QAMessages(models.Model):
