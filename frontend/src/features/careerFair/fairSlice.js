@@ -102,22 +102,39 @@ export const asyncAddCompanyStall = createAsyncThunk(
       });
     }
 
-    console.log(response);
     const data = await response.data;
-    return response;
+    return data;
   }
 );
 
 // Delete a company stall from an event
 export const asyncRemoveCompanyStall = createAsyncThunk(
   'fair/removeStall',
-  async ({ fairID, company, toast }) => {
-    toast({
-      description: 'Successfully removed Company Stall',
-      status: 'success',
-      isClosable: true,
+  async ({ stallID, toast }) => {
+    const response = await axios({
+      method: 'delete',
+      url: `/careerfairs/delete/stalls/${stallID}/`,
+      headers: {
+        Authorization: `Token ${localStorage.getItem('token')}`,
+      },
     });
-    return company;
+
+    if (response.status === 200) {
+      toast({
+        description: 'Successfully removed Company Stall from event',
+        status: 'success',
+        isClosable: true,
+      });
+    } else {
+      toast({
+        description: 'Failed to remove stall from event',
+        status: 'error',
+        isClosable: true,
+      });
+    }
+
+    const data = await response.data;
+    return data;
   }
 );
 
