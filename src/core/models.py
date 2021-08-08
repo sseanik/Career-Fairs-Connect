@@ -152,7 +152,6 @@ class Opportunities(models.Model):
 class QAMessages(models.Model):
     post_id = models.AutoField(primary_key=True)
     author_id = models.ForeignKey(User, on_delete=models.CASCADE)
-    responder_id = models.ForeignKey(User, on_delete=models.CASCADE, null=True, related_name="responder")
     stall_id = models.ForeignKey(Stalls, on_delete=models.CASCADE)
     time = models.DateTimeField(auto_now_add=True, blank=True)
     num_upvotes = models.IntegerField(default=0)

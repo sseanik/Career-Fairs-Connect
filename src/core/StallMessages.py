@@ -46,7 +46,6 @@ class StallMessages(APIView):
             response_item = {
                 'post_id': item['post_id'],
                 'author_id': item['author_id_id'],
-                'responder_id': item['responder_id_id'],
                 'time': item['time'].timestamp(),
                 'question': item['question'],
                 'answer': item['answer'],
@@ -71,10 +70,11 @@ class StallMessages(APIView):
             return Response("Please pass Token in the Authorisation header", status=status.HTTP_401_UNAUTHORIZED)
         userId = request.user.userID
         get_object_or_404(Stalls, pk=stallId)
-        request.data['author_id'] = userId
-        request.data['stall_id'] = stallId
+        newResponse = request.data.copy()
+        newResponse['author_id'] = userId
+        newResponse['stall_id'] = stallId
 
-        serializer = QAMessageSerializer(data=request.data)
+        serializer = QAMessageSerializer(data=newResponse)
         if serializer.is_valid():
             serializer.save()
             return Response(serializer.data, status=200)
