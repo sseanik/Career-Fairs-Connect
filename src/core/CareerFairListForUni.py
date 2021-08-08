@@ -47,9 +47,9 @@ class CareerFairListForUni(APIView):
         request.data["university_id"] = universityId
         serializer = CareerFairSerializer(data=request.data)
         if serializer.is_valid():
-            company = get_object_or_404(Companies, pk=universityId)
+            university = get_object_or_404(Universities, pk=universityId)
             serializer.save()
-            serializer.data.update({"logo":company.company_logo_64})
+            serializer.data.update({"logo":university.university_logo_64})
             return Response(serializer.data, status=200)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
