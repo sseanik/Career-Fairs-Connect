@@ -43,6 +43,7 @@ from .GetUserData import *
 from .Logout import *
 from .StallMessages import *
 from .Upvote import *
+from .DeleteCareerFair import *
 
 
 schema_view = get_schema_view(
@@ -75,7 +76,7 @@ urlpatterns = [
 
 
     path('careerfairs/<int:eventId>/stalls/', StallList.as_view()),
-    path('careerfairs/delete/<int:eventId>/', CareerFairListGlobal.as_view()),
+    path('careerfairs/delete/<int:eventId>/', DeleteCareerFair.as_view()),
     path('careerfairs/applications/', Approvals.as_view()),
     path('careerfairs/', CareerFairListGlobal.as_view()),
     path('careerfairs/stalls/<int:stallId>/', get_stall_data),
