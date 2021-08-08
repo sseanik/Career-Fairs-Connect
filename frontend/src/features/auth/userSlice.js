@@ -117,8 +117,7 @@ export const asyncLoginUser = createAsyncThunk(
       method: 'post',
       url: '/user/login/',
       data: user,
-    })
-    .catch((error) => {
+    }).catch((error) => {
       console.error('Error logging in:', error);
       toast({
         description: 'Account name or password is incorrect',
@@ -236,7 +235,7 @@ export const asyncUpdateStudent = createAsyncThunk(
       headers: {
         Authorization: `Token ${localStorage.getItem('token')}`,
       },
-    })
+    });
 
     const data = await response.data;
 
@@ -273,6 +272,8 @@ const initialState = {
   // University
   universityID: null,
   companyID: null,
+  studentID: null,
+  userID: null,
 };
 
 export const userSlice = createSlice({
@@ -280,8 +281,8 @@ export const userSlice = createSlice({
   initialState,
   reducers: {
     resetUser: (state) => {
-    state = initialState;
-    return state;
+      state = initialState;
+      return state;
     },
   },
   extraReducers: (builder) => {
@@ -299,7 +300,7 @@ export const userSlice = createSlice({
             state.fname = payload.first_name;
             state.lname = payload.last_name;
             state.university = payload.university;
-            state.studentId = payload.student_id;
+            state.studentID = payload.student_id;
             break;
           case 'Company':
             state.companyID = payload.company_id;
@@ -309,6 +310,7 @@ export const userSlice = createSlice({
             state.description = payload.company_description;
             state.website = payload.company_webpage_url;
             state.logo = payload.company_logo_64;
+            state.companyID = payload.company_id;
             break;
           case 'University':
             state.universityID = payload.university_id;
