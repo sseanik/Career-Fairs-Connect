@@ -36,49 +36,50 @@ const validationSchema = Yup.object({
 
 export default function Profile() {
   const history = useHistory();
-  const user = useSelector((state) => state.user);
-  console.log('user data in company edit:', user);
+  const userData = useSelector((state) => state.user);
 
-  const initialValues = {
-    company: user.name,
-    website: user.website,
-    description: user.description,
-    // logo: '', //companyData.logo,
+  const companyData = {
+    companyID: userData.id,
+    company: userData.name,
+    description: userData.description,
+    logo: userData.logo,
+    website: userData.website,
   };
 
+  const initialValues = {
+    company: companyData.company,
+    website: companyData.website,
+    logo: '', //companyData.logo,
+    description: companyData.description,
+  };
+  console.log('initial_logo',initialValues.logo);
+
   // const [picture, setPicture] = useState(null);
-  // const [imgSrc, setImgSrc] = useState(companyData.logo);
+  const [imgSrc, setImgSrc] = useState(companyData.logo);
+  console.log('imgSrc=',imgSrc)
 
-  // useEffect(() => {
-  //   const image = document.getElementById("oldLogo");
-  //   image.src = imgSrc;
-  // }, [imgSrc]);
+  useEffect(() => {
+    const image = document.getElementById("oldLogo");
+    image.src = imgSrc;
+  }, [imgSrc]);
 
-  // const base64Image = useSelector(selectBase64Image);
+  const base64Image = useSelector(selectBase64Image);
   const dispatch = useDispatch();
   const toast = useToast();
   // ?
   const saveStatus = useSelector((state) => state.user.status);
 
-  // const uploadImage = (e, setFieldValue) => {
-  //   dispatch(convertImageToBase64(e));
-  //   setFieldValue('logo', e.target.value);
-  //   console.log('e.target.value: ', e.target.value);
-  //   setImgSrc(e.target.value);
-  // };
+  const uploadImage = (e, setFieldValue) => {
+    dispatch(convertImageToBase64(e));
+    setFieldValue('logo', e.target.value);
+    console.log('e.target.value: ', e.target.value);
+    setImgSrc(e.target.value);
+  };
 
-  const submitForm = (values, actions) => {
+  const submitForm = (companyID, values, actions) => {
+    console.log('logo', values.logo);
     actions.setSubmitting(false);
-    dispatch(asyncUpdateCompany({
-      id: user.id,
-      user: {
-        company_name: values.company,
-        company_description: values.description,
-        company_webpage_url: values.website,
-        company_logo_64: user.logo,
-      },
-      toast: toast,
-    }));
+    dispatch(asyncUpdateCompany({ id: companyID, user: {}, toast: toast }));
   };
 
   function handleCancel() {
@@ -111,6 +112,33 @@ export default function Profile() {
               spacing={'6'}
               onSubmit={handleSubmit}
             >
+
+              <Stack direction="row" spacing={10} align='center' justify='center'>
+                <Image
+                  id='oldLogo'
+                  src={imgSrc}
+                  alt={`${companyData.company}-logo`}
+                  boxSize="150px"
+                  objectFit='cover'
+                />
+                <Field name='logo'>
+                  {({ field, form }) => (
+                    <FormControl
+                      id='logo'
+                      isInvalid={form.errors.logo && form.touched.logo}
+                    >
+                      <FormLabel>Update New Logo</FormLabel>
+                      <input
+                        {...field}
+                        type='file'
+                        onChange={(e) => uploadImage(e, setFieldValue)}
+                        accept='.jpeg, .png, .jpg'
+                      ></input>
+                      <FormErrorMessage>{form.errors.logo}</FormErrorMessage>
+                    </FormControl>
+                  )}
+                </Field>
+              </Stack>
 
               <InputControl name='company' label='Company Name' />
               <TextareaControl name='description' label='Company Description' />

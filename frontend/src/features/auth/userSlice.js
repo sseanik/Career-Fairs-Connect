@@ -298,7 +298,7 @@ export const userSlice = createSlice({
         state.loading = true;
       })
       .addCase(asyncFetchUserData.fulfilled, (state, { payload }) => {
-        console.log('getting user data: ', payload);
+        console.log('payload user data: ', payload);
         state.loading = false;
         state.loggedIn = true;
         state.role = payload.user_type;
