@@ -175,7 +175,8 @@ def edit_presentation(request):
     method="delete",
     responses={
         200 : "Deleted",
-        404 : "Not found"
+        404 : "Not found",
+        403 : "Forbidden",
     },
     operation_summary="Delete presentation",
     # operation_description="",

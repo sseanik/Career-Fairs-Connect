@@ -38,6 +38,7 @@ from .OpportunityList import *
 from .Opportunity import *
 from .get_career_fair_data import *
 from .get_stall_data import *
+from .delete_stall import *
 from .Approvals import *
 from .GetUserData import *
 from .Logout import *
@@ -74,6 +75,7 @@ urlpatterns = [
     path('user/data/', userData.as_view()),
 
 
+    path('careerfairs/delete/stalls/<int:stallId>/', delete_stall),
     path('careerfairs/<int:eventId>/stalls/', StallList.as_view()),
     path('careerfairs/delete/<int:eventId>/', CareerFairListGlobal.as_view()),
     path('careerfairs/applications/', Approvals.as_view()),
