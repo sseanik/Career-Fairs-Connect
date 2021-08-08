@@ -36,7 +36,11 @@ export function QuestionsAndAnswers(props) {
 
   const postQuestion = () => {
     question &&
-      dispatch(asyncPostQuestion({ question: question, toast: toast }));
+      dispatch(asyncPostQuestion({ id: props.stallID,
+        question: {
+          question: question
+        },
+        toast: toast }));
   };
 
   const postAnswer = (id) => {

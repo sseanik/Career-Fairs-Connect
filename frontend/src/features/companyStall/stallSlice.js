@@ -162,14 +162,21 @@ export const asyncDeletePresentation = createAsyncThunk(
 // Post a question
 export const asyncPostQuestion = createAsyncThunk(
   'stall/postQuestion',
-  async ({ question, toast }) => {
-    await new Promise((r) => setTimeout(r, 3000));
+  async ({ id, question, toast }) => {
+    await axios({
+      method: 'post',
+      url: `/questions/${id}/`,
+      data: question,
+      headers: {
+        Authorization: `Token ${localStorage.getItem('token')}`,
+      },
+    });
     toast({
       description: 'Successfully posted Question',
       status: 'success',
       isClosable: true,
     });
-    return question;
+    return question.question;
   }
 );
 
