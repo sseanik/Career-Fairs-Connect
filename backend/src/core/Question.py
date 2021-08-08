@@ -54,8 +54,8 @@ class Question(APIView):
     )
     def delete(self, request, stallId, postId, format=None):
         questionObj = get_object_or_404(QAMessages, pk=postId)
-        # if int(questionObj.author_id) != request.user.userID: # Dear frontend - use this if unexpected Forbidden failure
-        if questionObj.author_id != request.user.userID:
+        if questionObj.author_id.userID != request.user.userID: # Dear frontend - use this if unexpected Forbidden failure
+        #if questionObj.author_id != request.user.userID:
             return Response({"Forbidden" : "Only the question owner can call for deletion"},status=403)
         questionObj.delete()
         return Response("Deleted", status=200)

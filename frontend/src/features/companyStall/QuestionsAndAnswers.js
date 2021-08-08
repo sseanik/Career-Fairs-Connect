@@ -33,7 +33,8 @@ export function QuestionsAndAnswers(props) {
   const buttonLoading = useSelector((state) => state.stall.status);
   const toast = useToast();
   const dispatch = useDispatch();
-  const userId = useSelector((state) => state.user.studentId)
+  const userId = useSelector((state) => state.user.userID)
+  const companyId = useSelector((state) => state.user.companyID)
 
   const postQuestion = () => {
     question &&
@@ -46,13 +47,16 @@ export function QuestionsAndAnswers(props) {
 
   const postAnswer = (id) => {
     answer &&
-      dispatch(asyncAnswerQuestion({id: id, answer: answer, toast: toast}))
+      dispatch(asyncAnswerQuestion({ questionId: id, stallId: props.stallID, 
+        answer: {
+          answer: answer
+        }, toast: toast }))
       .then(setAnswer(''))
   }
 
   const deleteQuestion = (id) => {
     id &&
-      dispatch(asyncDeleteQuestion({id: id, toast: toast}))
+      dispatch(asyncDeleteQuestion({stallId: props.stallID, postId: id, toast: toast}))
   }
 
   return (
@@ -102,14 +106,11 @@ export function QuestionsAndAnswers(props) {
 
       <Accordion allowMultiple>
         {props.qandas.map((qanda, idx) => (
-          /*Change (9 != 9) to userId != stall.companyId*/
-          <AccordionItem isDisabled={!qanda.answer && (userId != qanda.author_id)} key={`qanda-${idx}`}>
+          <AccordionItem isDisabled={!qanda.answer && (companyId !== props.companyID)} key={`qanda-${idx}`}>
             <h2>
               <AccordionButton>
                 <Box flex='1' textAlign='left' fontWeight='semibold'>
                   {qanda.question}
-                  {/*Change this so that this button only shows if qanda.creatorId == currentUserId*/}
-                  {console.log(userId + " <- user ID + author_id-> " + qanda.author_id)}
                   { (userId === qanda.author_id) ?
                     <>
                       <Button
@@ -132,8 +133,7 @@ export function QuestionsAndAnswers(props) {
                         size='sm'
                         ml='3'
                         onClick={() => {
-                          setId(qanda.id);
-                          deleteQuestion(id);
+                          deleteQuestion(qanda.id);
                         }}
                       >
                         Delete
@@ -172,22 +172,21 @@ export function QuestionsAndAnswers(props) {
               <Box>
                 {qanda.answer}
               </Box>
-              {/*Change (9 != 9) to userId != stall.companyId*/}
-              {(9 == 9) ?
-              <Button
-                leftIcon={<RiPencilFill />}
-                marginLeft="100%"
-                size='sm'
-                ml='3'
-                onClick={() => {
-                  setAnswer(qanda.answer);
-                  setId(qanda.id);
-                  setIsQuestion(false)
-                  onOpen();
-                }}
-              >
-                Edit
-              </Button>
+              {(companyId === props.companyID) ?
+                <Button
+                  leftIcon={<RiPencilFill />}
+                  marginLeft="100%"
+                  size='sm'
+                  ml='3'
+                  onClick={() => {
+                    setAnswer(qanda.answer);
+                    setId(qanda.id);
+                    setIsQuestion(false)
+                    onOpen();
+                  }}
+                >
+                  Edit
+                </Button>
                 :
                 <> </>
               }

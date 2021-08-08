@@ -295,6 +295,7 @@ export const userSlice = createSlice({
         state.loggedIn = true;
         state.role = payload.user_type;
         state.email = payload.email;
+        state.userID = payload.user_id;
         switch (payload.user_type) {
           case 'Student':
             state.fname = payload.first_name;
@@ -316,7 +317,6 @@ export const userSlice = createSlice({
             break;
           case 'University':
             state.universityID = payload.university_id;
-            //
             state.name = payload.university_name;
             state.website = payload.university_site_url;
             state.logo = payload.university_logo_64;
