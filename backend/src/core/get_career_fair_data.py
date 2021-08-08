@@ -21,14 +21,30 @@ from drf_yasg.utils import swagger_auto_schema
         200: openapi.Schema(
             type=openapi.TYPE_OBJECT,
             properties={
-                "event_id": openapi.Schema(type=openapi.TYPE_NUMBER),
-                "companies": openapi.Schema(
-                    type=openapi.TYPE_ARRAY,
-                    items=openapi.Items(type="fill this in later"),
-                ),
+                "university": openapi.Schema(type=openapi.TYPE_STRING),
+                "start": openapi.Schema(type=openapi.TYPE_STRING),
+                "end": openapi.Schema(type=openapi.TYPE_STRING),
+                "title": openapi.Schema(type=openapi.TYPE_STRING),
+                "description": openapi.Schema(type=openapi.TYPE_STRING),
+                "website": openapi.Schema(type=openapi.TYPE_STRING),
+                "logo": openapi.Schema(type=openapi.TYPE_STRING),
                 "stalls": openapi.Schema(
                     type=openapi.TYPE_ARRAY,
-                    items=openapi.Items(type="fill this in later"),
+                    items=openapi.Items(
+                        type="id, approval_status, company, logo, live"
+                    ),
+                ),
+                "presentations": openapi.Schema(
+                    type=openapi.TYPE_ARRAY,
+                    items=openapi.Items(
+                        type="id, title, start, end, description, link, colour"
+                    ),
+                ),
+                "opportunities": openapi.Schema(
+                    type=openapi.TYPE_ARRAY,
+                    items=openapi.Items(
+                        type="id, company, type, role, location, wam, expiry, link, description"
+                    ),
                 ),
             },
         ),
@@ -36,7 +52,7 @@ from drf_yasg.utils import swagger_auto_schema
         404: "Not found",
     },
     operation_summary="Get all stalls and stall data for a career fair",
-    operation_description="Returns a set of all stalls for a career fair, including fields for the company host, stall opportunities and presentations",
+    operation_description="Returns a set of all stalls for a career fair, including fields for the company hosted stalls, opportunities and presentations",
 )
 @api_view(
     [
