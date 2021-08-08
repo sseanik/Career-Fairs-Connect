@@ -10,26 +10,27 @@ ___
 ## Docker Setup
 
 #### 1. Install Docker 
-visit https://docs.docker.com/get-docker/ and downlowd the version for your computer
 
-#### 2. Run Docker?
+Visit https://docs.docker.com/get-docker/ and downlowd the Docker version of your computer
 
-#### 3. Run command (where)
+#### 2. Open terminal, change directory to Online-Career-Fairs folder
+
+#### 3. Run command
 
     docker-compose run --service-ports frontend
 
-It will create a docker image with all the dependencies, start the Django development server locally (port 80),
+This might take a few minuts, and will create a docker image with all the dependencies, start the Django development server locally (port 80),
 install react app and run it locally as well.
 It will use local sqlite database and set it up on the first run.
 
 #### 4. Open in Browser
 
-Navigate to http://localhost:3000/ in the browser to see our app
+Open browser and navigate to http://localhost:3000/ to see our project
 
 
 #### Swagger API documentation
 
-Navigate to the http://localhost:8000/swagger/
+Navigate to http://localhost:8000/swagger/ to see API documentation.
 
 ___
 (Might not need this part below when using Docker)
