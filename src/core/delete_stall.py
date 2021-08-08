@@ -32,9 +32,9 @@ def delete_stall(request):
     
     if request.user.user_type != 2:
         return Response({"Forbidden" : "Incorrect user_type"}, status=403)
-    delete = QueryDict(request.body)
-    event_id = delete.get('eventID')
-    company_id = delete.get('companyID')
+    delete = json.loads(request.body)
+    event_id = delete['eventID']
+    company_id = delete['companyID']
     stall = get_object_or_404(Stalls, company_id=company_id, event_id=event_id)
     requestUserCompany = Companies.objects.get(user_id = request.user.userID).company_id
     stallOwner = stall.company_id
