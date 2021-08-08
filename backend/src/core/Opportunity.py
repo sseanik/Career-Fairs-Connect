@@ -53,8 +53,6 @@ class Opportunity(APIView):
         opportunityCompanyId = opportunity.stall_id.company_id.company_id
         userCompanyId = Companies.objects.get(user_id = request.user.userID).company_id
         if opportunityCompanyId != userCompanyId:
-            print(opportunityCompanyId)
-            print(userCompanyId)
             return Response({"Forbidden" : "Opportunity does not belong to user"}, status=403)
         opportunity = get_object_or_404(Opportunities, pk=job_id)
         opportunity.delete()
