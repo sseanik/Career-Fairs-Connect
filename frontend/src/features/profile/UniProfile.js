@@ -14,28 +14,14 @@ import {
   Box,
 } from '@chakra-ui/react';
 import { EditIcon } from '@chakra-ui/icons';
-// import { useSelector, useDispatch } from 'react-redux';
-
-// const create = (id) => {
-//   return async (dispatch, getState) => {
-//     const firstName = getState().example.firstName;
-//     console.log(firstName)
-//   };
-// };
-
-const companyData = {
-  companyID: '1',
-  company: 'Canva',
-  description: 'Canva is a graphic design company',
-  logo: 'https://upload.wikimedia.org/wikipedia/en/3/3b/Canva_Logo.png',
-  website: 'https://canva.com',
-};
+import { useSelector } from 'react-redux';
 
 export default function Profile() {
   const history = useHistory();
-
+  const user = useSelector((state) => state.user);
+  
   function handleClick() {
-    history.push('/company/edit');
+    history.push('/university/edit');
   }
 
   return (
@@ -47,7 +33,7 @@ export default function Profile() {
         <Heading
           fontSize='2xl'
           mb={5}>
-          Company Profile
+          University Profile
         </Heading>
         <Spacer />
         <Button
@@ -65,8 +51,9 @@ export default function Profile() {
 
       <Center h="260px" color="white">
         <Image
-          src={companyData.logo}
-          alt={`${companyData.company}-logo`}
+          src={user.logo}
+          alt={`${user.name}-logo`}
+          fallbackSrc="https://via.placeholder.com/200"
           boxSize="200px"
           objectFit='contain'
         />
@@ -76,20 +63,15 @@ export default function Profile() {
         <Box>
           <Text fontSize="xl" fontWeight='semibold'>Name</Text>
           <Divider />
-          <Text fontSize="xl">{companyData.company}</Text>
+          <Text fontSize="xl">{user.name}</Text>
         </Box>
 
         <Box>
           <Text fontSize="xl" fontWeight='semibold'>Website</Text>
           <Divider />
-          <Text fontSize="xl">{companyData.website}</Text>
+          <Text fontSize="xl">{user.website}</Text>
         </Box>
 
-        <Box>
-          <Text fontSize="xl" fontWeight='semibold'>Description</Text>
-          <Divider />
-          <Text fontSize="xl">{companyData.description}</Text>
-        </Box>
       </Stack>
 
     </Container>
