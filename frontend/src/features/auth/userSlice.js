@@ -162,7 +162,6 @@ export const asyncLogout = createAsyncThunk(
     if (response.status === 200) {
       localStorage.removeItem('token');
       history.push('/');
-      window.location.reload()
     }
     const data = await response.data;
 
@@ -272,7 +271,8 @@ const initialState = {
   website: '',
   logo: '',
   // University
-  universityID: 0,
+  universityID: null,
+  companyID: null,
 };
 
 export const userSlice = createSlice({
@@ -302,6 +302,8 @@ export const userSlice = createSlice({
             state.studentId = payload.student_id;
             break;
           case 'Company':
+            state.companyID = payload.company_id;
+            //
             state.name = payload.company_name;
             state.id = payload.company_id;
             state.description = payload.company_description;

@@ -105,11 +105,13 @@ const companyStallData1 = {
       id: '222',
       question: 'Will the internship give any freebies?', // Question posted by a student
       answer: 'Freebies will be shipped from San Fran HQ', // Answer posted by the company
+      creatorId: '0'
     },
     {
       id: '111',
       question: 'Will Covid be a factor in the hiring process?',
       answer: '',
+      creatorId: '1'
     },
   ],
 };
@@ -169,14 +171,16 @@ const companyStallData2 = {
   qandas: [
     // List of all questions and answers
     {
-      id: '111',
-      question: 'Will the Software Internship opportunity be remote?', // Question posted by a student
-      answer: 'The plan for 2021 is to make the internship work from home', // Answer posted by the company
+      id: '222',
+      question: 'Will the internship give any freebies?', // Question posted by a student
+      answer: 'Freebies will be shipped from San Fran HQ', // Answer posted by the company
+      creatorId: '0'
     },
     {
-      id: '222',
-      question: 'Will we get to see the new iPhone?',
+      id: '111',
+      question: 'Will Covid be a factor in the hiring process?',
       answer: '',
+      creatorId: '1'
     },
   ],
 };
@@ -267,11 +271,13 @@ const companyStallData3 = {
       id: '222',
       question: 'Will the internship give any freebies?', // Question posted by a student
       answer: 'Freebies will be shipped from San Fran HQ', // Answer posted by the company
+      creatorId: '0'
     },
     {
       id: '111',
       question: 'Will Covid be a factor in the hiring process?',
       answer: '',
+      creatorId: '1'
     },
   ],
 };

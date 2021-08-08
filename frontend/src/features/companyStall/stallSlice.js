@@ -6,8 +6,8 @@ import axios from 'axios';
 // Get Stall Data
 export const asyncFetchStallData = createAsyncThunk(
   'stall/company',
-  async (stallID) => {
-    // const response = await getStallData(stallID);
+  async ({ stallID }) => {
+    console.log(stallID);
     const response = await axios({
       method: 'get',
       url: `/careerfairs/stalls/${stallID}/`,
@@ -173,6 +173,65 @@ export const asyncPostQuestion = createAsyncThunk(
   }
 );
 
+// Edit a question
+export const asyncEditQuestion = createAsyncThunk(
+  'stall/editQuestion',
+  async ({ id, question, toast }) => {
+    await new Promise((r) => setTimeout(r, 3000));
+    const response = { id: id, question: question, toast: toast };
+    toast({
+      description: 'Successfully Edited Question',
+      status: 'success',
+      isClosable: true,
+    });
+    return response;
+  }
+);
+
+// Add answer to a question
+export const asyncAnswerQuestion = createAsyncThunk(
+  'stall/answerQuestion',
+  async ({ id, answer, toast }) => {
+    await new Promise((r) => setTimeout(r, 3000));
+    const response = { id: id, answer: answer, toast: toast };
+    toast({
+      description: 'Successfully Answered Question',
+      status: 'success',
+      isClosable: true,
+    });
+    return response;
+  }
+);
+
+// Edit answer to a question
+export const asyncEditAnswer = createAsyncThunk(
+  'stall/editQuestion',
+  async ({ id, answer, toast }) => {
+    await new Promise((r) => setTimeout(r, 3000));
+    const response = { id: id, answer: answer, toast: toast };
+    toast({
+      description: 'Successfully Edited Answer',
+      status: 'success',
+      isClosable: true,
+    });
+    return response;
+  }
+);
+
+// Delete a question
+export const asyncDeleteQuestion = createAsyncThunk(
+  'stall/deleteQuestion',
+  async ({ id, toast }) => {
+    await new Promise((r) => setTimeout(r, 3000));
+    toast({
+      description: 'Successfully deleted Question',
+      status: 'success',
+      isClosable: true,
+    });
+    return id;
+  }
+);
+
 const initialState = {
   loading: false,
   status: false,
@@ -300,8 +359,36 @@ export const stallSlice = createSlice({
           id: '2223',
           question: payload,
           answer: '',
+          creatorId: '2',
         });
-      });
+      })
+      .addCase(asyncEditQuestion.pending, (state, { payload }) => {
+        state.eventFormStatus = 'Pending';
+      })
+      .addCase(asyncEditQuestion.fulfilled, (state, { payload }) => {
+        state.eventFormStatus = 'Completed';
+        const index = current(state.qandas).findIndex(
+          (question) => question.id === payload.id
+        );
+        state.qandas[index].question = payload.question;
+      })
+      .addCase(asyncAnswerQuestion.pending, (state, { payload }) => {
+        state.eventFormStatus = 'Pending';
+      })
+      .addCase(asyncAnswerQuestion.fulfilled, (state, { payload }) => {
+        state.eventFormStatus = 'Completed';
+        const index = current(state.qandas).findIndex(
+          (question) => question.id === payload.id
+        );
+        state.qandas[index].answer = payload.answer;
+      })
+      .addCase(asyncDeleteQuestion.pending, (state, { payload }) => {
+        state.eventFormStatus = 'Pending';
+      })
+      .addCase(asyncDeleteQuestion.fulfilled, (state, { payload }) => {
+        state.eventFormStatus = 'Completed';
+        state.qandas = state.qandas.filter((qanda) => qanda.id !== payload);
+      })
   },
 });
 

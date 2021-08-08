@@ -73,13 +73,13 @@ export const DetailsCard = (props) => {
     dispatch(
       asyncAddCompanyStall({
         stall: {
-          pending: 'Pending',
-          companyId: userDetails.id,
-          company: userDetails.name,
-          description: userDetails.description,
-          logo: userDetails.logo,
+          approval_status: 'Pending',
+          company_id: parseInt(userDetails.companyID),
+          event_id: parseInt(props.fairID),
         },
-        fairID: props.fairID,
+        logo: userDetails.logo,
+        description: userDetails.description,
+        company: userDetails.name,
         toast: toast,
       })
     );
@@ -88,7 +88,10 @@ export const DetailsCard = (props) => {
   const removeStall = () => {
     dispatch(
       asyncRemoveCompanyStall({
-        fairID: props.fairID,
+        data: {
+          eventID: parseInt(props.fairID),
+          employerID: userDetails.companyID,
+        },
         company: userDetails.name,
         toast: toast,
       })
@@ -169,6 +172,7 @@ export const DetailsCard = (props) => {
                   description={props.description}
                   start={props.startDate}
                   end={props.endDate}
+                  fairID={props.fairID}
                   edit
                 />
               </Flex>

@@ -1,4 +1,4 @@
-import { createAsyncThunk, createSlice, current } from '@reduxjs/toolkit';
+import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import { prominent } from 'color.js';
 import complementaryTextColour from '../../util/complementaryTextColour';
 import axios from 'axios';
@@ -78,12 +78,10 @@ export const asyncToggleEventPending = createAsyncThunk(
 // Add a company stall to the career fair event
 export const asyncAddCompanyStall = createAsyncThunk(
   'fair/addStall',
-  async ({ stall, fairID, toast }) => {
-    // await new Promise((r) => setTimeout(r, 3000));
-    // const response = { ...stall, id: '5678' };
+  async ({ stall, logo, description, company, toast }) => {
     const response = await axios({
       method: 'post',
-      url: `/careerfairs/${fairID}/stalls/`,
+      url: `/careerfairs/${stall.event_id}/stalls/`,
       data: stall,
       headers: {
         Authorization: `Token ${localStorage.getItem('token')}`,
@@ -104,20 +102,46 @@ export const asyncAddCompanyStall = createAsyncThunk(
       });
     }
 
-    return response;
+    const data = await response.data;
+
+    console.log(response.data);
+
+    return {
+      data: data,
+      logo: logo,
+      description: description,
+      company: company,
+    };
   }
 );
 
 // Delete a company stall from an event
 export const asyncRemoveCompanyStall = createAsyncThunk(
   'fair/removeStall',
-  async ({ fairID, company, toast }) => {
-    await new Promise((r) => setTimeout(r, 3000));
-    toast({
-      description: 'Successfully removed Company Stall',
-      status: 'success',
-      isClosable: true,
+  async ({ data, company, toast }) => {
+    const response = await axios({
+      method: 'delete',
+      url: '/careerfairs/delete/stalls/',
+      headers: {
+        Authorization: `Token ${localStorage.getItem('token')}`,
+      },
+      data: data,
     });
+
+    if (response.status === 200) {
+      toast({
+        description: 'Successfully removed Company Stall from event',
+        status: 'success',
+        isClosable: true,
+      });
+    } else {
+      toast({
+        description: 'Failed to remove stall from event',
+        status: 'error',
+        isClosable: true,
+      });
+    }
+
     return company;
   }
 );
@@ -193,7 +217,14 @@ export const fairSlice = createSlice({
       })
       .addCase(asyncAddCompanyStall.fulfilled, (state, { payload }) => {
         state.status = false;
-        state.stalls.push(payload);
+        state.stalls.push({
+          pending: payload.data.approval_status,
+          company: payload.company,
+          description: payload.description,
+          id: payload.data.stall_id,
+          live: false,
+          logo: payload.logo,
+        });
       })
       // Delete a company stall from an event
       .addCase(asyncRemoveCompanyStall.pending, (state, { payload }) => {
