@@ -11,6 +11,8 @@ import json
 from django.core.serializers.json import DjangoJSONEncoder
 from drf_yasg import openapi
 from drf_yasg.utils import swagger_auto_schema
+from rest_framework.authentication import TokenAuthentication, SessionAuthentication
+from rest_framework.permissions import IsAuthenticated
 
 
 @swagger_auto_schema(method="get",
@@ -148,7 +150,7 @@ def create_presentation(request):
     })
     ,
     operation_summary="Update presentation",
-    operation_description="",
+    operation_description="Update an opportunity, can alter the assigned stall to undefined (Beware!), omit stall_id if possible. Presentation must be owned by caller.",
 )
 @api_view(['PUT', ])
 def edit_presentation(request):
@@ -167,3 +169,25 @@ def edit_presentation(request):
         return Response(presentation_serializer.errors, status=status.HTTP_400_BAD_REQUEST)
     presentation_serializer.save()
     return Response(presentation_serializer.data, status=status.HTTP_201_CREATED)
+    
+    
+@swagger_auto_schema(
+    method="delete",
+    responses={
+        200 : "Deleted",
+        404 : "Not found"
+    },
+    operation_summary="Delete presentation",
+    # operation_description="",
+)
+@api_view(['DELETE', ])
+def delete_presentation(self, request, presentationId):
+    if request.user.user_type != "2":
+        return Response({"Forbidden" : "Incorrect user_type"}, status=403)
+    requestUserCompany = Companies.objects.get(user_id = request.user.userID).company_id
+    presentation = get_object_or_404(Presentations, pk = presentationId)
+    presentationOwner = presentation.stall_id.company_id
+    if requestUserCompany != presentationOwner:
+        return Response({"Forbidden" : "Presentation does not belong to user"}, status=403)
+    presentation.delete()
+    return Response("Deleted", status=200)
