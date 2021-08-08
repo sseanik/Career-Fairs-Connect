@@ -176,7 +176,8 @@ export const asyncPostQuestion = createAsyncThunk(
       status: 'success',
       isClosable: true,
     });
-    return response;
+    console.log(response.data)
+    return response.data;
   }
 );
 
@@ -186,7 +187,7 @@ export const asyncEditQuestion = createAsyncThunk(
   async ({ questionId, stallId, question, toast }) => {
     const response = await axios({
       method: 'put',
-      url: `/questions/${stallId}/${questionId}/`,
+      url: `/questions/question/${stallId}/${questionId}/`,
       data: question,
       headers: {
         Authorization: `Token ${localStorage.getItem('token')}`,
