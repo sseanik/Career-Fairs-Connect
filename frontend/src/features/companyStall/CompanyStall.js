@@ -174,6 +174,7 @@ export default function CompanyStall(props) {
                   userData.role === 'Company' &&
                   userData.name === stallData.company
                 }
+                fairID={stallID}
                 stall
               />
             </TabPanel>

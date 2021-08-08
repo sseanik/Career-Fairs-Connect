@@ -1,4 +1,6 @@
 import { createIcon } from '@chakra-ui/icons';
+import React from 'react';
+
 // using `path`
 export const Logo = createIcon({
   displayName: 'logo',

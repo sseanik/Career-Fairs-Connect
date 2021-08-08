@@ -138,49 +138,60 @@ export function StallCard(props) {
             justify='space-around'
           >
             <Button
-              w={props.pending !== 'Pending' ? '100%' : '45%'}
+              // w={props.pending !== 'Pending' ? '100%' : '45%'}
+              w='45%'
               size='sm'
               fontSize='md'
-              colorScheme={props.pending === 'Pending' ? 'green' : 'gray'}
-              onClick={() =>
-                props.pending === 'Pending'
-                  ? dispatch(
-                      asyncToggleEventPending({
-                        id: props.id,
-                        toggle: 'Approve',
-                        toast: toast,
-                      })
-                    )
-                  : dispatch(
-                      asyncToggleEventPending({
-                        id: props.id,
-                        toggle: 'Pending',
-                        toast: toast,
-                      })
-                    )
-              }
-            >
-              {props.pending === 'Pending' ? 'Approve' : 'Set Pending'}
-            </Button>
-            {props.pending === 'Pending' && (
-              <Button
-                w='45%'
-                size='sm'
-                fontSize='md'
-                colorScheme='red'
-                onClick={() =>
+              // colorScheme={props.pending === 'Pending' ? 'green' : 'gray'}
+              colorScheme='green'
+              onClick={
+                () =>
+                  // props.pending === 'Pending'
+                  //   ?
                   dispatch(
                     asyncToggleEventPending({
                       id: props.id,
-                      toggle: 'Rejected',
+                      // toggle: 'Approve',
+                      approval_status: 'true',
                       toast: toast,
                     })
                   )
-                }
-              >
-                Reject
-              </Button>
-            )}
+                // :
+                // dispatch(
+                //     asyncToggleEventPending({
+                //       id: props.id,
+                //       // toggle: 'Pending',
+                //       approval_status: 'pending',
+                //       toast: toast,
+                //     })
+                //   )
+              }
+            >
+              {/* {props.pending === 'Pending' ? 'Approve' : 'Set Pending'} */}
+              {/* remove "Set pending" */}
+              Approve
+            </Button>
+
+            {/* {props.pending === 'Pending' && ( */}
+            <Button
+              w='45%'
+              size='sm'
+              fontSize='md'
+              colorScheme='red'
+              onClick={() =>
+                dispatch(
+                  asyncToggleEventPending({
+                    id: props.id,
+                    // toggle: 'Rejected',
+                    approval_status: 'false',
+                    toast: toast,
+                  })
+                )
+              }
+            >
+              Reject
+            </Button>
+            {/* )} */}
           </Box>
         )}
       </Flex>
