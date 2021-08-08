@@ -8,8 +8,6 @@ import {
   Flex,
   Image,
   Spacer,
-  Tag,
-  TagLabel,
   Tooltip,
   useBreakpointValue,
   useColorMode,

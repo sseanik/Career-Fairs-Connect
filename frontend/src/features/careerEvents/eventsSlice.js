@@ -22,7 +22,9 @@ export const asyncFetchEventsData = createAsyncThunk(
 // Create a Career Fair Event
 export const asyncCreateFairEvent = createAsyncThunk(
   'events/create',
-  async ({ event, toast, id }) => {
+  async ({ event, toast, id, university }) => {
+    console.log(event);
+
     const response = await axios({
       method: 'post',
       url: `/university/${id}/careerfairs/`,
@@ -47,7 +49,7 @@ export const asyncCreateFairEvent = createAsyncThunk(
     }
 
     const data = await response.data;
-    return data;
+    return { ...data, university: university };
   }
 );
 
@@ -88,6 +90,7 @@ export const eventsSlice = createSlice({
         state.loading = true;
       })
       .addCase(asyncFetchEventsData.fulfilled, (state, { payload }) => {
+        console.log(payload);
         state.loading = false;
         state.events = payload;
       })
@@ -96,9 +99,16 @@ export const eventsSlice = createSlice({
         state.status = true;
       })
       .addCase(asyncCreateFairEvent.fulfilled, (state, { payload }) => {
-        console.log(payload);
         state.status = false;
-        state.events.push(payload);
+        state.events.push({
+          id: payload.event_id,
+          title: payload.title,
+          description: payload.description,
+          university: payload.university,
+          logo: payload.logo,
+          start: new Date(payload.start_date),
+          end: new Date(payload.end_date),
+        });
       })
       // Deleting a Career Fair Event
       .addCase(asyncDeleteFairEvent.pending, (state) => {
