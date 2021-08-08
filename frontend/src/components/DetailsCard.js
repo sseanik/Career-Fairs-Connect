@@ -225,7 +225,11 @@ export const DetailsCard = (props) => {
                 >
                   Add Opportunity
                 </Button>
-                <OpportunityModal isOpen={isOpen} onClose={onClose} stallID={props.fairID}/>
+                <OpportunityModal
+                  isOpen={isOpen}
+                  onClose={onClose}
+                  stallID={props.fairID}
+                />
               </div>
             )}
         </Flex>
@@ -295,7 +299,7 @@ export const DetailsCard = (props) => {
             color='gray.600'
           >
             <TagLabel color={colorMode === 'light' ? 'gray.600' : 'gray.300'}>
-              Hosted by <b>{props.uni}</b>
+              <b>{props.uni}</b>
             </TagLabel>
           </Tag>
         )}

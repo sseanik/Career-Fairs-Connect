@@ -86,7 +86,7 @@ export function PresentationModal(props) {
           start_time: props.start,
           end_time: props.end,
           color: props.color,
-          stall_id: props.stallID
+          stall_id: props.stallID,
         },
         toast: toast,
       })

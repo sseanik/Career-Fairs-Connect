@@ -18,7 +18,7 @@ import { AiOutlineMenu } from 'react-icons/ai';
 import { Logo } from './Logo';
 import { useThemeDarkMode } from 'elementz';
 import { useDispatch, useSelector } from 'react-redux';
-import { asyncLoginUser, asyncLogout } from '../features/auth/userSlice';
+import { asyncLogout } from '../features/auth/userSlice';
 
 export default function Navbar(props) {
   // Icon
@@ -30,11 +30,11 @@ export default function Navbar(props) {
   const [isDarkMode, toggleDarkMode] = useThemeDarkMode();
   const toggleMode = () => {
     toggleColorMode();
-    console.log(isDarkMode);
     if (
       localStorage.getItem('ez-mode') !==
       localStorage.getItem('chakra-ui-color-mode')
     ) {
+      localStorage.setItem('dark-mode-test', isDarkMode);
       toggleDarkMode();
     }
   };
@@ -62,8 +62,8 @@ export default function Navbar(props) {
         p={4}
         display={{ md: 'none' }}
       >
-        {NAV_ITEMS.map((navItem) => (
-          <Stack spacing={4}>
+        {NAV_ITEMS.map((navItem, idx) => (
+          <Stack spacing={4} key={`nav-item-${idx}`}>
             <Flex
               px={4}
               py={2}

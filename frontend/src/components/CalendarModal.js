@@ -59,10 +59,10 @@ export function CalendarModal(props) {
           title: values.title,
           presentation_description: values.description,
           presentation_link: values.link,
-          start_time: props.start,
-          end_time: props.end,
+          start_time: props.event.start,
+          end_time: props.event.end,
           color: props.color,
-          stall_id: props.stallID
+          stall_id: props.stallID,
         },
         toast: toast,
       })

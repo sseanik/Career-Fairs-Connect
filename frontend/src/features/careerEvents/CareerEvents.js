@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { memo } from 'react';
 import { useHistory } from 'react-router-dom';
 // Redux
 import { useDispatch, useSelector } from 'react-redux';
@@ -15,11 +15,11 @@ import {
   useToast,
 } from '@chakra-ui/react';
 import { SmallAddIcon } from '@chakra-ui/icons';
-// Componentsimport { EventModal } from '../../components/EventModal';
+// Components
+import { EventModal } from '../../components/EventModal';
 import { DetailsCard } from '../../components/DetailsCard';
 import { SkeletonFairEvent } from './SkeletonFairEvent';
 import getDominantColour from '../../util/getDominantColour';
-import { EventModal } from '../../components/EventModal';
 
 export default function CareerEvents() {
   // React Router
@@ -36,7 +36,11 @@ export default function CareerEvents() {
   const { colorMode } = useColorMode();
 
   // On page load gather all career fair events
-  React.useEffect(() => dispatch(asyncFetchEventsData()), [dispatch]);
+  React.useEffect(() => {
+    if (!isOpen) {
+      dispatch(asyncFetchEventsData());
+    }
+  }, [dispatch, isOpen]);
 
   // Navigate to fair event if permissions allow the user to
   const visitFairEvent = (event, idx) => {
@@ -64,14 +68,27 @@ export default function CareerEvents() {
     }
   };
 
+  const Modal = memo(() => {
+    return (
+      <EventModal
+        isOpen={isOpen}
+        onClose={onClose}
+        university={userDetails.name}
+        website={userDetails.website}
+        logo={userDetails.logo}
+      />
+    );
+  });
+
   return (
     <div>
+      <Modal />
       <Flex align='center'>
         <Heading ml='6' mt='3' as='h3' size='md' fontWeight='semibold'>
           Career Fair Events
         </Heading>
         <Spacer />
-        
+
         {userDetails.role === 'University' && (
           <div>
             <Button
@@ -85,17 +102,8 @@ export default function CareerEvents() {
             >
               Create Event
             </Button>
-            <EventModal
-              isOpen={isOpen}
-              onClose={onClose}
-              university={userDetails.name}
-              website={userDetails.website}
-              logo={userDetails.logo}
-            />
           </div>
         )}
-        
-
       </Flex>
       {loading &&
         [...Array(2)].map((x, i) => <SkeletonFairEvent key={i} card />)}

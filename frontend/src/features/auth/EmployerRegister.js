@@ -1,5 +1,5 @@
 import * as React from 'react';
-import Fade from 'react-reveal/Fade';
+import { Fade } from 'react-awesome-reveal';
 
 // Formik
 import { Field, Formik } from 'formik';
@@ -94,7 +94,6 @@ export default function EmployerRegister() {
         },
         history: history,
         toast: toast,
-        history: history,
       })
     );
   };

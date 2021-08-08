@@ -1,6 +1,5 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import axios from 'axios';
-import { getEventsData } from '../../exampleData/exampleCareerEvents';
 
 // Fetch Career Fair Events
 export const asyncFetchEventsData = createAsyncThunk(
@@ -32,7 +31,6 @@ export const asyncCreateFairEvent = createAsyncThunk(
         Authorization: `Token ${localStorage.getItem('token')}`,
       },
     });
-
 
     const data = await response.data;
 

@@ -1,7 +1,6 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import { prominent } from 'color.js';
 import complementaryTextColour from '../../util/complementaryTextColour';
-import { getFairData } from '../../exampleData/exampleCareerFair';
 import axios from 'axios';
 
 // Get Career Fair Event Data
@@ -21,11 +20,10 @@ export const asyncFetchFairData = createAsyncThunk(
     const colour = await prominent(data.logo, {
       amount: 2,
     });
-    
+
     return { ...data, colour: colour };
   }
 );
-
 
 /* ------------------------- University Perspective ------------------------- */
 // Edit a Career Fair Events Details
@@ -60,13 +58,15 @@ export const asyncToggleEventPending = createAsyncThunk(
         Authorization: `Token ${localStorage.getItem('token')}`,
       },
     });
-    
-    toast({
-      description: 'Successfully changed Stall approval status',
-      status: 'success',
-      isClosable: true,
-    });
-    
+
+    if (response.status === 200) {
+      toast({
+        description: 'Successfully changed Stall approval status',
+        status: 'success',
+        isClosable: true,
+      });
+    }
+
     return { id: id, approval_status: approval_status };
   }
 );
@@ -88,11 +88,11 @@ export const asyncAddCompanyStall = createAsyncThunk(
     });
 
     if (response.status === 200) {
-    toast({
-      description: 'Successfully added Company Stall',
-      status: 'success',
-      isClosable: true,
-    });
+      toast({
+        description: 'Successfully added Company Stall',
+        status: 'success',
+        isClosable: true,
+      });
     } else {
       toast({
         description: 'Failed to apply',
@@ -100,7 +100,6 @@ export const asyncAddCompanyStall = createAsyncThunk(
         isClosable: true,
       });
     }
-
 
     return response;
   }

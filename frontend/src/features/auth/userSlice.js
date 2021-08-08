@@ -1,7 +1,5 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import axios from 'axios';
-import { useHistory } from 'react-router-dom';
-import { getUserDetails } from '../../exampleData/exampleUser';
 
 export const asyncFetchUserData = createAsyncThunk(
   'user/details',
@@ -129,7 +127,6 @@ export const asyncLoginUser = createAsyncThunk(
         status: 'success',
         isClosable: true,
       });
-      history.push('/login');
     } else {
       toast({
         description: 'Login Failed',
@@ -239,7 +236,6 @@ export const asyncUpdateStudent = createAsyncThunk(
     return data;
   }
 );
-
 
 const initialState = {
   loggedIn: false,

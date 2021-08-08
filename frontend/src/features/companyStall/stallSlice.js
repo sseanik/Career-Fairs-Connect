@@ -1,5 +1,4 @@
 import { createAsyncThunk, createSlice, current } from '@reduxjs/toolkit';
-import { getStallData } from '../../exampleData/exampleCompanyStall';
 import { prominent } from 'color.js';
 import complementaryTextColour from '../../util/complementaryTextColour';
 import axios from 'axios';
@@ -30,7 +29,7 @@ export const asyncFetchStallData = createAsyncThunk(
 export const asyncAddOpportunity = createAsyncThunk(
   'stall/addOpportunity',
   async ({ stallID, opportunity, toast }) => {
-    console.log(opportunity)
+    console.log(opportunity);
     const response = await axios({
       method: 'post',
       url: `/company/${stallID}/opportunities/`,
@@ -46,7 +45,8 @@ export const asyncAddOpportunity = createAsyncThunk(
       isClosable: true,
     });
 
-    return response;
+    const data = await response.data;
+    return data;
   }
 );
 
@@ -84,7 +84,7 @@ export const asyncDeleteOpportunity = createAsyncThunk(
 export const asyncAddPresentation = createAsyncThunk(
   'stall/addPresentation',
   async ({ presentation, toast }) => {
-    console.log(presentation)
+    console.log(presentation);
     const response = await axios({
       method: 'post',
       url: '/presentation/create/',
@@ -98,7 +98,9 @@ export const asyncAddPresentation = createAsyncThunk(
       status: 'success',
       isClosable: true,
     });
-    return response;
+
+    const data = await response.data;
+    return data;
   }
 );
 
@@ -206,7 +208,7 @@ export const stallSlice = createSlice({
         state.live = payload.live;
         state.website = payload.website;
         state.opportunities = payload.opportunities;
-        state.events = payload.events;
+        state.events = payload.presentations;
         state.qandas = payload.qandas;
         const dominantColourObj = complementaryTextColour(payload.colour);
         state.bgColour = dominantColourObj.bgColour;
@@ -249,7 +251,16 @@ export const stallSlice = createSlice({
       })
       .addCase(asyncAddPresentation.fulfilled, (state, { payload }) => {
         state.eventFormStatus = 'Completed';
-        state.events.push(payload);
+
+        state.events.push({
+          id: payload.stall_id,
+          title: payload.title,
+          start: new Date(payload.start_time),
+          end: new Date(payload.end_time),
+          description: payload.description,
+          link: payload.presentation_link,
+          color: payload.color,
+        });
       })
       // Edit a Presentation
       .addCase(asyncEditPresentation.pending, (state, { payload }) => {

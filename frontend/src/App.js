@@ -27,15 +27,14 @@ import Navbar from './components/Navbar';
 function App() {
   const dispatch = useDispatch();
   const history = useHistory();
+  const loggedIn = useSelector((state) => state.user.loggedIn);
 
   React.useEffect(() => {
     const token = localStorage.getItem('token');
     if (token) {
       dispatch(asyncFetchUserData(localStorage.getItem('token')));
     }
-  }, [dispatch, history]);
-
-  const loggedIn = useSelector((state) => state.user.loggedIn);
+  }, [dispatch, history, loggedIn]);
 
   return (
     <ChakraProvider theme={theme}>
@@ -99,7 +98,6 @@ function App() {
         {/* profile */}
         <Route path='/company/' component={CompanyProfile} exact />
         <Route path='/company/edit' component={CompanyEdit} exact />
-
       </Switch>
     </ChakraProvider>
   );

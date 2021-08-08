@@ -32,8 +32,8 @@ export function PresentationCalendar(props) {
     description: '',
     link: '',
     color: '',
-    start: '',
-    end: '',
+    start: {},
+    end: {},
   });
 
   const eventClick = (info) => {
