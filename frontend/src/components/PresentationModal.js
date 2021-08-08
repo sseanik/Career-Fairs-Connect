@@ -80,12 +80,14 @@ export function PresentationModal(props) {
     dispatch(
       asyncEditPresentation({
         presentation: {
+          presentation_id: props.id,
           title: values.title,
-          description: values.description,
-          link: values.link,
-          start: props.start,
-          end: props.end,
+          presentation_description: values.description,
+          presentation_link: values.link,
+          start_time: props.start,
+          end_time: props.end,
           color: props.color,
+          stall_id: props.stallID,
         },
         toast: toast,
       })

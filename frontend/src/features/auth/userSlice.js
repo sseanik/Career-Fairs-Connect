@@ -1,7 +1,5 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import axios from 'axios';
-import { useHistory } from 'react-router-dom';
-import { getUserDetails } from '../../exampleData/exampleUser';
 
 export const asyncFetchUserData = createAsyncThunk(
   'user/details',
@@ -53,12 +51,28 @@ export const asyncRegisterUniversity = createAsyncThunk(
 
 export const asyncRegisterCompany = createAsyncThunk(
   'user/registerCompany',
-  async ({ user, toast }) => {
+  async ({ user, toast, history }) => {
     const response = await axios({
       method: 'post',
       url: '/user/register/company/',
       data: user,
     });
+
+    if (response.status === 201) {
+      toast({
+        description: 'Successfully created account',
+        status: 'success',
+        isClosable: true,
+      });
+      history.push('/login');
+    } else {
+      toast({
+        description: 'Register Failed',
+        status: 'error',
+        isClosable: true,
+      });
+    }
+
     const data = await response.data;
 
     return data;
@@ -67,12 +81,28 @@ export const asyncRegisterCompany = createAsyncThunk(
 
 export const asyncRegisterStudent = createAsyncThunk(
   'user/registerStudent',
-  async ({ user, toast }) => {
+  async ({ user, toast, history }) => {
     const response = await axios({
       method: 'post',
       url: '/user/register/student/',
       data: user,
     });
+
+    if (response.status === 201) {
+      toast({
+        description: 'Successfully created account',
+        status: 'success',
+        isClosable: true,
+      });
+      history.push('/login');
+    } else {
+      toast({
+        description: 'Register Failed',
+        status: 'error',
+        isClosable: true,
+      });
+    }
+
     const data = await response.data;
 
     return data;
@@ -83,7 +113,6 @@ export const asyncRegisterStudent = createAsyncThunk(
 export const asyncLoginUser = createAsyncThunk(
   'user/login',
   async ({ user, toast, history }) => {
-    console.log('tell me Im logging in');
     const response = await axios({
       method: 'post',
       url: '/user/login/',
@@ -98,7 +127,6 @@ export const asyncLoginUser = createAsyncThunk(
         status: 'success',
         isClosable: true,
       });
-      history.push('/login');
     } else {
       toast({
         description: 'Login Failed',
@@ -115,8 +143,6 @@ export const asyncLoginUser = createAsyncThunk(
 export const asyncLogout = createAsyncThunk(
   'user/logout',
   async ({ token, history }) => {
-    console.log('I WANT TO LOGOUT??');
-
     const response = await axios({
       method: 'get',
       url: '/user/logout/',
@@ -125,11 +151,10 @@ export const asyncLogout = createAsyncThunk(
       },
     });
 
-    console.log(response);
-
     if (response.status === 200) {
       localStorage.removeItem('token');
       history.push('/');
+      window.location.reload()
     }
     const data = await response.data;
 
@@ -213,7 +238,6 @@ export const asyncUpdateStudent = createAsyncThunk(
   }
 );
 
-
 const initialState = {
   loggedIn: false,
   loading: false,
@@ -249,7 +273,6 @@ export const userSlice = createSlice({
         state.loading = true;
       })
       .addCase(asyncFetchUserData.fulfilled, (state, { payload }) => {
-        console.log(payload);
         state.loading = false;
         state.loggedIn = true;
         state.role = payload.user_type;
@@ -261,10 +284,10 @@ export const userSlice = createSlice({
             state.university = payload.university;
             break;
           case 'Company':
-            state.name = payload.name;
-            state.description = payload.description;
-            state.website = payload.website;
-            state.logo = payload.logo;
+            state.name = payload.company_name;
+            state.description = payload.company_description;
+            state.website = payload.company_website;
+            state.logo = payload.company_logo_64;
             break;
           case 'University':
             state.universityID = payload.university_id;

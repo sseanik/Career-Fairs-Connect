@@ -5,7 +5,6 @@ import { convertImageToBase64, selectBase64Image } from '../auth/logoSlice';
 import { asyncUpdateCompany } from '../auth/userSlice';
 import {
   Stack,
-
   Container,
   Heading,
   FormControl,
@@ -13,7 +12,6 @@ import {
   FormErrorMessage,
   Button,
   useToast,
-
   Image,
 } from '@chakra-ui/react';
 import { Field, Formik } from 'formik';
@@ -50,10 +48,9 @@ const validationSchema = Yup.object({
 
 export default function Profile() {
   const history = useHistory();
-  const [picture, setPicture] = useState(null);
   const [imgSrc, setImgSrc] = useState(companyData.logo);
   useEffect(() => {
-    const image = document.getElementById("oldLogo");
+    const image = document.getElementById('oldLogo');
     image.src = imgSrc;
   }, [imgSrc]);
 
@@ -82,16 +79,14 @@ export default function Profile() {
   }
 
   return (
-    <>
-      <Container
-        maxW={'container.md'}
-        p={12}
-      >
+    <div>
+      <Container maxW={'container.md'} p={12}>
         <Heading
           as={'h2'}
           fontSize={{ base: 'xl', sm: '2xl' }}
           textAlign={'center'}
-          mb={5}>
+          mb={5}
+        >
           Edit Profile
         </Heading>
 
@@ -107,13 +102,17 @@ export default function Profile() {
               spacing={'6'}
               onSubmit={handleSubmit}
             >
-
-              <Stack direction="row" spacing={10} align='center' justify='center'>
+              <Stack
+                direction='row'
+                spacing={10}
+                align='center'
+                justify='center'
+              >
                 <Image
                   id='oldLogo'
                   src={imgSrc}
                   alt={`${companyData.company}-logo`}
-                  boxSize="150px"
+                  boxSize='150px'
                   objectFit='cover'
                 />
                 <Field name='logo'>
@@ -139,7 +138,7 @@ export default function Profile() {
               <TextareaControl name='description' label='Company Description' />
               <InputControl name='website' label='Website URL' />
 
-              <Stack direction="row" spacing={4} justify='center'>
+              <Stack direction='row' spacing={4} justify='center'>
                 <Button
                   colorScheme={'blue'}
                   variant={'outline'}
@@ -159,11 +158,10 @@ export default function Profile() {
                   Save
                 </Button>
               </Stack>
-
             </Stack>
           )}
         </Formik>
       </Container>
-    </>
+    </div>
   );
 }

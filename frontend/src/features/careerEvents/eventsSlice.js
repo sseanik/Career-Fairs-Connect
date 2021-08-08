@@ -1,6 +1,5 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import axios from 'axios';
-import { getEventsData } from '../../exampleData/exampleCareerEvents';
 
 // Fetch Career Fair Events
 export const asyncFetchEventsData = createAsyncThunk(
@@ -33,10 +32,6 @@ export const asyncCreateFairEvent = createAsyncThunk(
       },
     });
 
-    console.log(response);
-
-    const data = await response.data;
-
     if (response.status === 200) {
       toast({
         description: 'Successfully created Career Fair',
@@ -50,10 +45,13 @@ export const asyncCreateFairEvent = createAsyncThunk(
         isClosable: true,
       });
     }
+
+    const data = await response.data;
     return data;
   }
 );
 
+// TODO
 // Delete a Career Fair Event
 export const asyncDeleteFairEvent = createAsyncThunk(
   'events/delete',
@@ -98,8 +96,8 @@ export const eventsSlice = createSlice({
         state.status = true;
       })
       .addCase(asyncCreateFairEvent.fulfilled, (state, { payload }) => {
-        state.status = false;
         console.log(payload);
+        state.status = false;
         state.events.push(payload);
       })
       // Deleting a Career Fair Event

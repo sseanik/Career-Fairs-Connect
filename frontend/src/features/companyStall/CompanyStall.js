@@ -174,6 +174,7 @@ export default function CompanyStall(props) {
                   userData.role === 'Company' &&
                   userData.name === stallData.company
                 }
+                fairID={stallID}
                 stall
               />
             </TabPanel>
@@ -196,6 +197,7 @@ export default function CompanyStall(props) {
           interact={true}
           loading={stallData.loading}
           company={stallData.company}
+          fairID={stallID}
         />
       </Box>
     </div>

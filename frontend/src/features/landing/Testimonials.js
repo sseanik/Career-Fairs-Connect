@@ -7,7 +7,8 @@ import {
   SimpleGrid,
   useColorModeValue,
 } from '@chakra-ui/react';
-import Fade from 'react-reveal/Fade';
+import { Fade } from 'react-awesome-reveal';
+import React from 'react';
 
 const testimonials = [
   {
@@ -55,7 +56,6 @@ function TestmonialCard(props) {
   const { name, role, content, avatar, index } = props;
   return (
     <Flex
-      key={`testimonial-${index}`}
       boxShadow={'lg'}
       maxW={'640px'}
       direction={{ base: 'column-reverse', md: 'row' }}
@@ -156,7 +156,7 @@ export default function Testimonials() {
         mx={'auto'}
       >
         {testimonials.map((cardInfo, index) => (
-          <Fade up duration={700 + index * 100}>
+          <Fade up duration={700 + index * 100} key={`testimonial-${index}`}>
             <TestmonialCard {...cardInfo} index={index} />
           </Fade>
         ))}

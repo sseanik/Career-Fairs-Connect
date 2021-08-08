@@ -173,6 +173,7 @@ export default function CareerFair(props) {
                 opportunities={fairData.opportunities}
                 limit={5}
                 interact={false}
+                fairID={fairID}
               />
             </TabPanel>
           </TabPanels>
@@ -190,7 +191,7 @@ export default function CareerFair(props) {
             description={event.description}
             img={event.logo}
             isLive={event.isLive}
-            pending={event.pending}
+            pending={event.approval_status}
           />
         ))}
       </Flex>
