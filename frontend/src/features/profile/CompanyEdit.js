@@ -66,6 +66,8 @@ export default function Profile() {
   };
 
   const submitForm = (values, actions) => {
+    const update_logo = (values.logo) ? base64Image : user.logo;
+    console.log('update_logo=', update_logo)
     actions.setSubmitting(false);
     dispatch(asyncUpdateCompany({
       id: user.id,
@@ -73,7 +75,7 @@ export default function Profile() {
         company_name: values.company,
         company_description: values.description,
         company_webpage_url: values.website,
-        company_logo_64: values.logo,
+        company_logo_64: update_logo,
       },
       toast: toast,
       history: history,
