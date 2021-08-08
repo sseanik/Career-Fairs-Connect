@@ -1,6 +1,5 @@
-import React from 'react';
+import React, { useState, useEffect }  from 'react';
 import { useHistory } from 'react-router-dom';
-
 import { asyncUpdateCompany } from '../auth/userSlice';
 import {
   Stack,
@@ -8,11 +7,19 @@ import {
   Heading,
   Button,
   useToast,
+  //Image
+  Image,
+  FormControl,
+  FormLabel,
+  FormErrorMessage,
 } from '@chakra-ui/react';
-import { Formik } from 'formik';
+import { Field, Formik } from 'formik';
 import * as Yup from 'yup';
 import { InputControl, TextareaControl } from 'formik-chakra-ui';
 import { useSelector, useDispatch } from 'react-redux';
+//process image
+import { convertImageToBase64, selectBase64Image } from '../auth/logoSlice';
+
 
 
 const validationSchema = Yup.object({
@@ -24,41 +31,39 @@ const validationSchema = Yup.object({
     .matches(/^http(s)?:.*$/, 'Website URL is invalid')
     .required('Website URL is Required')
     .max(256),
-  // logo: Yup.string().required('Logo upload is Required'),
 });
 
 export default function Profile() {
   const history = useHistory();
   const user = useSelector((state) => state.user);
-  console.log('user data in company edit:', user);
+  console.log('user. in company edit:', user);
 
   const initialValues = {
     company: user.name,
     website: user.website,
     description: user.description,
-    // logo: '', //companyData.logo,
+    logo: '', //user.logo,
   };
 
   // const [picture, setPicture] = useState(null);
-  // const [imgSrc, setImgSrc] = useState(companyData.logo);
-
+  const [imgSrc, setImgSrc] = useState(user.logo);
   // useEffect(() => {
   //   const image = document.getElementById("oldLogo");
   //   image.src = imgSrc;
   // }, [imgSrc]);
 
-  // const base64Image = useSelector(selectBase64Image);
+  const base64Image = useSelector(selectBase64Image);
+
   const dispatch = useDispatch();
   const toast = useToast();
-  // ?
   const saveStatus = useSelector((state) => state.user.status);
 
-  // const uploadImage = (e, setFieldValue) => {
-  //   dispatch(convertImageToBase64(e));
-  //   setFieldValue('logo', e.target.value);
-  //   console.log('e.target.value: ', e.target.value);
-  //   setImgSrc(e.target.value);
-  // };
+  const uploadImage = (e, setFieldValue) => {
+    dispatch(convertImageToBase64(e));
+    setFieldValue('logo', e.target.value);
+    console.log('e.target.value: ', e.target.value);
+    setImgSrc(e.target.value);
+  };
 
   const submitForm = (values, actions) => {
     actions.setSubmitting(false);
@@ -68,7 +73,7 @@ export default function Profile() {
         company_name: values.company,
         company_description: values.description,
         company_webpage_url: values.website,
-        company_logo_64: user.logo,
+        company_logo_64: values.logo,
       },
       toast: toast,
       history: history,
@@ -105,6 +110,34 @@ export default function Profile() {
               spacing={'6'}
               onSubmit={handleSubmit}
             >
+
+              <Stack direction="row" spacing={10} align='center' justify='center'>
+                <Image
+                  id='oldLogo'
+                  src={imgSrc}
+                  alt={`${user.name}-logo`}
+                  boxSize="150px"
+                  objectFit='cover'
+                />
+                <Field name='logo'>
+                  {({ field, form }) => (
+                    <FormControl
+                      id='logo'
+                      isInvalid={form.errors.logo && form.touched.logo}
+                    >
+                      <FormLabel>Update New Logo</FormLabel>
+                      <input
+                        {...field}
+                        type='file'
+                        onChange={(e) => uploadImage(e, setFieldValue)}
+                        accept='.jpeg, .png, .jpg'
+                      ></input>
+                      <FormErrorMessage>{form.errors.logo}</FormErrorMessage>
+                    </FormControl>
+                  )}
+                </Field>
+              </Stack>
+
 
               <InputControl name='company' label='Company Name' />
               <TextareaControl name='description' label='Company Description' />
