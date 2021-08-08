@@ -172,7 +172,7 @@ export function QuestionsAndAnswers(props) {
               <Box>
                 {qanda.answer}
               </Box>
-              {(companyId !== props.companyID) ?
+              {(companyId === props.companyID) ?
                 <Button
                   leftIcon={<RiPencilFill />}
                   marginLeft="100%"
