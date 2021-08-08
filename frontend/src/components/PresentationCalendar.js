@@ -37,14 +37,16 @@ export function PresentationCalendar(props) {
   });
 
   const eventClick = (info) => {
+    console.log(info.event)
+    console.log(info.event.extendedProps)
     setModalEventDetails({
       id: info.event.id,
       title: info.event.title,
       description: info.event.extendedProps.description,
       link: info.event.extendedProps.link,
       color: info.event.backgroundColor,
-      start: info.event.start.getTime(),
-      end: info.event.end.getTime(),
+      start: info.event.start,
+      end: info.event.end,
       time: info.event.start.toLocaleString([], {
         day: 'numeric',
         month: 'long',
@@ -59,14 +61,15 @@ export function PresentationCalendar(props) {
   };
 
   const changeEvent = (e) => {
+
     dispatch(
       asyncEditPresentationTime({
         id: e.event.id,
         title: e.event.title,
         description: e.event.extendedProps.description,
         link: e.event.extendedProps.link,
-        start: e.event.start.getTime(),
-        end: e.event.end.getTime(),
+        start: e.event.start,
+        end: e.event.end,
         color: props.bgColour,
       })
     );

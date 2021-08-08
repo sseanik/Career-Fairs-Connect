@@ -1,4 +1,5 @@
 import { createAsyncThunk, createSlice, current } from '@reduxjs/toolkit';
+import { getStallData } from '../../exampleData/exampleCompanyStall';
 import { prominent } from 'color.js';
 import complementaryTextColour from '../../util/complementaryTextColour';
 import axios from 'axios';
@@ -20,6 +21,8 @@ export const asyncFetchStallData = createAsyncThunk(
       amount: 2,
     });
 
+    console.log(response.data)
+
     return { ...response.data, colour: colour };
   }
 );
@@ -29,7 +32,7 @@ export const asyncFetchStallData = createAsyncThunk(
 export const asyncAddOpportunity = createAsyncThunk(
   'stall/addOpportunity',
   async ({ stallID, opportunity, toast }) => {
-    console.log(opportunity);
+    console.log(opportunity)
     const response = await axios({
       method: 'post',
       url: `/company/${stallID}/opportunities/`,
@@ -45,8 +48,7 @@ export const asyncAddOpportunity = createAsyncThunk(
       isClosable: true,
     });
 
-    const data = await response.data;
-    return data;
+    return response;
   }
 );
 
@@ -84,7 +86,7 @@ export const asyncDeleteOpportunity = createAsyncThunk(
 export const asyncAddPresentation = createAsyncThunk(
   'stall/addPresentation',
   async ({ presentation, toast }) => {
-    console.log(presentation);
+    console.log(presentation)
     const response = await axios({
       method: 'post',
       url: '/presentation/create/',
@@ -98,9 +100,7 @@ export const asyncAddPresentation = createAsyncThunk(
       status: 'success',
       isClosable: true,
     });
-
-    const data = await response.data;
-    return data;
+    return response;
   }
 );
 
@@ -109,7 +109,14 @@ export const asyncEditPresentation = createAsyncThunk(
   'stall/editPresentation',
   async ({ presentation, toast }) => {
     await new Promise((r) => setTimeout(r, 3000));
-    const response = presentation;
+    const response = await axios({
+      method: 'put',
+      url: '/presentation/edit/',
+      data: presentation,
+      headers: {
+        Authorization: `Token ${localStorage.getItem('token')}`,
+      },
+    });
     toast({
       description: 'Successfully edited Presentation',
       status: 'success',
@@ -209,6 +216,7 @@ export const stallSlice = createSlice({
         state.website = payload.website;
         state.opportunities = payload.opportunities;
         state.events = payload.presentations;
+        console.log(current(state).events)
         state.qandas = payload.qandas;
         const dominantColourObj = complementaryTextColour(payload.colour);
         state.bgColour = dominantColourObj.bgColour;
@@ -250,17 +258,9 @@ export const stallSlice = createSlice({
         state.eventFormStatus = 'Pending';
       })
       .addCase(asyncAddPresentation.fulfilled, (state, { payload }) => {
+        console.log(current(state).events)
         state.eventFormStatus = 'Completed';
-
-        state.events.push({
-          id: payload.stall_id,
-          title: payload.title,
-          start: new Date(payload.start_time),
-          end: new Date(payload.end_time),
-          description: payload.description,
-          link: payload.presentation_link,
-          color: payload.color,
-        });
+        state.events.push(payload);
       })
       // Edit a Presentation
       .addCase(asyncEditPresentation.pending, (state, { payload }) => {

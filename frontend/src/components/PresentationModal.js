@@ -51,6 +51,8 @@ export function PresentationModal(props) {
   const dispatch = useDispatch();
   const toast = useToast();
 
+   console.log(props)
+
   const initialValues = {
     title: props.title,
     description: props.description,
@@ -80,6 +82,7 @@ export function PresentationModal(props) {
     dispatch(
       asyncEditPresentation({
         presentation: {
+          presentation_id: props.id,
           title: values.title,
           presentation_description: values.description,
           presentation_link: values.link,
