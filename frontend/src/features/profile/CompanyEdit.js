@@ -38,6 +38,8 @@ export default function Profile() {
   const user = useSelector((state) => state.user);
   console.log('user. in company edit:', user);
 
+  const base64Image = useSelector(selectBase64Image);
+
   const initialValues = {
     company: user.name,
     website: user.website,
@@ -46,13 +48,13 @@ export default function Profile() {
   };
 
   // const [picture, setPicture] = useState(null);
-  const [imgSrc, setImgSrc] = useState(user.logo);
-  // useEffect(() => {
-  //   const image = document.getElementById("oldLogo");
-  //   image.src = imgSrc;
-  // }, [imgSrc]);
+  // const [imgSrc, setImgSrc] = useState(user.logo);
+  useEffect(() => {
+    console.log('wwwwwhat is base64Image now? ',base64Image);
+    const image = document.getElementById("oldLogo");
+    image.src = base64Image;
+  }, [base64Image]);
 
-  const base64Image = useSelector(selectBase64Image);
 
   const dispatch = useDispatch();
   const toast = useToast();
@@ -62,7 +64,7 @@ export default function Profile() {
     dispatch(convertImageToBase64(e));
     setFieldValue('logo', e.target.value);
     console.log('e.target.value: ', e.target.value);
-    setImgSrc(e.target.value);
+    // setImgSrc(e.target.value);
   };
 
   const submitForm = (values, actions) => {
@@ -116,10 +118,10 @@ export default function Profile() {
               <Stack direction="row" spacing={10} align='center' justify='center'>
                 <Image
                   id='oldLogo'
-                  src={imgSrc}
+                  src={user.logo}
                   alt={`${user.name}-logo`}
                   boxSize="150px"
-                  objectFit='cover'
+                  objectFit='contain'
                 />
                 <Field name='logo'>
                   {({ field, form }) => (
