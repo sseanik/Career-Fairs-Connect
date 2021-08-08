@@ -1,12 +1,25 @@
 {
 	"info": {
-		"_postman_id": "fb408e46-f798-4864-93be-b1622c7f51d4",
+		"_postman_id": "deba3ce9-e4ab-1859-28b0-94cf05b12d35",
 		"name": "CareerFair",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
 	},
 	"item": [
 		{
-			"name": "/register/student/",
+			"name": "/user/register/student/",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 201\", function () {\r",
+							"    pm.response.to.have.status(201);\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
 			"request": {
 				"method": "POST",
 				"header": [
@@ -20,7 +33,7 @@
 					"raw": "{\n\t\"first_name\" : \"James\",\n\t\"last_name\" : \"Bond\",\n\t\"university\" : \"UNSW\",\n\t\"email\" : \"jb@mi6.com\",\n\t\"password\" :\"123\"\n}"
 				},
 				"url": {
-					"raw": "http://127.0.0.1:8000/register/student/",
+					"raw": "http://127.0.0.1:8000/user/register/student/",
 					"protocol": "http",
 					"host": [
 						"127",
@@ -30,6 +43,7 @@
 					],
 					"port": "8000",
 					"path": [
+						"user",
 						"register",
 						"student",
 						""
@@ -39,7 +53,20 @@
 			"response": []
 		},
 		{
-			"name": "/register/university/ (UNSW)",
+			"name": "/user/register/university/ (UNSW)",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 201\", function () {\r",
+							"    pm.response.to.have.status(201);\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
 			"request": {
 				"method": "POST",
 				"header": [
@@ -50,10 +77,10 @@
 				],
 				"body": {
 					"mode": "raw",
-					"raw": "{\r\n\t\"email\": \"unsw@unsw.edu.au\",\r\n\t\"password\": \"123\",\r\n\t\"university_name\": \"University of New South Wales\",\r\n\t\"university_abbreviation\": \"UNSW\",\r\n    \"university_logo_url\": \"https://unsw.edu.au/logo.png\",\r\n    \"university_site_url\": \"https://unsw.edu.au/\"\r\n}"
+					"raw": "{\r\n\t\"email\": \"unsw@unsw.edu.au\",\r\n\t\"password\": \"123\",\r\n\t\"university_name\": \"University of New South Wales\",\r\n\t\"university_abbreviation\": \"UNSW\",\r\n    \"university_logo_64\": \"-\"\r\n}"
 				},
 				"url": {
-					"raw": "http://127.0.0.1:8000/register/university/",
+					"raw": "http://127.0.0.1:8000/user/register/university/",
 					"protocol": "http",
 					"host": [
 						"127",
@@ -63,6 +90,7 @@
 					],
 					"port": "8000",
 					"path": [
+						"user",
 						"register",
 						"university",
 						""
@@ -72,7 +100,20 @@
 			"response": []
 		},
 		{
-			"name": "/register/university/ (USYD)",
+			"name": "/user/register/university/ (USYD)",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 201\", function () {\r",
+							"    pm.response.to.have.status(201);\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
 			"request": {
 				"method": "POST",
 				"header": [
@@ -83,10 +124,10 @@
 				],
 				"body": {
 					"mode": "raw",
-					"raw": "{\r\n\t\"email\": \"usyd2@usyd.edu.au\",\r\n\t\"password\": \"123\",\r\n\t\"university_name\": \"University of Sydney\",\r\n\t\"university_abbreviation\": \"USYD\",\r\n    \"university_logo_url\": \"https://www.sydney.edu.au/etc.clientlibs/corporate-commons/clientlibs/foundation/resources/corporate-frontend/assets/img/USydLogo.svg\",\r\n    \"university_site_url\": \"https://www.sydney.edu.au/\"\r\n}"
+					"raw": "{\r\n\t\"email\": \"usyd@usyd.edu.au\",\r\n\t\"password\": \"123\",\r\n\t\"university_name\": \"University of Sydney\",\r\n\t\"university_abbreviation\": \"USYD\",\r\n    \"university_logo_64\": \"-\",\r\n    \"university_site_url\": \"https://www.sydney.edu.au/\"\r\n}"
 				},
 				"url": {
-					"raw": "http://127.0.0.1:8000/register/university/",
+					"raw": "http://127.0.0.1:8000/user/register/university/",
 					"protocol": "http",
 					"host": [
 						"127",
@@ -96,6 +137,7 @@
 					],
 					"port": "8000",
 					"path": [
+						"user",
 						"register",
 						"university",
 						""
@@ -105,7 +147,20 @@
 			"response": []
 		},
 		{
-			"name": "/register/company/ (Google)",
+			"name": "/user/register/company/ (Google)",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 201\", function () {\r",
+							"    pm.response.to.have.status(201);\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
 			"request": {
 				"method": "POST",
 				"header": [
@@ -118,10 +173,10 @@
 				],
 				"body": {
 					"mode": "raw",
-					"raw": "{\r\n  \"email\": \"test@test.com\",\r\n  \"password\": \"123\",\r\n  \"company_name\": \"Google\",\r\n  \"company_description\": \"Test description\",\r\n  \"company_webpage_url\": \"google.com\",\r\n  \"company_logo_url\":  \"https://www.google.com/logo.png\"\r\n}"
+					"raw": "{\r\n  \"email\": \"test@test.com\",\r\n  \"password\": \"123\",\r\n  \"company_name\": \"Google\",\r\n  \"company_description\": \"Test description\",\r\n  \"company_webpage_url\": \"google.com\",\r\n  \"company_logo_64\":  \"-\"\r\n}"
 				},
 				"url": {
-					"raw": "http://127.0.0.1:8000/register/company/",
+					"raw": "http://127.0.0.1:8000/user/register/company/",
 					"protocol": "http",
 					"host": [
 						"127",
@@ -131,6 +186,7 @@
 					],
 					"port": "8000",
 					"path": [
+						"user",
 						"register",
 						"company",
 						""
@@ -140,7 +196,7 @@
 			"response": []
 		},
 		{
-			"name": "/login/ (company - Google)",
+			"name": "/user/login/ (company - Google)",
 			"event": [
 				{
 					"listen": "test",
@@ -174,7 +230,7 @@
 					"raw": "{\r\n  \"username\": \"test@test.com\",\r\n  \"password\": \"123\"\r\n}"
 				},
 				"url": {
-					"raw": "http://127.0.0.1:8000/login/",
+					"raw": "http://127.0.0.1:8000/user/login/",
 					"protocol": "http",
 					"host": [
 						"127",
@@ -184,6 +240,7 @@
 					],
 					"port": "8000",
 					"path": [
+						"user",
 						"login",
 						""
 					]
@@ -192,7 +249,7 @@
 			"response": []
 		},
 		{
-			"name": "/login/ (student - James Bond)",
+			"name": "/user/login/ (student - James Bond)",
 			"event": [
 				{
 					"listen": "test",
@@ -226,7 +283,7 @@
 					"raw": "{\r\n  \"username\": \"jb@mi6.com\",\r\n  \"password\": \"123\"\r\n}"
 				},
 				"url": {
-					"raw": "http://127.0.0.1:8000/login/",
+					"raw": "http://127.0.0.1:8000/user/login/",
 					"protocol": "http",
 					"host": [
 						"127",
@@ -236,6 +293,7 @@
 					],
 					"port": "8000",
 					"path": [
+						"user",
 						"login",
 						""
 					]
@@ -244,7 +302,7 @@
 			"response": []
 		},
 		{
-			"name": "/login/ (uni - UNSW)",
+			"name": "/user/login/ (uni - UNSW)",
 			"event": [
 				{
 					"listen": "test",
@@ -278,7 +336,7 @@
 					"raw": "{\r\n  \"username\": \"unsw@unsw.edu.au\",\r\n  \"password\": \"123\"\r\n}"
 				},
 				"url": {
-					"raw": "http://127.0.0.1:8000/login/",
+					"raw": "http://127.0.0.1:8000/user/login/",
 					"protocol": "http",
 					"host": [
 						"127",
@@ -288,6 +346,60 @@
 					],
 					"port": "8000",
 					"path": [
+						"user",
+						"login",
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "/user/login/ (uni - USYD)",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});",
+							"",
+							"pm.test(\"Getting token\", function () {",
+							"    var jsonData = pm.response.json();",
+							"    pm.collectionVariables.set(\"uni_token_usyd\", jsonData.token);",
+							"});",
+							"",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"username\": \"usyd@usyd.edu.au\",\r\n  \"password\": \"123\"\r\n}"
+				},
+				"url": {
+					"raw": "http://127.0.0.1:8000/user/login/",
+					"protocol": "http",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "8000",
+					"path": [
+						"user",
 						"login",
 						""
 					]
@@ -297,6 +409,19 @@
 		},
 		{
 			"name": "/company/1/",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
 			"protocolProfileBehavior": {
 				"disableBodyPruning": true
 			},
@@ -343,6 +468,19 @@
 		},
 		{
 			"name": "/company/1/",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
 			"request": {
 				"auth": {
 					"type": "bearer"
@@ -363,7 +501,7 @@
 				],
 				"body": {
 					"mode": "raw",
-					"raw": "{\r\n    \"company_name\": \"Google\",\r\n    \"company_description\": \"Test description\",\r\n    \"company_webpage_url\": \"google.com\",\r\n    \"company_logo_url\": \"https://www.google.com/logo.png\"\r\n}"
+					"raw": "{\r\n    \"company_name\": \"Google\",\r\n    \"company_description\": \"Test description\",\r\n    \"company_webpage_url\": \"google.com\",\r\n    \"company_logo_64\": \"-\"\r\n}"
 				},
 				"url": {
 					"raw": "http://127.0.0.1:8000/company/1/",
@@ -386,12 +524,31 @@
 		},
 		{
 			"name": "/student/1/",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
 			"protocolProfileBehavior": {
 				"disableBodyPruning": true
 			},
 			"request": {
 				"method": "GET",
-				"header": [],
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Token {{student_token}}",
+						"type": "text"
+					}
+				],
 				"body": {
 					"mode": "formdata",
 					"formdata": []
@@ -417,6 +574,19 @@
 		},
 		{
 			"name": "/student/1/",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
 			"request": {
 				"method": "PUT",
 				"header": [
@@ -425,11 +595,16 @@
 						"name": "Content-Type",
 						"value": "application/json",
 						"type": "text"
+					},
+					{
+						"key": "Authorization",
+						"value": "Token {{student_token}}",
+						"type": "text"
 					}
 				],
 				"body": {
 					"mode": "raw",
-					"raw": "{\r\n    \"first_name\": \"First\",\r\n    \"last_name\": \"Last\",\r\n    \"university\": \"UNSW\"\r\n}"
+					"raw": "{\r\n    \"first_name\": \"First\",\r\n    \"last_name\": \"Last\",\r\n    \"university\": \"UNSW\",\r\n    \"student_logo_64\": \"-\",\r\n    \"degree\": \"Master\",\r\n    \"wam\": 90\r\n}"
 				},
 				"url": {
 					"raw": "http://127.0.0.1:8000/student/1/",
@@ -452,9 +627,28 @@
 		},
 		{
 			"name": "/university/1/",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
 			"request": {
 				"method": "GET",
-				"header": [],
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Token {{uni_token}}",
+						"type": "text"
+					}
+				],
 				"url": {
 					"raw": "http://127.0.0.1:8000/university/1/",
 					"protocol": "http",
@@ -476,6 +670,19 @@
 		},
 		{
 			"name": "/university/1/",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
 			"request": {
 				"method": "PUT",
 				"header": [
@@ -484,11 +691,16 @@
 						"name": "Content-Type",
 						"value": "application/json",
 						"type": "text"
+					},
+					{
+						"key": "Authorization",
+						"value": "Token {{uni_token}}",
+						"type": "text"
 					}
 				],
 				"body": {
 					"mode": "raw",
-					"raw": "{\n    \"university_name\": \"University of New South Wales\",\n    \"university_abbreviation\": \"UNSW\",\n    \"university_logo_url\": \"https://unsw.edu.au/logo.png\",\n    \"university_site_url\": \"https://unsw.edu.au/\"\n}"
+					"raw": "{\n    \"university_name\": \"University of New South Wales\",\n    \"university_abbreviation\": \"UNSW\",\n    \"university_logo_64\": \"-\",\n    \"university_site_url\": \"https://unsw.edu.au/\"\n}"
 				},
 				"url": {
 					"raw": "http://127.0.0.1:8000/university/1/",
@@ -511,6 +723,19 @@
 		},
 		{
 			"name": "/university/1/careerfairs (UNSW)",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
 			"request": {
 				"method": "POST",
 				"header": [
@@ -552,6 +777,19 @@
 		},
 		{
 			"name": "/university/2/careerfairs (USYD)",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
 			"request": {
 				"method": "POST",
 				"header": [
@@ -560,6 +798,11 @@
 						"name": "Content-Type",
 						"type": "text",
 						"value": "application/json"
+					},
+					{
+						"key": "Authorization",
+						"value": "Token {{uni_token_usyd}}",
+						"type": "text"
 					}
 				],
 				"body": {
@@ -588,6 +831,19 @@
 		},
 		{
 			"name": "/careerfairs/",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
 			"request": {
 				"method": "GET",
 				"header": [],
@@ -611,6 +867,19 @@
 		},
 		{
 			"name": "/careerfairs/1/stalls/ (Google registers for UNSW fair) Copy",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
 			"request": {
 				"method": "POST",
 				"header": [
@@ -620,15 +889,6 @@
 						"type": "text"
 					}
 				],
-				"body": {
-					"mode": "raw",
-					"raw": "{\n    \"stall_description\" : \"aaa\"\n}",
-					"options": {
-						"raw": {
-							"language": "json"
-						}
-					}
-				},
 				"url": {
 					"raw": "http://127.0.0.1:8000/careerfairs/1/stalls/",
 					"protocol": "http",
@@ -651,6 +911,19 @@
 		},
 		{
 			"name": "/questions/1 (get all questions for Stall 1)",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
 			"request": {
 				"method": "GET",
 				"header": [
@@ -681,6 +954,19 @@
 		},
 		{
 			"name": "/questions/1 (Post a question for Stall 1)",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
 			"request": {
 				"method": "POST",
 				"header": [
@@ -692,7 +978,7 @@
 				],
 				"body": {
 					"mode": "raw",
-					"raw": "{\r\n    \"content\": \"here is a test message\"\r\n}",
+					"raw": "{\r\n    \"question\": \"here is a test question\"\r\n}",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -719,7 +1005,180 @@
 			"response": []
 		},
 		{
-			"name": "/questions/1 (Post a Reply to a question for Stall 1)",
+			"name": "/questions/1/1/ (Update question #1 for Stall #1)",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "PUT",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Token {{student_token}}",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"question\" : \"updated question\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://127.0.0.1:8000/questions/1/1/",
+					"protocol": "http",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "8000",
+					"path": [
+						"questions",
+						"1",
+						"1",
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "/answers/1/1/ (Post a Reply to a question #1 on Stall #1)",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "PUT",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Token {{company_token}}",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"answer\": \"here is a test answer2\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://127.0.0.1:8000/answers/1/1/",
+					"protocol": "http",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "8000",
+					"path": [
+						"answers",
+						"1",
+						"1",
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "/questions/1/1/ Upvote post #1 (by student)",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Token {{student_token}}",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://127.0.0.1:8000/questions/1/1/upvotes/",
+					"protocol": "http",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "8000",
+					"path": [
+						"questions",
+						"1",
+						"1",
+						"upvotes",
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "/questions/1/1/ Upvote post #1 (by company)",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
 			"request": {
 				"method": "POST",
 				"header": [
@@ -731,45 +1190,6 @@
 				],
 				"body": {
 					"mode": "raw",
-					"raw": "{\r\n    \"content\": \"here is a reply message\",\r\n    \"parent_post_id\" : 1\r\n}",
-					"options": {
-						"raw": {
-							"language": "json"
-						}
-					}
-				},
-				"url": {
-					"raw": "http://127.0.0.1:8000/questions/1/",
-					"protocol": "http",
-					"host": [
-						"127",
-						"0",
-						"0",
-						"1"
-					],
-					"port": "8000",
-					"path": [
-						"questions",
-						"1",
-						""
-					]
-				}
-			},
-			"response": []
-		},
-		{
-			"name": "/questions/1/1/ upvote first post",
-			"request": {
-				"method": "POST",
-				"header": [
-					{
-						"key": "Authorization",
-						"value": "Token {{student_token}}",
-						"type": "text"
-					}
-				],
-				"body": {
-					"mode": "raw",
 					"raw": "",
 					"options": {
 						"raw": {
@@ -799,13 +1219,26 @@
 			"response": []
 		},
 		{
-			"name": "/questions/1/1/ remove upvote from first post",
+			"name": "/questions/1/1/ Remove Upvote for post #1 (by company)",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
 			"request": {
 				"method": "DELETE",
 				"header": [
 					{
 						"key": "Authorization",
-						"value": "Token {{student_token}}",
+						"value": "Token {{company_token}}",
 						"type": "text"
 					}
 				],
@@ -834,6 +1267,277 @@
 						"1",
 						"upvotes",
 						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "/company/1/opportunities/ (Post a job on Stall 1)",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Token {{company_token}}",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n   \"stall_id\" : 1,\r\n   \"job_description\" : \"Internship at google!\",\r\n   \"role\": \"Intern\",\r\n   \"type\": \"Full-time\",\r\n   \"location\" : \"Sydney\",\r\n   \"wam\" : 80,\r\n   \"expiry\" : \"2021-12-31\",\r\n   \"link\" : \"www.google.com/careers\",\r\n   \"application_link\" : \"www.google.com/careers\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://127.0.0.1:8000/company/1/opportunities/",
+					"protocol": "http",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "8000",
+					"path": [
+						"company",
+						"1",
+						"opportunities",
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "/company/1/opportunities/ (Post another job on Stall 1)",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Token {{company_token}}",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n   \"stall_id\" : 1,\r\n   \"job_description\" : \"Junior developer at google!\",\r\n   \"role\": \"Graduate\",\r\n   \"type\": \"Full-time\",\r\n   \"location\" : \"Sydney\",\r\n   \"wam\" : 80,\r\n   \"expiry\" : \"2021-12-31\",\r\n   \"link\" : \"www.google.com/careers\",\r\n   \"application_link\" : \"www.google.com/careers\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://127.0.0.1:8000/company/1/opportunities/",
+					"protocol": "http",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "8000",
+					"path": [
+						"company",
+						"1",
+						"opportunities",
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "/company/1/opportunities/ (Get all jobs on Stall 1)",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Token {{company_token}}",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://127.0.0.1:8000/company/1/opportunities/",
+					"protocol": "http",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "8000",
+					"path": [
+						"company",
+						"1",
+						"opportunities",
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "/company/1/opportunities/2 (Get job #2)",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Token {{company_token}}",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://127.0.0.1:8000/company/1/opportunities/2",
+					"protocol": "http",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "8000",
+					"path": [
+						"company",
+						"1",
+						"opportunities",
+						"2"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "/company/1/opportunities/2 (Update job #2)",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "PUT",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Token {{company_token}}",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n   \"job_description\" : \"Junior developer at google!\",\r\n   \"role\": \"Graduate\",\r\n   \"type\": \"Full-time\",\r\n   \"location\" : \"Sydney\",\r\n   \"wam\" : 85,\r\n   \"expiry\" : \"2021-12-31\",\r\n   \"link\" : \"www.google.com/careers\",\r\n   \"application_link\" : \"www.google.com/careers\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://127.0.0.1:8000/company/1/opportunities/2",
+					"protocol": "http",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "8000",
+					"path": [
+						"company",
+						"1",
+						"opportunities",
+						"2"
 					]
 				}
 			},
@@ -871,6 +1575,10 @@
 		},
 		{
 			"key": "student_token",
+			"value": ""
+		},
+		{
+			"key": "uni_token_usyd",
 			"value": ""
 		}
 	]

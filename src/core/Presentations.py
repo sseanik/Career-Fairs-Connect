@@ -11,6 +11,8 @@ import json
 from django.core.serializers.json import DjangoJSONEncoder
 from drf_yasg import openapi
 from drf_yasg.utils import swagger_auto_schema
+from rest_framework.authentication import TokenAuthentication, SessionAuthentication
+from rest_framework.permissions import IsAuthenticated
 
 
 @swagger_auto_schema(method="get",
@@ -84,7 +86,6 @@ def get_presentation(request, stallId):
         'color': openapi.Schema(type=openapi.TYPE_STRING),
         }),
     responses={
-        400: "Bad request",
         201: openapi.Schema(
             type=openapi.TYPE_OBJECT,
             properties={
@@ -96,13 +97,20 @@ def get_presentation(request, stallId):
                 'title': openapi.Schema(type=openapi.TYPE_STRING),
                 'color': openapi.Schema(type=openapi.TYPE_STRING),
         }),  
+        400: "Bad request",
+        403: "Permission denied"
     },
     operation_summary="Create presentation",
     # operation_description="",
 )
-#MISSING CHECKS ON STALL OWNERSHIP
 @api_view(['POST', ])
 def create_presentation(request):
+    if request.user.user_type != 2:
+        return Response({"Forbidden" : "Incorrect user_type"}, status=403)
+    requestUserCompany = Companies.objects.get(user_id = request.user.userID).company_id
+    opportunityOwner = Stalls.objects.get(stall_id = request.data['stall_id']).company_id.company_id
+    if requestUserCompany != opportunityOwner:
+        return Response({"Forbidden" : "Stall does not belong to user"}, status=403)
     presentation_serializer = PresentationSerializer(data=request.data, fields=('stall_id','start_time','end_time', 'presentation_link', 'presentation_description', 'title', 'color'))
     
     if not presentation_serializer.is_valid():
@@ -115,6 +123,7 @@ def create_presentation(request):
 @swagger_auto_schema(method="put", request_body=openapi.Schema(
     type=openapi.TYPE_OBJECT,
     properties={
+        'presentation_id': openapi.Schema(type=openapi.TYPE_NUMBER),
         'stall_id': openapi.Schema(type=openapi.TYPE_NUMBER),
         'start_time': openapi.Schema(type=openapi.TYPE_STRING),
         'end_time': openapi.Schema(type=openapi.TYPE_STRING),
@@ -124,10 +133,10 @@ def create_presentation(request):
         'color': openapi.Schema(type=openapi.TYPE_STRING),
         },
     responses={
-        400: "Bad request",
         201: openapi.Schema(
             type=openapi.TYPE_OBJECT,
             properties={
+                'presentation_id': openapi.Schema(type=openapi.TYPE_NUMBER),
                 'stall_id': openapi.Schema(type=openapi.TYPE_NUMBER),
                 'start_time': openapi.Schema(type=openapi.TYPE_STRING),
                 'end_time': openapi.Schema(type=openapi.TYPE_STRING),
@@ -135,20 +144,50 @@ def create_presentation(request):
                 'presentation_link': openapi.Schema(type=openapi.TYPE_STRING),
                 'title': openapi.Schema(type=openapi.TYPE_STRING),
                 'color': openapi.Schema(type=openapi.TYPE_STRING),
-        })
+        }),
+        400: "Bad request",
+        403: "Permission denied"
     })
     ,
     operation_summary="Update presentation",
-    operation_description="",
-)#MISSING CHECKS ON STALL OWNERSHIP
+    operation_description="Update an opportunity, can alter the assigned stall to undefined (Beware!), omit stall_id if possible. Presentation must be owned by caller.",
+)
 @api_view(['PUT', ])
 def edit_presentation(request):
+    if request.user.user_type != 2:
+        return Response({"Forbidden" : "Incorrect user_type"}, status=403)
+    requestUserCompany = Companies.objects.get(user_id = request.user.userID).company_id
+    opportunityOwner = Stalls.objects.get(stall_id = request.data['stall_id']).company_id.company_id
+    if requestUserCompany != opportunityOwner:
+        return Response({"Forbidden" : "Stall does not belong to user"}, status=403)
     try:
-        presentation = Presentations.objects.get(stall_id=request.data['stall_id'])
+        presentation = Presentations.objects.get(presentation_id=request.data['presentation_id'])
     except:
         return Response(status=status.HTTP_404_NOT_FOUND)
-    presentation_serializer = PresentationSerializer(presentation, data=request.data, fields=('stall_id','start_time','end_time', 'presentation_link', 'presentation_description', 'title', 'color'))
+    presentation_serializer = PresentationSerializer(presentation, data=request.data, fields=('presentation_id','stall_id','start_time','end_time', 'presentation_link', 'presentation_description', 'title', 'color'))
     if not presentation_serializer.is_valid():
         return Response(presentation_serializer.errors, status=status.HTTP_400_BAD_REQUEST)
     presentation_serializer.save()
-    return Response(presentation_serializer.data, status=status.HTTP_201_CREATED)   
+    return Response(presentation_serializer.data, status=status.HTTP_201_CREATED)
+    
+    
+@swagger_auto_schema(
+    method="delete",
+    responses={
+        200 : "Deleted",
+        404 : "Not found"
+    },
+    operation_summary="Delete presentation",
+    # operation_description="",
+)
+@api_view(['DELETE', ])
+def delete_presentation(request, presentationId):
+    if request.user.user_type != 2:
+        return Response({"Forbidden" : "Incorrect user_type"}, status=403)
+    requestUserCompany = Companies.objects.get(user_id = request.user.userID).company_id
+    presentation = get_object_or_404(Presentations, pk = presentationId)
+    presentationOwner = presentation.stall_id.company_id.company_id
+    if requestUserCompany != presentationOwner:
+        return Response({"Forbidden" : "Presentation does not belong to user"}, status=403)
+    presentation.delete()
+    return Response("Deleted", status=200)

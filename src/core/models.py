@@ -145,22 +145,19 @@ class Opportunities(models.Model):
     type = models.CharField(max_length=100)
     role = models.CharField(max_length=100)
     location = models.CharField(max_length=100)
-    wam = models.CharField(max_length=100)
+    wam = models.CharField(max_length=100, blank=True)
     expiry = models.DateTimeField(auto_now_add=True, blank=True)
-    link = models.CharField(max_length=500)
 
 
 class QAMessages(models.Model):
     post_id = models.AutoField(primary_key=True)
     author_id = models.ForeignKey(User, on_delete=models.CASCADE)
+    responder_id = models.ForeignKey(User, on_delete=models.CASCADE, null=True, related_name="responder")
     stall_id = models.ForeignKey(Stalls, on_delete=models.CASCADE)
     time = models.DateTimeField(auto_now_add=True, blank=True)
     num_upvotes = models.IntegerField(default=0)
-    content = models.TextField(default="")
-    # https://stackoverflow.com/questions/50878551/how-to-create-hierarchy-of-models
-    parent_post_id = models.ForeignKey(
-        "self", null=True, blank=True, related_name="replies", on_delete=models.CASCADE
-    )
+    question = models.TextField()
+    answer = models.TextField(null=True)
 
 
 class Upvotes(models.Model):

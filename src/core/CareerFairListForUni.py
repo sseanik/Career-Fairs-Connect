@@ -2,11 +2,12 @@ from rest_framework import status
 from rest_framework.response import Response
 from rest_framework.views import APIView
 from .serializers import CareerFairSerializer
-from .models import CareerFairs, Universities
+from .models import CareerFairs, Companies, Universities
 from rest_framework.authentication import TokenAuthentication, SessionAuthentication
 from rest_framework.permissions import IsAuthenticated
 from drf_yasg import openapi
 from drf_yasg.utils import swagger_auto_schema
+from django.shortcuts import get_object_or_404
 
 
 class CareerFairListForUni(APIView):
@@ -42,11 +43,15 @@ class CareerFairListForUni(APIView):
         # operation_description="",
     )
     def post(self, request, universityId, format=None):
+
         request.data["university_id"] = universityId
         serializer = CareerFairSerializer(data=request.data)
         if serializer.is_valid():
+            university = get_object_or_404(Universities, pk=universityId)
             serializer.save()
-            return Response(serializer.data, status=200)
+            return_dict = dict(serializer.data)
+            return_dict["logo"] = university.university_logo_64
+            return Response(return_dict, status=200)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
