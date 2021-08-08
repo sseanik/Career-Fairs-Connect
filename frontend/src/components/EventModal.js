@@ -72,7 +72,7 @@ export function EventModal(props) {
   };
 
   const closeModal = () => {
-    props.onClose();
+    props.setOpen(!props.isOpen);
     setDeletePending(false);
   };
 
@@ -202,7 +202,7 @@ export function EventModal(props) {
               </ModalBody>
               <ModalFooter>
                 {!deletePending && (
-                  <Button mr={3} onClick={props.onClose}>
+                  <Button mr={3} onClick={() => closeModal()}>
                     Cancel
                   </Button>
                 )}

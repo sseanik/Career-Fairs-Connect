@@ -4,7 +4,13 @@ import moment from 'moment';
 import { useDispatch, useSelector } from 'react-redux';
 import { asyncEditPresentationTime } from '../features/companyStall/stallSlice';
 // Chakra UI
-import { Box, Text, Tooltip, useDisclosure } from '@chakra-ui/react';
+import {
+  Box,
+  Text,
+  Tooltip,
+  useBreakpointValue,
+  useDisclosure,
+} from '@chakra-ui/react';
 // Full Calendar
 import FullCalendar from '@fullcalendar/react';
 import listPlugin from '@fullcalendar/list';
@@ -119,23 +125,22 @@ export function PresentationCalendar(props) {
         selectMirror={true}
         dayMaxEvents={true}
         contentHeight='auto'
-        buttonText={
-          width <= 750
-            ? {
-                today: 'T',
-                month: 'M',
-                week: 'W',
-                day: 'D',
-                list: 'L',
-              }
-            : {
-                today: 'Today',
-                month: 'Month',
-                week: 'Week',
-                day: 'Day',
-                list: 'List',
-              }
-        }
+        buttonText={useBreakpointValue({
+          base: {
+            today: 'T',
+            month: 'M',
+            week: 'W',
+            day: 'D',
+            list: 'L',
+          },
+          sm: {
+            today: 'Today',
+            month: 'Month',
+            week: 'Week',
+            day: 'Day',
+            list: 'List',
+          },
+        })}
         titleFormat={
           width <= 615 && {
             month: 'short',

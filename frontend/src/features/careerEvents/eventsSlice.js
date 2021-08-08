@@ -32,8 +32,6 @@ export const asyncCreateFairEvent = createAsyncThunk(
       },
     });
 
-    const data = await response.data;
-
     if (response.status === 200) {
       toast({
         description: 'Successfully created Career Fair',
@@ -47,10 +45,13 @@ export const asyncCreateFairEvent = createAsyncThunk(
         isClosable: true,
       });
     }
+
+    const data = await response.data;
     return data;
   }
 );
 
+// TODO
 // Delete a Career Fair Event
 export const asyncDeleteFairEvent = createAsyncThunk(
   'events/delete',
@@ -95,6 +96,7 @@ export const eventsSlice = createSlice({
         state.status = true;
       })
       .addCase(asyncCreateFairEvent.fulfilled, (state, { payload }) => {
+        console.log(payload);
         state.status = false;
         state.events.push(payload);
       })

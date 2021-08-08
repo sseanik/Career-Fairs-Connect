@@ -33,7 +33,6 @@ import { OpportunityModal } from './OpportunityModal';
 export const DetailsCard = (props) => {
   // Redux
   const dispatch = useDispatch();
-  const width = useSelector((state) => state.window.width);
   const userDetails = useSelector((state) => state.user);
   const stalls = useSelector((state) => state.fair.stalls);
   const interactStatus = useSelector((state) => state.fair.status);
@@ -45,6 +44,7 @@ export const DetailsCard = (props) => {
   const [bgColour, setBgColour] = React.useState('white');
   const [applied, setApplied] = React.useState(false);
   const { colorMode } = useColorMode();
+  const [modalOpen, setModalOpen] = React.useState(false);
 
   // If the crop image is given, set the background colour of the image
   React.useEffect(() => {
@@ -96,7 +96,14 @@ export const DetailsCard = (props) => {
   };
 
   return (
-    <Flex p='0.5' direction={width <= '723' ? 'column' : 'row'} align='center'>
+    <Flex
+      p='0.5'
+      direction={useBreakpointValue({
+        base: 'column',
+        md: 'row',
+      })}
+      align='center'
+    >
       {props.crop ? (
         <Center h='125px' w='175px' bg={bgColour}>
           <Image
@@ -123,7 +130,7 @@ export const DetailsCard = (props) => {
         ml='4'
         direction='column'
         justify='center'
-        align={{ base: 'center', sm: 'flex-start' }}
+        align={{ base: 'center', md: 'flex-start' }}
       >
         <Flex
           py='2'
@@ -145,7 +152,7 @@ export const DetailsCard = (props) => {
                 <Button
                   leftIcon={<RiPencilFill />}
                   size='sm'
-                  onClick={onOpen}
+                  onClick={() => setModalOpen(!modalOpen)}
                   ml='3'
                   isLoading={interactStatus}
                   loadingText='Editing Event'
@@ -153,8 +160,8 @@ export const DetailsCard = (props) => {
                   Edit Event
                 </Button>
                 <EventModal
-                  isOpen={isOpen}
-                  onClose={onClose}
+                  isOpen={modalOpen}
+                  setOpen={setModalOpen}
                   university={userDetails.name}
                   website={userDetails.website}
                   logo={userDetails.logo}
@@ -290,18 +297,19 @@ export const DetailsCard = (props) => {
           </Tag>
         )}
         {props.uni && (
-          <Tag
+          <Badge
             ml='-1'
             mt='1'
             letterSpacing='wide'
             fontSize='xs'
             textTransform='uppercase'
-            color='gray.600'
+            w='auto'
+            py='1'
+            px='2'
+            color={colorMode === 'light' ? 'gray.600' : 'gray.300'}
           >
-            <TagLabel color={colorMode === 'light' ? 'gray.600' : 'gray.300'}>
-              <b>{props.uni}</b>
-            </TagLabel>
-          </Tag>
+            <b>{props.uni}</b>
+          </Badge>
         )}
       </Flex>
     </Flex>

@@ -46,16 +46,16 @@ export function StallCard(props) {
               ? 'gray.200'
               : 'gray.800'
             : colorMode === 'light'
-              ? 'white'
-              : 'gray.700'
+            ? 'white'
+            : 'gray.700'
         }
         _hover={{
           background:
             colorMode === 'light'
               ? 'gray.100'
               : props.pending === 'Rejected' || props.pending === 'Pending'
-                ? 'gray.900'
-                : 'gray.600',
+              ? 'gray.900'
+              : 'gray.600',
         }}
         as={Link}
         to={`/stall/${props.id}`}
@@ -144,19 +144,19 @@ export function StallCard(props) {
               fontSize='md'
               // colorScheme={props.pending === 'Pending' ? 'green' : 'gray'}
               colorScheme='green'
-
-              onClick={() =>
-                // props.pending === 'Pending'
-                //   ? 
-                dispatch(
-                  asyncToggleEventPending({
-                    id: props.id,
-                    // toggle: 'Approve',
-                    approval_status: 'true',
-                    toast: toast,
-                  })
-                )
-                // : 
+              onClick={
+                () =>
+                  // props.pending === 'Pending'
+                  //   ?
+                  dispatch(
+                    asyncToggleEventPending({
+                      id: props.id,
+                      // toggle: 'Approve',
+                      approval_status: 'true',
+                      toast: toast,
+                    })
+                  )
+                // :
                 // dispatch(
                 //     asyncToggleEventPending({
                 //       id: props.id,
@@ -192,7 +192,6 @@ export function StallCard(props) {
               Reject
             </Button>
             {/* )} */}
-
           </Box>
         )}
       </Flex>

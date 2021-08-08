@@ -181,9 +181,7 @@ export const fairSlice = createSlice({
       })
       // Change a company stall's approval status
       .addCase(asyncToggleEventPending.fulfilled, (state, { payload }) => {
-        state.approvalStatus = true;
-        state.rejectStatus = true;
-        state.pendingStatus = true;
+        console.log(payload);
         const stall = state.stalls.find((stall) => stall.id === payload.id);
         stall.pending = payload.toggle;
       })
