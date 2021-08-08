@@ -6,6 +6,7 @@ import {
   Link,
   Stack,
   Text,
+  Tooltip,
   useColorModeValue,
   VisuallyHidden,
 } from '@chakra-ui/react';
@@ -67,36 +68,34 @@ export default function Footer() {
           align='center'
           justify='center'
         >
-          <Flex
-            as={Link}
-            direction={'row'}
-            align='center'
-            justify='center'
-            href='https://webcms3.cse.unsw.edu.au/COMP9323/21T2/'
-            isExternal
-          >
-            <SocialButton label={'Webcms3'} as='div'>
-              <GiSheep />
-            </SocialButton>
-            <Text size='sm' ml='2'>
-              Webcms
-            </Text>
-          </Flex>
-          <Flex
-            as={Link}
-            direction={'row'}
-            align='center'
-            justify='center'
-            href='https://www.unsw.edu.au/'
-            isExternal
-          >
-            <SocialButton label={'UNSW'} as='div'>
-              <IoMdSchool />
-            </SocialButton>
-            <Text size='sm' ml='2'>
-              UNSW
-            </Text>
-          </Flex>
+          <Tooltip label='WebCMS' fontSize='sm'>
+            <Flex
+              as={Link}
+              direction={'row'}
+              align='center'
+              justify='center'
+              href='https://webcms3.cse.unsw.edu.au/COMP9323/21T2/'
+              isExternal
+            >
+              <SocialButton label={'Webcms3'} as='div'>
+                <GiSheep />
+              </SocialButton>
+            </Flex>
+          </Tooltip>
+          <Tooltip label='UNSW' fontSize='sm'>
+            <Flex
+              as={Link}
+              direction={'row'}
+              align='center'
+              justify='center'
+              href='https://www.unsw.edu.au/'
+              isExternal
+            >
+              <SocialButton label={'UNSW'} as='div'>
+                <IoMdSchool />
+              </SocialButton>
+            </Flex>
+          </Tooltip>
         </Stack>
       </Container>
     </Box>

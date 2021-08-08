@@ -101,7 +101,6 @@ const validationSchema = Yup.object({
 
 export function UniversityRegister() {
   const base64Image = useSelector(selectBase64Image);
-  const loggedIn = useSelector((state) => state.user.loggedIn);
   const registerStatus = useSelector((state) => state.user.status);
   const dispatch = useDispatch();
   const toast = useToast();
@@ -112,12 +111,6 @@ export function UniversityRegister() {
     dispatch(convertImageToBase64(e));
     setFieldValue('logo', e.target.value);
   };
-
-  React.useState(() => {
-    if (loggedIn) {
-      console.log('Sign the user In');
-    }
-  });
 
   const submitForm = (values, actions) => {
     actions.setSubmitting(false);
