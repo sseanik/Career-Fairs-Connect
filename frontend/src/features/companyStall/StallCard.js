@@ -15,7 +15,7 @@ import {
   useColorMode,
   useToast,
 } from '@chakra-ui/react';
-import { InfoOutlineIcon } from '@chakra-ui/icons';
+import { InfoIcon, InfoOutlineIcon } from '@chakra-ui/icons';
 // Redux
 import { asyncToggleEventPending } from '../../features/careerFair/fairSlice';
 import { useDispatch, useSelector } from 'react-redux';
@@ -94,14 +94,15 @@ export function StallCard(props) {
               fontSize='lg'
               ml='2'
               _groupHover={{ fontWeight: 'bold' }}
+              isTruncated
             >
               {props.name}
             </Box>
             <Spacer />
             {props.pending !== 'Approved' ? (
-              <Tag size='md' variant='solid'>
-                <TagLabel>{props.pending}</TagLabel>
-              </Tag>
+              <Tooltip label={props.pending} fontSize='md'>
+                <InfoIcon color='gray.600' />
+              </Tooltip>
             ) : (
               <Tooltip label={props.description} fontSize='md'>
                 <InfoOutlineIcon color='gray.600' />
@@ -147,14 +148,14 @@ export function StallCard(props) {
                   ? dispatch(
                       asyncToggleEventPending({
                         id: props.id,
-                        toggle: 'Approve',
+                        approval_status: 'Approved',
                         toast: toast,
                       })
                     )
                   : dispatch(
                       asyncToggleEventPending({
                         id: props.id,
-                        toggle: 'Pending',
+                        approval_status: 'Pending',
                         toast: toast,
                       })
                     )
@@ -172,7 +173,7 @@ export function StallCard(props) {
                   dispatch(
                     asyncToggleEventPending({
                       id: props.id,
-                      toggle: 'Rejected',
+                      approval_status: 'Rejected',
                       toast: toast,
                     })
                   )
