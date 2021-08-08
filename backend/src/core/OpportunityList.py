@@ -141,6 +141,7 @@ class OpportunityList(APIView):
                 "wam",
                 "expiry",
                 "link",
+                "application_link",
                 "type",
             ),
         )
