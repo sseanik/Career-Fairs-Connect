@@ -28,6 +28,7 @@ import UniEdit from './features/profile/UniEdit';
 import theme from './app/theme';
 import Navbar from './components/Navbar';
 import Footer from './components/Footer';
+import ProtectedRoute from './app/ProtectedRoute';
 
 function App() {
   const dispatch = useDispatch();
@@ -66,21 +67,32 @@ function App() {
               component={UniversityRegister}
               exact
             />
-            <Route path='/events/' component={CareerEvents} exact />
-            <Route path='/fair/:fairID/:tab?' component={CareerFair} exact />
-            <Route
+            <ProtectedRoute path='/events/' component={CareerEvents} exact />
+            <ProtectedRoute
+              path='/fair/:fairID/:tab?'
+              component={CareerFair}
+              exact
+            />
+            <ProtectedRoute
               path='/stall/:stallID/:tab?'
               component={CompanyStall}
               exact
             />
             {/* profile */}
-            <Route path='/company/' component={CompanyProfile} exact />
-            <Route path='/company/edit' component={CompanyEdit} exact />
-            <Route path='/student/' component={StudentProfile} exact />
-            <Route path='/student/edit' component={StudentEdit} exact />
-            <Route path='/university/' component={UniProfile} exact />
-            <Route path='/university/edit' component={UniEdit} exact />
-            
+            <ProtectedRoute path='/company/' component={CompanyProfile} exact />
+            <ProtectedRoute
+              path='/company/edit'
+              component={CompanyEdit}
+              exact
+            />
+            <ProtectedRoute path='/student/' component={StudentProfile} exact />
+            <ProtectedRoute
+              path='/student/edit'
+              component={StudentEdit}
+              exact
+            />
+            <ProtectedRoute path='/university/' component={UniProfile} exact />
+            <ProtectedRoute path='/university/edit' component={UniEdit} exact />
           </Switch>
         </Box>
         <Footer />

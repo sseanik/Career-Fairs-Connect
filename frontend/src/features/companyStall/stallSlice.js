@@ -2,12 +2,12 @@ import { createAsyncThunk, createSlice, current } from '@reduxjs/toolkit';
 import { prominent } from 'color.js';
 import complementaryTextColour from '../../util/complementaryTextColour';
 import axios from 'axios';
+import getContrastColour from '../../util/getContrastColor';
 
 // Get Stall Data
 export const asyncFetchStallData = createAsyncThunk(
   'stall/company',
   async ({ stallID }) => {
-    console.log(stallID);
     const response = await axios({
       method: 'get',
       url: `/careerfairs/stalls/${stallID}/`,
@@ -20,8 +20,6 @@ export const asyncFetchStallData = createAsyncThunk(
       amount: 2,
     });
 
-    console.log(response.data);
-
     return { ...response.data, colour: colour };
   }
 );
@@ -31,7 +29,6 @@ export const asyncFetchStallData = createAsyncThunk(
 export const asyncAddOpportunity = createAsyncThunk(
   'stall/addOpportunity',
   async ({ stallID, opportunity, toast }) => {
-    console.log(opportunity);
     const response = await axios({
       method: 'post',
       url: `/company/${stallID}/opportunities/`,
@@ -47,7 +44,8 @@ export const asyncAddOpportunity = createAsyncThunk(
       isClosable: true,
     });
 
-    return response;
+    const data = await response.data;
+    return data;
   }
 );
 
@@ -55,7 +53,6 @@ export const asyncAddOpportunity = createAsyncThunk(
 export const asyncEditOpportunity = createAsyncThunk(
   'stall/editOpportunity',
   async ({ stallID, opportunity, toast }) => {
-    console.log(opportunity)
     const response = await axios({
       method: 'put',
       url: `/company/${stallID}/opportunities/`,
@@ -69,17 +66,21 @@ export const asyncEditOpportunity = createAsyncThunk(
       status: 'success',
       isClosable: true,
     });
-    return response;
+    const data = await response.data;
+    return data;
   }
 );
 
 // Delete Job Opportunity
 export const asyncDeleteOpportunity = createAsyncThunk(
   'stall/deleteOpportunity',
-  async ({ id, toast }) => {
+  async ({ companyID, jobID, toast }) => {
+    console.log(companyID);
+    console.log(jobID);
+
     await axios({
       method: 'delete',
-      url: `/company/opportunities/${id}/`,
+      url: `/company/${companyID}/opportunities/${jobID}/`,
       headers: {
         Authorization: `Token ${localStorage.getItem('token')}`,
       },
@@ -89,7 +90,7 @@ export const asyncDeleteOpportunity = createAsyncThunk(
       status: 'success',
       isClosable: true,
     });
-    return id;
+    return jobID;
   }
 );
 
@@ -98,7 +99,6 @@ export const asyncDeleteOpportunity = createAsyncThunk(
 export const asyncAddPresentation = createAsyncThunk(
   'stall/addPresentation',
   async ({ presentation, toast }) => {
-    console.log(presentation);
     const response = await axios({
       method: 'post',
       url: '/presentation/create/',
@@ -112,7 +112,8 @@ export const asyncAddPresentation = createAsyncThunk(
       status: 'success',
       isClosable: true,
     });
-    return response;
+    const data = await response.data;
+    return data;
   }
 );
 
@@ -134,7 +135,8 @@ export const asyncEditPresentation = createAsyncThunk(
       status: 'success',
       isClosable: true,
     });
-    return response;
+    const data = await response.data;
+    return data;
   }
 );
 
@@ -184,7 +186,8 @@ export const asyncEditQuestion = createAsyncThunk(
       status: 'success',
       isClosable: true,
     });
-    return response;
+    const data = await response.data;
+    return data;
   }
 );
 
@@ -199,7 +202,8 @@ export const asyncAnswerQuestion = createAsyncThunk(
       status: 'success',
       isClosable: true,
     });
-    return response;
+    const data = await response.data;
+    return data;
   }
 );
 
@@ -214,7 +218,8 @@ export const asyncEditAnswer = createAsyncThunk(
       status: 'success',
       isClosable: true,
     });
-    return response;
+    const data = await response.data;
+    return data;
   }
 );
 
@@ -283,11 +288,12 @@ export const stallSlice = createSlice({
         state.website = payload.website;
         state.opportunities = payload.opportunities;
         state.events = payload.presentations;
-        console.log(current(state).events);
         state.qandas = payload.qandas;
         const dominantColourObj = complementaryTextColour(payload.colour);
         state.bgColour = dominantColourObj.bgColour;
         state.textColour = dominantColourObj.textColour;
+
+        console.log(payload.opportunities);
       })
       /* ------------------------------- Opportunity ------------------------------ */
       // Adding a new Opportunity
@@ -296,7 +302,17 @@ export const stallSlice = createSlice({
       })
       .addCase(asyncAddOpportunity.fulfilled, (state, { payload }) => {
         state.status = false;
-        state.opportunities.push(payload);
+        console.log(payload);
+        state.opportunities.push({
+          id: payload.job_id,
+          type: payload.type,
+          role: payload.role,
+          location: payload.location,
+          wam: payload.wam,
+          expiry: payload.expiry,
+          link: payload.application_link,
+          description: payload.job_description,
+        });
       })
       // Edit an opportunity
       .addCase(asyncEditOpportunity.pending, (state, { payload }) => {
@@ -304,16 +320,30 @@ export const stallSlice = createSlice({
       })
       .addCase(asyncEditOpportunity.fulfilled, (state, { payload }) => {
         state.formStatus = 'Completed';
+
+        console.log(payload);
+        console.log(current(state).opportunities);
+
         const index = current(state.opportunities).findIndex(
-          (opportunity) => opportunity.id === payload.id
+          (opportunity) => opportunity.id === parseInt(payload.job_id)
         );
-        state.opportunities[index] = payload;
+        state.opportunities[index] = {
+          id: payload.job_id,
+          type: payload.type,
+          role: payload.role,
+          location: payload.location,
+          wam: payload.wam,
+          expiry: payload.expiry,
+          link: payload.application_link, // MISSING
+          description: payload.job_description,
+        };
       })
       // Delete an opportunity
       .addCase(asyncDeleteOpportunity.pending, (state, { payload }) => {
         state.formStatus = 'Pending';
       })
       .addCase(asyncDeleteOpportunity.fulfilled, (state, { payload }) => {
+        console.log(payload);
         state.formStatus = 'Completed';
         state.opportunities = state.opportunities.filter(
           (opportunity) => opportunity.id !== payload
@@ -325,9 +355,18 @@ export const stallSlice = createSlice({
         state.eventFormStatus = 'Pending';
       })
       .addCase(asyncAddPresentation.fulfilled, (state, { payload }) => {
-        console.log(current(state).events);
         state.eventFormStatus = 'Completed';
-        state.events.push(payload);
+        state.events.push({
+          color: payload.color,
+          description: payload.presentation_description,
+          end: payload.end_time,
+          link: payload.presentation_link,
+          live: false,
+          start: payload.start_time,
+          title: payload.title,
+          textColor: getContrastColour(payload.color),
+          id: payload.presentation_id,
+        });
       })
       // Edit a Presentation
       .addCase(asyncEditPresentation.pending, (state, { payload }) => {
@@ -336,9 +375,18 @@ export const stallSlice = createSlice({
       .addCase(asyncEditPresentation.fulfilled, (state, { payload }) => {
         state.eventFormStatus = 'Completed';
         const index = current(state.events).findIndex(
-          (event) => event.id === payload.id
+          (event) => event.id === parseInt(payload.presentation_id)
         );
-        state.events[index] = payload;
+        state.events[index] = {
+          color: payload.color,
+          description: payload.presentation_description,
+          end: payload.end_time,
+          id: payload.presentation_id,
+          link: payload.presentation_link,
+          live: false,
+          start: payload.start_time,
+          title: payload.title,
+        };
       })
       // Delete a Presentation
       .addCase(asyncDeletePresentation.pending, (state, { payload }) => {
@@ -346,7 +394,9 @@ export const stallSlice = createSlice({
       })
       .addCase(asyncDeletePresentation.fulfilled, (state, { payload }) => {
         state.eventFormStatus = 'Completed';
-        state.events = state.events.filter((event) => event.id !== payload);
+        state.events = state.events.filter(
+          (event) => event.id !== parseInt(payload)
+        );
       })
       /* ----------------------------------- Q&A ---------------------------------- */
       // Submitting a Question
@@ -388,7 +438,7 @@ export const stallSlice = createSlice({
       .addCase(asyncDeleteQuestion.fulfilled, (state, { payload }) => {
         state.eventFormStatus = 'Completed';
         state.qandas = state.qandas.filter((qanda) => qanda.id !== payload);
-      })
+      });
   },
 });
 

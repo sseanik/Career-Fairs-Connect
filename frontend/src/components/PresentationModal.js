@@ -30,6 +30,7 @@ import {
   asyncEditPresentation,
   resetEventFormStatus,
 } from '../features/companyStall/stallSlice';
+import getContrastColour from '../util/getContrastColor';
 
 const validationSchema = Yup.object({
   title: Yup.string().required('Presentation Title is Required').max(128),
@@ -44,7 +45,6 @@ const validationSchema = Yup.object({
 
 export function PresentationModal(props) {
   const color = props.color.replace(' ', '');
-  const rgb = color.substring(4, color.length - 1).split(' ');
   const [editStatus, setEditStatus] = React.useState(false);
   const [deleteStatus, setDeleteStatus] = React.useState(false);
   const eventFormStatus = useSelector((state) => state.stall.eventFormStatus);
@@ -248,11 +248,7 @@ export function PresentationModal(props) {
                         isExternal
                         bg={color}
                         _hover={{ bg: color }}
-                        color={
-                          rgb[0] * 0.299 + rgb[1] * 0.587 + rgb[2] * 0.114 > 186
-                            ? 'black'
-                            : 'white'
-                        }
+                        color={getContrastColour(color)}
                         size='sm'
                       >
                         Go to Presentation
