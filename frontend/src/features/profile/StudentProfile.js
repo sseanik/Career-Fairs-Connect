@@ -62,7 +62,19 @@ export default function Profile() {
           <Divider />
           <Text fontSize="xl">{user.university}</Text>
         </Box>
-        
+
+        <Box>
+          <Text fontSize="xl" fontWeight='semibold'>Degree</Text>
+          <Divider />
+          <Text fontSize="xl">{user.degree}</Text>
+        </Box>
+
+        <Box>
+          <Text fontSize="xl" fontWeight='semibold'>WAM</Text>
+          <Divider />
+          <Text fontSize="xl">{user.wam}</Text>
+        </Box>
+
       </Stack>
 
     </Container>
