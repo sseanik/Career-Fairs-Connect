@@ -2,9 +2,9 @@ import React from 'react';
 import moment from 'moment';
 // Redux
 import { useDispatch, useSelector } from 'react-redux';
-import { asyncEditPresentationTime } from '../features/companyStall/stallSlice';
+import { asyncEditPresentation } from '../features/companyStall/stallSlice';
 // Chakra UI
-import { Box, Text, Tooltip, useDisclosure } from '@chakra-ui/react';
+import { Box, Text, Tooltip, useDisclosure, useToast } from '@chakra-ui/react';
 // Full Calendar
 import FullCalendar from '@fullcalendar/react';
 import listPlugin from '@fullcalendar/list';
@@ -35,6 +35,7 @@ export function PresentationCalendar(props) {
     start: {},
     end: {},
   });
+  const toast = useToast();
 
   const eventClick = (info) => {
     console.log(info.event)
@@ -61,16 +62,20 @@ export function PresentationCalendar(props) {
   };
 
   const changeEvent = (e) => {
-
+    console.log(e.event.start)
     dispatch(
-      asyncEditPresentationTime({
-        id: e.event.id,
-        title: e.event.title,
-        description: e.event.extendedProps.description,
-        link: e.event.extendedProps.link,
-        start: e.event.start,
-        end: e.event.end,
-        color: props.bgColour,
+      asyncEditPresentation({
+        presentation: {
+          presentation_id: e.event.id,
+          title: e.event.title,
+          presentation_description: e.event.extendedProps.description,
+          presentation_link: e.event.extendedProps.link,
+          start_time: e.event.start,
+          end_time: e.event.end,
+          color: props.bgColour,
+          stall_id: props.fairID
+        },
+        toast: toast
       })
     );
   };

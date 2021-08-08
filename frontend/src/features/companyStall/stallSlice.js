@@ -126,16 +126,6 @@ export const asyncEditPresentation = createAsyncThunk(
   }
 );
 
-// Edit a presentation Time
-export const asyncEditPresentationTime = createAsyncThunk(
-  'stall/editPresentationTime',
-  async (presentation) => {
-    await new Promise((r) => setTimeout(r, 3000));
-    const response = presentation;
-    return response;
-  }
-);
-
 // Delete a presentation
 export const asyncDeletePresentation = createAsyncThunk(
   'stall/deletePresentation',
@@ -268,14 +258,6 @@ export const stallSlice = createSlice({
       })
       .addCase(asyncEditPresentation.fulfilled, (state, { payload }) => {
         state.eventFormStatus = 'Completed';
-        const index = current(state.events).findIndex(
-          (event) => event.id === payload.id
-        );
-        state.events[index] = payload;
-      })
-      // Edit a Presentation Time
-      .addCase(asyncEditPresentationTime.fulfilled, (state, { payload }) => {
-        state.status = false;
         const index = current(state.events).findIndex(
           (event) => event.id === payload.id
         );
