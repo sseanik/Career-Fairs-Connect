@@ -92,10 +92,10 @@ class Approvals(APIView):
         stall.approval_status = request.data["approval_status"]
         if (
             stall.approval_status != "Pending"
-            or stall.approval_status != "Approved"
-            or stall.approval_status != "Rejected"
+            and stall.approval_status != "Approved"
+            and stall.approval_status != "Rejected"
         ):
-            return Response(status=400)
+            return Response("Whatever", status=400)
 
         serializer = StallsSerializer(stall)
         stall.save()
