@@ -23,6 +23,7 @@ import auLocale from '@fullcalendar/core/locales/en-au';
 import { PresentationModal } from './PresentationModal';
 import { CalendarModal } from './CalendarModal';
 import { InfoIcon } from '@chakra-ui/icons';
+import getContrastColour from '../util/getContrastColor';
 
 export function PresentationCalendar(props) {
   const { isOpen, onOpen, onClose } = useDisclosure();
@@ -78,6 +79,7 @@ export function PresentationCalendar(props) {
           end_time: e.event.end,
           color: props.bgColour,
           stall_id: props.fairID,
+          textColor: getContrastColour(props.bgColour),
         },
         toast: toast,
       })

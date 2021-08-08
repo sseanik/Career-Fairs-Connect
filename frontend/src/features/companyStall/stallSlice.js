@@ -2,7 +2,6 @@ import { createAsyncThunk, createSlice, current } from '@reduxjs/toolkit';
 import { prominent } from 'color.js';
 import complementaryTextColour from '../../util/complementaryTextColour';
 import axios from 'axios';
-import getContrastColour from '../../util/getContrastColor';
 
 // Get Stall Data
 export const asyncFetchStallData = createAsyncThunk(
@@ -305,8 +304,6 @@ export const stallSlice = createSlice({
         const dominantColourObj = complementaryTextColour(payload.colour);
         state.bgColour = dominantColourObj.bgColour;
         state.textColour = dominantColourObj.textColour;
-
-        console.log(payload.opportunities);
       })
       /* ------------------------------- Opportunity ------------------------------ */
       // Adding a new Opportunity
@@ -377,7 +374,7 @@ export const stallSlice = createSlice({
           live: false,
           start: payload.start_time,
           title: payload.title,
-          textColor: getContrastColour(payload.color),
+          textColor: payload.textColor,
           id: payload.presentation_id,
         });
       })
@@ -399,6 +396,7 @@ export const stallSlice = createSlice({
           live: false,
           start: payload.start_time,
           title: payload.title,
+          textColor: payload.textColor,
         };
       })
       // Delete a Presentation
