@@ -1,10 +1,11 @@
 import json
 from django.core.serializers.json import DjangoJSONEncoder
 from django.http import HttpResponse
-from rest_framework.views import APIView
-from .models import CareerFairs
+from rest_framework.views import APIView, Response
+from .models import CareerFairs, Universities
 from drf_yasg import openapi
 from drf_yasg.utils import swagger_auto_schema
+from django.shortcuts import get_object_or_404
 
 class CareerFairListGlobal(APIView):
     @swagger_auto_schema(
@@ -47,19 +48,20 @@ class CareerFairListGlobal(APIView):
         
     @swagger_auto_schema(
     responses={
-        200 : openapi.Schema(type=openapi.TYPE_OBJECT,properties={
-            "id": openapi.Schema(type=openapi.TYPE_NUMBER),
-            "university": openapi.Schema(type=openapi.TYPE_STRING),
-            "start": openapi.Schema(type=openapi.TYPE_STRING),
-            "end": openapi.Schema(type=openapi.TYPE_STRING),
-            "title": openapi.Schema(type=openapi.TYPE_STRING),
-            "description": openapi.Schema(type=openapi.TYPE_STRING),
-            "webiste": openapi.Schema(type=openapi.TYPE_STRING),
-            "logo": openapi.Schema(type=openapi.TYPE_STRING),
-            }),
-        401 : "Unauthorized"
+        200 : "deleted",
+        401 : "Unauthorized",
+        403 : "Forbidden (permission denied)",
         },
-        operation_summary="Get all career fairs",
-        # operation_description="", #date qualification?
+        operation_summary="Delete career fair",
+        operation_description="Delete career fairs specified at endpoint. Deletion cascades to all stalls, applications & approvals, opportunities, presentations etc",
     )
-    def delete(self, request):
+    def delete(self, request, eventId, *args, **kwargs):
+        if request.user.user_type != 1:
+            return Response({"Forbidden" : "Incorrect user_type"}, status=403)
+        careerfair = get_object_or_404(CareerFairs, pk=eventId)
+        requestUserUniversity = careerfair.university_id.university_id
+        careerFairOwner = CareerFairs.objects.get(event_id = eventId).university_id.university_id
+        if requestUserUniversity != careerFairOwner:
+            return Response({"Forbidden" : "Stall does not belong to user"}, status=403)
+        careerfair.delete() #deletion cascades to all stalls, applications & approvals, opportunities, presentations etc
+        return Response("deleted", status=200)
