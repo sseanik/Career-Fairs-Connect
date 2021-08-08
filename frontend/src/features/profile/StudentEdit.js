@@ -19,17 +19,19 @@ const validationSchema = Yup.object({
   firstName: Yup.string().required('First Name is Required').max(32),
   lastName: Yup.string().required('Last Name is Required').max(32),
   university: Yup.string().required('University is Required'),
+  wam: Yup.number().typeError("Please input a number."),
 });
 
 export default function Profile() {
   const history = useHistory();
   const user = useSelector((state) => state.user);
-  console.log('student info=', user);
 
   const initialValues = {
     firstName: user.fname,
     lastName: user.lname,
     university: user.university,
+    degree: user.degree,
+    wam: user.wam,
   };
 
   const dispatch = useDispatch();
@@ -46,6 +48,8 @@ export default function Profile() {
           last_name: values.lastName,
           university: values.university,
           student_logo_64: 'no_logo',
+          degree: values.degree,
+          wam: values.wam,
         },
         id: user.studentId,
         toast: toast,
@@ -90,6 +94,8 @@ export default function Profile() {
               <InputControl name='lastName' label='Last Name' />
               <FormLabel htmlFor='university'>Select University</FormLabel>
               <UniSelector />
+              <InputControl name='degree' label='Degree' />
+              <InputControl name='wam' label='WAM' />
 
               <Stack direction="row" spacing={4} justify='center'>
                 <Button
