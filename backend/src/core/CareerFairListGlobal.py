@@ -36,8 +36,8 @@ class CareerFairListGlobal(APIView):
             response_item = {
                 'id': item['event_id'],
                 'university': item['university_id__university_name'],
-                'start': item['start_date'].timestamp(),
-                'end': item['end_date'].timestamp(),
+                'start': item['start_date'],
+                'end': item['end_date'],
                 'title': item['title'],
                 'description': item['description'],
                 'website': item['university_id__university_site_url'],
@@ -45,23 +45,3 @@ class CareerFairListGlobal(APIView):
             }
             response_items.append(response_item)
         return HttpResponse(json.dumps([item for item in response_items], cls=DjangoJSONEncoder), content_type='application/json')
-        
-    @swagger_auto_schema(
-    responses={
-        200 : "deleted",
-        401 : "Unauthorized",
-        403 : "Forbidden (permission denied)",
-        },
-        operation_summary="Delete career fair",
-        operation_description="Delete career fairs specified at endpoint. Deletion cascades to all stalls, applications & approvals, opportunities, presentations etc",
-    )
-    def delete(self, request, eventId, *args, **kwargs):
-        if request.user.user_type != 1:
-            return Response({"Forbidden" : "Incorrect user_type"}, status=403)
-        careerfair = get_object_or_404(CareerFairs, pk=eventId)
-        requestUserUniversity = careerfair.university_id.university_id
-        careerFairOwner = CareerFairs.objects.get(event_id = eventId).university_id.university_id
-        if requestUserUniversity != careerFairOwner:
-            return Response({"Forbidden" : "Stall does not belong to user"}, status=403)
-        careerfair.delete() #deletion cascades to all stalls, applications & approvals, opportunities, presentations etc
-        return Response("deleted", status=200)

@@ -36,9 +36,11 @@ export default function CompanyStall(props) {
   const stallData = useSelector((state) => state.stall);
   const userData = useSelector((state) => state.user);
 
+  console.log(stallID);
+
   // On page load, gather all stall data
   React.useEffect(
-    () => dispatch(asyncFetchStallData(stallID)),
+    () => dispatch(asyncFetchStallData({ stallID: parseInt(stallID) })),
     [dispatch, stallID]
   );
 

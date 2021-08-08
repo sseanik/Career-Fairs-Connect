@@ -14,6 +14,7 @@ from django.contrib.auth.hashers import make_password
 from drf_yasg import openapi
 from drf_yasg.utils import swagger_auto_schema
 
+
 @swagger_auto_schema(
     method="get",
     responses={
@@ -36,7 +37,7 @@ from drf_yasg.utils import swagger_auto_schema
                 "presentations": openapi.Schema(
                     type=openapi.TYPE_ARRAY,
                     items=openapi.Items(
-                        type="id, title, start, end, description, link, colour"
+                        type="id, title, start, end, description, link, color, textColor"
                     ),
                 ),
                 "opportunities": openapi.Schema(
@@ -86,22 +87,20 @@ def get_career_fair_data(request, eventId):
     # company token (accepted): Token 1548e60f044c132da92a2810d0643312ea6b2418
     if request.user.user_type == User.STUDENT:
         stalls = list(
-            Stalls.objects.filter(
-                event_id__in=eventId, approval_status="Approved"
-            ).values()
+            Stalls.objects.filter(event_id=eventId, approval_status="Approved").values()
         )
     elif request.user.user_type == User.COMPANY:
         company = get_object_or_404(Companies, user_id=request.user.userID)
+
         stalls = list(
             Stalls.objects.filter(
-                Q(event_id__in=eventId),
-                Q(company_id=company.company_id) | Q(approval_status="Approved"),
+                Q(event_id=eventId),
+                Q(company_id=company.company_id) | Q(approval_status="Pending"),
             ).values()
         )
     # university so return all stalls regardless of status
     else:
-        stalls = list(Stalls.objects.filter(event_id__in=eventId).values())
-        pass
+        stalls = list(Stalls.objects.filter(event_id=eventId).values())
 
     stalls_id_set = set()
     # for stall in stalls:
@@ -159,6 +158,7 @@ def get_career_fair_data(request, eventId):
             "link": presentation["presentation_link"],
             "company": company.company_name,
             "color": presentation["color"],
+            "textColor": presentation["textColor"],
         }
 
     try:

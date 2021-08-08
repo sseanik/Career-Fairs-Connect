@@ -1,38 +1,24 @@
-import React, { useState, useEffect } from 'react';
+import React, { useEffect }  from 'react';
 import { useHistory } from 'react-router-dom';
-
-import { convertImageToBase64, selectBase64Image } from '../auth/logoSlice';
 import { asyncUpdateCompany } from '../auth/userSlice';
 import {
   Stack,
   Container,
   Heading,
+  Button,
+  useToast,
+  //Image
+  Image,
   FormControl,
   FormLabel,
   FormErrorMessage,
-  Button,
-  useToast,
-  Image,
 } from '@chakra-ui/react';
 import { Field, Formik } from 'formik';
 import * as Yup from 'yup';
 import { InputControl, TextareaControl } from 'formik-chakra-ui';
 import { useSelector, useDispatch } from 'react-redux';
-
-const companyData = {
-  companyID: '1',
-  company: 'Canva',
-  description: 'Canva is a graphic design company',
-  logo: 'https://upload.wikimedia.org/wikipedia/en/3/3b/Canva_Logo.png',
-  website: 'https://canva.com',
-};
-
-const initialValues = {
-  company: companyData.company,
-  website: companyData.website,
-  logo: '',
-  description: companyData.description,
-};
+//process image
+import { convertImageToBase64, selectBase64Image } from '../auth/logoSlice';
 
 const validationSchema = Yup.object({
   company: Yup.string().required('Company Name is Required').max(128),
@@ -43,35 +29,53 @@ const validationSchema = Yup.object({
     .matches(/^http(s)?:.*$/, 'Website URL is invalid')
     .required('Website URL is Required')
     .max(256),
-  logo: Yup.string().required('Logo upload is Required'),
 });
 
 export default function Profile() {
   const history = useHistory();
-  const [imgSrc, setImgSrc] = useState(companyData.logo);
-  useEffect(() => {
-    const image = document.getElementById('oldLogo');
-    image.src = imgSrc;
-  }, [imgSrc]);
+  const user = useSelector((state) => state.user);
+  console.log('user. in company edit:', user);
 
   const base64Image = useSelector(selectBase64Image);
+
+  const initialValues = {
+    company: user.name,
+    website: user.website,
+    description: user.description,
+    logo: '', //user.logo,
+  };
+
+  useEffect(() => {
+    const image = document.getElementById("oldLogo");
+    image.src = base64Image;
+  }, [base64Image]);
+
+
   const dispatch = useDispatch();
   const toast = useToast();
-  // ?
   const saveStatus = useSelector((state) => state.user.status);
 
   const uploadImage = (e, setFieldValue) => {
     dispatch(convertImageToBase64(e));
     setFieldValue('logo', e.target.value);
-    console.log('e.target.value: ', e.target.value);
-    setImgSrc(e.target.value);
+    // console.log('e.target.value: ', e.target.value);
   };
 
   const submitForm = (values, actions) => {
-    console.log(values);
-    console.log(base64Image[0]);
+    const update_logo = (values.logo) ? base64Image : user.logo;
+    console.log('update_logo=', update_logo)
     actions.setSubmitting(false);
-    dispatch(asyncUpdateCompany({ user: {}, toast: toast }));
+    dispatch(asyncUpdateCompany({
+      id: user.id,
+      user: {
+        company_name: values.company,
+        company_description: values.description,
+        company_webpage_url: values.website,
+        company_logo_64: update_logo,
+      },
+      toast: toast,
+      history: history,
+    }));
   };
 
   function handleCancel() {
@@ -79,14 +83,16 @@ export default function Profile() {
   }
 
   return (
-    <div>
-      <Container maxW={'container.md'} p={12}>
+    <>
+      <Container
+        maxW={'container.md'}
+        p={12}
+      >
         <Heading
           as={'h2'}
           fontSize={{ base: 'xl', sm: '2xl' }}
           textAlign={'center'}
-          mb={5}
-        >
+          mb={5}>
           Edit Profile
         </Heading>
 
@@ -102,18 +108,14 @@ export default function Profile() {
               spacing={'6'}
               onSubmit={handleSubmit}
             >
-              <Stack
-                direction='row'
-                spacing={10}
-                align='center'
-                justify='center'
-              >
+
+              <Stack direction="row" spacing={10} align='center' justify='center'>
                 <Image
                   id='oldLogo'
-                  src={imgSrc}
-                  alt={`${companyData.company}-logo`}
-                  boxSize='150px'
-                  objectFit='cover'
+                  src={user.logo}
+                  alt={`${user.name}-logo`}
+                  boxSize="150px"
+                  objectFit='contain'
                 />
                 <Field name='logo'>
                   {({ field, form }) => (
@@ -134,11 +136,12 @@ export default function Profile() {
                 </Field>
               </Stack>
 
+
               <InputControl name='company' label='Company Name' />
               <TextareaControl name='description' label='Company Description' />
               <InputControl name='website' label='Website URL' />
 
-              <Stack direction='row' spacing={4} justify='center'>
+              <Stack direction="row" spacing={4} justify='center'>
                 <Button
                   colorScheme={'blue'}
                   variant={'outline'}
@@ -158,10 +161,11 @@ export default function Profile() {
                   Save
                 </Button>
               </Stack>
+
             </Stack>
           )}
         </Formik>
       </Container>
-    </div>
+    </>
   );
 }

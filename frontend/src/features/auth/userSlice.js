@@ -117,6 +117,14 @@ export const asyncLoginUser = createAsyncThunk(
       method: 'post',
       url: '/user/login/',
       data: user,
+    })
+    .catch((error) => {
+      console.error('Error logging in:', error);
+      toast({
+        description: 'Account name or password is incorrect',
+        status: 'error',
+        isClosable: true,
+      });
     });
     const data = await response.data;
 
@@ -154,7 +162,6 @@ export const asyncLogout = createAsyncThunk(
     if (response.status === 200) {
       localStorage.removeItem('token');
       history.push('/');
-      window.location.reload()
     }
     const data = await response.data;
 
@@ -170,9 +177,12 @@ export const asyncUpdateUniversity = createAsyncThunk(
       method: 'put',
       url: `/university/${id}/`,
       data: user,
+      headers: {
+        Authorization: `Token ${localStorage.getItem('token')}`,
+      },
     });
 
-    if (response.status === 201) {
+    if (response.status === 200) {
       history.push('/university');
     } else {
       toast({
@@ -195,9 +205,12 @@ export const asyncUpdateCompany = createAsyncThunk(
       method: 'put',
       url: `/company/${id}/`,
       data: user,
+      headers: {
+        Authorization: `Token ${localStorage.getItem('token')}`,
+      },
     });
 
-    if (response.status === 201) {
+    if (response.status === 200) {
       history.push('/company');
     } else {
       toast({
@@ -220,9 +233,14 @@ export const asyncUpdateStudent = createAsyncThunk(
       method: 'put',
       url: `/student/${id}/`,
       data: user,
-    });
+      headers: {
+        Authorization: `Token ${localStorage.getItem('token')}`,
+      },
+    })
 
-    if (response.status === 201) {
+    const data = await response.data;
+
+    if (response.status === 200) {
       history.push('/student');
     } else {
       toast({
@@ -231,8 +249,6 @@ export const asyncUpdateStudent = createAsyncThunk(
         isClosable: true,
       });
     }
-
-    const data = await response.data;
 
     return data;
   }
@@ -266,8 +282,8 @@ export const userSlice = createSlice({
   initialState,
   reducers: {
     resetUser: (state) => {
-      state = initialState;
-      return state;
+    state = initialState;
+    return state;
     },
   },
   extraReducers: (builder) => {
@@ -287,11 +303,16 @@ export const userSlice = createSlice({
             state.university = payload.university;
             state.studentID = payload.student_id;
             state.userID = payload.user_id;
+            state.wam = payload.wam;
+            state.degree = payload.degree;
             break;
           case 'Company':
+            state.companyID = payload.company_id;
+            //
             state.name = payload.company_name;
+            state.id = payload.company_id;
             state.description = payload.company_description;
-            state.website = payload.company_website;
+            state.website = payload.company_webpage_url;
             state.logo = payload.company_logo_64;
             state.companyID = payload.company_id;
             state.userID = payload.user_id;
