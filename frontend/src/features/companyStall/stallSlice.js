@@ -186,7 +186,7 @@ export const asyncEditQuestion = createAsyncThunk(
   async ({ questionId, stallId, question, toast }) => {
     const response = await axios({
       method: 'put',
-      url: `/questions/${stallId}/${questionId}`,
+      url: `/questions/${stallId}/${questionId}/`,
       data: question,
       headers: {
         Authorization: `Token ${localStorage.getItem('token')}`,
@@ -197,7 +197,8 @@ export const asyncEditQuestion = createAsyncThunk(
       status: 'success',
       isClosable: true,
     });
-    return response;
+    const data = await response.data
+    return data;
   }
 );
 
@@ -378,7 +379,7 @@ export const stallSlice = createSlice({
       .addCase(asyncEditQuestion.fulfilled, (state, { payload }) => {
         state.eventFormStatus = 'Completed';
         const index = current(state.qandas).findIndex(
-          (question) => question.id === payload.id
+          (question) => question.id === payload.post_id
         );
         state.qandas[index].question = payload.question;
       })
