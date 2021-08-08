@@ -3,6 +3,7 @@ import {
   chakra,
   Collapse,
   Flex,
+  Heading,
   HStack,
   IconButton,
   Stack,
@@ -18,7 +19,7 @@ import { AiOutlineMenu } from 'react-icons/ai';
 import { Logo } from './Logo';
 import { useThemeDarkMode } from 'elementz';
 import { useDispatch, useSelector } from 'react-redux';
-import { asyncLoginUser, asyncLogout } from '../features/auth/userSlice';
+import { asyncLogout } from '../features/auth/userSlice';
 
 export default function Navbar(props) {
   // Icon
@@ -30,11 +31,11 @@ export default function Navbar(props) {
   const [isDarkMode, toggleDarkMode] = useThemeDarkMode();
   const toggleMode = () => {
     toggleColorMode();
-    console.log(isDarkMode);
     if (
       localStorage.getItem('ez-mode') !==
       localStorage.getItem('chakra-ui-color-mode')
     ) {
+      localStorage.setItem('dark-mode-test', isDarkMode);
       toggleDarkMode();
     }
   };
@@ -62,28 +63,51 @@ export default function Navbar(props) {
         p={4}
         display={{ md: 'none' }}
       >
-        {NAV_ITEMS.map((navItem) => (
-          <Stack spacing={4}>
-            <Flex
-              px={4}
-              py={2}
-              justify={'space-between'}
-              align={'center'}
-              _hover={{
-                textDecoration: 'none',
-              }}
-            >
-              <Text
-                as={Link}
-                to={navItem.to}
-                fontWeight={600}
-                onClick={handleToggle}
-              >
-                {navItem.label}
-              </Text>
-            </Flex>
-          </Stack>
-        ))}
+        {loggedIn
+          ? privateNavItems.map((navItem, idx) => (
+              <Stack spacing={4} key={`nav-item-${idx}`}>
+                <Flex
+                  px={4}
+                  py={2}
+                  justify={'space-between'}
+                  align={'center'}
+                  _hover={{
+                    textDecoration: 'none',
+                  }}
+                >
+                  <Text
+                    as={Link}
+                    to={navItem.to}
+                    fontWeight={600}
+                    onClick={handleToggle}
+                  >
+                    {navItem.label}
+                  </Text>
+                </Flex>
+              </Stack>
+            ))
+          : publicNavItems.map((navItem, idx) => (
+              <Stack spacing={4} key={`nav-item-${idx}`}>
+                <Flex
+                  px={4}
+                  py={2}
+                  justify={'space-between'}
+                  align={'center'}
+                  _hover={{
+                    textDecoration: 'none',
+                  }}
+                >
+                  <Text
+                    as={Link}
+                    to={navItem.to}
+                    fontWeight={600}
+                    onClick={handleToggle}
+                  >
+                    {navItem.label}
+                  </Text>
+                </Flex>
+              </Stack>
+            ))}
       </Stack>
     );
   };
@@ -111,15 +135,31 @@ export default function Navbar(props) {
             justifyContent='space-between'
             fontWeight={500}
           >
-            <Flex align='flex-start'>
-              <Link to='/'>
-                <HStack>
-                  <Logo boxSize={12} mt='2'></Logo>
-                  <Text fontSize='xl' display={{ base: 'none', sm: 'flex' }}>
-                    Career Fairs Connect
-                  </Text>
-                </HStack>
-              </Link>
+            <Flex direction='row' as={Link} align='center' to='/'>
+              <Logo boxSize={12} mt='2' mr='2'></Logo>
+              <Heading
+                lineHeight={1.1}
+                fontWeight={500}
+                fontSize={{ base: '0', sm: 'xl', lg: '2xl', xl: '3xl' }}
+                zIndex={1}
+              >
+                <Text
+                  as={'span'}
+                  position={'relative'}
+                  _after={{
+                    content: "''",
+                    width: 'full',
+                    height: '30%',
+                    position: 'absolute',
+                    bottom: 0,
+                    left: 0,
+                    bg: useColorModeValue('blue.50', 'blue.800'),
+                    zIndex: -1,
+                  }}
+                >
+                  Career Fairs Connect
+                </Text>
+              </Heading>
             </Flex>
 
             <Flex justify='flex-end' align='center' color='gray.400'>
@@ -204,7 +244,7 @@ export default function Navbar(props) {
   );
 }
 
-const NAV_ITEMS = [
+const publicNavItems = [
   {
     label: 'Landing Page',
     to: '/',
@@ -216,5 +256,20 @@ const NAV_ITEMS = [
   {
     label: 'Login',
     to: '/login',
+  },
+];
+
+const privateNavItems = [
+  {
+    label: 'Events Page',
+    to: '/',
+  },
+  {
+    label: 'Profile',
+    to: '/profile',
+  },
+  {
+    label: 'Logout',
+    to: '/logout',
   },
 ];

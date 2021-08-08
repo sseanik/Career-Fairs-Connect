@@ -1,11 +1,11 @@
 import React from 'react';
-import { Link, Route, Switch, useHistory } from 'react-router-dom';
+import { Route, Switch, useHistory } from 'react-router-dom';
 import './App.css';
 // Redux
 import { useDispatch, useSelector } from 'react-redux';
 import { asyncFetchUserData } from './features/auth/userSlice';
 // Chakra UI
-import { Button, ButtonGroup, ChakraProvider } from '@chakra-ui/react';
+import { ChakraProvider } from '@chakra-ui/react';
 // Non-Logged In Pages
 import Login from './features/auth/Login';
 import Register from './features/auth/Register';
@@ -27,55 +27,17 @@ import Navbar from './components/Navbar';
 function App() {
   const dispatch = useDispatch();
   const history = useHistory();
+  const loggedIn = useSelector((state) => state.user.loggedIn);
 
   React.useEffect(() => {
     const token = localStorage.getItem('token');
     if (token) {
       dispatch(asyncFetchUserData(localStorage.getItem('token')));
     }
-  }, [dispatch, history]);
-
-  const loggedIn = useSelector((state) => state.user.loggedIn);
+  }, [dispatch, history, loggedIn]);
 
   return (
     <ChakraProvider theme={theme}>
-      <ButtonGroup>
-        <Button
-          onClick={() => {
-            localStorage.setItem('test', 'Student');
-            window.location.reload(false);
-          }}
-        >
-          S
-        </Button>
-        <Button
-          onClick={() => {
-            localStorage.setItem('test', 'Company');
-            window.location.reload(false);
-          }}
-        >
-          C
-        </Button>
-        <Button
-          onClick={() => {
-            localStorage.setItem('test', 'Unlisted');
-            window.location.reload(false);
-          }}
-        >
-          UC
-        </Button>
-        <Button
-          onClick={() => {
-            localStorage.setItem('test', 'University');
-            window.location.reload(false);
-          }}
-        >
-          U
-        </Button>
-        <Button as={Link} to='/events'>
-          E
-        </Button>
-      </ButtonGroup>
       <Navbar />
       <Switch>
         {loggedIn ? (
@@ -99,7 +61,6 @@ function App() {
         {/* profile */}
         <Route path='/company/' component={CompanyProfile} exact />
         <Route path='/company/edit' component={CompanyEdit} exact />
-
       </Switch>
     </ChakraProvider>
   );

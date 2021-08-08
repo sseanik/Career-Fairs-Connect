@@ -8,6 +8,7 @@ import {
 } from '@chakra-ui/react';
 import { Link } from 'react-router-dom';
 import expobg from './expobg.png';
+import React from 'react';
 
 export default function ImageBlurb() {
   return (

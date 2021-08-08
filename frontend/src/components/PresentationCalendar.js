@@ -2,9 +2,16 @@ import React from 'react';
 import moment from 'moment';
 // Redux
 import { useDispatch, useSelector } from 'react-redux';
-import { asyncEditPresentationTime } from '../features/companyStall/stallSlice';
+import { asyncEditPresentation } from '../features/companyStall/stallSlice';
 // Chakra UI
-import { Box, Text, Tooltip, useDisclosure } from '@chakra-ui/react';
+import {
+  Box,
+  Text,
+  Tooltip,
+  useBreakpointValue,
+  useDisclosure,
+  useToast,
+} from '@chakra-ui/react';
 // Full Calendar
 import FullCalendar from '@fullcalendar/react';
 import listPlugin from '@fullcalendar/list';
@@ -32,19 +39,22 @@ export function PresentationCalendar(props) {
     description: '',
     link: '',
     color: '',
-    start: '',
-    end: '',
+    start: {},
+    end: {},
   });
+  const toast = useToast();
 
   const eventClick = (info) => {
+    console.log(info.event);
+    console.log(info.event.extendedProps);
     setModalEventDetails({
       id: info.event.id,
       title: info.event.title,
       description: info.event.extendedProps.description,
       link: info.event.extendedProps.link,
       color: info.event.backgroundColor,
-      start: info.event.start.getTime(),
-      end: info.event.end.getTime(),
+      start: info.event.start,
+      end: info.event.end,
       time: info.event.start.toLocaleString([], {
         day: 'numeric',
         month: 'long',
@@ -59,15 +69,20 @@ export function PresentationCalendar(props) {
   };
 
   const changeEvent = (e) => {
+    console.log(e.event.start);
     dispatch(
-      asyncEditPresentationTime({
-        id: e.event.id,
-        title: e.event.title,
-        description: e.event.extendedProps.description,
-        link: e.event.extendedProps.link,
-        start: e.event.start.getTime(),
-        end: e.event.end.getTime(),
-        color: props.bgColour,
+      asyncEditPresentation({
+        presentation: {
+          presentation_id: e.event.id,
+          title: e.event.title,
+          presentation_description: e.event.extendedProps.description,
+          presentation_link: e.event.extendedProps.link,
+          start_time: e.event.start,
+          end_time: e.event.end,
+          color: props.bgColour,
+          stall_id: props.fairID,
+        },
+        toast: toast,
       })
     );
   };
@@ -94,6 +109,7 @@ export function PresentationCalendar(props) {
         color={modalEventDetails.color}
         start={modalEventDetails.start}
         end={modalEventDetails.end}
+        stallID={props.fairID}
       />
       {props.edit && (
         <CalendarModal
@@ -101,6 +117,7 @@ export function PresentationCalendar(props) {
           onClose={() => setOpen(false)}
           event={event}
           color={props.bgColour}
+          stallID={props.fairID}
         />
       )}
 
@@ -117,23 +134,22 @@ export function PresentationCalendar(props) {
         selectMirror={true}
         dayMaxEvents={true}
         contentHeight='auto'
-        buttonText={
-          width <= 750
-            ? {
-                today: 'T',
-                month: 'M',
-                week: 'W',
-                day: 'D',
-                list: 'L',
-              }
-            : {
-                today: 'Today',
-                month: 'Month',
-                week: 'Week',
-                day: 'Day',
-                list: 'List',
-              }
-        }
+        buttonText={useBreakpointValue({
+          base: {
+            today: 'T',
+            month: 'M',
+            week: 'W',
+            day: 'D',
+            list: 'L',
+          },
+          sm: {
+            today: 'Today',
+            month: 'Month',
+            week: 'Week',
+            day: 'Day',
+            list: 'List',
+          },
+        })}
         titleFormat={
           width <= 615 && {
             month: 'short',
