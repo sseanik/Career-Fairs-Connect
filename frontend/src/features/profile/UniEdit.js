@@ -38,7 +38,7 @@ export default function Profile() {
   const initialValues = {
     university: user.name,
     website: user.website,
-    logo: '', //companyData.logo,
+    // logo: '', //companyData.logo,
   };
 
   // const [picture, setPicture] = useState(null);
@@ -55,7 +55,7 @@ export default function Profile() {
   const toast = useToast();
   // ?
   const saveStatus = useSelector((state) => state.user.status);
-
+  console.log('user data get by uni edit:', user);
   // const uploadImage = (e, setFieldValue) => {
   //   dispatch(convertImageToBase64(e));
   //   setFieldValue('logo', e.target.value);
@@ -63,10 +63,20 @@ export default function Profile() {
   //   setImgSrc(e.target.value);
   // };
 
-  const submitForm = (universityID, values, actions) => {
-    // console.log('logo', values.logo);
+  const submitForm = (values, actions) => {
     actions.setSubmitting(false);
-    dispatch(asyncUpdateUniversity({ id: universityID, user: {}, toast: toast }));
+    dispatch(
+      asyncUpdateUniversity({
+        user: {
+          university_name: values.university,
+          university_site_url: values.website,
+          university_logo_64: user.logo,
+        },
+        id: user.universityID,
+        toast: toast,
+        history: history,
+      })
+    );
   };
 
   function handleCancel() {
