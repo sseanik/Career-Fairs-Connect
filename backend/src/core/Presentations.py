@@ -119,7 +119,10 @@ def create_presentation(request):
     if not presentation_serializer.is_valid():
         return Response(presentation_serializer.errors, status=status.HTTP_400_BAD_REQUEST)
     presentation_serializer.save()
-    return Response(presentation_serializer.data, status=status.HTTP_201_CREATED)   
+    presentationObj = Presentations.objects.all()
+    presentationObj = presentationObj.reverse()[0]
+    serializer = PresentationSerializer(presentationObj)
+    return Response(serializer.data, status=status.HTTP_201_CREATED)   
 
 
 
