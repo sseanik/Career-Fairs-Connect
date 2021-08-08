@@ -8,6 +8,7 @@ import {
 } from '@chakra-ui/react';
 import { Link } from 'react-router-dom';
 import expobg from './expobg.png';
+import React from 'react';
 
 export default function ImageBlurb() {
   return (
@@ -28,7 +29,7 @@ export default function ImageBlurb() {
         <Stack maxW={'2xl'} align={'flex-start'} spacing={6}>
           <Text
             color={'white'}
-            fontWeight={700}
+            fontWeight={600}
             lineHeight={1.2}
             align={'center'}
             fontSize={useBreakpointValue({ base: '3xl', md: '4xl' })}

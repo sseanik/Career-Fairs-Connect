@@ -1,5 +1,5 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 // Redux
 import { useDispatch, useSelector } from 'react-redux';
 import { asyncFetchStallData, resetStall } from '../companyStall/stallSlice';
@@ -14,21 +14,25 @@ import {
   TabPanel,
   TabPanels,
   Tabs,
+  useBreakpointValue,
+  useColorModeValue,
 } from '@chakra-ui/react';
 import { ArrowBackIcon } from '@chakra-ui/icons';
 // Components
-import Navbar from '../../components/navbar';
 import { DetailsCard } from '../../components/DetailsCard';
 import { OpportunitiesTable } from '../../components/OpportunitiesTable';
 import { QuestionsAndAnswers } from './QuestionsAndAnswers';
 import { PresentationCalendar } from '../../components/PresentationCalendar';
 import { SkeletonFairEvent } from '../careerEvents/SkeletonFairEvent';
+import { BiDetail } from 'react-icons/bi';
+import { IoCalendar } from 'react-icons/io5';
+import { MdQuestionAnswer } from 'react-icons/md';
 
 export default function CompanyStall(props) {
   const stallID = props.match.params.stallID;
+  const location = useLocation();
   // Redux
   const dispatch = useDispatch();
-  const width = useSelector((state) => state.window.width);
   const stallData = useSelector((state) => state.stall);
   const userData = useSelector((state) => state.user);
 
@@ -43,35 +47,86 @@ export default function CompanyStall(props) {
     dispatch(resetStall());
   };
 
+  const updateURL = (tab) => {
+    if (location.pathname.includes('presentation')) {
+      window.history.replaceState(
+        null,
+        tab,
+        location.pathname.replace('presentation', tab)
+      );
+    } else if (location.pathname.includes('qanda')) {
+      window.history.replaceState(
+        null,
+        tab,
+        location.pathname.replace('qanda', tab)
+      );
+    } else if (location.pathname.endsWith('/')) {
+      window.history.replaceState(null, tab, location.pathname.concat(tab));
+    } else {
+      window.history.replaceState(
+        null,
+        tab,
+        location.pathname.concat(`/${tab}`)
+      );
+    }
+  };
+
   return (
     <div>
-      <Navbar />
-      <Box borderWidth='1px' borderColor='gray.300' borderRadius='xs' m='4'>
-        <Tabs>
+      <Box
+        borderWidth='1px'
+        borderColor={useColorModeValue('gray.300', 'gray.700')}
+        borderRadius='xs'
+        m='4'
+      >
+        <Tabs
+          defaultIndex={
+            !props.match.params.tab
+              ? 0
+              : props.match.params.tab === 'presentation'
+              ? 1
+              : 2
+          }
+        >
           <TabList>
             <Tab
+              onClick={() => updateURL('')}
               _selected={{
                 color: stallData.textColour,
                 bg: stallData.bgColour,
               }}
             >
-              {width <= 830 ? 'Details' : 'Career Fair Details'}
+              {useBreakpointValue({
+                base: <BiDetail />,
+                sm: 'Details',
+                md: 'Career Details',
+              })}
             </Tab>
             <Tab
+              onClick={() => updateURL('presentation')}
               _selected={{
                 color: stallData.textColour,
                 bg: stallData.bgColour,
               }}
             >
-              {width <= 830 ? 'Calendar' : 'Presentation Calendar'}
+              {useBreakpointValue({
+                base: <IoCalendar />,
+                sm: 'Calendar',
+                md: 'Presentation Calendar',
+              })}{' '}
             </Tab>
             <Tab
+              onClick={() => updateURL('qanda')}
               _selected={{
                 color: stallData.textColour,
                 bg: stallData.bgColour,
               }}
             >
-              {width <= 830 ? 'Q & A' : 'Questions & Answers'}
+              {useBreakpointValue({
+                base: <MdQuestionAnswer />,
+                sm: 'Q & A',
+                md: 'Question & Answers',
+              })}
             </Tab>
             <Spacer />
             <Button
@@ -85,7 +140,11 @@ export default function CompanyStall(props) {
               to={`/fair/${stallData.fairID}`}
               onClick={() => navigateBack()}
             >
-              {width <= 830 ? 'Back' : 'Back to Career Fair'}
+              {useBreakpointValue({
+                base: '',
+                sm: 'Back',
+                md: 'Back to Career Fair',
+              })}{' '}
             </Button>
           </TabList>
           <TabPanels>
@@ -115,6 +174,7 @@ export default function CompanyStall(props) {
                   userData.role === 'Company' &&
                   userData.name === stallData.company
                 }
+                fairID={stallID}
                 stall
               />
             </TabPanel>
@@ -126,7 +186,7 @@ export default function CompanyStall(props) {
       </Box>
       <Box
         borderWidth='1px'
-        borderColor='gray.300'
+        borderColor={useColorModeValue('gray.300', 'gray.700')}
         borderRadius='xl'
         m='4'
         p='4'
@@ -137,6 +197,7 @@ export default function CompanyStall(props) {
           interact={true}
           loading={stallData.loading}
           company={stallData.company}
+          fairID={stallID}
         />
       </Box>
     </div>

@@ -1,30 +1,57 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
-import { getEventsData } from '../../exampleData/exampleCareerEvents';
+import axios from 'axios';
 
 // Fetch Career Fair Events
 export const asyncFetchEventsData = createAsyncThunk(
   'events/careerFairs',
-  async () => {
-    const response = await getEventsData();
-    return response;
+  async (token) => {
+    const response = await axios({
+      method: 'get',
+      url: '/careerfairs/',
+      // headers: {
+      //   Authorization: `Token ${token}`,
+      // },
+    });
+
+    const data = await response.data;
+
+    return data;
   }
 );
 
 // Create a Career Fair Event
 export const asyncCreateFairEvent = createAsyncThunk(
   'events/create',
-  async ({ event, toast }) => {
-    await new Promise((r) => setTimeout(r, 3000));
-    const response = { ...event, id: '555' };
-    toast({
-      description: 'Successfully created event',
-      status: 'success',
-      isClosable: true,
+  async ({ event, toast, id }) => {
+    const response = await axios({
+      method: 'post',
+      url: `/university/${id}/careerfairs/`,
+      data: event,
+      headers: {
+        Authorization: `Token ${localStorage.getItem('token')}`,
+      },
     });
-    return response;
+
+    if (response.status === 200) {
+      toast({
+        description: 'Successfully created Career Fair',
+        status: 'success',
+        isClosable: true,
+      });
+    } else {
+      toast({
+        description: 'Login Failed',
+        status: 'error',
+        isClosable: true,
+      });
+    }
+
+    const data = await response.data;
+    return data;
   }
 );
 
+// TODO
 // Delete a Career Fair Event
 export const asyncDeleteFairEvent = createAsyncThunk(
   'events/delete',
@@ -69,6 +96,7 @@ export const eventsSlice = createSlice({
         state.status = true;
       })
       .addCase(asyncCreateFairEvent.fulfilled, (state, { payload }) => {
+        console.log(payload);
         state.status = false;
         state.events.push(payload);
       })

@@ -18,6 +18,8 @@ import {
   Tag,
   TagLabel,
   TagRightIcon,
+  useBreakpointValue,
+  useColorMode,
   useDisclosure,
   useToast,
 } from '@chakra-ui/react';
@@ -31,7 +33,6 @@ import { OpportunityModal } from './OpportunityModal';
 export const DetailsCard = (props) => {
   // Redux
   const dispatch = useDispatch();
-  const width = useSelector((state) => state.window.width);
   const userDetails = useSelector((state) => state.user);
   const stalls = useSelector((state) => state.fair.stalls);
   const interactStatus = useSelector((state) => state.fair.status);
@@ -42,6 +43,8 @@ export const DetailsCard = (props) => {
   // State to determine background colour and company application status
   const [bgColour, setBgColour] = React.useState('white');
   const [applied, setApplied] = React.useState(false);
+  const { colorMode } = useColorMode();
+  const [modalOpen, setModalOpen] = React.useState(false);
 
   // If the crop image is given, set the background colour of the image
   React.useEffect(() => {
@@ -71,6 +74,7 @@ export const DetailsCard = (props) => {
       asyncAddCompanyStall({
         stall: {
           pending: 'Pending',
+          companyId: userDetails.id,
           company: userDetails.name,
           description: userDetails.description,
           logo: userDetails.logo,
@@ -92,14 +96,21 @@ export const DetailsCard = (props) => {
   };
 
   return (
-    <Flex p='0.5' direction={width <= '723' ? 'column' : 'row'}>
+    <Flex
+      p='0.5'
+      direction={useBreakpointValue({
+        base: 'column',
+        md: 'row',
+      })}
+      align='center'
+    >
       {props.crop ? (
-        <Center h='125px' w='175px' mr='5' bg={bgColour}>
+        <Center h='125px' w='175px' bg={bgColour}>
           <Image
             src={props.image}
             alt={`${props.alt}-logo`}
             maxHeight='125px'
-            maxWidth='175px'
+            minWidth='175px'
             objectFit='contain'
             fallbackSrc={!props.loading && 'https://via.placeholder.com/150'}
           />
@@ -109,26 +120,39 @@ export const DetailsCard = (props) => {
           src={props.image}
           alt={!props.loading ? `${props.alt}-logo` : ''}
           maxHeight='120px'
-          maxWidth='200px'
+          minWidth='175px'
           objectFit={'contain'}
-          mr='5'
           fallbackSrc={!props.loading ? 'https://via.placeholder.com/150' : ''}
         />
       )}
 
-      <Box>
-        <Flex pb='1' fontWeight='semibold' fontSize='lg' align='center'>
+      <Flex
+        ml='4'
+        direction='column'
+        justify='center'
+        align={{ base: 'center', md: 'flex-start' }}
+      >
+        <Flex
+          py='2'
+          fontWeight='semibold'
+          fontSize='lg'
+          direction={useBreakpointValue({
+            base: 'column',
+            sm: 'row',
+          })}
+          align={{ base: 'center', md: 'flex-start' }}
+        >
           {props.title}
           {props.fair &&
             userDetails.role === 'University' &&
             userDetails.name === props.alt && (
-              <div>
+              <Flex align='center' justify='center'>
                 <Spacer />
 
                 <Button
                   leftIcon={<RiPencilFill />}
                   size='sm'
-                  onClick={onOpen}
+                  onClick={() => setModalOpen(!modalOpen)}
                   ml='3'
                   isLoading={interactStatus}
                   loadingText='Editing Event'
@@ -136,8 +160,8 @@ export const DetailsCard = (props) => {
                   Edit Event
                 </Button>
                 <EventModal
-                  isOpen={isOpen}
-                  onClose={onClose}
+                  isOpen={modalOpen}
+                  setOpen={setModalOpen}
                   university={userDetails.name}
                   website={userDetails.website}
                   logo={userDetails.logo}
@@ -147,7 +171,7 @@ export const DetailsCard = (props) => {
                   end={props.endDate}
                   edit
                 />
-              </div>
+              </Flex>
             )}
           {props.isLive && (
             <Badge
@@ -208,7 +232,11 @@ export const DetailsCard = (props) => {
                 >
                   Add Opportunity
                 </Button>
-                <OpportunityModal isOpen={isOpen} onClose={onClose} />
+                <OpportunityModal
+                  isOpen={isOpen}
+                  onClose={onClose}
+                  stallID={props.fairID}
+                />
               </div>
             )}
         </Flex>
@@ -262,27 +290,28 @@ export const DetailsCard = (props) => {
             letterSpacing='wide'
             fontSize='xs'
             textTransform='uppercase'
-            color='gray.600'
+            color={colorMode === 'light' ? 'gray.600' : 'gray.400'}
           >
             <TagLabel>Website</TagLabel>
             <TagRightIcon boxSize='12px' as={ExternalLinkIcon} />
           </Tag>
         )}
         {props.uni && (
-          <Tag
+          <Badge
             ml='-1'
             mt='1'
             letterSpacing='wide'
             fontSize='xs'
             textTransform='uppercase'
-            color='gray.600'
+            w='auto'
+            py='1'
+            px='2'
+            color={colorMode === 'light' ? 'gray.600' : 'gray.300'}
           >
-            <TagLabel>
-              Hosted by <b>{props.uni}</b>
-            </TagLabel>
-          </Tag>
+            <b>{props.uni}</b>
+          </Badge>
         )}
-      </Box>
+      </Flex>
     </Flex>
   );
 };

@@ -63,6 +63,16 @@ class CareerFairSerializer(DynamicFieldsModelSerializer):
         model = CareerFairs
         fields = '__all__'
 
+class QAMessageSerializer(DynamicFieldsModelSerializer):
+    class Meta :
+        model = QAMessages
+        fields = '__all__'
+
+class UpvoteSerializer(DynamicFieldsModelSerializer):
+    class Meta :
+        model = Upvotes
+        fields = '__all__'
+
 # breaks code
 # class CompanySerializer(serializers.ModelSerializer):
 #     class Meta:

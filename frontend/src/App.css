@@ -80,9 +80,50 @@
   background: #bdc7d1 !important;
 }
 
-
 .fc .fc-button-primary:not(:disabled):active:focus, .fc .fc-button-primary:not(:disabled).fc-button-active:focus {
   background: #cedbeb !important;
-
 }
 
+.fc-theme-standard .fc-list-day-cushion {
+  background: #cedbeb !important;
+}
+
+.fc .fc-cell-shaded, .fc .fc-day-disabled {
+  background: none !important;
+}
+
+.fc .fc-list-sticky .fc-list-day > * {
+  background: none !important;
+}
+
+.fc-theme-standard .fc-scrollgrid {
+  border: none !important;
+}
+
+.fc .fc-list-event:hover td {
+  background: none !important;
+}
+
+.fc-theme-standard , .fc-theme-standard th {
+  border: none !important;
+}
+
+.fc-theme-standard .fc-list {
+  border: none !important;
+}
+
+.ez-table table th {
+  background: none !important;
+}
+
+.ez-table {
+  background: none !important;
+}
+
+.ez-table table .ez-column-before, .ez-table table .ez-row-before {
+  background: none !important;
+}
+
+.ez-table table .ez-column-after, .ez-table table .ez-row-after {
+  background: none !important;
+}
