@@ -78,4 +78,4 @@ Requirements: Python version 3.7 or above
 
 ## API documentation
 
-While the project is running, visit http://127.0.0.1:8000/swagger/ in the browser to see Swagger API documentation.
+While the project backend is running, visit http://127.0.0.1:8000/swagger/ in the browser to see Swagger API documentation.
