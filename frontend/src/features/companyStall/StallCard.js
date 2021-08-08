@@ -15,7 +15,7 @@ import {
   useColorMode,
   useToast,
 } from '@chakra-ui/react';
-import { InfoOutlineIcon } from '@chakra-ui/icons';
+import { InfoIcon, InfoOutlineIcon } from '@chakra-ui/icons';
 // Redux
 import { asyncToggleEventPending } from '../../features/careerFair/fairSlice';
 import { useDispatch, useSelector } from 'react-redux';
@@ -94,14 +94,15 @@ export function StallCard(props) {
               fontSize='lg'
               ml='2'
               _groupHover={{ fontWeight: 'bold' }}
+              isTruncated
             >
               {props.name}
             </Box>
             <Spacer />
             {props.pending !== 'Approved' ? (
-              <Tag size='md' variant='solid'>
-                <TagLabel>{props.pending}</TagLabel>
-              </Tag>
+              <Tooltip label={props.pending} fontSize='md'>
+                <InfoIcon color='gray.600' />
+              </Tooltip>
             ) : (
               <Tooltip label={props.description} fontSize='md'>
                 <InfoOutlineIcon color='gray.600' />
@@ -138,60 +139,49 @@ export function StallCard(props) {
             justify='space-around'
           >
             <Button
-              // w={props.pending !== 'Pending' ? '100%' : '45%'}
-              w='45%'
+              w={props.pending !== 'Pending' ? '100%' : '45%'}
               size='sm'
               fontSize='md'
-              // colorScheme={props.pending === 'Pending' ? 'green' : 'gray'}
-              colorScheme='green'
-              onClick={
-                () =>
-                  // props.pending === 'Pending'
-                  //   ?
+              colorScheme={props.pending === 'Pending' ? 'green' : 'gray'}
+              onClick={() =>
+                props.pending === 'Pending'
+                  ? dispatch(
+                      asyncToggleEventPending({
+                        id: props.id,
+                        approval_status: 'Approved',
+                        toast: toast,
+                      })
+                    )
+                  : dispatch(
+                      asyncToggleEventPending({
+                        id: props.id,
+                        approval_status: 'Pending',
+                        toast: toast,
+                      })
+                    )
+              }
+            >
+              {props.pending === 'Pending' ? 'Approve' : 'Set Pending'}
+            </Button>
+            {props.pending === 'Pending' && (
+              <Button
+                w='45%'
+                size='sm'
+                fontSize='md'
+                colorScheme='red'
+                onClick={() =>
                   dispatch(
                     asyncToggleEventPending({
                       id: props.id,
-                      // toggle: 'Approve',
-                      approval_status: 'true',
+                      approval_status: 'Rejected',
                       toast: toast,
                     })
                   )
-                // :
-                // dispatch(
-                //     asyncToggleEventPending({
-                //       id: props.id,
-                //       // toggle: 'Pending',
-                //       approval_status: 'pending',
-                //       toast: toast,
-                //     })
-                //   )
-              }
-            >
-              {/* {props.pending === 'Pending' ? 'Approve' : 'Set Pending'} */}
-              {/* remove "Set pending" */}
-              Approve
-            </Button>
-
-            {/* {props.pending === 'Pending' && ( */}
-            <Button
-              w='45%'
-              size='sm'
-              fontSize='md'
-              colorScheme='red'
-              onClick={() =>
-                dispatch(
-                  asyncToggleEventPending({
-                    id: props.id,
-                    // toggle: 'Rejected',
-                    approval_status: 'false',
-                    toast: toast,
-                  })
-                )
-              }
-            >
-              Reject
-            </Button>
-            {/* )} */}
+                }
+              >
+                Reject
+              </Button>
+            )}
           </Box>
         )}
       </Flex>

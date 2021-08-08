@@ -1,4 +1,4 @@
-import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
+import { createAsyncThunk, createSlice, current } from '@reduxjs/toolkit';
 import { prominent } from 'color.js';
 import complementaryTextColour from '../../util/complementaryTextColour';
 import axios from 'axios';
@@ -45,14 +45,14 @@ export const asyncEditFairEvent = createAsyncThunk(
 export const asyncToggleEventPending = createAsyncThunk(
   'fair/togglePending',
   async ({ id, approval_status, toast }) => {
+    console.log(approval_status);
+
     const response = await axios({
       method: 'put',
-      url: '/careerfairs/applications',
+      url: '/careerfairs/applications/',
       data: {
         stall_id: id,
-        approval: approval_status,
-        // company_id: null,
-        // event_id: null,
+        approval_status: approval_status,
       },
       headers: {
         Authorization: `Token ${localStorage.getItem('token')}`,
@@ -61,13 +61,16 @@ export const asyncToggleEventPending = createAsyncThunk(
 
     if (response.status === 200) {
       toast({
-        description: 'Successfully changed Stall approval status',
+        description:
+          'Successfully changed Stall approval status to ' + approval_status,
         status: 'success',
         isClosable: true,
       });
     }
 
-    return { id: id, approval_status: approval_status };
+    const data = await response.data;
+
+    return { id: data.stall_id, approval_status: data.approval_status };
   }
 );
 
@@ -181,9 +184,8 @@ export const fairSlice = createSlice({
       })
       // Change a company stall's approval status
       .addCase(asyncToggleEventPending.fulfilled, (state, { payload }) => {
-        console.log(payload);
         const stall = state.stalls.find((stall) => stall.id === payload.id);
-        stall.pending = payload.toggle;
+        stall.approval_status = payload.approval_status;
       })
       // Add a company stall to the career fair event
       .addCase(asyncAddCompanyStall.pending, (state, { payload }) => {
