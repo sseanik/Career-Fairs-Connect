@@ -119,6 +119,7 @@ class Presentations(models.Model):
     stall_id = models.ForeignKey(Stalls, on_delete=models.CASCADE)
     title = models.CharField(max_length=255)
     color = models.CharField(max_length=255)
+    textColor = models.CharField(max_length=255)
     presentation_link = models.CharField(max_length=255)
     start_time = models.DateTimeField()
     end_time = models.DateTimeField()
