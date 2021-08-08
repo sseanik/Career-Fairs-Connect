@@ -16,11 +16,14 @@ from drf_yasg.utils import swagger_auto_schema
 
 @swagger_auto_schema(
     method="delete",
+    request_body=openapi.Schema(
+    type=openapi.TYPE_OBJECT,
+    properties={
+        'eventID': openapi.Schema(type=openapi.TYPE_NUMBER, description='event ID'),
+        'employerID': openapi.Schema(type=openapi.TYPE_NUMBER, description='employer ID'),
+        }),
     responses={
-        200 : openapi.Schema(type=openapi.TYPE_OBJECT,properties={
-            "eventID": openapi.Schema(type=openapi.TYPE_NUMBER),
-            "employerID": openapi.Schema(type=openapi.TYPE_NUMBER),
-            }),
+        200 : "Stall deleted",
         404 : "Not found",
         403 : "Forbidden",
     },
