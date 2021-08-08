@@ -98,4 +98,6 @@ urlpatterns = [
     re_path("^university/(?P<universityId>.+)/$", University.as_view()),
     path("questions/<int:stallId>/", StallMessages.as_view()),
     path("questions/<int:stallId>/<int:postId>/upvotes/", Upvote.as_view()),
+    path("questions/question/<int:stallId>/<int:postId>/", Question.as_view()),
+    path("questions/answer/<int:stallId>/<int:postId>/", Answer.as_view()),
 ]
