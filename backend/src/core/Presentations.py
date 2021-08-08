@@ -120,7 +120,7 @@ def create_presentation(request):
         return Response(presentation_serializer.errors, status=status.HTTP_400_BAD_REQUEST)
     presentation_serializer.save()
     presentationObj = Presentations.objects.all()
-    presentationObj = presentationObj.reverse()[0]
+    presentationObj = presentationObj.last()
     serializer = PresentationSerializer(presentationObj)
     return Response(serializer.data, status=status.HTTP_201_CREATED)   
 
