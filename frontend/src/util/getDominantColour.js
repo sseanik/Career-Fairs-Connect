@@ -2,11 +2,9 @@ import { prominent } from 'color.js';
 
 // Grab the most common colour from an image and determine the accompanying text colour
 export default async function getDominantColour(image) {
-  // console.log(image);
-
-  // if () {
-
-  // }
+  if (!image || !image.startsWith('data:image/')) {
+    return 'black';
+  }
 
   const colour = await prominent(image, {
     amount: 2,

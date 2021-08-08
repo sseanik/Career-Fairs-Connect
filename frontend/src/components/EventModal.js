@@ -58,7 +58,7 @@ export function EventModal(props) {
   const dispatch = useDispatch();
   const history = useHistory();
 
-  const universityID = useSelector((state) => state.user.universityID);
+  const university = useSelector((state) => state.user);
 
   const toast = useToast();
 
@@ -102,10 +102,11 @@ export function EventModal(props) {
               description: values.description,
               start_date: values.start,
               end_date: values.end,
-              university_id: universityID,
+              university_id: university.universityID,
             },
             toast: toast,
-            id: universityID,
+            id: university.universityID,
+            university: university.name,
           })
         );
     actions.setSubmitting(false);
