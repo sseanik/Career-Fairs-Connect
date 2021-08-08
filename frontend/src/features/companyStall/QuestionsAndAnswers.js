@@ -33,6 +33,7 @@ export function QuestionsAndAnswers(props) {
   const buttonLoading = useSelector((state) => state.stall.status);
   const toast = useToast();
   const dispatch = useDispatch();
+  const userId = useSelector((state) => state.user.studentId)
 
   const postQuestion = () => {
     question &&
@@ -61,7 +62,8 @@ export function QuestionsAndAnswers(props) {
       {isQuestion ?
       <QuestionModal
           isOpen={isOpen}
-          id={id}
+          stallId={props.stallID}
+          questionId={id}
           onClose={onClose}
           question={question}
           setQuestion={setQuestion}
@@ -69,7 +71,8 @@ export function QuestionsAndAnswers(props) {
       :
       <AnswerModal
         isOpen={isOpen}
-        id={id}
+        stallId={props.stallID}
+        questionId={id}
         onClose={onClose}
         answer={answer}
         setAnswer={setAnswer}
@@ -100,14 +103,14 @@ export function QuestionsAndAnswers(props) {
       <Accordion allowMultiple>
         {props.qandas.map((qanda, idx) => (
           /*Change (9 != 9) to userId != stall.companyId*/
-          <AccordionItem isDisabled={!qanda.answer && (9 != 9)} key={`qanda-${idx}`}>
+          <AccordionItem isDisabled={!qanda.answer && (userId != qanda.author_id)} key={`qanda-${idx}`}>
             <h2>
               <AccordionButton>
                 <Box flex='1' textAlign='left' fontWeight='semibold'>
                   {qanda.question}
                   {/*Change this so that this button only shows if qanda.creatorId == currentUserId*/}
-                  
-                  { (qanda.creatorId === '0') ?
+                  {console.log(userId + " <- user ID + author_id-> " + qanda.author_id)}
+                  { (userId === qanda.author_id) ?
                     <>
                       <Button
                       leftIcon={<RiPencilFill />}

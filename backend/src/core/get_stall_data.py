@@ -113,6 +113,7 @@ def get_stall_data(request, stallId):
     for i, QAmessage in enumerate(QAmessages):
         QAmessages[i] = {
             "id": QAmessage["post_id"],
+            "author_id": QAmessage["author_id_id"],
             "question": QAmessage["question"],
             "answer": QAmessage["answer"],
         }

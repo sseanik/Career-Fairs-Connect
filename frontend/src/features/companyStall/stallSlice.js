@@ -163,7 +163,7 @@ export const asyncDeletePresentation = createAsyncThunk(
 export const asyncPostQuestion = createAsyncThunk(
   'stall/postQuestion',
   async ({ id, question, toast }) => {
-    await axios({
+    const response = await axios({
       method: 'post',
       url: `/questions/${id}/`,
       data: question,
@@ -176,16 +176,22 @@ export const asyncPostQuestion = createAsyncThunk(
       status: 'success',
       isClosable: true,
     });
-    return question.question;
+    return response;
   }
 );
 
 // Edit a question
 export const asyncEditQuestion = createAsyncThunk(
   'stall/editQuestion',
-  async ({ id, question, toast }) => {
-    await new Promise((r) => setTimeout(r, 3000));
-    const response = { id: id, question: question, toast: toast };
+  async ({ questionId, stallId, question, toast }) => {
+    const response = await axios({
+      method: 'put',
+      url: `/questions/${stallId}/${questionId}`,
+      data: question,
+      headers: {
+        Authorization: `Token ${localStorage.getItem('token')}`,
+      },
+    });
     toast({
       description: 'Successfully Edited Question',
       status: 'success',
@@ -362,12 +368,7 @@ export const stallSlice = createSlice({
       })
       .addCase(asyncPostQuestion.fulfilled, (state, { payload }) => {
         state.status = false;
-        state.qandas.push({
-          id: '2223',
-          question: payload,
-          answer: '',
-          creatorId: '2',
-        });
+        state.qandas.push(payload);
       })
       .addCase(asyncEditQuestion.pending, (state, { payload }) => {
         state.eventFormStatus = 'Pending';
