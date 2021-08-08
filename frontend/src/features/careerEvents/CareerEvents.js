@@ -143,7 +143,7 @@ function EventCards() {
             endDate={event.end}
             description={event.description}
             website={event.website}
-            // crop={getDominantColour(event.logo)}
+            crop={getDominantColour(event.logo)}
             uni={event.university}
           />
         </Flex>
