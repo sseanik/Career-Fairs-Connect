@@ -6,8 +6,8 @@ import axios from 'axios';
 // Get Stall Data
 export const asyncFetchStallData = createAsyncThunk(
   'stall/company',
-  async (stallID) => {
-    // const response = await getStallData(stallID);
+  async ({ stallID }) => {
+    console.log(stallID);
     const response = await axios({
       method: 'get',
       url: `/careerfairs/stalls/${stallID}/`,

@@ -78,7 +78,7 @@ export const asyncToggleEventPending = createAsyncThunk(
 // Add a company stall to the career fair event
 export const asyncAddCompanyStall = createAsyncThunk(
   'fair/addStall',
-  async ({ stall, toast }) => {
+  async ({ stall, logo, description, company, toast }) => {
     const response = await axios({
       method: 'post',
       url: `/careerfairs/${stall.event_id}/stalls/`,
@@ -103,16 +103,22 @@ export const asyncAddCompanyStall = createAsyncThunk(
     }
 
     const data = await response.data;
-    return data;
+
+    console.log(response.data);
+
+    return {
+      data: data,
+      logo: logo,
+      description: description,
+      company: company,
+    };
   }
 );
 
 // Delete a company stall from an event
 export const asyncRemoveCompanyStall = createAsyncThunk(
   'fair/removeStall',
-  async ({ data, toast }) => {
-    console.log(data);
-
+  async ({ data, company, toast }) => {
     const response = await axios({
       method: 'delete',
       url: '/careerfairs/delete/stalls/',
@@ -136,8 +142,7 @@ export const asyncRemoveCompanyStall = createAsyncThunk(
       });
     }
 
-    const result = await response.data;
-    return result;
+    return company;
   }
 );
 
@@ -212,7 +217,14 @@ export const fairSlice = createSlice({
       })
       .addCase(asyncAddCompanyStall.fulfilled, (state, { payload }) => {
         state.status = false;
-        state.stalls.push(payload);
+        state.stalls.push({
+          pending: payload.data.approval_status,
+          company: payload.company,
+          description: payload.description,
+          id: payload.data.stall_id,
+          live: false,
+          logo: payload.logo,
+        });
       })
       // Delete a company stall from an event
       .addCase(asyncRemoveCompanyStall.pending, (state, { payload }) => {

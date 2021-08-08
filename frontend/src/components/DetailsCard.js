@@ -92,6 +92,7 @@ export const DetailsCard = (props) => {
           eventID: parseInt(props.fairID),
           employerID: userDetails.companyID,
         },
+        company: userDetails.name,
         toast: toast,
       })
     );
