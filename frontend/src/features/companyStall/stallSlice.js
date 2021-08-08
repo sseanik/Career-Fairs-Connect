@@ -77,7 +77,13 @@ export const asyncEditOpportunity = createAsyncThunk(
 export const asyncDeleteOpportunity = createAsyncThunk(
   'stall/deleteOpportunity',
   async ({ id, toast }) => {
-    await new Promise((r) => setTimeout(r, 3000));
+    await axios({
+      method: 'delete',
+      url: `/company/opportunities/${id}/`,
+      headers: {
+        Authorization: `Token ${localStorage.getItem('token')}`,
+      },
+    });
     toast({
       description: 'Successfully removed Opportunity',
       status: 'success',
