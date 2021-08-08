@@ -2,6 +2,7 @@ from rest_framework import status
 from rest_framework.response import Response
 from .serializers import CareerFairSerializer
 from .models import Companies, Opportunities, Stalls, QAMessages, Presentations
+from django.http import QueryDict
 import json
 from django.core.serializers.json import DjangoJSONEncoder
 from django.shortcuts import get_object_or_404
@@ -16,7 +17,13 @@ from drf_yasg.utils import swagger_auto_schema
 @swagger_auto_schema(
     method="delete",
     responses={
-        200: "Deleted",
+        200: openapi.Schema(
+            type=openapi.TYPE_OBJECT,
+            properties={
+                "eventID": openapi.Schema(type=openapi.TYPE_NUMBER),
+                "employerID": openapi.Schema(type=openapi.TYPE_NUMBER),
+            },
+        ),
         404: "Not found",
         403: "Forbidden",
     },
@@ -32,8 +39,9 @@ def delete_stall(request):
 
     if request.user.user_type != 2:
         return Response({"Forbidden": "Incorrect user_type"}, status=403)
-    company_id = request.DELETE.companyID
-    event_id = request.DELETE.employerID
+    delete = QueryDict(request.body)
+    company_id = delete.get("companyID")
+    event_id = delete.get("employerID")
     stall = get_object_or_404(Stalls, company_id=company_id, event_id=event_id)
     requestUserCompany = Companies.objects.get(user_id=request.user.userID).company_id
     stallOwner = stall.company_id

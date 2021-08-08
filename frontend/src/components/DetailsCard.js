@@ -89,8 +89,8 @@ export const DetailsCard = (props) => {
     dispatch(
       asyncRemoveCompanyStall({
         data: {
-          eventID: props.fairID,
-          companyID: userDetails.company_id,
+          eventID: parseInt(props.fairID),
+          employerID: userDetails.companyID,
         },
         toast: toast,
       })

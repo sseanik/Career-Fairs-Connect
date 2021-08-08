@@ -110,13 +110,16 @@ export const asyncAddCompanyStall = createAsyncThunk(
 // Delete a company stall from an event
 export const asyncRemoveCompanyStall = createAsyncThunk(
   'fair/removeStall',
-  async ({ stallID, toast }) => {
+  async ({ data, toast }) => {
+    console.log(data);
+
     const response = await axios({
       method: 'delete',
-      url: `/careerfairs/delete/stalls/${stallID}/`,
+      url: '/careerfairs/delete/stalls/',
       headers: {
         Authorization: `Token ${localStorage.getItem('token')}`,
       },
+      data: data,
     });
 
     if (response.status === 200) {
@@ -133,8 +136,8 @@ export const asyncRemoveCompanyStall = createAsyncThunk(
       });
     }
 
-    const data = await response.data;
-    return data;
+    const result = await response.data;
+    return result;
   }
 );
 
