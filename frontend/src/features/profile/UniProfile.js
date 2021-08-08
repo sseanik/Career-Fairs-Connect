@@ -14,12 +14,11 @@ import {
   Box,
 } from '@chakra-ui/react';
 import { EditIcon } from '@chakra-ui/icons';
-import { useSelector, useDispatch } from 'react-redux';
+import { useSelector } from 'react-redux';
 
 export default function Profile() {
   const history = useHistory();
   const user = useSelector((state) => state.user);
-  console.log('userrrr=', user);
   
   function handleClick() {
     history.push('/university/edit');

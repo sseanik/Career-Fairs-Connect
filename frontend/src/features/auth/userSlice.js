@@ -247,7 +247,6 @@ export const asyncUpdateStudent = createAsyncThunk(
 
     const data = await response.data;
 
-    console.log('put profile response: ', response);
     if (response.status === 200) {
       history.push('/student');
     } else {

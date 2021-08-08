@@ -1,22 +1,15 @@
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 import { useHistory } from 'react-router-dom';
 
-import { convertImageToBase64, selectBase64Image } from '../auth/logoSlice';
 import { asyncUpdateCompany } from '../auth/userSlice';
 import {
   Stack,
-
   Container,
   Heading,
-  FormControl,
-  FormLabel,
-  FormErrorMessage,
   Button,
   useToast,
-
-  Image,
 } from '@chakra-ui/react';
-import { Field, Formik } from 'formik';
+import { Formik } from 'formik';
 import * as Yup from 'yup';
 import { InputControl, TextareaControl } from 'formik-chakra-ui';
 import { useSelector, useDispatch } from 'react-redux';

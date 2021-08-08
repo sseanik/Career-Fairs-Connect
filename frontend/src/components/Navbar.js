@@ -54,7 +54,6 @@ export default function Navbar(props) {
   const loggedIn = useSelector((state) => state.user.loggedIn);
   const role = useSelector((state) => state.user.role);
   const profilePath = '/'+role;
-  // console.log('path=', profilePath, typeof(profilePath));
   
   const dispatch = useDispatch();
   const history = useHistory();
