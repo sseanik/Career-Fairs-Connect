@@ -124,6 +124,7 @@ class OpportunityList(APIView):
         stallOwner = Stalls.objects.get(stall_id=stallId).company_id.company_id
         if requestUserCompany != stallOwner:
             return Response({"Forbidden": "Stall does not belong to user"}, status=403)
+        request.data["stall_id"] = stallId
         try:
             opportunity = Opportunities.objects.get(job_id=request.data["job_id"])
         except:

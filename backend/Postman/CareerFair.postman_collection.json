@@ -30,7 +30,7 @@
 				],
 				"body": {
 					"mode": "raw",
-					"raw": "{\n\t\"first_name\" : \"James\",\n\t\"last_name\" : \"Bond\",\n\t\"university\" : \"UNSW\",\n\t\"email\" : \"jb@mi6.com\",\n\t\"password\" :\"123\"\n}"
+					"raw": "{\n\t\"first_name\" : \"James\",\n\t\"last_name\" : \"Bond\",\n\t\"university\" : \"UNSW\",\n\t\"email\" : \"jb@mi6.com\",\n\t\"password\" :\"123456\"\n}"
 				},
 				"url": {
 					"raw": "http://127.0.0.1:8000/user/register/student/",
@@ -77,7 +77,7 @@
 				],
 				"body": {
 					"mode": "raw",
-					"raw": "{\r\n\t\"email\": \"unsw@unsw.edu.au\",\r\n\t\"password\": \"123\",\r\n\t\"university_name\": \"University of New South Wales\",\r\n\t\"university_abbreviation\": \"UNSW\",\r\n    \"university_logo_64\": \"-\"\r\n}"
+					"raw": "{\r\n\t\"email\": \"unsw@unsw.edu.au\",\r\n\t\"password\": \"123456\",\r\n\t\"university_name\": \"University of New South Wales\",\r\n\t\"university_abbreviation\": \"UNSW\",\r\n    \"university_logo_64\": \"-\"\r\n}"
 				},
 				"url": {
 					"raw": "http://127.0.0.1:8000/user/register/university/",
@@ -124,7 +124,7 @@
 				],
 				"body": {
 					"mode": "raw",
-					"raw": "{\r\n\t\"email\": \"usyd@usyd.edu.au\",\r\n\t\"password\": \"123\",\r\n\t\"university_name\": \"University of Sydney\",\r\n\t\"university_abbreviation\": \"USYD\",\r\n    \"university_logo_64\": \"-\",\r\n    \"university_site_url\": \"https://www.sydney.edu.au/\"\r\n}"
+					"raw": "{\r\n\t\"email\": \"usyd@usyd.edu.au\",\r\n\t\"password\": \"123456\",\r\n\t\"university_name\": \"University of Sydney\",\r\n\t\"university_abbreviation\": \"USYD\",\r\n    \"university_logo_64\": \"-\",\r\n    \"university_site_url\": \"https://www.sydney.edu.au/\"\r\n}"
 				},
 				"url": {
 					"raw": "http://127.0.0.1:8000/user/register/university/",
@@ -173,7 +173,7 @@
 				],
 				"body": {
 					"mode": "raw",
-					"raw": "{\r\n  \"email\": \"test@test.com\",\r\n  \"password\": \"123\",\r\n  \"company_name\": \"Google\",\r\n  \"company_description\": \"Test description\",\r\n  \"company_webpage_url\": \"google.com\",\r\n  \"company_logo_64\":  \"-\"\r\n}"
+					"raw": "{\r\n  \"email\": \"test@test.com\",\r\n  \"password\": \"123456\",\r\n  \"company_name\": \"Google\",\r\n  \"company_description\": \"Test description\",\r\n  \"company_webpage_url\": \"google.com\",\r\n  \"company_logo_64\":  \"-\"\r\n}"
 				},
 				"url": {
 					"raw": "http://127.0.0.1:8000/user/register/company/",
@@ -227,7 +227,7 @@
 				],
 				"body": {
 					"mode": "raw",
-					"raw": "{\r\n  \"username\": \"test@test.com\",\r\n  \"password\": \"123\"\r\n}"
+					"raw": "{\r\n  \"username\": \"test@test.com\",\r\n  \"password\": \"123456\"\r\n}"
 				},
 				"url": {
 					"raw": "http://127.0.0.1:8000/user/login/",
@@ -280,7 +280,7 @@
 				],
 				"body": {
 					"mode": "raw",
-					"raw": "{\r\n  \"username\": \"jb@mi6.com\",\r\n  \"password\": \"123\"\r\n}"
+					"raw": "{\r\n  \"username\": \"jb@mi6.com\",\r\n  \"password\": \"123456\"\r\n}"
 				},
 				"url": {
 					"raw": "http://127.0.0.1:8000/user/login/",
@@ -333,7 +333,7 @@
 				],
 				"body": {
 					"mode": "raw",
-					"raw": "{\r\n  \"username\": \"unsw@unsw.edu.au\",\r\n  \"password\": \"123\"\r\n}"
+					"raw": "{\r\n  \"username\": \"unsw@unsw.edu.au\",\r\n  \"password\": \"123456\"\r\n}"
 				},
 				"url": {
 					"raw": "http://127.0.0.1:8000/user/login/",
@@ -386,7 +386,7 @@
 				],
 				"body": {
 					"mode": "raw",
-					"raw": "{\r\n  \"username\": \"usyd@usyd.edu.au\",\r\n  \"password\": \"123\"\r\n}"
+					"raw": "{\r\n  \"username\": \"usyd@usyd.edu.au\",\r\n  \"password\": \"123456\"\r\n}"
 				},
 				"url": {
 					"raw": "http://127.0.0.1:8000/user/login/",
@@ -1005,7 +1005,7 @@
 			"response": []
 		},
 		{
-			"name": "/questions/1/1/ (Update question #1 for Stall #1)",
+			"name": "/questions/question/1/1/ (Update question #1 for Stall #1)",
 			"event": [
 				{
 					"listen": "test",
@@ -1038,7 +1038,7 @@
 					}
 				},
 				"url": {
-					"raw": "http://127.0.0.1:8000/questions/1/1/",
+					"raw": "http://127.0.0.1:8000/questions/question/1/1/",
 					"protocol": "http",
 					"host": [
 						"127",
@@ -1049,6 +1049,7 @@
 					"port": "8000",
 					"path": [
 						"questions",
+						"question",
 						"1",
 						"1",
 						""
@@ -1058,7 +1059,7 @@
 			"response": []
 		},
 		{
-			"name": "/answers/1/1/ (Post a Reply to a question #1 on Stall #1)",
+			"name": "/questions/answer/1/1/ (Post a Reply to a question #1 on Stall #1)",
 			"event": [
 				{
 					"listen": "test",
@@ -1091,7 +1092,7 @@
 					}
 				},
 				"url": {
-					"raw": "http://127.0.0.1:8000/answers/1/1/",
+					"raw": "http://127.0.0.1:8000/questions/answer/1/1/",
 					"protocol": "http",
 					"host": [
 						"127",
@@ -1101,7 +1102,8 @@
 					],
 					"port": "8000",
 					"path": [
-						"answers",
+						"questions",
+						"answer",
 						"1",
 						"1",
 						""
@@ -1497,8 +1499,8 @@
 					"listen": "test",
 					"script": {
 						"exec": [
-							"pm.test(\"Status code is 200\", function () {\r",
-							"    pm.response.to.have.status(200);\r",
+							"pm.test(\"Status code is 201\", function () {\r",
+							"    pm.response.to.have.status(201);\r",
 							"});"
 						],
 						"type": "text/javascript"
@@ -1516,7 +1518,7 @@
 				],
 				"body": {
 					"mode": "raw",
-					"raw": "{\r\n   \"job_description\" : \"Junior developer at google!\",\r\n   \"role\": \"Graduate\",\r\n   \"type\": \"Full-time\",\r\n   \"location\" : \"Sydney\",\r\n   \"wam\" : 85,\r\n   \"expiry\" : \"2021-12-31\",\r\n   \"link\" : \"www.google.com/careers\",\r\n   \"application_link\" : \"www.google.com/careers\"\r\n}",
+					"raw": "{\r\n   \"job_id\" : \"2\",\r\n   \"job_description\" : \"Junior developer at google!\",\r\n   \"role\": \"Graduate\",\r\n   \"type\": \"Full-time\",\r\n   \"location\" : \"Sydney\",\r\n   \"wam\" : 85,\r\n   \"expiry\" : \"2021-12-31\",\r\n   \"link\" : \"www.google.com/careers\",\r\n   \"application_link\" : \"www.google.com/careers\"\r\n}",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -1524,7 +1526,7 @@
 					}
 				},
 				"url": {
-					"raw": "http://127.0.0.1:8000/company/1/opportunities/2",
+					"raw": "http://127.0.0.1:8000/company/1/opportunities/",
 					"protocol": "http",
 					"host": [
 						"127",
@@ -1537,7 +1539,7 @@
 						"company",
 						"1",
 						"opportunities",
-						"2"
+						""
 					]
 				}
 			},
