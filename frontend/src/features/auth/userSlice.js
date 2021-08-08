@@ -117,8 +117,7 @@ export const asyncLoginUser = createAsyncThunk(
       method: 'post',
       url: '/user/login/',
       data: user,
-    })
-    .catch((error) => {
+    }).catch((error) => {
       console.error('Error logging in:', error);
       toast({
         description: 'Account name or password is incorrect',
@@ -236,7 +235,7 @@ export const asyncUpdateStudent = createAsyncThunk(
       headers: {
         Authorization: `Token ${localStorage.getItem('token')}`,
       },
-    })
+    });
 
     const data = await response.data;
 
@@ -274,7 +273,7 @@ const initialState = {
   universityID: null,
   companyID: null,
   studentID: null,
-  userID: null
+  userID: null,
 };
 
 export const userSlice = createSlice({
@@ -282,8 +281,8 @@ export const userSlice = createSlice({
   initialState,
   reducers: {
     resetUser: (state) => {
-    state = initialState;
-    return state;
+      state = initialState;
+      return state;
     },
   },
   extraReducers: (builder) => {
@@ -296,13 +295,13 @@ export const userSlice = createSlice({
         state.loggedIn = true;
         state.role = payload.user_type;
         state.email = payload.email;
+        state.userID = payload.user_id;
         switch (payload.user_type) {
           case 'Student':
             state.fname = payload.first_name;
             state.lname = payload.last_name;
             state.university = payload.university;
             state.studentID = payload.student_id;
-            state.userID = payload.user_id;
             state.wam = payload.wam;
             state.degree = payload.degree;
             break;
@@ -315,12 +314,9 @@ export const userSlice = createSlice({
             state.website = payload.company_webpage_url;
             state.logo = payload.company_logo_64;
             state.companyID = payload.company_id;
-            state.userID = payload.user_id;
             break;
           case 'University':
             state.universityID = payload.university_id;
-            state.userID = payload.user_id;
-            //
             state.name = payload.university_name;
             state.website = payload.university_site_url;
             state.logo = payload.university_logo_64;
