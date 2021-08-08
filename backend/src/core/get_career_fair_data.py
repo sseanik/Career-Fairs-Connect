@@ -72,8 +72,8 @@ def get_career_fair_data(request, eventId):
     # rename fields to fit frontend requirements and ordering sakes
     return_dict = {
         "university": career_fair_dict["university_name"],
-        "start": career_fair_dict["start_date"],
-        "end": career_fair_dict["end_date"],
+        "start": career_fair_dict["start_date"].timestamp(),
+        "end": career_fair_dict["end_date"].timestamp(),
         "title": career_fair_dict["title"],
         "description": career_fair_dict["description"],
         "website": career_fair_dict["university_site_url"],
