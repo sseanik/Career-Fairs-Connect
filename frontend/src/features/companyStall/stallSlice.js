@@ -253,6 +253,7 @@ const initialState = {
   //
   fairID: '',
   name: '', // Name of Company
+  companyID: '',
   description: '',
   logo: '', // Base64 encoded string of logo
   live: false, // If current time is inside any presentation ranges (HARD)
@@ -289,6 +290,7 @@ export const stallSlice = createSlice({
         state.loading = false;
         state.fairID = payload.fairID;
         state.company = payload.company;
+        state.companyID = payload.companyID;
         state.title = payload.title;
         state.description = payload.description;
         state.logo = payload.logo;
