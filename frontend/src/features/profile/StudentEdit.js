@@ -51,7 +51,7 @@ export default function Profile() {
           degree: values.degree,
           wam: values.wam,
         },
-        id: user.studentId,
+        id: user.studentID,
         toast: toast,
         history: history,
       })
