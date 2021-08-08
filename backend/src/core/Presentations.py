@@ -172,12 +172,13 @@ def edit_presentation(request):
     
     
 @swagger_auto_schema(
-responses={
-    200 : "Deleted",
-    404 : "Not found"
-},
-operation_summary="Delete presentation",
-# operation_description="",
+    method="delete",
+    responses={
+        200 : "Deleted",
+        404 : "Not found"
+    },
+    operation_summary="Delete presentation",
+    # operation_description="",
 )
 @api_view(['DELETE', ])
 def delete_presentation(self, request, presentationId):
