@@ -29,8 +29,8 @@ export default function Profile() {
   console.log('student info=', user);
 
   const initialValues = {
-    fname: 'afafafaf',//user.fname,
-    lname: user.lname,
+    firstName: user.fname,
+    lastName: user.lname,
     university: user.university,
   };
 
