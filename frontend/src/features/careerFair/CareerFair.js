@@ -173,6 +173,7 @@ export default function CareerFair(props) {
                 opportunities={fairData.opportunities}
                 limit={5}
                 interact={false}
+                fairID={fairID}
               />
             </TabPanel>
           </TabPanels>

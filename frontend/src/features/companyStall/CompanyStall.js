@@ -199,6 +199,7 @@ export default function CompanyStall(props) {
           interact={true}
           loading={stallData.loading}
           company={stallData.company}
+          fairID={stallID}
         />
       </Box>
     </div>
