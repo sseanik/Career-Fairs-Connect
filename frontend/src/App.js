@@ -18,8 +18,12 @@ import CareerFair from './features/careerFair/CareerFair';
 import CompanyStall from './features/companyStall/CompanyStall';
 import CareerEvents from './features/careerEvents/CareerEvents';
 //Profile Pages
-import CompanyProfile from './features/profile/companyProfile';
-import CompanyEdit from './features/profile/companyEdit';
+import CompanyProfile from './features/profile/CompanyProfile';
+import CompanyEdit from './features/profile/CompanyEdit';
+import StudentProfile from './features/profile/StudentProfile';
+import StudentEdit from './features/profile/StudentEdit';
+import UniProfile from './features/profile/UniProfile';
+import UniEdit from './features/profile/UniEdit';
 
 import theme from './app/theme';
 import Navbar from './components/Navbar';
@@ -99,6 +103,10 @@ function App() {
         {/* profile */}
         <Route path='/company/' component={CompanyProfile} exact />
         <Route path='/company/edit' component={CompanyEdit} exact />
+        <Route path='/student/' component={StudentProfile} exact />
+        <Route path='/student/edit' component={StudentEdit} exact />
+        <Route path='/university/' component={UniProfile} exact />
+        <Route path='/university/edit' component={UniEdit} exact />
 
       </Switch>
     </ChakraProvider>
