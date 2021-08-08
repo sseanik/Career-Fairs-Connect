@@ -76,20 +76,21 @@ urlpatterns = [
 
 
     path('careerfairs/<int:eventId>/stalls/', StallList.as_view()),
+    path('careerfairs/delete/<int:eventId>/', CareerFairListGlobal.as_view()),
     re_path('^careerfairs/(?P<eventId>.+)/$', get_career_fair_data),
     path('careerfairs/', CareerFairListGlobal.as_view()),
-    path('careerfairs/applications', Approvals.as_view()),
+    path('careerfairs/applications/', Approvals.as_view()),
     path('careerfairs/stalls/<int:stallId>/', get_stall_data),
     
     path('presentation/create/', create_presentation),
     path('presentation/edit/', edit_presentation),
+    path('presentation/delete/<int:presentationId>/', delete_presentation),
     re_path('^presentation/get/stall/(?P<stallId>.+)/$', get_presentation),
     re_path('^presentation/get/(?P<eventId>.+)/$', get_all_presentations),
 
     path('company/<int:stallId>/opportunities/', OpportunityList.as_view()),
     path('company/<int:companyId>/opportunities/<int:job_id>', Opportunity.as_view()),
     re_path('^company/(?P<companyId>.+)/$', Company.as_view()),
-    # neeed get all opportunities for a company?
     
     re_path('^student/(?P<studentId>.+)/$', Student.as_view()),
     
