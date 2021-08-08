@@ -87,7 +87,7 @@ urlpatterns = [
     re_path('^presentation/get/(?P<eventId>.+)/$', get_all_presentations),
 
     path('company/<int:stallId>/opportunities/', OpportunityList.as_view()),
-    path('company/<int:companyId>/opportunities/<int:job_id>', Opportunity.as_view()),
+    path('company/<int:companyId>/opportunities/<int:jobId>', Opportunity.as_view()),
     re_path('^company/(?P<companyId>.+)/$', Company.as_view()),
     # neeed get all opportunities for a company?
     

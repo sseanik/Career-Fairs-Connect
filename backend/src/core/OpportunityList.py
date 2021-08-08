@@ -19,10 +19,12 @@ class OpportunityList(APIView):
             "job_description": openapi.Schema(type=openapi.TYPE_STRING),
             "stall_id": openapi.Schema(type=openapi.TYPE_NUMBER),
             "role": openapi.Schema(type=openapi.TYPE_STRING),
+            "type": openapi.Schema(type=openapi.TYPE_STRING),
             "location": openapi.Schema(type=openapi.TYPE_STRING),
             "wam": openapi.Schema(type=openapi.TYPE_NUMBER),
             "expiry": openapi.Schema(type=openapi.TYPE_STRING),
             "link": openapi.Schema(type=openapi.TYPE_STRING),
+            "application_link": openapi.Schema(type=openapi.TYPE_STRING),
             }),
         401 : "Unauthorized",
         400 : "Bad request",
@@ -36,7 +38,8 @@ class OpportunityList(APIView):
             return Response({"Forbidden" : "Incorrect user_type"}, status=403)
         requestUserCompany = Companies.objects.get(user_id = request.user.userID).company_id
         opportunityOwner = Stalls.objects.get(stall_id = stallId).company_id.company_id
-        # fixed 
+
+        request.data["stall_id"] = stallId
         if requestUserCompany != opportunityOwner:
             return Response({"Forbidden" : "Stall does not belong to user"}, status=403)
         serializer = OpportunitySerializer(data=request.data)
@@ -55,6 +58,7 @@ class OpportunityList(APIView):
             "wam": openapi.Schema(type=openapi.TYPE_NUMBER),
             "expiry": openapi.Schema(type=openapi.TYPE_STRING),
             "link": openapi.Schema(type=openapi.TYPE_STRING),
+            "application_link": openapi.Schema(type=openapi.TYPE_STRING),
             }),
         401 : "Unauthorized",
         400 : "Bad request",
@@ -79,6 +83,7 @@ class OpportunityList(APIView):
             "wam": openapi.Schema(type=openapi.TYPE_NUMBER),
             "expiry": openapi.Schema(type=openapi.TYPE_STRING),
             "link": openapi.Schema(type=openapi.TYPE_STRING),
+            "application_link": openapi.Schema(type=openapi.TYPE_STRING),
         }),
         responses={
             201 : openapi.Schema(type=openapi.TYPE_OBJECT,properties={
@@ -86,6 +91,7 @@ class OpportunityList(APIView):
                 "job_description": openapi.Schema(type=openapi.TYPE_STRING),
                 "stall_id": openapi.Schema(type=openapi.TYPE_NUMBER),
                 "role": openapi.Schema(type=openapi.TYPE_STRING),
+                "type": openapi.Schema(type=openapi.TYPE_STRING),
                 "location": openapi.Schema(type=openapi.TYPE_STRING),
                 "wam": openapi.Schema(type=openapi.TYPE_NUMBER),
                 "expiry": openapi.Schema(type=openapi.TYPE_STRING),
