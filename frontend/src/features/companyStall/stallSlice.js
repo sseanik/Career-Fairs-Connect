@@ -7,7 +7,6 @@ import axios from 'axios';
 export const asyncFetchStallData = createAsyncThunk(
   'stall/company',
   async ({ stallID }) => {
-    console.log(stallID);
     const response = await axios({
       method: 'get',
       url: `/careerfairs/stalls/${stallID}/`,
@@ -15,13 +14,9 @@ export const asyncFetchStallData = createAsyncThunk(
         Authorization: `Token ${localStorage.getItem('token')}`,
       },
     });
-
     const colour = await prominent(response.data.logo, {
       amount: 2,
     });
-
-    console.log(response.data);
-
     return { ...response.data, colour: colour };
   }
 );
@@ -31,7 +26,6 @@ export const asyncFetchStallData = createAsyncThunk(
 export const asyncAddOpportunity = createAsyncThunk(
   'stall/addOpportunity',
   async ({ stallID, opportunity, toast }) => {
-    console.log(opportunity);
     const response = await axios({
       method: 'post',
       url: `/company/${stallID}/opportunities/`,
@@ -40,7 +34,6 @@ export const asyncAddOpportunity = createAsyncThunk(
         Authorization: `Token ${localStorage.getItem('token')}`,
       },
     });
-
     toast({
       description: 'Successfully added Opportunity',
       status: 'success',
@@ -55,7 +48,6 @@ export const asyncAddOpportunity = createAsyncThunk(
 export const asyncEditOpportunity = createAsyncThunk(
   'stall/editOpportunity',
   async ({ stallID, opportunity, toast }) => {
-    console.log(opportunity)
     const response = await axios({
       method: 'put',
       url: `/company/${stallID}/opportunities/`,
@@ -98,7 +90,6 @@ export const asyncDeleteOpportunity = createAsyncThunk(
 export const asyncAddPresentation = createAsyncThunk(
   'stall/addPresentation',
   async ({ presentation, toast }) => {
-    console.log(presentation);
     const response = await axios({
       method: 'post',
       url: '/presentation/create/',
@@ -176,7 +167,6 @@ export const asyncPostQuestion = createAsyncThunk(
       status: 'success',
       isClosable: true,
     });
-    console.log(response.data)
     return response.data;
   }
 );
@@ -206,30 +196,21 @@ export const asyncEditQuestion = createAsyncThunk(
 // Add answer to a question
 export const asyncAnswerQuestion = createAsyncThunk(
   'stall/answerQuestion',
-  async ({ id, answer, toast }) => {
-    await new Promise((r) => setTimeout(r, 3000));
-    const response = { id: id, answer: answer, toast: toast };
+  async ({ stallId, questionId, answer, toast }) => {
+    const response = await axios({
+      method: 'put',
+      url: `/questions/answer/${stallId}/${questionId}/`,
+      data: answer,
+      headers: {
+        Authorization: `Token ${localStorage.getItem('token')}`,
+      },
+    });
     toast({
       description: 'Successfully Answered Question',
       status: 'success',
       isClosable: true,
     });
-    return response;
-  }
-);
-
-// Edit answer to a question
-export const asyncEditAnswer = createAsyncThunk(
-  'stall/editQuestion',
-  async ({ id, answer, toast }) => {
-    await new Promise((r) => setTimeout(r, 3000));
-    const response = { id: id, answer: answer, toast: toast };
-    toast({
-      description: 'Successfully Edited Answer',
-      status: 'success',
-      isClosable: true,
-    });
-    return response;
+    return response.data;
   }
 );
 
@@ -306,7 +287,6 @@ export const stallSlice = createSlice({
         state.website = payload.website;
         state.opportunities = payload.opportunities;
         state.events = payload.presentations;
-        console.log(current(state).events);
         state.qandas = payload.qandas;
         const dominantColourObj = complementaryTextColour(payload.colour);
         state.bgColour = dominantColourObj.bgColour;
@@ -348,7 +328,6 @@ export const stallSlice = createSlice({
         state.eventFormStatus = 'Pending';
       })
       .addCase(asyncAddPresentation.fulfilled, (state, { payload }) => {
-        console.log(current(state).events);
         state.eventFormStatus = 'Completed';
         state.events.push(payload);
       })
@@ -396,7 +375,7 @@ export const stallSlice = createSlice({
       .addCase(asyncAnswerQuestion.fulfilled, (state, { payload }) => {
         state.eventFormStatus = 'Completed';
         const index = current(state.qandas).findIndex(
-          (question) => question.id === payload.id
+          (question) => question.id === payload.post_id
         );
         state.qandas[index].answer = payload.answer;
       })

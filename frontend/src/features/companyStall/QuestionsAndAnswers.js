@@ -47,7 +47,10 @@ export function QuestionsAndAnswers(props) {
 
   const postAnswer = (id) => {
     answer &&
-      dispatch(asyncAnswerQuestion({id: id, answer: answer, toast: toast}))
+      dispatch(asyncAnswerQuestion({ questionId: id, stallId: props.stallID, 
+        answer: {
+          answer: answer
+        }, toast: toast }))
       .then(setAnswer(''))
   }
 
