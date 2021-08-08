@@ -112,8 +112,8 @@ class OpportunityList(APIView):
             400: "Bad request",
             403: "Forbidden",
         },
-        operation_summary="Create new opportunity",
-        operation_description="Create opportunity as company, under a particular stall. Stall must be owned by caller",
+        operation_summary="Update opportunity",
+        operation_description="Update an opportunity, can alter the assigned stall to undefined (Beware!), omit stall_id if possible. Stall must be owned by caller",
     )
     def put(self, request, stallId, format=None):
         if request.user.user_type != 2:
