@@ -26,7 +26,6 @@ from rest_framework.permissions import IsAuthenticated
                 "title": openapi.Schema(type=openapi.TYPE_STRING),
                 "color": openapi.Schema(type=openapi.TYPE_STRING),
                 "textColor": openapi.Schema(type=openapi.TYPE_STRING),
-                "borderColor": openapi.Schema(type=openapi.TYPE_STRING),
                 "presentation_link": openapi.Schema(type=openapi.TYPE_STRING),
                 "start_time": openapi.Schema(type=openapi.TYPE_STRING),
                 "end_time": openapi.Schema(type=openapi.TYPE_STRING),
@@ -74,7 +73,7 @@ def get_all_presentations(request, eventId):
                 "presentations": openapi.Schema(
                     type=openapi.TYPE_ARRAY,
                     items=openapi.Items(
-                        type="stall_id, start_time,end_time, presentation_link, presentation_description, title, color, textColor, borderColor"
+                        type="stall_id, start_time,end_time, presentation_link, presentation_description, title, color, textColor"
                     ),
                 ),
                 404: "Not found",
@@ -90,7 +89,6 @@ def get_all_presentations(request, eventId):
     ]
 )
 def get_presentation(request, stallId):
-    print(stallId)
     try:
         presentation = Presentations.objects.get(stall_id=stallId)
     except:
@@ -106,7 +104,6 @@ def get_presentation(request, stallId):
             "title",
             "color",
             "textColor",
-            "borderColor",
         ),
     )
     return Response(presentation_serializer.data, status=status.HTTP_201_CREATED)
@@ -125,7 +122,6 @@ def get_presentation(request, stallId):
             "title": openapi.Schema(type=openapi.TYPE_STRING),
             "color": openapi.Schema(type=openapi.TYPE_STRING),
             "textColor": openapi.Schema(type=openapi.TYPE_STRING),
-            "borderColor": openapi.Schema(type=openapi.TYPE_STRING),
         },
     ),
     responses={
@@ -140,7 +136,6 @@ def get_presentation(request, stallId):
                 "title": openapi.Schema(type=openapi.TYPE_STRING),
                 "color": openapi.Schema(type=openapi.TYPE_STRING),
                 "textColor": openapi.Schema(type=openapi.TYPE_STRING),
-                "borderColor": openapi.Schema(type=openapi.TYPE_STRING),
             },
         ),
         400: "Bad request",
@@ -174,7 +169,6 @@ def create_presentation(request):
             "title",
             "color",
             "textColor",
-            "borderColor",
         ),
     )
 
@@ -203,7 +197,6 @@ def create_presentation(request):
             "title": openapi.Schema(type=openapi.TYPE_STRING),
             "color": openapi.Schema(type=openapi.TYPE_STRING),
             "textColor": openapi.Schema(type=openapi.TYPE_STRING),
-            "borderColor": openapi.Schema(type=openapi.TYPE_STRING),
         },
         responses={
             201: openapi.Schema(
@@ -220,7 +213,6 @@ def create_presentation(request):
                     "title": openapi.Schema(type=openapi.TYPE_STRING),
                     "color": openapi.Schema(type=openapi.TYPE_STRING),
                     "textColor": openapi.Schema(type=openapi.TYPE_STRING),
-                    "borderColor": openapi.Schema(type=openapi.TYPE_STRING),
                 },
             ),
             400: "Bad request",
@@ -263,7 +255,6 @@ def edit_presentation(request):
             "title",
             "color",
             "textColor",
-            "borderColor",
         ),
     )
     if not presentation_serializer.is_valid():
