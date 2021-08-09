@@ -1,5 +1,5 @@
 import React from 'react';
-import { Route, Switch, useHistory } from 'react-router-dom';
+import { Switch, useHistory } from 'react-router-dom';
 import './App.css';
 // Redux
 import { useDispatch, useSelector } from 'react-redux';
@@ -29,6 +29,7 @@ import theme from './app/theme';
 import Navbar from './components/Navbar';
 import Footer from './components/Footer';
 import ProtectedRoute from './app/ProtectedRoute';
+import UnprotectedRoute from './app/UnprotectedRoute';
 
 function App() {
   const dispatch = useDispatch();
@@ -37,7 +38,7 @@ function App() {
 
   React.useEffect(() => {
     const token = localStorage.getItem('token');
-    if (token && loggedIn) {
+    if (token) {
       dispatch(asyncFetchUserData(localStorage.getItem('token')));
     }
   }, [dispatch, history, loggedIn]);
@@ -48,21 +49,22 @@ function App() {
         <Navbar />
         <Box flex={1}>
           <Switch>
-            {loggedIn ? (
-              <Route path='/' component={CareerEvents} exact />
-            ) : (
-              <Route path='/' component={LandingPage} exact />
-            )}
+            <ProtectedRoute path='/' component={CareerEvents} exact />
+            <UnprotectedRoute path='/landing' component={LandingPage} exact />
 
-            <Route path='/login' component={Login} exact />
-            <Route path='/register' component={Register} exact />
-            <Route
+            <UnprotectedRoute path='/login' component={Login} exact />
+            <UnprotectedRoute path='/register' component={Register} exact />
+            <UnprotectedRoute
               path='/register/employer'
               component={EmployerRegister}
               exact
             />
-            <Route path='/register/student' component={StudentRegister} exact />
-            <Route
+            <UnprotectedRoute
+              path='/register/student'
+              component={StudentRegister}
+              exact
+            />
+            <UnprotectedRoute
               path='/register/university'
               component={UniversityRegister}
               exact

@@ -30,6 +30,8 @@ class Company(APIView):
         operation_summary="Get company details",
         # operation_description="",
     )
+
+    # get company details
     def get(self, request, companyId, format=None):
         company = get_object_or_404(Companies, pk=companyId)
         serializer = CompanySerializer(
@@ -85,6 +87,8 @@ class Company(APIView):
         operation_summary="Update company details",
         operation_description="Company must belong to caller or 403",
     )
+
+    # update company
     def put(self, request, companyId, format=None):
         if not request.user.is_authenticated:
             return Response(
@@ -97,23 +101,10 @@ class Company(APIView):
                 status=status.HTTP_403_FORBIDDEN,
             )
         company = get_object_or_404(Companies, pk=companyId)
-        if (
-            company.user_id_id != request.user.userID
-        ):  # TODO user_id_id -> we need to rename this in all models
-            return Response(
-                "You can only update info for your company",
-                status=status.HTTP_403_FORBIDDEN,
-            )
-        serializer = CompanySerializer(
-            company,
-            data=request.data,
-            fields=(
-                "company_name",
-                "company_description",
-                "company_webpage_url",
-                "company_logo_64",
-            ),
-        )
+        if company.user_id_id != request.user.userID: 
+            return Response("You can only update info for your company", status=status.HTTP_403_FORBIDDEN)
+        # update details with request data
+        serializer = CompanySerializer(company, data=request.data, fields=("company_name", "company_description", "company_webpage_url", "company_logo_64"))
         if serializer.is_valid():
             serializer.save()
             return Response(serializer.data)

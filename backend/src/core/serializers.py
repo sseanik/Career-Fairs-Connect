@@ -83,10 +83,3 @@ class UpvoteSerializer(DynamicFieldsModelSerializer):
     class Meta:
         model = Upvotes
         fields = "__all__"
-
-
-# breaks code
-# class CompanySerializer(serializers.ModelSerializer):
-#     class Meta:
-#         model = Companies
-#         fields = '__all__'

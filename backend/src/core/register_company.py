@@ -55,6 +55,7 @@ def register_company(request):
             "company_logo_64",
         ),
     )
+    # Validity check for user and company models
     if not user_serializer.is_valid() and not company_serializer.is_valid():
         return Response([company_serializer.errors, user_serializer.errors])
     if not user_serializer.is_valid():

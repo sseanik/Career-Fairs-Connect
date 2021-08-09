@@ -15,6 +15,10 @@ from rest_framework.authtoken.models import Token
 from drf_yasg import openapi
 from drf_yasg.utils import swagger_auto_schema
 
+<<<<<<< HEAD
+# get details of particular user
+=======
+>>>>>>> a16270bada02e9b7d7150b13db906830681844d2
 
 class userData(APIView):
     authentication_classes = [TokenAuthentication, SessionAuthentication]

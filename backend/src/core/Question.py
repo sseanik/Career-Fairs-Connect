@@ -24,6 +24,7 @@ class Question(APIView):
         operation_summary="Update a previously created question",
     )
     def put(self, request, stallId, postId, format=None):
+        # request must contain body with question field as this is the only field update permissible
         if not request.data and not request.data["question"]:
             return Response("Missing field 'question'", status=400)
         if not request.user.is_authenticated:
@@ -31,6 +32,7 @@ class Question(APIView):
                 "Please pass Token in the Authorisation header",
                 status=status.HTTP_401_UNAUTHORIZED,
             )
+        # check user ownership of question (ownership required to edit)
         userId = request.user.userID
         message = get_object_or_404(QAMessages, pk=postId)
         if userId != message.author_id_id:
@@ -39,7 +41,6 @@ class Question(APIView):
             )
         message.question = request.data["question"]
         message.responder_id_id = userId
-
         serializer = QAMessageSerializer(message, data=model_to_dict(message))
         if serializer.is_valid():
             serializer.save()
@@ -53,9 +54,7 @@ class Question(APIView):
     )
     def delete(self, request, stallId, postId, format=None):
         questionObj = get_object_or_404(QAMessages, pk=postId)
-        # Dear frontend - use this if unexpected Forbidden failure
         if questionObj.author_id.userID != request.user.userID:
-            # if questionObj.author_id != request.user.userID:
             return Response(
                 {"Forbidden": "Only the question owner can call for deletion"},
                 status=403,

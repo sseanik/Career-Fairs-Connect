@@ -129,12 +129,10 @@ export const asyncLoginUser = createAsyncThunk(
         isClosable: true,
       });
 
-      history.push('/');
-
       const data = await response.data;
       localStorage.setItem('token', data.token);
-
-      return data;
+      history.push('/');
+      return;
     } catch (error) {
       toast({
         description: error.response.data.non_field_errors[0],
@@ -159,7 +157,7 @@ export const asyncLogout = createAsyncThunk(
 
     if (response.status === 200) {
       localStorage.removeItem('token');
-      history.push('/');
+      history.push('/landing');
     }
     const data = await response.data;
 

@@ -22,7 +22,6 @@ class StallList(APIView):
     )
     def post(self, request, eventId, format=None):
         request.data["event_id"] = eventId
-        # company_id needs to be taken from auth token
         if not request.user.is_authenticated:
             return Response(
                 "Please pass Token in the Authorisation header",
@@ -33,6 +32,7 @@ class StallList(APIView):
                 "Only Company users can access this endpoint",
                 status=status.HTTP_403_FORBIDDEN,
             )
+        # company derivation from token
         company = Companies.objects.filter(user_id_id=request.user.userID)
         if not company:
             return Response(
@@ -40,7 +40,7 @@ class StallList(APIView):
                 + str(request.user.userID),
                 status=status.HTTP_404_NOT_FOUND,
             )
-        company = company[0]  # because filter returns query set
+        company = company[0]  # retains the first object of the queryset
         existing_stall = Stalls.objects.filter(
             company_id_id=company.company_id, event_id_id=eventId
         )

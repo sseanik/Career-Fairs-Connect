@@ -35,7 +35,6 @@ from rest_framework.permissions import IsAuthenticated
         404: "Not found",
     },
     operation_summary="Get all presentations for careerfair",
-    # operation_description="",
 )
 @api_view(
     [
@@ -47,20 +46,17 @@ def get_all_presentations(request, eventId):
         stalls = Stalls.objects.filter(event_id=eventId)
     except:
         return Response(status=status.HTTP_404_NOT_FOUND)
+    # retrieve all stalls from event
     stalls_set = set()
     for stall in stalls:
         stalls_set.add(stall.stall_id)
-
     stalls_list = list(stalls_set)
+    # retrieve all presentations from all stalls
     try:
         presentations = Presentations.objects.filter(stall_id__in=stalls_list).values()
     except:
         return Response(status=status.HTTP_404_NOT_FOUND)
-
     data = json.dumps(list(presentations), cls=DjangoJSONEncoder)
-
-    # data = serialize("json", presentations, fields=('presentation_id', 'stall_id', 'presentation_link','datetime','presentation_description', 'title', 'color'))
-
     return HttpResponse(data, content_type="application/json")
 
 
@@ -81,7 +77,6 @@ def get_all_presentations(request, eventId):
         )
     },
     operation_summary="Get presentation for stall",
-    # operation_description="",
 )
 @api_view(
     [
@@ -142,7 +137,6 @@ def get_presentation(request, stallId):
         403: "Permission denied",
     },
     operation_summary="Create presentation",
-    # operation_description="",
 )
 @api_view(
     [
@@ -273,7 +267,6 @@ def edit_presentation(request):
         403: "Forbidden",
     },
     operation_summary="Delete presentation",
-    # operation_description="",
 )
 @api_view(
     [

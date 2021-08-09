@@ -12,6 +12,7 @@ from django.utils import timezone
 from drf_yasg import openapi
 from drf_yasg.utils import swagger_auto_schema
 
+# get data for particular stall
 
 @swagger_auto_schema(
     method="get",
@@ -64,7 +65,7 @@ def get_stall_data(request, stallId):
     company_object = get_object_or_404(Companies, pk=tmp_dict["company_id"])
     tmp_dict.update(model_to_dict(company_object))
 
-    # make api neater
+    # make api neater, return profile details
     return_dict = {
         "fairID": tmp_dict["event_id"],
         "company": tmp_dict["company_name"],
@@ -76,6 +77,7 @@ def get_stall_data(request, stallId):
         "description": tmp_dict["company_description"],
     }
 
+    # get all presentations for event
     presentations = list(Presentations.objects.filter(stall_id=stallId).values())
     for i, presentation in enumerate(presentations):
         presentations[i] = {
@@ -98,6 +100,7 @@ def get_stall_data(request, stallId):
             presentations[i]["live"] = True
             return_dict["live"] = True
 
+    # get all opportunities for event
     opportunities = list(Opportunities.objects.filter(stall_id=stallId).values())
     for i, opportunity in enumerate(opportunities):
         opportunities[i] = {
@@ -111,6 +114,7 @@ def get_stall_data(request, stallId):
             "description": opportunity["job_description"],
         }
 
+    # get all questions/answers for event
     QAmessages = list(QAMessages.objects.filter(stall_id=stallId).values())
 
     for i, QAmessage in enumerate(QAmessages):

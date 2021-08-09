@@ -13,6 +13,7 @@ from django.utils import timezone
 from drf_yasg import openapi
 from drf_yasg.utils import swagger_auto_schema
 
+# delete a stall
 
 @swagger_auto_schema(
     method="delete",
@@ -42,6 +43,7 @@ def delete_stall(request):
     delete = json.loads(request.body)
     event_id = delete["eventID"]
     company_id = delete["employerID"]
+    # find career stall
     stall = get_object_or_404(Stalls, company_id=company_id, event_id=event_id)
 
     requestUserCompany = Companies.objects.get(user_id=request.user.userID).company_id

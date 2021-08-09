@@ -8,6 +8,7 @@ from drf_yasg import openapi
 from drf_yasg.utils import swagger_auto_schema
 from django.forms.models import model_to_dict
 
+# answer class for qna
 
 class Answer(APIView):
     serializer_class = QAMessageSerializer
@@ -19,6 +20,7 @@ class Answer(APIView):
         ),
         operation_summary="Creates or updates an answer for a question",
     )
+    # update answer
     def put(self, request, stallId, postId, format=None):
         if not request.data and request.data["answer"]:
             return Response("Missing field 'answer'", status=400)
@@ -32,10 +34,12 @@ class Answer(APIView):
                 "Only Company users can give answers", status=status.HTTP_403_FORBIDDEN
             )
         userId = request.user.userID
+        # get current answer/message object
         message = get_object_or_404(QAMessages, pk=postId)
         message.answer = request.data["answer"]
         message.responder_id_id = userId
 
+        # make sure format is correct
         serializer = QAMessageSerializer(message, data=model_to_dict(message))
         if serializer.is_valid():
             serializer.save()
