@@ -11,6 +11,7 @@ from django.forms.models import model_to_dict
 
 class Answer(APIView):
     serializer_class = QAMessageSerializer
+
     @swagger_auto_schema(
         request_body=openapi.Schema(
             type=openapi.TYPE_OBJECT,

@@ -38,164 +38,168 @@ export function QuestionsAndAnswers(props) {
 
   const postQuestion = () => {
     question &&
-      dispatch(asyncPostQuestion({ id: props.stallID,
+      dispatch(asyncPostQuestion({
+        id: props.stallID,
         question: {
           question: question
         },
-        toast: toast }));
+        toast: toast
+      }));
   };
 
   const postAnswer = (id) => {
     answer &&
-      dispatch(asyncAnswerQuestion({ questionId: id, stallId: props.stallID, 
+      dispatch(asyncAnswerQuestion({
+        questionId: id, stallId: props.stallID,
         answer: {
           answer: answer
-        }, toast: toast }))
-      .then(setAnswer(''))
+        }, toast: toast
+      }))
+        .then(setAnswer(''))
   }
 
   const deleteQuestion = (id) => {
     id &&
-      dispatch(asyncDeleteQuestion({stallId: props.stallID, postId: id, toast: toast}))
+      dispatch(asyncDeleteQuestion({ stallId: props.stallID, postId: id, toast: toast }))
   }
 
   return (
     <div>
-    <Modal isOpen={isOpen} onClose={onClose}>
-      <ModalOverlay />
-      {isQuestion ?
-      <QuestionModal
-          isOpen={isOpen}
-          stallId={props.stallID}
-          questionId={id}
-          onClose={onClose}
-          question={question}
-          setQuestion={setQuestion}
-      />
-      :
-      <AnswerModal
-        isOpen={isOpen}
-        stallId={props.stallID}
-        questionId={id}
-        onClose={onClose}
-        answer={answer}
-        setAnswer={setAnswer}
-      />
-      }
-    </Modal>
-    <Box>
-      <Text mb='8px' fontWeight='semibold'>
-        Submit your Question:
-      </Text>
-      <Textarea
-        value={question}
-        onChange={(e) => setQuestion(e.target.value)}
-        size='sm'
-      />
-      <Button
-        size='sm'
-        mt='2'
-        mb='4'
-        onClick={() => postQuestion()}
-        isLoading={buttonLoading}
-        loadingText='Submitting'
-        spinnerPlacement='end'
-        colorScheme='green'
-      >
-        Submit
-      </Button>
+      <Modal isOpen={isOpen} onClose={onClose}>
+        <ModalOverlay />
+        {isQuestion ?
+          <QuestionModal
+            isOpen={isOpen}
+            stallId={props.stallID}
+            questionId={id}
+            onClose={onClose}
+            question={question}
+            setQuestion={setQuestion}
+          />
+          :
+          <AnswerModal
+            isOpen={isOpen}
+            stallId={props.stallID}
+            questionId={id}
+            onClose={onClose}
+            answer={answer}
+            setAnswer={setAnswer}
+          />
+        }
+      </Modal>
+      <Box>
+        <Text mb='8px' fontWeight='semibold'>
+          Submit your Question:
+        </Text>
+        <Textarea
+          value={question}
+          onChange={(e) => setQuestion(e.target.value)}
+          size='sm'
+        />
+        <Button
+          size='sm'
+          mt='2'
+          mb='4'
+          onClick={() => postQuestion()}
+          isLoading={buttonLoading}
+          loadingText='Submitting'
+          spinnerPlacement='end'
+          colorScheme='green'
+        >
+          Submit
+        </Button>
 
-      <Accordion allowMultiple>
-        {props.qandas.map((qanda, idx) => (
-          <AccordionItem isDisabled={!qanda.answer && (companyId !== props.companyID)} key={`qanda-${idx}`}>
-            <h2>
-              <AccordionButton>
-                <Box flex='1' textAlign='left' fontWeight='semibold'>
-                  {qanda.question}
-                  {(userId === qanda.author_id) ?
-                    <>
-                      <Button
-                      leftIcon={<RiPencilFill />}
+        <Accordion allowMultiple>
+          {props.qandas.map((qanda, idx) => (
+            <AccordionItem isDisabled={!qanda.answer && (companyId !== props.companyID)} key={`qanda-${idx}`}>
+              <h2>
+                <AccordionButton>
+                  <Box flex='1' textAlign='left' fontWeight='semibold'>
+                    {qanda.question}
+                    {(userId === qanda.author_id) ?
+                      <>
+                        <Button
+                          leftIcon={<RiPencilFill />}
+                          size='sm'
+                          ml='3'
+                          onClick={() => {
+                            setQuestion(qanda.question);
+                            setId(qanda.id);
+                            setIsQuestion(true)
+                            onOpen();
+                          }}
+                        >
+                          Edit
+                        </Button>
+                        <Button
+                          colorScheme='red'
+                          size='sm'
+                          ml='3'
+                          onClick={() => {
+                            deleteQuestion(qanda.id);
+                          }}
+                        >
+                          Delete
+                        </Button>
+                      </>
+                      :
+                      <> </>}
+                  </Box>
+                  <AccordionIcon />
+                </AccordionButton>
+              </h2>
+              <AccordionPanel pb={4}>
+
+                {!qanda.answer ?
+                  <>
+                    <Textarea
+                      value={answer}
+                      onChange={(e) => setAnswer(e.target.value)}
                       size='sm'
-                      ml='3'
+                    />
+                    <Button
+                      size='sm'
+                      mt='2'
+                      mb='4'
                       onClick={() => {
-                        setQuestion(qanda.question);
-                        setId(qanda.id);
-                        setIsQuestion(true)
-                        onOpen();
+                        postAnswer(qanda.id)
                       }}
+                      isLoading={buttonLoading}
+                      loadingText='Submitting'
+                      spinnerPlacement='end'
+                    >
+                      Submit
+                    </Button></>
+                  :
+                  <Flex>
+                    <Box>
+                      {qanda.answer}
+                    </Box>
+                    {(companyId === props.companyID) ?
+                      <Button
+                        leftIcon={<RiPencilFill />}
+                        align='right'
+                        size='sm'
+                        ml='auto'
+                        onClick={() => {
+                          setAnswer(qanda.answer);
+                          setId(qanda.id);
+                          setIsQuestion(false)
+                          onOpen();
+                        }}
                       >
                         Edit
                       </Button>
-                      <Button
-                        colorScheme='red'
-                        size='sm'
-                        ml='3'
-                        onClick={() => {
-                          deleteQuestion(qanda.id);
-                        }}
-                      >
-                        Delete
-                      </Button>
-                    </>
-                   :
-                  <> </>}
-                </Box>
-                <AccordionIcon />
-              </AccordionButton>
-            </h2>
-            <AccordionPanel pb={4}>
-              
-              {!qanda.answer ?
-              <>
-              <Textarea
-                value={answer}
-                onChange={(e) => setAnswer(e.target.value)}
-                size='sm'
-              />
-              <Button
-                size='sm'
-                mt='2'
-                mb='4'
-                onClick={() => {
-                  postAnswer(qanda.id)
-                }}
-                isLoading={buttonLoading}
-                loadingText='Submitting'
-                spinnerPlacement='end'
-              >
-                Submit
-              </Button></>
-            :
-            <Flex>
-              <Box>
-                {qanda.answer}
-              </Box>
-              {(companyId === props.companyID) ?
-                <Button
-                  leftIcon={<RiPencilFill />}
-                  align='right'
-                  size='sm'
-                  ml='auto'
-                  onClick={() => {
-                    setAnswer(qanda.answer);
-                    setId(qanda.id);
-                    setIsQuestion(false)
-                    onOpen();
-                  }}
-                >
-                  Edit
-                </Button>
-                :
-                <> </>
-              }
-            </Flex>
-            }
-             </AccordionPanel>
-          </AccordionItem>
-        ))}
-      </Accordion>
-    </Box>
+                      :
+                      <> </>
+                    }
+                  </Flex>
+                }
+              </AccordionPanel>
+            </AccordionItem>
+          ))}
+        </Accordion>
+      </Box>
     </div>
   );
 }

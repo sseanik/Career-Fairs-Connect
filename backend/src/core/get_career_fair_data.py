@@ -67,7 +67,8 @@ def get_career_fair_data(request, eventId):
         )
     careerFair = get_object_or_404(CareerFairs, pk=eventId)
     career_fair_dict = model_to_dict(careerFair)
-    university = get_object_or_404(Universities, pk=career_fair_dict["university_id"])
+    university = get_object_or_404(
+        Universities, pk=career_fair_dict["university_id"])
     career_fair_dict.update(model_to_dict(university))
 
     # rename fields to fit frontend requirements and ordering sakes
@@ -87,7 +88,8 @@ def get_career_fair_data(request, eventId):
     # company token (accepted): Token 1548e60f044c132da92a2810d0643312ea6b2418
     if request.user.user_type == User.STUDENT:
         stalls = list(
-            Stalls.objects.filter(event_id=eventId, approval_status="Approved").values()
+            Stalls.objects.filter(
+                event_id=eventId, approval_status="Approved").values()
         )
     elif request.user.user_type == User.COMPANY:
         company = get_object_or_404(Companies, user_id=request.user.userID)
@@ -95,7 +97,8 @@ def get_career_fair_data(request, eventId):
         stalls = list(
             Stalls.objects.filter(
                 Q(event_id=eventId),
-                Q(company_id=company.company_id) | Q(approval_status="Pending"),
+                Q(company_id=company.company_id) | Q(
+                    approval_status="Pending"),
             ).values()
         )
     # university so return all stalls regardless of status
@@ -122,7 +125,8 @@ def get_career_fair_data(request, eventId):
                 stall["live"] = True
         # stall['company_details'] =
         # company = Companies.objects.filter(company_id__in=stall['company_id_id'])
-        company = get_object_or_404(Companies, company_id=stall["company_id_id"])
+        company = get_object_or_404(
+            Companies, company_id=stall["company_id_id"])
         company_dict = model_to_dict(company)
         stall.update(company_dict)
         stalls_id_set.add(stall["stall_id"])
@@ -148,7 +152,8 @@ def get_career_fair_data(request, eventId):
     for i, presentation in enumerate(presentations):
         # get company hosting presentation
         stall = get_object_or_404(Stalls, pk=presentation["stall_id_id"])
-        company = get_object_or_404(Companies, pk=model_to_dict(stall)["company_id"])
+        company = get_object_or_404(
+            Companies, pk=model_to_dict(stall)["company_id"])
         presentations[i] = {
             "id": presentation["presentation_id"],
             "title": presentation["title"],
@@ -171,7 +176,8 @@ def get_career_fair_data(request, eventId):
     for i, opportunity in enumerate(opportunities):
         # get company hosting opportunities
         stall = get_object_or_404(Stalls, pk=opportunity["stall_id_id"])
-        company = get_object_or_404(Companies, pk=model_to_dict(stall)["company_id"])
+        company = get_object_or_404(
+            Companies, pk=model_to_dict(stall)["company_id"])
         opportunities[i] = {
             "id": opportunity["job_id"],
             "company": company.company_name,

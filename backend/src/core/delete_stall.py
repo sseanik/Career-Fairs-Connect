@@ -44,7 +44,8 @@ def delete_stall(request):
     company_id = delete["employerID"]
     stall = get_object_or_404(Stalls, company_id=company_id, event_id=event_id)
 
-    requestUserCompany = Companies.objects.get(user_id=request.user.userID).company_id
+    requestUserCompany = Companies.objects.get(
+        user_id=request.user.userID).company_id
     stallOwner = stall.company_id.company_id
 
     if requestUserCompany != stallOwner:

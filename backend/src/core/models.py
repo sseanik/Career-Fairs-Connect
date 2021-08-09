@@ -41,7 +41,8 @@ class User(AbstractBaseUser):
     userID = models.AutoField(primary_key=True)
     email = models.EmailField(verbose_name="email", max_length=60, unique=True)
     username = models.CharField(max_length=30)
-    date_joined = models.DateTimeField(verbose_name="date joined", auto_now_add=True)
+    date_joined = models.DateTimeField(
+        verbose_name="date joined", auto_now_add=True)
     last_login = models.DateTimeField(verbose_name="last login", auto_now=True)
     is_admin = models.BooleanField(default=False)
     is_active = models.BooleanField(default=True)
@@ -111,7 +112,6 @@ class Stalls(models.Model):
     company_id = models.ForeignKey(Companies, on_delete=models.CASCADE)
     event_id = models.ForeignKey(CareerFairs, on_delete=models.CASCADE)
     approval_status = models.CharField(max_length=20, default='Pending')
-
 
 
 class Presentations(models.Model):

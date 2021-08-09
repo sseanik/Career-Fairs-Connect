@@ -22,20 +22,22 @@ export function AnswerModal(props) {
   const editAnswer = () => {
     console.log(props)
     props.answer &&
-      dispatch(asyncAnswerQuestion({ questionId: props.questionId, stallId: props.stallId, 
-      answer: {
-        answer: props.answer
-      }, toast: toast }));
+      dispatch(asyncAnswerQuestion({
+        questionId: props.questionId, stallId: props.stallId,
+        answer: {
+          answer: props.answer
+        }, toast: toast
+      }));
   };
 
   const submitForm = () => {
     editAnswer({
-    qandas: {
-      questionId: props.questionId,
-      stallId: props.stallId,      
-      answer: props.answer
-    },
-    toast: toast
+      qandas: {
+        questionId: props.questionId,
+        stallId: props.stallId,
+        answer: props.answer
+      },
+      toast: toast
     })
     props.setAnswer("");
     props.onClose();

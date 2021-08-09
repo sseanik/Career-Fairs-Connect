@@ -55,8 +55,8 @@ export default function Footer() {
         userRole === 'University'
           ? 'orange.400'
           : userRole === 'Company'
-          ? 'green.400'
-          : 'blue.400'
+            ? 'green.400'
+            : 'blue.400'
       }
     >
       <Container
