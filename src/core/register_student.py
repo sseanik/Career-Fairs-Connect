@@ -29,7 +29,6 @@ from drf_yasg.utils import swagger_auto_schema
         201: "Successful Registration",
     },
     operation_summary="Register as student",
-    # operation_description="",
 )
 @api_view(
     [
@@ -39,7 +38,7 @@ from drf_yasg.utils import swagger_auto_schema
 def register_student(request):
     user = User(user_type=User.STUDENT)
     request.POST._mutable = True
-    # hash passwords
+    # hash passwords for security
     try:
         request.data["password"] = make_password(request.data["password"])
     except:
@@ -54,6 +53,7 @@ def register_student(request):
     student_serializer = StudentSerializer(
         student, data=request.data, fields=("university", "first_name", "last_name")
     )
+    # Validity check for user and student models
     if not user_serializer.is_valid() and not student_serializer.is_valid():
         return Response([student_serializer.errors, user_serializer.errors])
     if not user_serializer.is_valid():

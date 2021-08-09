@@ -48,7 +48,7 @@ from .DeleteCareerFair import *
 from .Answer import *
 from .Question import *
 
-
+# Schema view for swagger (DRF_YASG)
 schema_view = get_schema_view(
     openapi.Info(
         title="Online Careers Fair API",
