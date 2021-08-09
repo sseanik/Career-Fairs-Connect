@@ -15,19 +15,22 @@ class Answer(APIView):
     @swagger_auto_schema(
         request_body=openapi.Schema(
             type=openapi.TYPE_OBJECT,
-            properties={
-                "answer": openapi.Schema(type=openapi.TYPE_STRING)
-            },
+            properties={"answer": openapi.Schema(type=openapi.TYPE_STRING)},
         ),
         operation_summary="Creates or updates an answer for a question",
     )
     def put(self, request, stallId, postId, format=None):
-        if not request.data and request.data['answer']:
+        if not request.data and request.data["answer"]:
             return Response("Missing field 'answer'", status=400)
         if not request.user.is_authenticated:
-            return Response("Please pass Token in the Authorisation header", status=status.HTTP_401_UNAUTHORIZED)
+            return Response(
+                "Please pass Token in the Authorisation header",
+                status=status.HTTP_401_UNAUTHORIZED,
+            )
         if request.user.user_type != User.COMPANY:
-            return Response("Only Company users can give answers", status=status.HTTP_403_FORBIDDEN)
+            return Response(
+                "Only Company users can give answers", status=status.HTTP_403_FORBIDDEN
+            )
         userId = request.user.userID
         message = get_object_or_404(QAMessages, pk=postId)
         message.answer = request.data["answer"]

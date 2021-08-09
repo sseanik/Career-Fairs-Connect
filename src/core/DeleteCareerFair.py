@@ -29,7 +29,8 @@ class DeleteCareerFair(APIView):
         careerfair = get_object_or_404(CareerFairs, pk=eventId)
         requestUserUniversity = careerfair.university_id.university_id
         careerFairOwner = CareerFairs.objects.get(
-            event_id=eventId).university_id.university_id
+            event_id=eventId
+        ).university_id.university_id
         if requestUserUniversity != careerFairOwner:
             return Response({"Forbidden": "Stall does not belong to user"}, status=403)
         # deletion cascades to all stalls, applications & approvals, opportunities, presentations etc

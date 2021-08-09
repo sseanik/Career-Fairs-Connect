@@ -17,9 +17,7 @@ class Logout(APIView):
     def get(self, request, format=None):
         if request.user.is_authenticated:
             request.user.auth_token.delete()
-            body = {
-                "message": "Successful Logout"
-            }
+            body = {"message": "Successful Logout"}
             return Response(body, status=status.HTTP_200_OK)
         else:
             return Response(status=401)

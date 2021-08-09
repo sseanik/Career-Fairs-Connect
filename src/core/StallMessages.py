@@ -47,24 +47,22 @@ class StallMessages(APIView):
         response_items = []
         for item in messages:
             postid = item["post_id"]
-            upvote = Upvotes.objects.filter(
-                user_id=request.user.userID, post_id=postid)
+            upvote = Upvotes.objects.filter(user_id=request.user.userID, post_id=postid)
             already_upvoted_by_this_user = False
             if upvote:
                 already_upvoted_by_this_user = True
             response_item = {
-                'post_id': item['post_id'],
-                'author_id': item['author_id_id'],
-                'time': item['time'].timestamp(),
-                'question': item['question'],
-                'answer': item['answer'],
-                'already_upvoted_by_this_user': already_upvoted_by_this_user,
-                "num_upvotes": item["num_upvotes"]
+                "post_id": item["post_id"],
+                "author_id": item["author_id_id"],
+                "time": item["time"].timestamp(),
+                "question": item["question"],
+                "answer": item["answer"],
+                "already_upvoted_by_this_user": already_upvoted_by_this_user,
+                "num_upvotes": item["num_upvotes"],
             }
             response_items.append(response_item)
         return HttpResponse(
-            json.dumps([item for item in response_items],
-                       cls=DjangoJSONEncoder),
+            json.dumps([item for item in response_items], cls=DjangoJSONEncoder),
             content_type="application/json",
         )
 
@@ -84,8 +82,8 @@ class StallMessages(APIView):
         userId = request.user.userID
         get_object_or_404(Stalls, pk=stallId)
         newResponse = request.data.copy()
-        newResponse['author_id'] = userId
-        newResponse['stall_id'] = stallId
+        newResponse["author_id"] = userId
+        newResponse["stall_id"] = stallId
 
         serializer = QAMessageSerializer(data=newResponse)
         if serializer.is_valid():
