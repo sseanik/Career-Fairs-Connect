@@ -63,15 +63,15 @@ Requirements: Python version 3.7 or above
 
 ### Frontend Setup 
 
-#### 8. Open another terminal and change directory to the frontend folder
+#### 9. Open another terminal and change directory to the frontend folder
 
     $ cd /your_path_to_this_folder/Online-Career-Fairs/frontend
 
-#### 9. Install the requirements
+#### 10. Install the requirements
 
     $ yarn install
 
-#### 10. Start the project
+#### 11. Start the project
 
     $ yarn start
 
