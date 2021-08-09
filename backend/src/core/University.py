@@ -27,7 +27,6 @@ class University(APIView):
             404: "Not found",
         },
         operation_summary="Get university data",
-        # operation_description="",
     )
     def get(self, request, universityId):
         university = get_object_or_404(Universities, pk=universityId)
