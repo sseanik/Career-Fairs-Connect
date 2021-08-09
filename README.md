@@ -34,6 +34,7 @@ Visit https://docs.docker.com/get-docker/ and download Docker for your operating
 https://docs.python.org/3/library/venv.html
 
 **NOTE** py may be replaced with alternatives (e.g python3/python)
+This may take a while.
 
 #### 3. start the virtual environment
 
@@ -44,6 +45,8 @@ https://docs.python.org/3/library/venv.html
 ###### While the virtual environment is active, install required packages into your virtual environment. It may take several minutes to install
 
     pip install -r requirements.txt
+
+This may take a while.
 
 #### 5. Go to src directory
     cd src/
@@ -67,10 +70,12 @@ https://docs.python.org/3/library/venv.html
 #### 10. Install the requirements
 
     yarn install
+This may take a while.
 
 #### 11. Start the project
 
     yarn start
+This may take a while.
 
 ##### (http://localhost:3000) will be run in the browser.
 
