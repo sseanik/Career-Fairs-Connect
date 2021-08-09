@@ -47,7 +47,8 @@ class StallMessages(APIView):
         response_items = []
         for item in messages:
             postid = item["post_id"]
-            upvote = Upvotes.objects.filter(user_id=request.user.userID, post_id=postid)
+            upvote = Upvotes.objects.filter(
+                user_id=request.user.userID, post_id=postid)
             already_upvoted_by_this_user = False
             if upvote:
                 already_upvoted_by_this_user = True
@@ -62,7 +63,8 @@ class StallMessages(APIView):
             }
             response_items.append(response_item)
         return HttpResponse(
-            json.dumps([item for item in response_items], cls=DjangoJSONEncoder),
+            json.dumps([item for item in response_items],
+                       cls=DjangoJSONEncoder),
             content_type="application/json",
         )
 

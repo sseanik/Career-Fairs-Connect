@@ -76,7 +76,8 @@ def get_stall_data(request, stallId):
         "description": tmp_dict["company_description"],
     }
 
-    presentations = list(Presentations.objects.filter(stall_id=stallId).values())
+    presentations = list(
+        Presentations.objects.filter(stall_id=stallId).values())
     for i, presentation in enumerate(presentations):
         presentations[i] = {
             "id": presentation["presentation_id"],
@@ -97,7 +98,8 @@ def get_stall_data(request, stallId):
             presentations[i]["live"] = True
             return_dict["live"] = True
 
-    opportunities = list(Opportunities.objects.filter(stall_id=stallId).values())
+    opportunities = list(
+        Opportunities.objects.filter(stall_id=stallId).values())
     for i, opportunity in enumerate(opportunities):
         opportunities[i] = {
             "id": opportunity["job_id"],

@@ -7,28 +7,29 @@ from drf_yasg import openapi
 from drf_yasg.utils import swagger_auto_schema
 from django.shortcuts import get_object_or_404
 
+
 class CareerFairListGlobal(APIView):
     @swagger_auto_schema(
-    responses={
-        200 : openapi.Schema(type=openapi.TYPE_OBJECT,properties={
-            "id": openapi.Schema(type=openapi.TYPE_NUMBER),
-            "university": openapi.Schema(type=openapi.TYPE_STRING),
-            "start": openapi.Schema(type=openapi.TYPE_STRING),
-            "end": openapi.Schema(type=openapi.TYPE_STRING),
-            "title": openapi.Schema(type=openapi.TYPE_STRING),
-            "description": openapi.Schema(type=openapi.TYPE_STRING),
-            "webiste": openapi.Schema(type=openapi.TYPE_STRING),
-            "logo": openapi.Schema(type=openapi.TYPE_STRING),
+        responses={
+            200: openapi.Schema(type=openapi.TYPE_OBJECT, properties={
+                "id": openapi.Schema(type=openapi.TYPE_NUMBER),
+                "university": openapi.Schema(type=openapi.TYPE_STRING),
+                "start": openapi.Schema(type=openapi.TYPE_STRING),
+                "end": openapi.Schema(type=openapi.TYPE_STRING),
+                "title": openapi.Schema(type=openapi.TYPE_STRING),
+                "description": openapi.Schema(type=openapi.TYPE_STRING),
+                "webiste": openapi.Schema(type=openapi.TYPE_STRING),
+                "logo": openapi.Schema(type=openapi.TYPE_STRING),
             }),
-        401 : "Unauthorized"
+            401: "Unauthorized"
         },
         operation_summary="Get all career fairs",
         # operation_description="", #date qualification?
     )
-    #need date qualification?
+    # need date qualification?
     def get(self, request):
         all_fairs = CareerFairs.objects.order_by('-start_date').select_related("university_id")\
-            .all().values('event_id', 'title','description', 'start_date', 'end_date',
+            .all().values('event_id', 'title', 'description', 'start_date', 'end_date',
                           'university_id__university_name', 'university_id__university_site_url',
                           'university_id__university_logo_64')
         response_items = []

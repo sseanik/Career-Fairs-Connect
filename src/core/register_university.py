@@ -29,7 +29,6 @@ from drf_yasg.utils import swagger_auto_schema
 @api_view(['POST', ])
 def register_university(request):
     user = User(user_type=User.UNIVERSITY)
-    print(request.data)
     request.POST._mutable = True
     # hash passwords
     try:

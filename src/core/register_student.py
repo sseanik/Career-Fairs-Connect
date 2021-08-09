@@ -20,11 +20,11 @@ from drf_yasg.utils import swagger_auto_schema
         'student_logo_64': openapi.Schema(type=openapi.TYPE_STRING),
         'user_id': openapi.Schema(type=openapi.TYPE_NUMBER),
         'password': openapi.Schema(type=openapi.TYPE_STRING),
-        }),
+    }),
     responses={
         400: "Bad request",
-        201: "Successful Registration",  
-    },
+        201: "Successful Registration",
+},
     operation_summary="Register as student",
     # operation_description="",
 )
@@ -36,11 +36,13 @@ def register_student(request):
     try:
         request.data['password'] = make_password(request.data['password'])
     except:
-        return Response({"error":"password field is required"}, status=status.HTTP_400_BAD_REQUEST)
+        return Response({"error": "password field is required"}, status=status.HTTP_400_BAD_REQUEST)
 
-    user_serializer = UserSerializer(user, data=request.data, fields=('email', 'password'))
+    user_serializer = UserSerializer(
+        user, data=request.data, fields=('email', 'password'))
     student = Students(user_id=user)
-    student_serializer = StudentSerializer(student, data=request.data, fields=('university','first_name', 'last_name'))
+    student_serializer = StudentSerializer(
+        student, data=request.data, fields=('university', 'first_name', 'last_name'))
     if not user_serializer.is_valid() and not student_serializer.is_valid():
         return Response([student_serializer.errors, user_serializer.errors])
     if not user_serializer.is_valid():
@@ -49,4 +51,4 @@ def register_student(request):
         return Response(student_serializer.errors, status=status.HTTP_400_BAD_REQUEST)
     user_serializer.save()
     student_serializer.save()
-    return Response({"message":"Account successfully created"}, status=status.HTTP_201_CREATED)
+    return Response({"message": "Account successfully created"}, status=status.HTTP_201_CREATED)
