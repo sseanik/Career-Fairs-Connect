@@ -15,6 +15,7 @@ import { InputControl } from 'formik-chakra-ui';
 import { useSelector, useDispatch } from 'react-redux';
 import UniSelector from './UniSelector.js';
 
+//use yup for form value validation
 const validationSchema = Yup.object({
   firstName: Yup.string().required('First Name is Required').max(32),
   lastName: Yup.string().required('Last Name is Required').max(32),
@@ -36,7 +37,6 @@ export default function Profile() {
 
   const dispatch = useDispatch();
   const toast = useToast();
-  // ?
   const saveStatus = useSelector((state) => state.user.status);
 
   const submitForm = (values, actions) => {

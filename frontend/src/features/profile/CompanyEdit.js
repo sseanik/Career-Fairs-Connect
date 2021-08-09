@@ -20,6 +20,7 @@ import { useSelector, useDispatch } from 'react-redux';
 //process image
 import { convertImageToBase64, selectBase64Image } from '../auth/logoSlice';
 
+//use yup for form value validation
 const validationSchema = Yup.object({
   company: Yup.string().required('Company Name is Required').max(128),
   description: Yup.string()
@@ -35,6 +36,7 @@ export default function Profile() {
   const history = useHistory();
   const user = useSelector((state) => state.user);
 
+  //transform image to base64 format
   const base64Image = useSelector(selectBase64Image);
 
   const initialValues = {
@@ -44,6 +46,7 @@ export default function Profile() {
     logo: '', //user.logo,
   };
 
+  //update src show the uploaded image
   useEffect(() => {
     const image = document.getElementById('oldLogo');
     image.src = base64Image;
@@ -53,6 +56,7 @@ export default function Profile() {
   const toast = useToast();
   const saveStatus = useSelector((state) => state.user.status);
 
+  //
   const uploadImage = (e, setFieldValue) => {
     dispatch(convertImageToBase64(e));
     setFieldValue('logo', e.target.value);

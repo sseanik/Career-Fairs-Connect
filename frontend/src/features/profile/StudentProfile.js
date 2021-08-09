@@ -18,6 +18,7 @@ export default function Profile() {
   const history = useHistory();
   const user = useSelector((state) => state.user);
 
+  //redirect to profile edit page
   function handleClick() {
     history.push('/student/edit');
   }
