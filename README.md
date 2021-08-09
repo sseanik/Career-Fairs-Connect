@@ -24,7 +24,11 @@ Visit https://docs.docker.com/get-docker/ and download Docker for your operating
 
 	@@ -33,48 +33,51 @@ Requirements: Python version 3.7 or above
 
-### Backend Setup
+
+## Option 2. Run the project locally
+
+Requirements: Python version 3.7 or above
+### Backend Setup (Windows 10)
 
 #### 1. Change directory to the project backend folder
     cd /your_path_to_this_folder/Online-Career-Fairs/backend
@@ -57,7 +61,7 @@ This may take a while.
     py manage.py makemigrations
 
 #### 7. Migrate the app
-    py manage.py migrate
+    py manage.py migrate --run-syncdb
 
 #### 8. You are now good to run the backend server with
     py manage.py runserver

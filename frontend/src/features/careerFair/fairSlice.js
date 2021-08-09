@@ -37,7 +37,8 @@ export const asyncEditFairEvent = createAsyncThunk(
       status: 'success',
       isClosable: true,
     });
-    return response;
+    const data = await response.data;
+    return data;
   }
 );
 
@@ -214,7 +215,7 @@ export const fairSlice = createSlice({
       .addCase(asyncAddCompanyStall.fulfilled, (state, { payload }) => {
         state.status = false;
         state.stalls.push({
-          pending: payload.data.approval_status,
+          approval_status: payload.data.approval_status,
           company: payload.company,
           description: payload.description,
           id: payload.data.stall_id,

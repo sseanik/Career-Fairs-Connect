@@ -37,7 +37,7 @@ function App() {
 
   React.useEffect(() => {
     const token = localStorage.getItem('token');
-    if (token) {
+    if (token && loggedIn) {
       dispatch(asyncFetchUserData(localStorage.getItem('token')));
     }
   }, [dispatch, history, loggedIn]);

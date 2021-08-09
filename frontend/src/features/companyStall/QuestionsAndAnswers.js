@@ -18,26 +18,30 @@ import {
 } from '@chakra-ui/react';
 // Redux
 import { useDispatch, useSelector } from 'react-redux';
-import { asyncAnswerQuestion, asyncDeleteQuestion, asyncPostQuestion } from './stallSlice';
+import {
+  asyncDeleteQuestion,
+  asyncPostQuestion,
+} from './stallSlice';
 import { QuestionModal } from '../../components/QuestionModal';
 import { AnswerModal } from '../../components/AnswerModal';
-
 import { RiPencilFill } from 'react-icons/ri';
 
 export function QuestionsAndAnswers(props) {
-  const { isOpen, onOpen, onClose } = useDisclosure()
-  const [isQuestion, setIsQuestion] = React.useState(true)
+  const { isOpen, onOpen, onClose } = useDisclosure();
+  const [isQuestion, setIsQuestion] = React.useState(true);
   const [question, setQuestion] = React.useState('');
-  const [answer, setAnswer] = React.useState('');
+  const [modalAnswer, setModalAnswer] = React.useState('');
+  const [firstAnswer, setFirstAnswer] = React.useState(true)
   const [id, setId] = React.useState('');
   const buttonLoading = useSelector((state) => state.stall.status);
   const toast = useToast();
   const dispatch = useDispatch();
-  const userId = useSelector((state) => state.user.userID)
-  const companyId = useSelector((state) => state.user.companyID)
+  const userId = useSelector((state) => state.user.userID);
+  const companyId = useSelector((state) => state.user.companyID);
 
   const postQuestion = () => {
     question &&
+<<<<<<< HEAD
       dispatch(asyncPostQuestion({
         id: props.stallID,
         question: {
@@ -62,12 +66,40 @@ export function QuestionsAndAnswers(props) {
     id &&
       dispatch(asyncDeleteQuestion({ stallId: props.stallID, postId: id, toast: toast }))
   }
+=======
+      dispatch(
+        asyncPostQuestion({
+          id: props.stallID,
+          question: {
+            question: question,
+          },
+          toast: toast,
+        })
+      );
+    setQuestion('')
+  };
+
+  const deleteQuestion = (id) => {
+    id &&
+      dispatch(
+        asyncDeleteQuestion({
+          stallId: props.stallID,
+          postId: id,
+          toast: toast,
+        })
+      );
+  };
+>>>>>>> main
 
   return (
     <div>
       <Modal isOpen={isOpen} onClose={onClose}>
         <ModalOverlay />
+<<<<<<< HEAD
         {isQuestion ?
+=======
+        {isQuestion ? (
+>>>>>>> main
           <QuestionModal
             isOpen={isOpen}
             stallId={props.stallID}
@@ -76,16 +108,28 @@ export function QuestionsAndAnswers(props) {
             question={question}
             setQuestion={setQuestion}
           />
+<<<<<<< HEAD
           :
+=======
+        ) : (
+>>>>>>> main
           <AnswerModal
             isOpen={isOpen}
             stallId={props.stallID}
             questionId={id}
             onClose={onClose}
+<<<<<<< HEAD
             answer={answer}
             setAnswer={setAnswer}
           />
         }
+=======
+            answer={modalAnswer}
+            setAnswer={setModalAnswer}
+            firstAnswer={firstAnswer}
+          />
+        )}
+>>>>>>> main
       </Modal>
       <Box>
         <Text mb='8px' fontWeight='semibold'>
@@ -108,6 +152,7 @@ export function QuestionsAndAnswers(props) {
         >
           Submit
         </Button>
+<<<<<<< HEAD
 
         <Accordion allowMultiple>
           {props.qandas.map((qanda, idx) => (
@@ -155,6 +200,25 @@ export function QuestionsAndAnswers(props) {
                     <Textarea
                       value={answer}
                       onChange={(e) => setAnswer(e.target.value)}
+=======
+        <Accordion allowMultiple>
+          {props.qandas.map((qanda, idx) => (
+            <AccordionItem
+              isDisabled={!qanda.answer && companyId !== props.companyID}
+              key={`qanda-${idx}`}
+            >
+              <Flex align='center'>
+                <AccordionButton as='div'>
+                  <Box flex='1' textAlign='left' fontWeight='semibold'>
+                    {qanda.question}
+                  </Box>
+                  <AccordionIcon />
+                </AccordionButton>
+                {userId === qanda.author_id ? (
+                  <>
+                    <Button
+                      leftIcon={<RiPencilFill />}
+>>>>>>> main
                       size='sm'
                     />
                     <Button
@@ -162,6 +226,7 @@ export function QuestionsAndAnswers(props) {
                       mt='2'
                       mb='4'
                       onClick={() => {
+<<<<<<< HEAD
                         postAnswer(qanda.id)
                       }}
                       isLoading={buttonLoading}
@@ -176,25 +241,91 @@ export function QuestionsAndAnswers(props) {
                       {qanda.answer}
                     </Box>
                     {(companyId === props.companyID) ?
+=======
+                        setQuestion(qanda.question);
+                        setId(qanda.id);
+                        setIsQuestion(true);
+                        onOpen();
+                      }}
+                    >
+                      Edit
+                    </Button>
+                    <Button
+                      colorScheme='red'
+                      size='sm'
+                      ml='3'
+                      onClick={() => {
+                        deleteQuestion(qanda.id);
+                      }}
+                    >
+                      Delete
+                    </Button>
+                  </>
+                ) : (
+                  <> </>
+                )}
+              </Flex>
+              <AccordionPanel pb={4}>
+                {!qanda.answer ? (
+                  <Flex>
+                  <Box>{qanda.answer}</Box>
+                  {companyId === props.companyID ? (
+                    <Button
+                      leftIcon={<RiPencilFill />}
+                      size='sm'
+                      onClick={() => {
+                        setModalAnswer(qanda.answer);
+                        setId(qanda.id);
+                        setIsQuestion(false);
+                        setFirstAnswer(true)
+                        onOpen();
+                      }}
+                    >
+                      Answer Question
+                    </Button>
+                  ) : (
+                    <> </>
+                  )}
+                </Flex>
+                ) : (
+                  <Flex>
+                    <Box pr='10px'>{qanda.answer}</Box>
+                    {companyId === props.companyID ? (
+>>>>>>> main
                       <Button
                         leftIcon={<RiPencilFill />}
                         align='right'
                         size='sm'
                         ml='auto'
                         onClick={() => {
+<<<<<<< HEAD
                           setAnswer(qanda.answer);
                           setId(qanda.id);
                           setIsQuestion(false)
+=======
+                          setModalAnswer(qanda.answer);
+                          setId(qanda.id);
+                          setIsQuestion(false);
+                          setFirstAnswer(false)
+>>>>>>> main
                           onOpen();
                         }}
                       >
                         Edit
                       </Button>
+<<<<<<< HEAD
                       :
                       <> </>
                     }
                   </Flex>
                 }
+=======
+                    ) : (
+                      <> </>
+                    )}
+                  </Flex>
+                )}
+>>>>>>> main
               </AccordionPanel>
             </AccordionItem>
           ))}

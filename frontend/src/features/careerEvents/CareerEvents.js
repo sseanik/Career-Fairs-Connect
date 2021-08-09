@@ -89,10 +89,10 @@ function EventCards() {
   const dispatch = useDispatch();
 
   // Navigate to fair event if permissions allow the user to
-  const visitFairEvent = (event, idx) => {
+  const visitFairEvent = (event) => {
     if (
       userDetails.role === 'Student' &&
-      userDetails.university !== eventsData[idx].university
+      userDetails.university !== event.university
     ) {
       toast({
         description: 'You are not a student of this university',
@@ -101,7 +101,7 @@ function EventCards() {
       });
     } else if (
       userDetails.role === 'University' &&
-      userDetails.name !== eventsData[idx].university
+      userDetails.name !== event.university
     ) {
       toast({
         description: "You cannot visit another University's event",
@@ -114,11 +114,26 @@ function EventCards() {
     }
   };
 
+  const filteredData = () => {
+    switch (userDetails.role) {
+      case 'Student':
+        return eventsData.filter(
+          (event) => event.university === userDetails.university
+        );
+      case 'University':
+        return eventsData.filter(
+          (event) => event.university === userDetails.name
+        );
+      default:
+        return eventsData;
+    }
+  };
+
   return (
     <div>
       {loading &&
         [...Array(2)].map((x, i) => <SkeletonFairEvent key={i} card />)}
-      {eventsData.map((event, idx) => (
+      {filteredData().map((event, idx) => (
         <Flex
           key={event.id}
           borderWidth='1px'

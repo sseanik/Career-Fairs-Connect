@@ -23,18 +23,25 @@ export function StallCard(props) {
   const userRole = useSelector((state) => state.user.role);
   const toast = useToast();
   const { colorMode } = useColorMode();
+  const companyName = useSelector((state) => state.user.name);
 
   return (
     <Flex direction='column' justify='center' align='center'>
       <Box
         zIndex='1'
-        borderWidth='1px'
-        borderColor={colorMode === 'light' ? 'gray.300' : 'gray.700'}
+        borderWidth={companyName === props.name ? '4px' : '1px'}
+        borderColor={
+          companyName === props.name
+            ? 'blue.400'
+            : colorMode === 'light'
+            ? 'gray.300'
+            : 'gray.700'
+        }
         w={useBreakpointValue({
           base: '90vw',
           sm: '225px',
         })}
-        borderRadius='xl'
+        borderRadius='2xl'
         p='12px'
         m='2'
         role='group'

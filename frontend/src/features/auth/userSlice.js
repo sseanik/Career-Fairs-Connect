@@ -21,7 +21,7 @@ export const asyncFetchUserData = createAsyncThunk(
 /* -------------------------------- Register -------------------------------- */
 export const asyncRegisterUniversity = createAsyncThunk(
   'user/registerUniversity',
-  async ({ user, toast, history }) => {
+  async ({ user, toast, history }, thunkAPI) => {
     try {
       const response = await axios({
         method: 'post',
@@ -42,13 +42,14 @@ export const asyncRegisterUniversity = createAsyncThunk(
         status: 'error',
         isClosable: true,
       });
+      return thunkAPI.rejectWithValue(error.response.data.email);
     }
   }
 );
 
 export const asyncRegisterCompany = createAsyncThunk(
   'user/registerCompany',
-  async ({ user, toast, history }) => {
+  async ({ user, toast, history }, thunkAPI) => {
     try {
       const response = await axios({
         method: 'post',
@@ -73,13 +74,14 @@ export const asyncRegisterCompany = createAsyncThunk(
         status: 'error',
         isClosable: true,
       });
+      return thunkAPI.rejectWithValue(error.response.data.email);
     }
   }
 );
 
 export const asyncRegisterStudent = createAsyncThunk(
   'user/registerStudent',
-  async ({ user, toast, history }) => {
+  async ({ user, toast, history }, thunkAPI) => {
     try {
       const response = await axios({
         method: 'post',
@@ -102,6 +104,7 @@ export const asyncRegisterStudent = createAsyncThunk(
         status: 'error',
         isClosable: true,
       });
+      return thunkAPI.rejectWithValue(error.response.data.email);
     }
   }
 );
@@ -109,7 +112,7 @@ export const asyncRegisterStudent = createAsyncThunk(
 /* ---------------------------------- Login --------------------------------- */
 export const asyncLoginUser = createAsyncThunk(
   'user/login',
-  async ({ user, toast, history }) => {
+  async ({ user, toast, history }, thunkAPI) => {
     try {
       const response = await axios({
         method: 'post',
@@ -135,6 +138,7 @@ export const asyncLoginUser = createAsyncThunk(
         status: 'error',
         isClosable: true,
       });
+      return thunkAPI.rejectWithValue(error.response.data.non_field_errors[0]);
     }
   }
 );
@@ -163,7 +167,7 @@ export const asyncLogout = createAsyncThunk(
 /* -------------------------------- Update -------------------------------- */
 export const asyncUpdateUniversity = createAsyncThunk(
   'user/updateUniversity',
-  async ({ id, user, toast, history }) => {
+  async ({ id, user, toast, history }, thunkAPI) => {
     const response = await axios({
       method: 'put',
       url: `/university/${id}/`,
@@ -191,7 +195,7 @@ export const asyncUpdateUniversity = createAsyncThunk(
 
 export const asyncUpdateCompany = createAsyncThunk(
   'user/updateCompany',
-  async ({ id, user, toast, history }) => {
+  async ({ id, user, toast, history }, thunkAPI) => {
     const response = await axios({
       method: 'put',
       url: `/company/${id}/`,
@@ -219,7 +223,7 @@ export const asyncUpdateCompany = createAsyncThunk(
 
 export const asyncUpdateStudent = createAsyncThunk(
   'user/updateStudent',
-  async ({ id, user, toast, history }) => {
+  async ({ id, user, toast, history }, thunkAPI) => {
     const response = await axios({
       method: 'put',
       url: `/student/${id}/`,
@@ -298,6 +302,7 @@ export const userSlice = createSlice({
             state.studentID = payload.student_id;
             state.wam = payload.wam;
             state.degree = payload.degree;
+            state.logo = payload.student_logo_64;
             break;
           case 'Company':
             state.companyID = payload.company_id;
