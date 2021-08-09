@@ -26,6 +26,8 @@ Visit https://docs.docker.com/get-docker/ and download Docker for your operating
 
 
 ## Option 2. Run the project locally
+
+Requirements: Python version 3.7 or above
 ### Backend Setup (Windows 10)
 
 #### 1. Change directory to the project backend folder
