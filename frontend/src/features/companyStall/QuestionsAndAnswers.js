@@ -177,7 +177,7 @@ export function QuestionsAndAnswers(props) {
                 </Flex>
                 ) : (
                   <Flex>
-                    <Box>{qanda.answer}</Box>
+                    <Box pr='10px'>{qanda.answer}</Box>
                     {companyId === props.companyID ? (
                       <Button
                         leftIcon={<RiPencilFill />}

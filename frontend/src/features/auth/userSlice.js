@@ -302,6 +302,7 @@ export const userSlice = createSlice({
             state.studentID = payload.student_id;
             state.wam = payload.wam;
             state.degree = payload.degree;
+            state.logo = payload.student_logo_64;
             break;
           case 'Company':
             state.companyID = payload.company_id;
