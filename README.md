@@ -4,8 +4,6 @@
 
 https://elastic-lichterman-7198a0.netlify.app/
 
-[![Django CI](https://github.com/af-af/Online-Careers-Fair/actions/workflows/django.yml/badge.svg)](https://github.com/af-af/Online-Careers-Fair/actions/workflows/django.yml)
-
 ***The following steps will introduce how to run the project in 2 different ways.*** 
 
 ___
