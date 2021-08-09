@@ -37,7 +37,7 @@ from drf_yasg.utils import swagger_auto_schema
                 "presentations": openapi.Schema(
                     type=openapi.TYPE_ARRAY,
                     items=openapi.Items(
-                        type="id, title, start, end, description, link, color, textColor"
+                        type="id, title, start, end, description, link, color, textColor, borderColor"
                     ),
                 ),
                 "opportunities": openapi.Schema(
@@ -95,7 +95,7 @@ def get_career_fair_data(request, eventId):
         stalls = list(
             Stalls.objects.filter(
                 Q(event_id=eventId),
-                Q(company_id=company.company_id) | Q(approval_status="Pending"),
+                Q(company_id=company.company_id) | Q(approval_status="Approved"),
             ).values()
         )
     # university so return all stalls regardless of status
@@ -159,6 +159,7 @@ def get_career_fair_data(request, eventId):
             "company": company.company_name,
             "color": presentation["color"],
             "textColor": presentation["textColor"],
+            "borderColor": presentation["borderColor"],
         }
 
     try:
