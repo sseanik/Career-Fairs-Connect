@@ -70,8 +70,7 @@ urlpatterns = [
         schema_view.with_ui("swagger", cache_timeout=0),
         name="schema-swagger-ui",
     ),
-    path("redoc/", schema_view.with_ui("redoc",
-         cache_timeout=0), name="schema-redoc"),
+    path("redoc/", schema_view.with_ui("redoc", cache_timeout=0), name="schema-redoc"),
     #
     path("user/login/", obtain_auth_token),
     path("user/logout/", Logout.as_view()),
@@ -99,8 +98,7 @@ urlpatterns = [
     re_path("^company/(?P<companyId>.+)/$", Company.as_view()),
     #
     re_path("^student/(?P<studentId>.+)/$", Student.as_view()),
-    path("university/<int:universityId>/careerfairs/",
-         CareerFairListForUni.as_view()),
+    path("university/<int:universityId>/careerfairs/", CareerFairListForUni.as_view()),
     re_path("^university/(?P<universityId>.+)/$", University.as_view()),
     path("questions/<int:stallId>/", StallMessages.as_view()),
     path("questions/<int:stallId>/<int:postId>/upvotes/", Upvote.as_view()),

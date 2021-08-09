@@ -14,17 +14,21 @@ class CareerFairListForUni(APIView):
     authentication_classes = [TokenAuthentication, SessionAuthentication]
     permission_classes = [IsAuthenticated]
 
-    @swagger_auto_schema(responses={
-        200: openapi.Schema(type=openapi.TYPE_OBJECT, properties={
-            "event_id": openapi.Schema(type=openapi.TYPE_NUMBER),
-            "university_id": openapi.Schema(type=openapi.TYPE_NUMBER),
-            "title": openapi.Schema(type=openapi.TYPE_STRING),
-            "description": openapi.Schema(type=openapi.TYPE_STRING),
-            "start_date": openapi.Schema(type=openapi.TYPE_STRING),
-            "end_date": openapi.Schema(type=openapi.TYPE_STRING),
-        }),
-        403: "Forbidden",
-    },
+    @swagger_auto_schema(
+        responses={
+            200: openapi.Schema(
+                type=openapi.TYPE_OBJECT,
+                properties={
+                    "event_id": openapi.Schema(type=openapi.TYPE_NUMBER),
+                    "university_id": openapi.Schema(type=openapi.TYPE_NUMBER),
+                    "title": openapi.Schema(type=openapi.TYPE_STRING),
+                    "description": openapi.Schema(type=openapi.TYPE_STRING),
+                    "start_date": openapi.Schema(type=openapi.TYPE_STRING),
+                    "end_date": openapi.Schema(type=openapi.TYPE_STRING),
+                },
+            ),
+            403: "Forbidden",
+        },
         operation_summary="University self owned career fairs",
         operation_description="Returns career fairs and details for career fairs owned by caller",
     )
@@ -33,18 +37,21 @@ class CareerFairListForUni(APIView):
             return Response(status=403)
         try:
             university = Universities.objects.get(
-                user_id=request.user.userID).university_id
-            ownevents = CareerFairs.objects.order_by(
-                '-start_date').filter(university_id=university)
+                user_id=request.user.userID
+            ).university_id
+            ownevents = CareerFairs.objects.order_by("-start_date").filter(
+                university_id=university
+            )
         except:
             return Response({}, status=200)
         serializer = CareerFairSerializer(ownevents, many=True)
         return Response(serializer.data, status=200)
 
-    @swagger_auto_schema(request_body=CareerFairSerializer,
-                         operation_summary="Create new career fair",
-                         # operation_description="",
-                         )
+    @swagger_auto_schema(
+        request_body=CareerFairSerializer,
+        operation_summary="Create new career fair",
+        # operation_description="",
+    )
     def post(self, request, universityId, format=None):
 
         request.data["university_id"] = universityId

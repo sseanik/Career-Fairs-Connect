@@ -13,6 +13,7 @@ from drf_yasg.utils import swagger_auto_schema
 class OpportunityList(APIView):
     authentication_classes = [TokenAuthentication, SessionAuthentication]
     permission_classes = [IsAuthenticated]
+
     @swagger_auto_schema(
         request_body=OpportunitySerializer,
         responses={
@@ -26,7 +27,7 @@ class OpportunityList(APIView):
                     "location": openapi.Schema(type=openapi.TYPE_STRING),
                     "wam": openapi.Schema(type=openapi.TYPE_NUMBER),
                     "expiry": openapi.Schema(type=openapi.TYPE_STRING),
-                    "application_link" : openapi.Schema(type=openapi.TYPE_STRING),
+                    "application_link": openapi.Schema(type=openapi.TYPE_STRING),
                 },
             ),
             401: "Unauthorized",
@@ -91,7 +92,7 @@ class OpportunityList(APIView):
                 "location": openapi.Schema(type=openapi.TYPE_STRING),
                 "wam": openapi.Schema(type=openapi.TYPE_NUMBER),
                 "expiry": openapi.Schema(type=openapi.TYPE_STRING),
-                "application_link" : openapi.Schema(type=openapi.TYPE_STRING),
+                "application_link": openapi.Schema(type=openapi.TYPE_STRING),
             },
         ),
         responses={
@@ -105,7 +106,7 @@ class OpportunityList(APIView):
                     "location": openapi.Schema(type=openapi.TYPE_STRING),
                     "wam": openapi.Schema(type=openapi.TYPE_NUMBER),
                     "expiry": openapi.Schema(type=openapi.TYPE_STRING),
-                    "application_link" : openapi.Schema(type=openapi.TYPE_STRING),
+                    "application_link": openapi.Schema(type=openapi.TYPE_STRING),
                 },
             ),
             401: "Unauthorized",

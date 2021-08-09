@@ -8,25 +8,28 @@ from drf_yasg import openapi
 from drf_yasg.utils import swagger_auto_schema
 
 
-@swagger_auto_schema(method="post", request_body=openapi.Schema(
-    type=openapi.TYPE_OBJECT,
-    properties={
-        'company_id': openapi.Schema(type=openapi.TYPE_NUMBER),
-        'company_name': openapi.Schema(type=openapi.TYPE_STRING),
-        'company_description': openapi.Schema(type=openapi.TYPE_STRING),
-        'company_webpage_url': openapi.Schema(type=openapi.TYPE_STRING),
-        'company_logo_64': openapi.Schema(type=openapi.TYPE_STRING),
-        'user_id': openapi.Schema(type=openapi.TYPE_NUMBER),
-        'password': openapi.Schema(type=openapi.TYPE_STRING),
-        }),
+@swagger_auto_schema(
+    method="post",
+    request_body=openapi.Schema(
+        type=openapi.TYPE_OBJECT,
+        properties={
+            "company_id": openapi.Schema(type=openapi.TYPE_NUMBER),
+            "company_name": openapi.Schema(type=openapi.TYPE_STRING),
+            "company_description": openapi.Schema(type=openapi.TYPE_STRING),
+            "company_webpage_url": openapi.Schema(type=openapi.TYPE_STRING),
+            "company_logo_64": openapi.Schema(type=openapi.TYPE_STRING),
+            "user_id": openapi.Schema(type=openapi.TYPE_NUMBER),
+            "password": openapi.Schema(type=openapi.TYPE_STRING),
+        },
+    ),
     responses={
         400: "Bad request",
-        201: "Successful Registration",  
+        201: "Successful Registration",
     },
     operation_summary="Register as company",
     # operation_description="",
 )
-@api_view(['POST'])
+@api_view(["POST"])
 def register_company(request):
     user = User(user_type=User.COMPANY)
     request.POST._mutable = True
