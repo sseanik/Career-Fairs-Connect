@@ -24,7 +24,7 @@ import { AiOutlineMenu } from 'react-icons/ai';
 import { Logo } from './Logo';
 import { useThemeDarkMode } from 'elementz';
 import { useDispatch, useSelector } from 'react-redux';
-import { asyncLogout } from '../features/auth/userSlice';
+import { asyncLogout, resetUser } from '../features/auth/userSlice';
 import { IoPersonCircleSharp } from 'react-icons/io5';
 import { CgLogOut } from 'react-icons/cg';
 
@@ -248,14 +248,15 @@ export default function Navbar(props) {
                       </MenuItem>
                       <MenuItem
                         color={colorMode === 'light' ? 'black' : 'white'}
-                        onClick={() =>
+                        onClick={() => {
                           dispatch(
                             asyncLogout({
                               token: localStorage.getItem('token'),
                               history: history,
                             })
-                          )
-                        }
+                          );
+                          dispatch(resetUser());
+                        }}
                       >
                         <CgLogOut />
                         <Text ml='2'>Logout</Text>
