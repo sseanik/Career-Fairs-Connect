@@ -72,8 +72,6 @@ export default function CareerFair(props) {
     }
   };
 
-  console.log(fairData);
-
   return (
     <div>
       <Box
