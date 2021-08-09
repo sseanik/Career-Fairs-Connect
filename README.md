@@ -57,7 +57,7 @@ This may take a while.
     py manage.py makemigrations
 
 #### 7. Migrate the app
-    py manage.py migrate
+    py manage.py migrate --run-syncdb
 
 #### 8. You are now good to run the backend server with
     py manage.py runserver
