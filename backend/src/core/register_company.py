@@ -35,7 +35,7 @@ def register_company(request):
         request.data["password"] = make_password(request.data["password"])
     except:
         return Response(
-            {"error": "password field is requred"}, status=status.HTTP_400_BAD_REQUEST
+            {"error": "password field is required"}, status=status.HTTP_400_BAD_REQUEST
         )
 
     user_serializer = UserSerializer(
