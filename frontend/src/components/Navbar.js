@@ -83,7 +83,7 @@ export default function Navbar(props) {
   const publicNavItems = [
     {
       label: 'Landing Page',
-      to: '/',
+      to: '/landing',
     },
     {
       label: 'Sign Up',
@@ -285,7 +285,7 @@ export default function Navbar(props) {
                   <Menu autoSelect>
                     <MenuButton>
                       <Avatar
-                        bg={userRole === 'Student' ? 'blue' : 'none'}
+                        bg={userRole === 'Student' ? 'blue.500' : 'none'}
                         color='white'
                         size='sm'
                         name={`${userFName} ${userLName}`}
