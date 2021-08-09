@@ -2,12 +2,14 @@
 
 # Career Fairs Connect
 
+## Option 1. Visit URL
+
 https://elastic-lichterman-7198a0.netlify.app/
 
 ***The following steps will introduce how to run the project in 2 different ways.*** 
 
 ___
-## Option 1. Run the project with Docker
+## Option 2. Run the project with Docker
 
 #### 1. Install Docker 
 
@@ -25,7 +27,7 @@ Visit https://docs.docker.com/get-docker/ and download Docker for your operating
 	@@ -33,48 +33,51 @@ Requirements: Python version 3.7 or above
 
 
-## Option 2. Run the project locally
+## Option 3. Run the project locally
 
 Requirements: Python version 3.7 or above
 ### Backend Setup (Windows 10)
