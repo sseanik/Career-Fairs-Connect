@@ -29,6 +29,7 @@ export default function Profile() {
     website: userData.website,
   };
 
+  //redirect to profile edit page
   function handleClick() {
     history.push('/company/edit');
   }

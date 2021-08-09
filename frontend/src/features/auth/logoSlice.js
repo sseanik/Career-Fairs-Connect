@@ -1,3 +1,6 @@
+// Provide logo reducer for store.js and functions 
+// to convert uploaded logo image to base64 format
+
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import Resizer from 'react-image-file-resizer';
 

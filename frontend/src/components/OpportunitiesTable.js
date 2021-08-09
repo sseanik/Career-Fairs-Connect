@@ -26,6 +26,7 @@ export function OpportunitiesTable(props) {
     },
   };
 
+  //define the oppotunity object
   const columns = {
     type: {
       title: 'Type',

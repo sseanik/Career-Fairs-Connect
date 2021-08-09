@@ -1,3 +1,6 @@
+// This file is in charge of making all requests related to stalls
+// and store the data received.
+
 import { createAsyncThunk, createSlice, current } from '@reduxjs/toolkit';
 import { prominent } from 'color.js';
 import complementaryTextColour from '../../util/complementaryTextColour';
@@ -234,6 +237,7 @@ export const asyncDeleteQuestion = createAsyncThunk(
   }
 );
 
+/* -------------------------------- Set stall states in Redux -------------------------------- */
 const initialState = {
   loading: false,
   status: false,

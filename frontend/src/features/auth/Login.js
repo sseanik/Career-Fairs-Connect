@@ -30,13 +30,14 @@ import fairImage from './fairImage.jpg';
 import { useDispatch } from 'react-redux';
 import { asyncLoginUser } from './userSlice';
 
-const textColor = ''; //"#FFFFFF";
+const textColor = '';
 
 const initialValues = {
   email: '',
   password: '',
 };
 
+//use yup for form value validation
 const validationSchema = Yup.object({
   email: Yup.string()
     .email('Email format is Invalid')
@@ -139,6 +140,8 @@ export default function Login() {
                 </Flex>
               </VStack>
             </Flex>
+
+            {/* login forms */}
             <Formik
               initialValues={initialValues}
               onSubmit={(values, setSubmitting) =>
