@@ -49,7 +49,6 @@ class CareerFairListForUni(APIView):
     @swagger_auto_schema(
         request_body=CareerFairSerializer,
         operation_summary="Create new career fair",
-        # operation_description="",
     )
 
     # create new career fair
