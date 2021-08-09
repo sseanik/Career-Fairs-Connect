@@ -44,7 +44,12 @@ export function AnswerModal(props) {
     <ModalContent p='15px'>
       <ModalCloseButton />
       <Text mb='8px' fontWeight='semibold'>
-        Edit your Answer:
+        {props.firstAnswer ?
+        'Answer Question'
+          :
+        'Edit your Answer'
+        }
+        
       </Text>
       <Textarea
         value={props.answer}

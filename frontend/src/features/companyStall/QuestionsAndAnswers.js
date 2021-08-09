@@ -32,8 +32,8 @@ export function QuestionsAndAnswers(props) {
   const { isOpen, onOpen, onClose } = useDisclosure();
   const [isQuestion, setIsQuestion] = React.useState(true);
   const [question, setQuestion] = React.useState('');
-  const [answer, setAnswer] = React.useState('');
   const [modalAnswer, setModalAnswer] = React.useState('');
+  const [firstAnswer, setFirstAnswer] = React.useState(true)
   const [id, setId] = React.useState('');
   const buttonLoading = useSelector((state) => state.stall.status);
   const toast = useToast();
@@ -53,20 +53,6 @@ export function QuestionsAndAnswers(props) {
         })
       );
     setQuestion('')
-  };
-
-  const postAnswer = (id) => {
-    answer &&
-      dispatch(
-        asyncAnswerQuestion({
-          questionId: id,
-          stallId: props.stallID,
-          answer: {
-            answer: answer,
-          },
-          toast: toast,
-        })
-      ).then(setAnswer(''));
   };
 
   const deleteQuestion = (id) => {
@@ -101,6 +87,7 @@ export function QuestionsAndAnswers(props) {
             onClose={onClose}
             answer={modalAnswer}
             setAnswer={setModalAnswer}
+            firstAnswer={firstAnswer}
           />
         )}
       </Modal>
@@ -125,7 +112,6 @@ export function QuestionsAndAnswers(props) {
         >
           Submit
         </Button>
-
         <Accordion allowMultiple>
           {props.qandas.map((qanda, idx) => (
             <AccordionItem
@@ -171,27 +157,26 @@ export function QuestionsAndAnswers(props) {
               </Flex>
               <AccordionPanel pb={4}>
                 {!qanda.answer ? (
-                  <>
-                    <Textarea
-                      value={answer}
-                      onChange={(e) => setAnswer(e.target.value)}
-                      size='sm'
-                    />
+                  <Flex>
+                  <Box>{qanda.answer}</Box>
+                  {companyId === props.companyID ? (
                     <Button
+                      leftIcon={<RiPencilFill />}
                       size='sm'
-                      mt='2'
-                      mb='4'
                       onClick={() => {
-                        postAnswer(qanda.id);
+                        setModalAnswer(qanda.answer);
+                        setId(qanda.id);
+                        setIsQuestion(false);
+                        setFirstAnswer(true)
+                        onOpen();
                       }}
-                      isLoading={buttonLoading}
-                      loadingText='Submitting'
-                      spinnerPlacement='end'
-                      colorScheme='green'
                     >
-                      Submit
+                      Answer Question
                     </Button>
-                  </>
+                  ) : (
+                    <> </>
+                  )}
+                </Flex>
                 ) : (
                   <Flex>
                     <Box>{qanda.answer}</Box>
@@ -205,6 +190,7 @@ export function QuestionsAndAnswers(props) {
                           setModalAnswer(qanda.answer);
                           setId(qanda.id);
                           setIsQuestion(false);
+                          setFirstAnswer(false)
                           onOpen();
                         }}
                       >
