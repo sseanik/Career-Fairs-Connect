@@ -6,6 +6,8 @@
 
 https://elastic-lichterman-7198a0.netlify.app/
 
+swagger doc: http://ec2-13-55-22-199.ap-southeast-2.compute.amazonaws.com/swagger/
+
 ***The following steps will introduce how to run the project in 2 different ways.*** 
 
 ___
