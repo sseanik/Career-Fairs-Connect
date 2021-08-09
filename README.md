@@ -52,10 +52,13 @@ Requirements: Python version 3.7 or above
     $ cd src/
 ###### Now when you run ```ls``` , you should be able to see a ```manage.py``` file
 
-#### 6. Migrate the app
+#### 6. Use makemigrations on the app
+    $ python3 manage.py makemigrations
+
+#### 7. Migrate the app
     $ python3 manage.py migrate
 
-#### 7. You are now good to run the backend server with
+#### 8. You are now good to run the backend server with
     $ python3 manage.py runserver
 
 ### Frontend Setup 
