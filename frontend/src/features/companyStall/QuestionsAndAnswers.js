@@ -19,13 +19,11 @@ import {
 // Redux
 import { useDispatch, useSelector } from 'react-redux';
 import {
-  asyncAnswerQuestion,
   asyncDeleteQuestion,
   asyncPostQuestion,
 } from './stallSlice';
 import { QuestionModal } from '../../components/QuestionModal';
 import { AnswerModal } from '../../components/AnswerModal';
-
 import { RiPencilFill } from 'react-icons/ri';
 
 export function QuestionsAndAnswers(props) {
