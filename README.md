@@ -1,3 +1,16 @@
+
+
+# Career Fairs Connect
+
+[![Django CI](https://github.com/af-af/Online-Careers-Fair/actions/workflows/django.yml/badge.svg)](https://github.com/af-af/Online-Careers-Fair/actions/workflows/django.yml)
+
+***The following steps will introduce how to run the project in 2 different ways.*** 
+
+___
+## Option 1. Run the project with Docker
+
+#### 1. Install Docker 
+
 Visit https://docs.docker.com/get-docker/ and download Docker for your operating system
 
 #### 2. Open terminal, change directory to the project folder
