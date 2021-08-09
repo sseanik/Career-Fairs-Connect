@@ -9,7 +9,7 @@ export const asyncFetchFairData = createAsyncThunk(
   async (fairID) => {
     const response = await axios({
       method: 'get',
-      url: `/careerfairs/${fairID}/`,
+      url: `/api/careerfairs/${fairID}/`,
       headers: {
         Authorization: `Token ${localStorage.getItem('token')}`,
       },
@@ -48,7 +48,7 @@ export const asyncToggleEventPending = createAsyncThunk(
   async ({ id, approval_status, toast }) => {
     const response = await axios({
       method: 'put',
-      url: '/careerfairs/applications/',
+      url: '/api/careerfairs/applications/',
       data: {
         stall_id: id,
         approval_status: approval_status,
@@ -80,7 +80,7 @@ export const asyncAddCompanyStall = createAsyncThunk(
   async ({ stall, logo, description, company, toast }) => {
     const response = await axios({
       method: 'post',
-      url: `/careerfairs/${stall.event_id}/stalls/`,
+      url: `/api/careerfairs/${stall.event_id}/stalls/`,
       data: stall,
       headers: {
         Authorization: `Token ${localStorage.getItem('token')}`,
@@ -118,7 +118,7 @@ export const asyncRemoveCompanyStall = createAsyncThunk(
   async ({ data, company, toast }) => {
     const response = await axios({
       method: 'delete',
-      url: '/careerfairs/delete/stalls/',
+      url: '/api/careerfairs/delete/stalls/',
       headers: {
         Authorization: `Token ${localStorage.getItem('token')}`,
       },
