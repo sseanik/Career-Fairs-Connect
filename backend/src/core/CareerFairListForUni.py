@@ -32,7 +32,7 @@ class CareerFairListForUni(APIView):
             return Response(status=403)
         try:
             university = Universities.objects.get(user_id = request.user.userID).university_id
-            ownevents = CareerFairs.objects.filter(university_id=university)
+            ownevents = CareerFairs.objects.order_by('-start_date').filter(university_id=university)
         except:
             return Response({}, status=200)
         serializer = CareerFairSerializer(ownevents, many=True)
