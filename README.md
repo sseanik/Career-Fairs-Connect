@@ -30,14 +30,14 @@ Visit https://docs.docker.com/get-docker/ and download Docker for your operating
     cd /your_path_to_this_folder/Online-Career-Fairs/backend
 
 #### 2. Set up the virtual environment by running
-    python3 -m venv env
+    python3 -m venv venv
 https://docs.python.org/3/library/venv.html
 
 NOTE python3 may be replaced with alternatives (e.g py)
 
 #### 3. start the virtual environment
 
-    .\env\Scripts\Activate.ps1
+    .\venv\Scripts\Activate.ps1
 
 #### 4. Install required packages
 
