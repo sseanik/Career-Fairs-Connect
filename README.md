@@ -3,6 +3,7 @@
 # Career Fairs Connect
 
 ***The following steps will introduce how to run the project in 3 different ways.*** 
+
 Please attempt other options if failure occurs.
 
 ## Option 1. Visit URL
