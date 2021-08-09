@@ -112,7 +112,7 @@ export function QuestionsAndAnswers(props) {
               <AccordionButton>
                 <Box flex='1' textAlign='left' fontWeight='semibold'>
                   {qanda.question}
-                  { (userId === qanda.author_id) ?
+                  {(userId === qanda.author_id) ?
                     <>
                       <Button
                       leftIcon={<RiPencilFill />}
@@ -129,7 +129,6 @@ export function QuestionsAndAnswers(props) {
                       </Button>
                       <Button
                         colorScheme='red'
-                        marginLeft="100%"
                         size='sm'
                         ml='3'
                         onClick={() => {
@@ -175,9 +174,9 @@ export function QuestionsAndAnswers(props) {
               {(companyId === props.companyID) ?
                 <Button
                   leftIcon={<RiPencilFill />}
-                  marginLeft="100%"
+                  align='right'
                   size='sm'
-                  ml='3'
+                  ml='auto'
                   onClick={() => {
                     setAnswer(qanda.answer);
                     setId(qanda.id);
