@@ -44,7 +44,7 @@ from .GetUserData import *
 from .Logout import *
 from .StallMessages import *
 from .Upvote import *
-from .DeleteCareerFair import *
+from .EditCareerFair import *
 from .Answer import *
 from .Question import *
 
@@ -76,7 +76,7 @@ urlpatterns = [
     path("user/data/", userData.as_view()),
     #
     path("careerfairs/delete/stalls/", delete_stall),
-    path("careerfairs/delete/<int:eventId>/", DeleteCareerFair.as_view()),
+    path("careerfairs/edit/<int:eventId>/", EditCareerFair.as_view()),
     path("careerfairs/applications/", Approvals.as_view()),
     path("careerfairs/stalls/<int:stallId>/", get_stall_data),
     path("careerfairs/<int:eventId>/stalls/", StallList.as_view()),
