@@ -80,6 +80,7 @@ class University(APIView):
         operation_description="University must be owned by caller or 403",
     )
     def put(self, request, universityId, format=None):
+        # checks for university ownership prior to put details
         if request.user.user_type != 1:
             return Response({"Forbidden": "Incorrect user type"}, status=403)
         university = get_object_or_404(Universities, pk=universityId)

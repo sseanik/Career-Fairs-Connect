@@ -85,10 +85,9 @@ class Student(APIView):
         operation_description="Student profile must be the same as caller or 403",
     )
     def put(self, request, studentId, format=None):
-
+        # checks for university ownership prior to put details
         if request.user.user_type != 0:
             return Response({"Forbidden": "Incorrect user type"}, status=403)
-        # require auth
         student = get_object_or_404(Students, pk=studentId)
         userStudentId = Students.objects.get(user_id=request.user.userID).student_id
         if int(studentId) != userStudentId:
