@@ -114,6 +114,7 @@ function EventCards() {
     }
   };
 
+  //filter the events so that student and university cannot see the events held by other universities
   const filteredData = () => {
     switch (userDetails.role) {
       case 'Student':

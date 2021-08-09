@@ -1,3 +1,6 @@
+// This file is in charge of making all requests related to events
+// and store the data received.
+
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import axios from 'axios';
 
@@ -75,6 +78,7 @@ export const asyncDeleteFairEvent = createAsyncThunk(
   }
 );
 
+/* -------------------------------- Set event states in Redux -------------------------------- */
 const initialState = {
   loading: false,
   status: false,
