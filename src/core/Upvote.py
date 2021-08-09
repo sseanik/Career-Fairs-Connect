@@ -22,7 +22,7 @@ class Upvote(APIView):
         userId = request.user.userID
         get_object_or_404(Stalls, pk=stallId)
         message = get_object_or_404(QAMessages, pk=postId)
-
+        # If upvote not exists from user; increment.
         current_upvote = Upvotes.objects.filter(user_id=userId, post_id=postId)
         if not current_upvote:
             new_upvote = {"user_id": userId, "post_id": postId}
@@ -32,7 +32,6 @@ class Upvote(APIView):
                 message.num_upvotes += 1
                 message.save()
                 return Response(serializer.data, status=status.HTTP_200_OK)
-
         return Response("Already upvoted", status=status.HTTP_200_OK)
 
     @swagger_auto_schema(
@@ -40,7 +39,6 @@ class Upvote(APIView):
             204: "Deleted",
         },
         operation_summary="Remove vote",
-        # operation_description="",
     )
     def delete(self, request, stallId, postId, format=None):
         if not request.user.is_authenticated:
@@ -51,7 +49,7 @@ class Upvote(APIView):
         userId = request.user.userID
         get_object_or_404(Stalls, pk=stallId)
         message = get_object_or_404(QAMessages, pk=postId)
-
+        # If upvote exists from user; decrements.
         current_upvote = Upvotes.objects.filter(user_id=userId, post_id=postId)
         if current_upvote:
             current_upvote.delete()
