@@ -110,8 +110,7 @@ class Stalls(models.Model):
     stall_id = models.AutoField(primary_key=True)
     company_id = models.ForeignKey(Companies, on_delete=models.CASCADE)
     event_id = models.ForeignKey(CareerFairs, on_delete=models.CASCADE)
-    approval_status = models.CharField(max_length=20, default='Pending')
-
+    approval_status = models.CharField(max_length=20, default="Pending")
 
 
 class Presentations(models.Model):
@@ -120,6 +119,7 @@ class Presentations(models.Model):
     title = models.CharField(max_length=255)
     color = models.CharField(max_length=255)
     textColor = models.CharField(max_length=255)
+    borderColor = models.CharField(max_length=255, default="black")
     presentation_link = models.CharField(max_length=255)
     start_time = models.DateTimeField()
     end_time = models.DateTimeField()

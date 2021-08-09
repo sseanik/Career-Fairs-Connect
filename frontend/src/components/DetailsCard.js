@@ -18,6 +18,7 @@ import {
   Tag,
   TagLabel,
   TagRightIcon,
+  Text,
   useBreakpointValue,
   useColorMode,
   useDisclosure,
@@ -287,7 +288,9 @@ export const DetailsCard = (props) => {
           </Box>
         )}
 
-        <Box pb='1'>{props.description}</Box>
+        <Text pb='1' noOfLines={2}>
+          {props.description}
+        </Text>
         {props.website && !props.uni && (
           <Tag
             as={Link}

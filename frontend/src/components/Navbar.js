@@ -230,7 +230,7 @@ export default function Navbar(props) {
                   <Menu autoSelect>
                     <MenuButton>
                       <Avatar
-                        bg='blue.400'
+                        bg={userRole === 'Student' ? 'blue' : 'none'}
                         color='white'
                         size='sm'
                         name={`${userFName} ${userLName}`}

@@ -117,7 +117,6 @@ export const asyncAddPresentation = createAsyncThunk(
 export const asyncEditPresentation = createAsyncThunk(
   'stall/editPresentation',
   async ({ presentation, toast }) => {
-    await new Promise((r) => setTimeout(r, 3000));
     const response = await axios({
       method: 'put',
       url: '/presentation/edit/',
@@ -367,6 +366,7 @@ export const stallSlice = createSlice({
           title: payload.title,
           textColor: payload.textColor,
           id: payload.presentation_id,
+          borderColor: payload.textColor,
         });
       })
       // Edit a Presentation
@@ -388,6 +388,7 @@ export const stallSlice = createSlice({
           start: payload.start_time,
           title: payload.title,
           textColor: payload.textColor,
+          borderColor: payload.borderColor,
         };
       })
       // Delete a Presentation

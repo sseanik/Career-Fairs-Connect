@@ -24,6 +24,9 @@ export function StallCard(props) {
   const toast = useToast();
   const { colorMode } = useColorMode();
 
+  console.log('PROPS:');
+  console.log(props);
+
   return (
     <Flex direction='column' justify='center' align='center'>
       <Box
