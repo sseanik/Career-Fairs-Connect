@@ -52,6 +52,7 @@ export function QuestionsAndAnswers(props) {
           toast: toast,
         })
       );
+    setQuestion('')
   };
 
   const postAnswer = (id) => {
