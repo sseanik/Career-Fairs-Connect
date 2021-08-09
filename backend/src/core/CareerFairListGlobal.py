@@ -7,10 +7,7 @@ from drf_yasg import openapi
 from drf_yasg.utils import swagger_auto_schema
 from django.shortcuts import get_object_or_404
 
-<<<<<<< HEAD
 # gets list of career fairs for students/companies
-=======
->>>>>>> a16270bada02e9b7d7150b13db906830681844d2
 
 class CareerFairListGlobal(APIView):
     @swagger_auto_schema(
@@ -33,12 +30,8 @@ class CareerFairListGlobal(APIView):
         operation_summary="Get all career fairs",
 
     )
-<<<<<<< HEAD
 
     # get all career fairs and their details
-=======
-    # need date qualification?
->>>>>>> a16270bada02e9b7d7150b13db906830681844d2
     def get(self, request):
         all_fairs = (
             CareerFairs.objects.order_by("-start_date")
