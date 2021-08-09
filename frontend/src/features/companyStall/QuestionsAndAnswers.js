@@ -29,12 +29,13 @@ export function QuestionsAndAnswers(props) {
   const [isQuestion, setIsQuestion] = React.useState(true)
   const [question, setQuestion] = React.useState('');
   const [answer, setAnswer] = React.useState('');
+  const [modalAnswer, setModalAnswer] = React.useState('');
   const [id, setId] = React.useState('');
   const buttonLoading = useSelector((state) => state.stall.status);
   const toast = useToast();
   const dispatch = useDispatch();
-  const userId = useSelector((state) => state.user.userID)
-  const companyId = useSelector((state) => state.user.companyID)
+  const userId = useSelector((state) => state.user.userID);
+  const companyId = useSelector((state) => state.user.companyID);
 
   const postQuestion = () => {
     question &&
@@ -78,8 +79,8 @@ export function QuestionsAndAnswers(props) {
         stallId={props.stallID}
         questionId={id}
         onClose={onClose}
-        answer={answer}
-        setAnswer={setAnswer}
+        answer={modalAnswer}
+        setAnswer={setModalAnswer}
       />
       }
     </Modal>
@@ -163,6 +164,7 @@ export function QuestionsAndAnswers(props) {
                 isLoading={buttonLoading}
                 loadingText='Submitting'
                 spinnerPlacement='end'
+                colorScheme='green'
               >
                 Submit
               </Button></>
@@ -178,7 +180,7 @@ export function QuestionsAndAnswers(props) {
                   size='sm'
                   ml='auto'
                   onClick={() => {
-                    setAnswer(qanda.answer);
+                    setModalAnswer(qanda.answer);
                     setId(qanda.id);
                     setIsQuestion(false)
                     onOpen();

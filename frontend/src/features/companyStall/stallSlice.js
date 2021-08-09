@@ -205,6 +205,7 @@ export const asyncEditQuestion = createAsyncThunk(
 export const asyncAnswerQuestion = createAsyncThunk(
   'stall/answerQuestion',
   async ({ stallId, questionId, answer, toast }) => {
+    console.log('questionID = ' + questionId)
     const response = await axios({
       method: 'put',
       url: `/questions/answer/${stallId}/${questionId}/`,
@@ -291,6 +292,7 @@ export const stallSlice = createSlice({
         state.website = payload.website;
         state.opportunities = payload.opportunities;
         state.events = payload.presentations;
+        console.log(payload.qandas)
         state.qandas = payload.qandas;
         const dominantColourObj = complementaryTextColour(payload.colour);
         state.bgColour = dominantColourObj.bgColour;
@@ -406,8 +408,14 @@ export const stallSlice = createSlice({
         state.status = true;
       })
       .addCase(asyncPostQuestion.fulfilled, (state, { payload }) => {
+        console.log(payload)
         state.status = false;
-        state.qandas.push(payload);
+        state.qandas.push({
+          id: payload.post_id,
+          question: payload.question,
+          answer: payload.answer,
+          author_id: payload.author_id,
+        });
       })
       .addCase(asyncEditQuestion.pending, (state, { payload }) => {
         state.eventFormStatus = 'Pending';
