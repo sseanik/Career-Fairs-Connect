@@ -33,7 +33,6 @@ class Student(APIView):
             404: "Not found",
         },
         operation_summary="Get student data",
-        # operation_description="",
     )
     def get(self, request, studentId):
         student = get_object_or_404(Students, pk=studentId)

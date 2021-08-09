@@ -22,6 +22,7 @@ import UniSelector from './UniSelector.js';
 //process image
 import { convertImageToBase64, selectBase64Image } from '../auth/logoSlice';
 
+//use yup for form value validation
 const validationSchema = Yup.object({
   website: Yup.string()
     .matches(/^http(s)?:.*$/, 'Website URL is invalid')
@@ -34,6 +35,7 @@ export default function Profile() {
   const history = useHistory();
   const user = useSelector((state) => state.user);
 
+  //transform image to base64 format
   const base64Image = useSelector(selectBase64Image);
 
   const initialValues = {
@@ -42,6 +44,7 @@ export default function Profile() {
     logo: '', //user.logo,
   };
 
+  //update src show the uploaded image
   useEffect(() => {
     const image = document.getElementById('oldLogo');
     image.src = base64Image;

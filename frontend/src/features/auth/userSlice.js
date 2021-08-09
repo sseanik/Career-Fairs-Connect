@@ -1,3 +1,6 @@
+// This file is in charge of making all user-related requests
+//  to backend and store the data received
+
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import axios from 'axios';
 
@@ -247,6 +250,7 @@ export const asyncUpdateStudent = createAsyncThunk(
   }
 );
 
+/* -------------------------------- Set user states in Redux -------------------------------- */
 const initialState = {
   loggedIn: false,
   loading: false,
@@ -344,13 +348,13 @@ export const userSlice = createSlice({
       })
       // Rejected Registers
       .addCase(asyncRegisterUniversity.rejected, (state) => {
-        state.status = true;
+        state.status = false;
       })
       .addCase(asyncRegisterCompany.rejected, (state) => {
-        state.status = true;
+        state.status = false;
       })
       .addCase(asyncRegisterStudent.rejected, (state) => {
-        state.status = true;
+        state.status = false;
       })
       // login
       .addCase(asyncLoginUser.pending, (state) => {
@@ -363,6 +367,10 @@ export const userSlice = createSlice({
       .addCase(asyncLogout.fulfilled, (state) => {
         state.loggedIn = false;
         state.role = '';
+      })
+      // rejected
+      .addCase(asyncLoginUser.rejected, (state) => {
+        state.status = false;
       })
       // Profile Pending
       .addCase(asyncUpdateUniversity.pending, (state) => {

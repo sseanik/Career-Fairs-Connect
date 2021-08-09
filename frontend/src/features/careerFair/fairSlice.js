@@ -1,3 +1,6 @@
+// This file is in charge of making all requests related to fairs
+// and store the data received.
+
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import { prominent } from 'color.js';
 import complementaryTextColour from '../../util/complementaryTextColour';
@@ -143,6 +146,7 @@ export const asyncRemoveCompanyStall = createAsyncThunk(
   }
 );
 
+/* -------------------------------- Set fair states in Redux -------------------------------- */
 const initialState = {
   loading: false,
   status: false,

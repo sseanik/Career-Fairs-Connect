@@ -34,6 +34,7 @@ const initialValues = {
   university: '',
 };
 
+//use yup for form value validation
 const validationSchema = Yup.object({
   firstName: Yup.string().required('First Name is Required').max(32),
   lastName: Yup.string().required('Last Name is Required').max(32),
@@ -193,6 +194,8 @@ export function StudentRegister() {
                     </Text>
                   </Heading>
                 </Flex>
+
+                {/* register forms */}
                 <InputControl name='firstName' label='First Name' />
                 <InputControl name='lastName' label='Last Name' />
                 <InputControl name='email' label='Student Email' />

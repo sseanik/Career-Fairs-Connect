@@ -1,3 +1,5 @@
+// A Fair event template for data mapping
+
 import React from 'react';
 // Chakra
 import { Flex, Skeleton, Stack, useColorMode } from '@chakra-ui/react';
