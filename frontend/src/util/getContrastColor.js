@@ -4,8 +4,6 @@ export default function getContrastColour(rgb) {
   let parsedRGB = baseRGB.substring(4, baseRGB.length - 2);
   let RGBParts = parsedRGB.split(',');
 
-  console.log(rgb);
-
   const brightness = Math.round(
     (parseInt(RGBParts[0]) * 299 +
       parseInt(RGBParts[1]) * 587 +

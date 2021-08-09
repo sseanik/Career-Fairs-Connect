@@ -12,6 +12,7 @@ import {
   Image,
   FormControl,
   FormErrorMessage,
+  Flex,
 } from '@chakra-ui/react';
 import { Field, Formik } from 'formik';
 import * as Yup from 'yup';
@@ -112,30 +113,33 @@ export default function Profile() {
                 align='center'
                 justify='center'
               >
-                <Image
-                  id='oldLogo'
-                  src={user.logo}
-                  alt={`${user.name}-logo`}
-                  boxSize='150px'
-                  objectFit='contain'
-                />
-                <Field name='logo'>
-                  {({ field, form }) => (
-                    <FormControl
-                      id='logo'
-                      isInvalid={form.errors.logo && form.touched.logo}
-                    >
-                      <FormLabel>Update New Logo</FormLabel>
-                      <input
-                        {...field}
-                        type='file'
-                        onChange={(e) => uploadImage(e, setFieldValue)}
-                        accept='.jpeg, .png, .jpg'
-                      ></input>
-                      <FormErrorMessage>{form.errors.logo}</FormErrorMessage>
-                    </FormControl>
-                  )}
-                </Field>
+                <Flex direction={{ base: 'column', md: 'row' }} align='center'>
+                  <Image
+                    id='oldLogo'
+                    src={user.logo}
+                    alt={`${user.name}-logo`}
+                    boxSize='150px'
+                    objectFit='contain'
+                    mr='4'
+                  />
+                  <Field name='logo'>
+                    {({ field, form }) => (
+                      <FormControl
+                        id='logo'
+                        isInvalid={form.errors.logo && form.touched.logo}
+                      >
+                        <FormLabel>Update New Logo</FormLabel>
+                        <input
+                          {...field}
+                          type='file'
+                          onChange={(e) => uploadImage(e, setFieldValue)}
+                          accept='.jpeg, .png, .jpg'
+                        ></input>
+                        <FormErrorMessage>{form.errors.logo}</FormErrorMessage>
+                      </FormControl>
+                    )}
+                  </Field>
+                </Flex>
               </Stack>
 
               <InputControl name='website' label='Website URL' />

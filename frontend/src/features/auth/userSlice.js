@@ -359,7 +359,6 @@ export const userSlice = createSlice({
         state.status = true;
       })
       .addCase(asyncLoginUser.fulfilled, (state) => {
-        console.log('Do i end up here');
         state.loggedIn = true;
         state.status = false;
       })

@@ -80,6 +80,36 @@ export default function Navbar(props) {
       : 'blue';
   };
 
+  const publicNavItems = [
+    {
+      label: 'Landing Page',
+      to: '/',
+    },
+    {
+      label: 'Sign Up',
+      to: '/register',
+    },
+    {
+      label: 'Login',
+      to: '/login',
+    },
+  ];
+
+  const privateNavItems = [
+    {
+      label: 'Events Page',
+      to: '/',
+    },
+    {
+      label: 'Profile',
+      to: profilePath,
+    },
+    {
+      label: 'Logout',
+      to: '/',
+    },
+  ];
+
   const MobileNav = () => {
     return (
       <Stack
@@ -103,7 +133,18 @@ export default function Navbar(props) {
                     as={Link}
                     to={navItem.to}
                     fontWeight={600}
-                    onClick={handleToggle}
+                    onClick={() => {
+                      handleToggle();
+                      if (navItem.label === 'Logout') {
+                        dispatch(
+                          asyncLogout({
+                            token: localStorage.getItem('token'),
+                            history: history,
+                          })
+                        );
+                        dispatch(resetUser());
+                      }
+                    }}
                   >
                     {navItem.label}
                   </Text>
@@ -306,33 +347,3 @@ export default function Navbar(props) {
     </React.Fragment>
   );
 }
-
-const publicNavItems = [
-  {
-    label: 'Landing Page',
-    to: '/',
-  },
-  {
-    label: 'Sign Up',
-    to: '/register',
-  },
-  {
-    label: 'Login',
-    to: '/login',
-  },
-];
-
-const privateNavItems = [
-  {
-    label: 'Events Page',
-    to: '/',
-  },
-  {
-    label: 'Profile',
-    to: '/profile',
-  },
-  {
-    label: 'Logout',
-    to: '/logout',
-  },
-];

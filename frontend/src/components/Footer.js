@@ -7,6 +7,7 @@ import {
   Stack,
   Text,
   Tooltip,
+  useBreakpointValue,
   useColorModeValue,
   VisuallyHidden,
 } from '@chakra-ui/react';
@@ -68,8 +69,25 @@ export default function Footer() {
         justify={{ base: 'center', md: 'space-between' }}
         align={{ base: 'center', md: 'center' }}
       >
-        <Logo w={10} h={10} />
-        <Text>© 2021 Career Fairs Connect. All rights reserved</Text>
+        {useBreakpointValue({
+          base: (
+            <div>
+              <Text>© 2021 Career Fairs Connect</Text>
+            </div>
+          ),
+          md: (
+            <Flex direction='row' align='center'>
+              <Logo w={10} h={10} />
+              <Text ml='2'>
+                © 2021{' '}
+                <Text as='span' fontWeight='semibold'>
+                  Career Fairs Connect
+                </Text>
+                . All rights reserved
+              </Text>
+            </Flex>
+          ),
+        })}
         <Stack
           direction={'row'}
           spacing={6}
