@@ -160,4 +160,4 @@ Note: University must be same as university, when your signed up as University
 
 #### 34. Click question to confirm answer has appeared.
 
-#### Above is simply a happy path showing off the main features. Additional features include the dark mode button. Our features are also fully scalable to enable numerous profiles, career fairs, stalls etc.
+#### Above is simply a happy path showing off the main features. Additional features include the dark mode feature. Our features are also fully scalable to enable numerous profiles, career fairs, stalls etc.
