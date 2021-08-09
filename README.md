@@ -1,4 +1,5 @@
 
+
 # Career Fairs Connect
 
 [![Django CI](https://github.com/af-af/Online-Careers-Fair/actions/workflows/django.yml/badge.svg)](https://github.com/af-af/Online-Careers-Fair/actions/workflows/django.yml)
@@ -40,7 +41,7 @@ Requirements: Python version 3.7 or above
 
 #### 3. start the virtual environment
     
-    $ source bin/activate
+	$ source bin/activate
     
 #### 4. Install required packages
 
@@ -63,15 +64,15 @@ Requirements: Python version 3.7 or above
 
 ### Frontend Setup 
 
-#### 9. Open another terminal and change directory to the frontend folder
+#### 8. Open another terminal and change directory to the frontend folder
 
     $ cd /your_path_to_this_folder/Online-Career-Fairs/frontend
 
-#### 10. Install the requirements
+#### 9. Install the requirements
 
     $ yarn install
 
-#### 11. Start the project
+#### 10. Start the project
 
     $ yarn start
 
@@ -82,3 +83,72 @@ Requirements: Python version 3.7 or above
 ## API documentation
 
 While the project backend is running, visit http://127.0.0.1:8000/swagger/ in the browser to see Swagger API documentation.
+
+## Step by Step Instructions (Happy Path)
+
+#### 1. Navigate to http://localhost:3000. Scroll through page for brief overview of project. 
+
+#### 2. Press "Sign Up" on top of the page.
+
+#### 3. Press I am an University
+
+#### 4. Fill in details and register
+Please note down details
+Note: Website URL should include protocol (e.g https://www.google.com)
+
+#### 5. Sign in with University details
+
+#### 6. Press "Create Event" and submit after filling in details. 
+
+#### 7. Browse to http://localhost:3000 on incognito window 
+
+#### 8. Sign up as Employer
+Please note down details
+Note: Website URL should include protocol (e.g https://www.google.com)
+
+#### 9. Login with Employer details
+
+#### 10. As Employer, click on the event you made as University.
+
+#### 11. Click on "Apply Company Stall"
+
+#### 12. As University click on the event you created.
+
+#### 13. Click "Approve". "Set pending" allows us to change their approval status later.
+
+#### 14. As Employer click on our stall that has now been approved.
+
+#### 15. Click "Add Opportunity"
+
+#### 16. Fill and submit opportunity. 	
+Note: protocol required for "Application Link" (e.g https://) 
+
+#### 17. Click "Presentation Calendar" tab.
+
+#### 18. Click "Week" sub tab.
+
+#### 19. Click and drag time you want presentation to be.
+Note: We purposefully disallowed presentations spanning over multiple days.
+
+#### 20. Fill out details and submit.
+
+#### 21. Open a separate Browser and visit http://localhost:3000 again
+
+#### 22. Sign up and login as a student.
+
+
+#### 23.
+#### 24.
+#### 25.
+#### 26.
+#### 27.
+#### 28.
+#### 29.
+#### 30.
+#### 31.
+#### 32.
+#### 33.
+#### 34.
+#### 35.
+#### 36.
+#### 37.
