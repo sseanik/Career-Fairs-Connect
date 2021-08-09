@@ -128,6 +128,7 @@ Note: protocol required for "Application Link" (e.g https://)
 #### 18. Click "Week" sub tab.
 
 #### 19. Click and drag time you want presentation to be.
+Note: protocol required for Presentation Link (e.g https://) 
 Note: We purposefully disallowed presentations spanning over multiple days.
 
 #### 20. Fill out details and submit.
