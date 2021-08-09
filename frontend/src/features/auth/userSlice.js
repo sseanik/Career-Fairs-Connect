@@ -285,6 +285,7 @@ export const userSlice = createSlice({
         state.loading = true;
       })
       .addCase(asyncFetchUserData.fulfilled, (state, { payload }) => {
+        console.log(payload);
         state.loading = false;
         state.loggedIn = true;
         state.role = payload.user_type;
@@ -298,6 +299,7 @@ export const userSlice = createSlice({
             state.studentID = payload.student_id;
             state.wam = payload.wam;
             state.degree = payload.degree;
+            state.logo = payload.student_logo_64;
             break;
           case 'Company':
             state.companyID = payload.company_id;

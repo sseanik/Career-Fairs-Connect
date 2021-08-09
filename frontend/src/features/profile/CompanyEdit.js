@@ -5,12 +5,12 @@ import {
   Stack,
   Container,
   Heading,
+  FormLabel,
   Button,
   useToast,
   //Image
   Image,
   FormControl,
-  FormLabel,
   FormErrorMessage,
 } from '@chakra-ui/react';
 import { Field, Formik } from 'formik';
@@ -34,7 +34,6 @@ const validationSchema = Yup.object({
 export default function Profile() {
   const history = useHistory();
   const user = useSelector((state) => state.user);
-
   const base64Image = useSelector(selectBase64Image);
 
   const initialValues = {
