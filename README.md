@@ -26,49 +26,49 @@ Visit https://docs.docker.com/get-docker/ and download Docker for your operating
 
 ### Backend Setup
 
-#### 1. Start by installing virtualenv if you don't have it
-    pip install virtualenv
-
-#### 2. Change directory to the project backend folder
+#### 1. Change directory to the project backend folder
     cd /your_path_to_this_folder/Online-Career-Fairs/backend
 
-#### 3. Set up the virtual environment by running
-    virtualenv env
+#### 2. Set up the virtual environment by running
+    python3 -m venv env
+https://docs.python.org/3/library/venv.html
 
-#### 4. start the virtual environment
+NOTE python3 may be replaced with alternatives (e.g py)
 
-    source bin/activate
+#### 3. start the virtual environment
 
-#### 5. Install required packages
+    .\env\Scripts\Activate.ps1
+
+#### 4. Install required packages
 
 ###### While the virtual environment is active, install required packages into your virtual environment. It may take several minutes to install
 
-    pip install -r ../requirements.txt
+    pip install -r requirements.txt
 
-#### 6. Go to src directory
+#### 5. Go to src directory
     cd src/
 ###### Now when you run ```ls``` , you should be able to see a ```manage.py``` file
 
-#### 7. Use makemigrations on the app
+#### 6. Use makemigrations on the app
     python3 manage.py makemigrations
 
-#### 8. Migrate the app
+#### 7. Migrate the app
     python3 manage.py migrate
 
-#### 9. You are now good to run the backend server with
+#### 8. You are now good to run the backend server with
     python3 manage.py runserver
 
 ### Frontend Setup 
 
-#### 10. Open another terminal and change directory to the frontend folder
+#### 9. Open another terminal and change directory to the frontend folder
 
     cd /your_path_to_this_folder/Online-Career-Fairs/frontend
 
-#### 11. Install the requirements
+#### 10. Install the requirements
 
     yarn install
 
-#### 12. Start the project
+#### 11. Start the project
 
     yarn start
 
@@ -99,7 +99,7 @@ Note: Website URL should include protocol (e.g https://www.google.com)
 #### 7. Browse to http://localhost:3000 on incognito window .
 
 #### 8. Sign up as Employer.
-Please note down details
+Please note down details.
 Note: Website URL should include protocol (e.g https://www.google.com)
 
 #### 9. Login with Employer details.
@@ -117,14 +117,14 @@ Note: Website URL should include protocol (e.g https://www.google.com)
 #### 15. Click "Add Opportunity".
 
 #### 16. Fill and submit opportunity. 	
-Note: protocol required for "Application Link" (e.g https://) 
+Note: protocol required for "Application Link" (e.g https://).
 
 #### 17. Click "Presentation Calendar" tab.
 
 #### 18. Click "Week" sub tab.
 
 #### 19. Click and drag time you want presentation to be.
-Note: protocol required for Presentation Link (e.g https://) 
+Note: protocol required for Presentation Link (e.g https://).
 Note: We purposefully disallowed presentations spanning over multiple days.
 
 #### 20. Fill out details and submit.
