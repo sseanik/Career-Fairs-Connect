@@ -59,6 +59,8 @@ from drf_yasg.utils import swagger_auto_schema
         "GET",
     ]
 )
+
+# get all the data of a particlar stall
 def get_career_fair_data(request, eventId):
     if not request.user.is_authenticated:
         return Response(
@@ -80,11 +82,8 @@ def get_career_fair_data(request, eventId):
         "website": career_fair_dict["university_site_url"],
         "logo": career_fair_dict["university_logo_64"],
     }
-
-    # student token: Token 094788c5ceb4196699c1d48e573a350ddc1d47c9
-    # uni token: Token 5b4b9e769b98553502f6e7184d3faaf592b90b2e
-    # company token (rejected): Token 8e8f0363827874654f7d5a56f2136bd76ecc7cc2
-    # company token (accepted): Token 1548e60f044c132da92a2810d0643312ea6b2418
+    
+    # check type of user, return different information based off it
     if request.user.user_type == User.STUDENT:
         stalls = list(
             Stalls.objects.filter(event_id=eventId, approval_status="Approved").values()
@@ -103,25 +102,23 @@ def get_career_fair_data(request, eventId):
         stalls = list(Stalls.objects.filter(event_id=eventId).values())
 
     stalls_id_set = set()
-    # for stall in stalls:
 
+    # prepare stall data
     for i, stall in enumerate(stalls):
         # print(stall)
         stall_presentations = list(
             Presentations.objects.filter(stall_id=stall["stall_id"])
         )
+        # check if presentation occur for stall
         stall["live"] = False
         for presentation in stall_presentations:
             tmp_dict = model_to_dict(presentation)
-            # print(tmp_dict['start_time'])
-            # print(tmp_dict['end_time'])
             if (
                 timezone.now() > tmp_dict["start_time"]
                 and timezone.now() < tmp_dict["end_time"]
             ):
                 stall["live"] = True
-        # stall['company_details'] =
-        # company = Companies.objects.filter(company_id__in=stall['company_id_id'])
+
         company = get_object_or_404(Companies, company_id=stall["company_id_id"])
         company_dict = model_to_dict(company)
         stall.update(company_dict)
@@ -135,9 +132,9 @@ def get_career_fair_data(request, eventId):
             "description": stall["company_description"],
         }
 
-        # company_object['company_details'] = company
     stalls_list = list(stalls_id_set)
 
+    # get list of presentations for all stalls in event
     try:
         presentations = list(
             Presentations.objects.filter(stall_id__in=stalls_list).values()

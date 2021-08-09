@@ -6,6 +6,8 @@ from rest_framework.permissions import IsAuthenticated
 from drf_yasg import openapi
 from drf_yasg.utils import swagger_auto_schema
 
+# logout 
+
 class Logout(APIView):
     @swagger_auto_schema(
         responses={
@@ -15,6 +17,7 @@ class Logout(APIView):
     )
     def get(self, request, format=None):
         if request.user.is_authenticated:
+            # delete token
             request.user.auth_token.delete()
             body = {
                 "message" : "Successful Logout"

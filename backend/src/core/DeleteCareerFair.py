@@ -9,6 +9,8 @@ from django.shortcuts import get_object_or_404
 from rest_framework.authentication import TokenAuthentication, SessionAuthentication
 from rest_framework.permissions import IsAuthenticated
 
+# to delete a career fair
+
 class DeleteCareerFair(APIView):
     authentication_classes = [TokenAuthentication, SessionAuthentication]
     permission_classes = [IsAuthenticated]
@@ -26,6 +28,7 @@ class DeleteCareerFair(APIView):
             return Response({"Forbidden" : "Incorrect user_type"}, status=403)
         careerfair = get_object_or_404(CareerFairs, pk=eventId)
         requestUserUniversity = careerfair.university_id.university_id
+        # find career fair
         careerFairOwner = CareerFairs.objects.get(event_id = eventId).university_id.university_id
         if requestUserUniversity != careerFairOwner:
             return Response({"Forbidden" : "Stall does not belong to user"}, status=403)

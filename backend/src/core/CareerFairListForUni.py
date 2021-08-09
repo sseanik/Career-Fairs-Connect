@@ -9,6 +9,7 @@ from drf_yasg import openapi
 from drf_yasg.utils import swagger_auto_schema
 from django.shortcuts import get_object_or_404
 
+# get all career fairs for university/create ew fair
 
 class CareerFairListForUni(APIView):
     authentication_classes = [TokenAuthentication, SessionAuthentication]
@@ -27,11 +28,13 @@ class CareerFairListForUni(APIView):
         operation_summary="University self owned career fairs",
         operation_description="Returns career fairs and details for career fairs owned by caller",
     )
+    # gets all career fairs for university
     def get (self, request, *args, **kwargs):
         if request.user.user_type != 1:
             return Response(status=403)
         try:
             university = Universities.objects.get(user_id = request.user.userID).university_id
+            # search for career fairs
             ownevents = CareerFairs.objects.order_by('-start_date').filter(university_id=university)
         except:
             return Response({}, status=200)
@@ -42,6 +45,8 @@ class CareerFairListForUni(APIView):
         operation_summary="Create new career fair",
         # operation_description="",
     )
+
+    # create new career fair
     def post(self, request, universityId, format=None):
 
         request.data["university_id"] = universityId
