@@ -33,7 +33,6 @@ class CareerFairListForUni(APIView):
         operation_summary="University self owned career fairs",
         operation_description="Returns career fairs and details for career fairs owned by caller",
     )
-<<<<<<< HEAD
     # gets all career fairs for university
     def get (self, request, *args, **kwargs):
         if request.user.user_type != 1:
@@ -42,18 +41,6 @@ class CareerFairListForUni(APIView):
             university = Universities.objects.get(user_id = request.user.userID).university_id
             # search for career fairs
             ownevents = CareerFairs.objects.order_by('-start_date').filter(university_id=university)
-=======
-    def get(self, request, *args, **kwargs):
-        if request.user.user_type != 1:
-            return Response(status=403)
-        try:
-            university = Universities.objects.get(
-                user_id=request.user.userID
-            ).university_id
-            ownevents = CareerFairs.objects.order_by("-start_date").filter(
-                university_id=university
-            )
->>>>>>> a16270bada02e9b7d7150b13db906830681844d2
         except:
             return Response({}, status=200)
         serializer = CareerFairSerializer(ownevents, many=True)

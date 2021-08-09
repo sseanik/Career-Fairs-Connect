@@ -8,10 +8,7 @@ from rest_framework.permissions import IsAuthenticated
 from drf_yasg import openapi
 from drf_yasg.utils import swagger_auto_schema
 
-<<<<<<< HEAD
 # get details of particular company stall
-=======
->>>>>>> a16270bada02e9b7d7150b13db906830681844d2
 
 class CompanyStallData(APIView):
     authentication_classes = [TokenAuthentication, SessionAuthentication]
