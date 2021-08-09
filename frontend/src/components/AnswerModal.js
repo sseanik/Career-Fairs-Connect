@@ -20,7 +20,6 @@ export function AnswerModal(props) {
   const toast = useToast();
 
   const editAnswer = () => {
-    console.log(props)
     props.answer &&
       dispatch(asyncAnswerQuestion({ questionId: props.questionId, stallId: props.stallId, 
       answer: {

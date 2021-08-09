@@ -33,6 +33,7 @@ export function QuestionsAndAnswers(props) {
   const [isQuestion, setIsQuestion] = React.useState(true);
   const [question, setQuestion] = React.useState('');
   const [answer, setAnswer] = React.useState('');
+  const [modalAnswer, setModalAnswer] = React.useState('');
   const [id, setId] = React.useState('');
   const buttonLoading = useSelector((state) => state.stall.status);
   const toast = useToast();
@@ -51,7 +52,6 @@ export function QuestionsAndAnswers(props) {
           toast: toast,
         })
       );
-    setQuestion('');
   };
 
   const postAnswer = (id) => {
@@ -65,8 +65,7 @@ export function QuestionsAndAnswers(props) {
           },
           toast: toast,
         })
-      );
-    setAnswer('');
+      ).then(setAnswer(''));
   };
 
   const deleteQuestion = (id) => {
@@ -99,8 +98,8 @@ export function QuestionsAndAnswers(props) {
             stallId={props.stallID}
             questionId={id}
             onClose={onClose}
-            answer={answer}
-            setAnswer={setAnswer}
+            answer={modalAnswer}
+            setAnswer={setModalAnswer}
           />
         )}
       </Modal>
@@ -133,7 +132,7 @@ export function QuestionsAndAnswers(props) {
               key={`qanda-${idx}`}
             >
               <Flex align='center'>
-                <AccordionButton>
+                <AccordionButton as='div'>
                   <Box flex='1' textAlign='left' fontWeight='semibold'>
                     {qanda.question}
                   </Box>
@@ -187,6 +186,7 @@ export function QuestionsAndAnswers(props) {
                       isLoading={buttonLoading}
                       loadingText='Submitting'
                       spinnerPlacement='end'
+                      colorScheme='green'
                     >
                       Submit
                     </Button>
@@ -201,7 +201,7 @@ export function QuestionsAndAnswers(props) {
                         size='sm'
                         ml='auto'
                         onClick={() => {
-                          setAnswer(qanda.answer);
+                          setModalAnswer(qanda.answer);
                           setId(qanda.id);
                           setIsQuestion(false);
                           onOpen();
