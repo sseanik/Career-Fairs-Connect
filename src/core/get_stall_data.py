@@ -33,7 +33,7 @@ from drf_yasg.utils import swagger_auto_schema
                 "presentations": openapi.Schema(
                     type=openapi.TYPE_ARRAY,
                     items=openapi.Items(
-                        type="id, title, start, end, description, link, color, textColor, live"
+                        type="id, title, start, end, description, link, color, textColor, borderColor, live"
                     ),
                 ),
                 "qandas": openapi.Schema(
@@ -87,6 +87,7 @@ def get_stall_data(request, stallId):
             "link": presentation["presentation_link"],
             "color": presentation["color"],
             "textColor": presentation["textColor"],
+            "borderColor": presentation["borderColor"],
             "live": False,
         }
 
