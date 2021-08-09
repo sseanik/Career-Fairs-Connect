@@ -14,4 +14,3 @@ admin.site.register(Students)
 admin.site.register(Opportunities)
 admin.site.register(QAMessages)
 admin.site.register(Students_opportunities)
-

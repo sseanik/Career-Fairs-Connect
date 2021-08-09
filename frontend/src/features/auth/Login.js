@@ -185,7 +185,7 @@ export default function Login() {
                             pr='4.5rem'
                             color={textColor}
                             type={show ? 'text' : 'password'}
-                            // placeholder="Enter password"
+                          // placeholder="Enter password"
                           />
                           <InputRightElement width='4.5rem'>
                             <Button

@@ -102,38 +102,38 @@ export function OpportunityModal(props) {
   const submitForm = (values, actions) => {
     props.edit
       ? dispatch(
-          asyncEditOpportunity({
-            opportunity: {
-              job_id: props.id,
-              type: values.type,
-              role: values.role,
-              location: values.location,
-              wam: values.wam === 'None' ? null : values.wam,
-              expiry: new Date(values.expiry).getTime(),
-              application_link: values.link,
-              job_description: values.description,
-              stall_id: props.stallID,
-            },
-            stallID: props.stallID,
-            toast: toast,
-          })
-        )
+        asyncEditOpportunity({
+          opportunity: {
+            job_id: props.id,
+            type: values.type,
+            role: values.role,
+            location: values.location,
+            wam: values.wam === 'None' ? null : values.wam,
+            expiry: new Date(values.expiry).getTime(),
+            application_link: values.link,
+            job_description: values.description,
+            stall_id: props.stallID,
+          },
+          stallID: props.stallID,
+          toast: toast,
+        })
+      )
       : dispatch(
-          asyncAddOpportunity({
-            opportunity: {
-              type: values.type,
-              role: values.role,
-              location: values.location,
-              wam: values.wam === 'None' ? null : values.wam,
-              expiry: new Date(values.expiry).getTime(),
-              application_link: values.link,
-              job_description: values.description,
-              stall_id: props.stallID,
-            },
-            stallID: props.stallID,
-            toast: toast,
-          })
-        );
+        asyncAddOpportunity({
+          opportunity: {
+            type: values.type,
+            role: values.role,
+            location: values.location,
+            wam: values.wam === 'None' ? null : values.wam,
+            expiry: new Date(values.expiry).getTime(),
+            application_link: values.link,
+            job_description: values.description,
+            stall_id: props.stallID,
+          },
+          stallID: props.stallID,
+          toast: toast,
+        })
+      );
     closeModal();
   };
 

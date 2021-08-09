@@ -51,16 +51,16 @@ export function StallCard(props) {
               ? 'gray.200'
               : 'gray.800'
             : colorMode === 'light'
-            ? 'white'
-            : 'gray.700'
+              ? 'white'
+              : 'gray.700'
         }
         _hover={{
           background:
             colorMode === 'light'
               ? 'gray.100'
               : props.pending === 'Rejected' || props.pending === 'Pending'
-              ? 'gray.900'
-              : 'gray.600',
+                ? 'gray.900'
+                : 'gray.600',
         }}
         as={Link}
         to={`/stall/${props.id}`}
@@ -151,19 +151,19 @@ export function StallCard(props) {
               onClick={() =>
                 props.pending === 'Pending'
                   ? dispatch(
-                      asyncToggleEventPending({
-                        id: props.id,
-                        approval_status: 'Approved',
-                        toast: toast,
-                      })
-                    )
+                    asyncToggleEventPending({
+                      id: props.id,
+                      approval_status: 'Approved',
+                      toast: toast,
+                    })
+                  )
                   : dispatch(
-                      asyncToggleEventPending({
-                        id: props.id,
-                        approval_status: 'Pending',
-                        toast: toast,
-                      })
-                    )
+                    asyncToggleEventPending({
+                      id: props.id,
+                      approval_status: 'Pending',
+                      toast: toast,
+                    })
+                  )
               }
             >
               {props.pending === 'Pending' ? 'Approve' : 'Set Pending'}
