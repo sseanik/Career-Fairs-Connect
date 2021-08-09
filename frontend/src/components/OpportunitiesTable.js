@@ -26,6 +26,7 @@ export function OpportunitiesTable(props) {
     },
   };
 
+  //define the oppotunity object
   const columns = {
     type: {
       title: 'Type',
@@ -68,6 +69,7 @@ export function OpportunitiesTable(props) {
         link={activeRow.link}
         description={activeRow.description}
         stallID={props.fairID}
+        companyID={userDetails.companyID}
         edit
       />
       <Table

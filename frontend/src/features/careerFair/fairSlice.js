@@ -1,3 +1,6 @@
+// This file is in charge of making all requests related to fairs
+// and store the data received.
+
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import { prominent } from 'color.js';
 import complementaryTextColour from '../../util/complementaryTextColour';
@@ -37,7 +40,8 @@ export const asyncEditFairEvent = createAsyncThunk(
       status: 'success',
       isClosable: true,
     });
-    return response;
+    const data = await response.data;
+    return data;
   }
 );
 
@@ -45,8 +49,6 @@ export const asyncEditFairEvent = createAsyncThunk(
 export const asyncToggleEventPending = createAsyncThunk(
   'fair/togglePending',
   async ({ id, approval_status, toast }) => {
-    console.log(approval_status);
-
     const response = await axios({
       method: 'put',
       url: '/careerfairs/applications/',
@@ -104,8 +106,6 @@ export const asyncAddCompanyStall = createAsyncThunk(
 
     const data = await response.data;
 
-    console.log(response.data);
-
     return {
       data: data,
       logo: logo,
@@ -146,6 +146,7 @@ export const asyncRemoveCompanyStall = createAsyncThunk(
   }
 );
 
+/* -------------------------------- Set fair states in Redux -------------------------------- */
 const initialState = {
   loading: false,
   status: false,
@@ -189,7 +190,7 @@ export const fairSlice = createSlice({
         state.website = payload.website;
         state.logo = payload.logo;
         state.stalls = payload.stalls;
-        state.events = payload.events;
+        state.events = payload.presentations;
         state.opportunities = payload.opportunities;
         const dominantColourObj = complementaryTextColour(payload.colour);
         state.bgColour = dominantColourObj.bgColour;
@@ -218,7 +219,7 @@ export const fairSlice = createSlice({
       .addCase(asyncAddCompanyStall.fulfilled, (state, { payload }) => {
         state.status = false;
         state.stalls.push({
-          pending: payload.data.approval_status,
+          approval_status: payload.data.approval_status,
           company: payload.company,
           description: payload.description,
           id: payload.data.stall_id,

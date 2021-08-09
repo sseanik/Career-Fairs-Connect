@@ -197,6 +197,7 @@ function Register() {
                       I am a University
                     </Button>
                   </VStack>
+
                 </Flex>
               </Fade>
             </Box>

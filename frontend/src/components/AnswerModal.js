@@ -21,26 +21,37 @@ export function AnswerModal(props) {
 
   const editAnswer = () => {
     props.answer &&
-      dispatch(asyncAnswerQuestion({ id: props.id, answer: props.answer, toast: toast }));
+      dispatch(asyncAnswerQuestion({
+        questionId: props.questionId, stallId: props.stallId,
+        answer: {
+          answer: props.answer
+        }, toast: toast
+      }));
   };
 
   const submitForm = () => {
     editAnswer({
-    qandas: {
-      id: props.id,
-      answer: props.answer
-    },
-    toast: toast
+      qandas: {
+        questionId: props.questionId,
+        stallId: props.stallId,
+        answer: props.answer
+      },
+      toast: toast
     })
     props.setAnswer("");
     props.onClose();
   }
 
   return (
-    <ModalContent>
+    <ModalContent p='15px'>
       <ModalCloseButton />
       <Text mb='8px' fontWeight='semibold'>
-        Edit your Answer:
+        {props.firstAnswer ?
+        'Answer Question'
+          :
+        'Edit your Answer'
+        }
+        
       </Text>
       <Textarea
         value={props.answer}
@@ -55,6 +66,7 @@ export function AnswerModal(props) {
         isLoading={buttonLoading}
         loadingText='Submitting'
         spinnerPlacement='end'
+        colorScheme='green'
       >
         Submit
       </Button>

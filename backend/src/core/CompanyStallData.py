@@ -8,23 +8,31 @@ from rest_framework.permissions import IsAuthenticated
 from drf_yasg import openapi
 from drf_yasg.utils import swagger_auto_schema
 
+# get details of particular company stall
+
 class CompanyStallData(APIView):
     authentication_classes = [TokenAuthentication, SessionAuthentication]
     permission_classes = [IsAuthenticated]
-    
-    @swagger_auto_schema(responses= {
-        200 : openapi.Schema(type=openapi.TYPE_OBJECT,properties={
-            "company_id": openapi.Schema(type=openapi.TYPE_NUMBER),
-            "event_id": openapi.Schema(type=openapi.TYPE_NUMBER),
-            "stall_description": openapi.Schema(type=openapi.TYPE_STRING),
-            "approval_status": openapi.Schema(type=openapi.TYPE_STRING),
-        }),
-        401 : "Unauthorized"
+
+    @swagger_auto_schema(
+        responses={
+            200: openapi.Schema(
+                type=openapi.TYPE_OBJECT,
+                properties={
+                    "company_id": openapi.Schema(type=openapi.TYPE_NUMBER),
+                    "event_id": openapi.Schema(type=openapi.TYPE_NUMBER),
+                    "stall_description": openapi.Schema(type=openapi.TYPE_STRING),
+                    "approval_status": openapi.Schema(type=openapi.TYPE_STRING),
+                },
+            ),
+            401: "Unauthorized",
         },
         operation_summary="Get company stall data",
         operation_description="Deprecated - see get_stall_data",
     )
+
+    # get details of company stall
     def get(self, request, stallId, format=None):
         stallData = Stalls.objects.all()
         serializer = StallsSerializer(stallData, many=True)
-        return Response(serializer.data, status = 200)
+        return Response(serializer.data, status=200)

@@ -12,6 +12,7 @@ from django.utils import timezone
 from drf_yasg import openapi
 from drf_yasg.utils import swagger_auto_schema
 
+# get data for particular stall
 
 @swagger_auto_schema(
     method="get",
@@ -33,7 +34,7 @@ from drf_yasg.utils import swagger_auto_schema
                 "presentations": openapi.Schema(
                     type=openapi.TYPE_ARRAY,
                     items=openapi.Items(
-                        type="id, title, start, end, description, link, colour, live"
+                        type="id, title, start, end, description, link, color, textColor, borderColor, live"
                     ),
                 ),
                 "qandas": openapi.Schema(
@@ -64,10 +65,11 @@ def get_stall_data(request, stallId):
     company_object = get_object_or_404(Companies, pk=tmp_dict["company_id"])
     tmp_dict.update(model_to_dict(company_object))
 
-    # make api neater
+    # make api neater, return profile details
     return_dict = {
         "fairID": tmp_dict["event_id"],
         "company": tmp_dict["company_name"],
+        "companyID": tmp_dict["company_id"],
         "logo": tmp_dict["company_logo_64"],
         "website": tmp_dict["company_webpage_url"],
         "live": False,
@@ -75,6 +77,7 @@ def get_stall_data(request, stallId):
         "description": tmp_dict["company_description"],
     }
 
+    # get all presentations for event
     presentations = list(Presentations.objects.filter(stall_id=stallId).values())
     for i, presentation in enumerate(presentations):
         presentations[i] = {
@@ -85,6 +88,8 @@ def get_stall_data(request, stallId):
             "description": presentation["presentation_description"],
             "link": presentation["presentation_link"],
             "color": presentation["color"],
+            "textColor": presentation["textColor"],
+            "borderColor": presentation["borderColor"],
             "live": False,
         }
 
@@ -95,6 +100,7 @@ def get_stall_data(request, stallId):
             presentations[i]["live"] = True
             return_dict["live"] = True
 
+    # get all opportunities for event
     opportunities = list(Opportunities.objects.filter(stall_id=stallId).values())
     for i, opportunity in enumerate(opportunities):
         opportunities[i] = {
@@ -108,11 +114,13 @@ def get_stall_data(request, stallId):
             "description": opportunity["job_description"],
         }
 
+    # get all questions/answers for event
     QAmessages = list(QAMessages.objects.filter(stall_id=stallId).values())
 
     for i, QAmessage in enumerate(QAmessages):
         QAmessages[i] = {
             "id": QAmessage["post_id"],
+            "author_id": QAmessage["author_id_id"],
             "question": QAmessage["question"],
             "answer": QAmessage["answer"],
         }

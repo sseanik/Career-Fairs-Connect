@@ -6,6 +6,8 @@ import {
   Link,
   Stack,
   Text,
+  Tooltip,
+  useBreakpointValue,
   useColorModeValue,
   VisuallyHidden,
 } from '@chakra-ui/react';
@@ -13,6 +15,7 @@ import { IoMdSchool } from 'react-icons/io';
 import { GiSheep } from 'react-icons/gi';
 
 import { Logo } from './Logo';
+import { useSelector } from 'react-redux';
 
 const SocialButton = ({ children, label, href }) => {
   return (
@@ -37,6 +40,8 @@ const SocialButton = ({ children, label, href }) => {
 };
 
 export default function Footer() {
+  const userRole = useSelector((state) => state.user.role);
+
   return (
     <Box
       bg={useColorModeValue('gray.50', 'gray.900')}
@@ -47,7 +52,13 @@ export default function Footer() {
       bottom={0}
       min-height={'calc(100vh - 34px)'}
       borderBottom='6px solid'
-      borderBottomColor='blue.400'
+      borderBottomColor={
+        userRole === 'University'
+          ? 'orange.400'
+          : userRole === 'Company'
+            ? 'green.400'
+            : 'blue.400'
+      }
     >
       <Container
         as={Stack}
@@ -58,8 +69,25 @@ export default function Footer() {
         justify={{ base: 'center', md: 'space-between' }}
         align={{ base: 'center', md: 'center' }}
       >
-        <Logo w={10} h={10} />
-        <Text>© 2021 Career Fairs Connect. All rights reserved</Text>
+        {useBreakpointValue({
+          base: (
+            <div>
+              <Text>© 2021 Career Fairs Connect</Text>
+            </div>
+          ),
+          md: (
+            <Flex direction='row' align='center'>
+              <Logo w={10} h={10} />
+              <Text ml='2'>
+                © 2021{' '}
+                <Text as='span' fontWeight='semibold'>
+                  Career Fairs Connect
+                </Text>
+                . All rights reserved
+              </Text>
+            </Flex>
+          ),
+        })}
         <Stack
           direction={'row'}
           spacing={6}
@@ -67,36 +95,34 @@ export default function Footer() {
           align='center'
           justify='center'
         >
-          <Flex
-            as={Link}
-            direction={'row'}
-            align='center'
-            justify='center'
-            href='https://webcms3.cse.unsw.edu.au/COMP9323/21T2/'
-            isExternal
-          >
-            <SocialButton label={'Webcms3'} as='div'>
-              <GiSheep />
-            </SocialButton>
-            <Text size='sm' ml='2'>
-              Webcms
-            </Text>
-          </Flex>
-          <Flex
-            as={Link}
-            direction={'row'}
-            align='center'
-            justify='center'
-            href='https://www.unsw.edu.au/'
-            isExternal
-          >
-            <SocialButton label={'UNSW'} as='div'>
-              <IoMdSchool />
-            </SocialButton>
-            <Text size='sm' ml='2'>
-              UNSW
-            </Text>
-          </Flex>
+          <Tooltip label='WebCMS' fontSize='sm'>
+            <Flex
+              as={Link}
+              direction={'row'}
+              align='center'
+              justify='center'
+              href='https://webcms3.cse.unsw.edu.au/COMP9323/21T2/'
+              isExternal
+            >
+              <SocialButton label={'Webcms3'} as='div'>
+                <GiSheep />
+              </SocialButton>
+            </Flex>
+          </Tooltip>
+          <Tooltip label='UNSW' fontSize='sm'>
+            <Flex
+              as={Link}
+              direction={'row'}
+              align='center'
+              justify='center'
+              href='https://www.unsw.edu.au/'
+              isExternal
+            >
+              <SocialButton label={'UNSW'} as='div'>
+                <IoMdSchool />
+              </SocialButton>
+            </Flex>
+          </Tooltip>
         </Stack>
       </Container>
     </Box>

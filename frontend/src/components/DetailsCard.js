@@ -18,6 +18,7 @@ import {
   Tag,
   TagLabel,
   TagRightIcon,
+  Text,
   useBreakpointValue,
   useColorMode,
   useDisclosure,
@@ -53,6 +54,9 @@ export const DetailsCard = (props) => {
         setBgColour(result);
       });
     }
+    return () => {
+      setBgColour('white');
+    };
   }, [props]);
 
   // Determine if the company has applied
@@ -240,6 +244,7 @@ export const DetailsCard = (props) => {
                   isOpen={isOpen}
                   onClose={onClose}
                   stallID={props.fairID}
+                  companyID={userDetails.companyID}
                 />
               </div>
             )}
@@ -283,7 +288,9 @@ export const DetailsCard = (props) => {
           </Box>
         )}
 
-        <Box pb='1'>{props.description}</Box>
+        <Text pb='1' noOfLines={2}>
+          {props.description}
+        </Text>
         {props.website && !props.uni && (
           <Tag
             as={Link}

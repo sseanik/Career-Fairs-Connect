@@ -1,3 +1,6 @@
+// This file is in charge of making all user-related requests
+//  to backend and store the data received
+
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import axios from 'axios';
 
@@ -21,130 +24,123 @@ export const asyncFetchUserData = createAsyncThunk(
 /* -------------------------------- Register -------------------------------- */
 export const asyncRegisterUniversity = createAsyncThunk(
   'user/registerUniversity',
-  async ({ user, toast, history }) => {
-    const response = await axios({
-      method: 'post',
-      url: '/user/register/university/',
-      data: user,
-    });
-
-    if (response.status === 201) {
+  async ({ user, toast, history }, thunkAPI) => {
+    try {
+      const response = await axios({
+        method: 'post',
+        url: '/user/register/university/',
+        data: user,
+      });
       toast({
         description: 'Successfully created account',
         status: 'success',
         isClosable: true,
       });
       history.push('/login');
-    } else {
+      const data = await response.data;
+      return data;
+    } catch (error) {
       toast({
-        description: 'Register Failed',
+        description: error.response.data.email,
         status: 'error',
         isClosable: true,
       });
+      return thunkAPI.rejectWithValue(error.response.data.email);
     }
-
-    const data = await response.data;
-
-    return data;
   }
 );
 
 export const asyncRegisterCompany = createAsyncThunk(
   'user/registerCompany',
-  async ({ user, toast, history }) => {
-    const response = await axios({
-      method: 'post',
-      url: '/user/register/company/',
-      data: user,
-    });
-
-    if (response.status === 201) {
-      toast({
-        description: 'Successfully created account',
-        status: 'success',
-        isClosable: true,
+  async ({ user, toast, history }, thunkAPI) => {
+    try {
+      const response = await axios({
+        method: 'post',
+        url: '/user/register/company/',
+        data: user,
       });
-      history.push('/login');
-    } else {
+
+      if (response.status === 201) {
+        toast({
+          description: 'Successfully created account',
+          status: 'success',
+          isClosable: true,
+        });
+
+        history.push('/login');
+        const data = await response.data;
+        return data;
+      }
+    } catch (error) {
       toast({
-        description: 'Register Failed',
+        description: error.response.data.email,
         status: 'error',
         isClosable: true,
       });
+      return thunkAPI.rejectWithValue(error.response.data.email);
     }
-
-    const data = await response.data;
-
-    return data;
   }
 );
 
 export const asyncRegisterStudent = createAsyncThunk(
   'user/registerStudent',
-  async ({ user, toast, history }) => {
-    const response = await axios({
-      method: 'post',
-      url: '/user/register/student/',
-      data: user,
-    });
+  async ({ user, toast, history }, thunkAPI) => {
+    try {
+      const response = await axios({
+        method: 'post',
+        url: '/user/register/student/',
+        data: user,
+      });
 
-    if (response.status === 201) {
       toast({
         description: 'Successfully created account',
         status: 'success',
         isClosable: true,
       });
+
       history.push('/login');
-    } else {
+      const data = await response.data;
+      return data;
+    } catch (error) {
       toast({
-        description: 'Register Failed',
+        description: error.response.data.email,
         status: 'error',
         isClosable: true,
       });
+      return thunkAPI.rejectWithValue(error.response.data.email);
     }
-
-    const data = await response.data;
-
-    return data;
   }
 );
 
 /* ---------------------------------- Login --------------------------------- */
 export const asyncLoginUser = createAsyncThunk(
   'user/login',
-  async ({ user, toast, history }) => {
-    const response = await axios({
-      method: 'post',
-      url: '/user/login/',
-      data: user,
-    })
-    .catch((error) => {
-      console.error('Error logging in:', error);
-      toast({
-        description: 'Account name or password is incorrect',
-        status: 'error',
-        isClosable: true,
+  async ({ user, toast, history }, thunkAPI) => {
+    try {
+      const response = await axios({
+        method: 'post',
+        url: '/user/login/',
+        data: user,
       });
-    });
-    const data = await response.data;
 
-    if (response.status === 200) {
-      localStorage.setItem('token', data.token);
       toast({
         description: 'Successfully logged in',
         status: 'success',
         isClosable: true,
       });
-    } else {
+
+      const data = await response.data;
+      localStorage.setItem('token', data.token);
+      history.push('/');
+      return;
+    } catch (error) {
       toast({
-        description: 'Login Failed',
+        description: error.response.data.non_field_errors[0],
         status: 'error',
         isClosable: true,
       });
+      return thunkAPI.rejectWithValue(error.response.data.non_field_errors[0]);
     }
-
-    history.push('/');
-    return data;
   }
 );
 
@@ -161,7 +157,7 @@ export const asyncLogout = createAsyncThunk(
 
     if (response.status === 200) {
       localStorage.removeItem('token');
-      history.push('/');
+      history.push('/landing');
     }
     const data = await response.data;
 
@@ -172,7 +168,7 @@ export const asyncLogout = createAsyncThunk(
 /* -------------------------------- Update -------------------------------- */
 export const asyncUpdateUniversity = createAsyncThunk(
   'user/updateUniversity',
-  async ({ id, user, toast, history }) => {
+  async ({ id, user, toast, history }, thunkAPI) => {
     const response = await axios({
       method: 'put',
       url: `/university/${id}/`,
@@ -200,7 +196,7 @@ export const asyncUpdateUniversity = createAsyncThunk(
 
 export const asyncUpdateCompany = createAsyncThunk(
   'user/updateCompany',
-  async ({ id, user, toast, history }) => {
+  async ({ id, user, toast, history }, thunkAPI) => {
     const response = await axios({
       method: 'put',
       url: `/company/${id}/`,
@@ -228,7 +224,7 @@ export const asyncUpdateCompany = createAsyncThunk(
 
 export const asyncUpdateStudent = createAsyncThunk(
   'user/updateStudent',
-  async ({ id, user, toast, history }) => {
+  async ({ id, user, toast, history }, thunkAPI) => {
     const response = await axios({
       method: 'put',
       url: `/student/${id}/`,
@@ -236,7 +232,7 @@ export const asyncUpdateStudent = createAsyncThunk(
       headers: {
         Authorization: `Token ${localStorage.getItem('token')}`,
       },
-    })
+    });
 
     const data = await response.data;
 
@@ -254,6 +250,7 @@ export const asyncUpdateStudent = createAsyncThunk(
   }
 );
 
+/* -------------------------------- Set user states in Redux -------------------------------- */
 const initialState = {
   loggedIn: false,
   loading: false,
@@ -265,6 +262,8 @@ const initialState = {
   fname: '',
   lname: '',
   university: '',
+  wam: '',
+  degree: '',
   // Common to Company and University
   name: '',
   description: '',
@@ -273,6 +272,8 @@ const initialState = {
   // University
   universityID: null,
   companyID: null,
+  studentID: null,
+  userID: null,
 };
 
 export const userSlice = createSlice({
@@ -280,8 +281,8 @@ export const userSlice = createSlice({
   initialState,
   reducers: {
     resetUser: (state) => {
-    state = initialState;
-    return state;
+      state = initialState;
+      return state;
     },
   },
   extraReducers: (builder) => {
@@ -294,12 +295,16 @@ export const userSlice = createSlice({
         state.loggedIn = true;
         state.role = payload.user_type;
         state.email = payload.email;
+        state.userID = payload.user_id;
         switch (payload.user_type) {
           case 'Student':
             state.fname = payload.first_name;
             state.lname = payload.last_name;
             state.university = payload.university;
-            state.studentId = payload.student_id;
+            state.studentID = payload.student_id;
+            state.wam = payload.wam;
+            state.degree = payload.degree;
+            state.logo = payload.student_logo_64;
             break;
           case 'Company':
             state.companyID = payload.company_id;
@@ -309,10 +314,10 @@ export const userSlice = createSlice({
             state.description = payload.company_description;
             state.website = payload.company_webpage_url;
             state.logo = payload.company_logo_64;
+            state.companyID = payload.company_id;
             break;
           case 'University':
             state.universityID = payload.university_id;
-            //
             state.name = payload.university_name;
             state.website = payload.university_site_url;
             state.logo = payload.university_logo_64;
@@ -341,6 +346,16 @@ export const userSlice = createSlice({
       .addCase(asyncRegisterStudent.fulfilled, (state) => {
         state.status = false;
       })
+      // Rejected Registers
+      .addCase(asyncRegisterUniversity.rejected, (state) => {
+        state.status = false;
+      })
+      .addCase(asyncRegisterCompany.rejected, (state) => {
+        state.status = false;
+      })
+      .addCase(asyncRegisterStudent.rejected, (state) => {
+        state.status = false;
+      })
       // login
       .addCase(asyncLoginUser.pending, (state) => {
         state.status = true;
@@ -351,6 +366,43 @@ export const userSlice = createSlice({
       })
       .addCase(asyncLogout.fulfilled, (state) => {
         state.loggedIn = false;
+        state.role = '';
+      })
+      // rejected
+      .addCase(asyncLoginUser.rejected, (state) => {
+        state.status = false;
+      })
+      // Profile Pending
+      .addCase(asyncUpdateUniversity.pending, (state) => {
+        state.status = true;
+      })
+      .addCase(asyncUpdateCompany.pending, (state) => {
+        state.status = true;
+      })
+      .addCase(asyncUpdateStudent.pending, (state) => {
+        state.status = true;
+      })
+      // Profile Success
+      .addCase(asyncUpdateUniversity.fulfilled, (state, { payload }) => {
+        state.name = payload.university_name;
+        state.logo = payload.university_logo_64;
+        state.website = payload.university_site_url;
+        state.status = false;
+      })
+      .addCase(asyncUpdateCompany.fulfilled, (state, { payload }) => {
+        state.description = payload.company_description;
+        state.logo = payload.company_logo_64;
+        state.name = payload.company_name;
+        state.website = payload.company_webpage_url;
+        state.status = false;
+      })
+      .addCase(asyncUpdateStudent.fulfilled, (state, { payload }) => {
+        state.fname = payload.first_name;
+        state.lname = payload.last_name;
+        state.university = payload.university;
+        state.wam = payload.wam;
+        state.degree = payload.degree;
+        state.status = false;
       });
   },
 });

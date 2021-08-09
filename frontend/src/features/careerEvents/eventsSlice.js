@@ -1,3 +1,6 @@
+// This file is in charge of making all requests related to events
+// and store the data received.
+
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import axios from 'axios';
 
@@ -75,6 +78,7 @@ export const asyncDeleteFairEvent = createAsyncThunk(
   }
 );
 
+/* -------------------------------- Set event states in Redux -------------------------------- */
 const initialState = {
   loading: false,
   status: false,
@@ -97,7 +101,6 @@ export const eventsSlice = createSlice({
         state.loading = true;
       })
       .addCase(asyncFetchEventsData.fulfilled, (state, { payload }) => {
-        console.log(payload);
         state.loading = false;
         state.events = payload;
       })
@@ -113,8 +116,8 @@ export const eventsSlice = createSlice({
           description: payload.data.description,
           university: payload.university,
           logo: payload.data.logo,
-          start: new Date(payload.data.start_date),
-          end: new Date(payload.data.end_date),
+          start: new Date(payload.data.start_date).getTime(),
+          end: new Date(payload.data.end_date).getTime(),
         });
       })
       // Deleting a Career Fair Event

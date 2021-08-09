@@ -13,7 +13,6 @@ from drf_yasg.utils import swagger_auto_schema
 
 class StallMessages(APIView):
     serializer_class = QAMessageSerializer
-
     @swagger_auto_schema(
         responses={
             200: openapi.Schema(
@@ -33,18 +32,18 @@ class StallMessages(APIView):
             400: "Not found",
         },
         operation_summary="Get Q&A messages for stall",
-        # operation_description="",
     )
     def get(self, request, stallId, format=None):
+        # retrieves messages for a particular stall
         if not request.user.is_authenticated:
             return Response(
                 "Please pass Token in the Authorisation header",
                 status=status.HTTP_401_UNAUTHORIZED,
             )
         get_object_or_404(Stalls, pk=stallId)
-
         messages = QAMessages.objects.filter(stall_id=stallId).values()
         response_items = []
+        # retrives boolean value "already upvoted by this user" to disable inifite upvoting
         for item in messages:
             postid = item["post_id"]
             upvote = Upvotes.objects.filter(user_id=request.user.userID, post_id=postid)
@@ -81,10 +80,10 @@ class StallMessages(APIView):
             )
         userId = request.user.userID
         get_object_or_404(Stalls, pk=stallId)
-        request.data["author_id"] = userId
-        request.data["stall_id"] = stallId
-
-        serializer = QAMessageSerializer(data=request.data)
+        newResponse = request.data.copy()
+        newResponse["author_id"] = userId
+        newResponse["stall_id"] = stallId
+        serializer = QAMessageSerializer(data=newResponse)
         if serializer.is_valid():
             serializer.save()
             return Response(serializer.data, status=200)

@@ -1,4 +1,5 @@
 import {
+  Avatar,
   Button,
   chakra,
   Collapse,
@@ -6,6 +7,10 @@ import {
   Heading,
   HStack,
   IconButton,
+  Menu,
+  MenuButton,
+  MenuItem,
+  MenuList,
   Stack,
   Text,
   useColorMode,
@@ -19,7 +24,9 @@ import { AiOutlineMenu } from 'react-icons/ai';
 import { Logo } from './Logo';
 import { useThemeDarkMode } from 'elementz';
 import { useDispatch, useSelector } from 'react-redux';
-import { asyncLogout } from '../features/auth/userSlice';
+import { asyncLogout, resetUser } from '../features/auth/userSlice';
+import { IoPersonCircleSharp } from 'react-icons/io5';
+import { CgLogOut } from 'react-icons/cg';
 
 export default function Navbar(props) {
   // Icon
@@ -27,7 +34,7 @@ export default function Navbar(props) {
   // Colour
   const text = useColorModeValue('dark', 'light');
   const bg = useColorModeValue('white', 'gray.700');
-  const { toggleColorMode } = useColorMode();
+  const { colorMode, toggleColorMode } = useColorMode();
   const [isDarkMode, toggleDarkMode] = useThemeDarkMode();
   const toggleMode = () => {
     toggleColorMode();
@@ -43,6 +50,7 @@ export default function Navbar(props) {
   const [y, setY] = React.useState(0);
   const [show, setShow] = React.useState(false);
   const handleToggle = () => setShow(!show);
+  const userRole = useSelector((state) => state.user.role);
   // Ref
   const ref = React.useRef();
   const { height = 0 } = ref.current ? ref.current.getBoundingClientRect() : {};
@@ -53,11 +61,54 @@ export default function Navbar(props) {
   }, [scrollY]);
 
   const loggedIn = useSelector((state) => state.user.loggedIn);
-  const role = useSelector((state) => state.user.role);
-  const profilePath = '/'+role;
-  
+  const logo = useSelector((state) => state.user.logo);
+  const userFName = useSelector((state) => state.user.fname);
+  const userLName = useSelector((state) => state.user.lname);
+
+  const profilePath = '/' + userRole;
+
+  //
+
   const dispatch = useDispatch();
   const history = useHistory();
+
+  const getRoleColour = () => {
+    return userRole === 'University'
+      ? 'orange'
+      : userRole === 'Company'
+      ? 'green'
+      : 'blue';
+  };
+
+  const publicNavItems = [
+    {
+      label: 'Landing Page',
+      to: '/landing',
+    },
+    {
+      label: 'Sign Up',
+      to: '/register',
+    },
+    {
+      label: 'Login',
+      to: '/login',
+    },
+  ];
+
+  const privateNavItems = [
+    {
+      label: 'Events Page',
+      to: '/',
+    },
+    {
+      label: 'Profile',
+      to: profilePath,
+    },
+    {
+      label: 'Logout',
+      to: '/',
+    },
+  ];
 
   const MobileNav = () => {
     return (
@@ -82,7 +133,18 @@ export default function Navbar(props) {
                     as={Link}
                     to={navItem.to}
                     fontWeight={600}
-                    onClick={handleToggle}
+                    onClick={() => {
+                      handleToggle();
+                      if (navItem.label === 'Logout') {
+                        dispatch(
+                          asyncLogout({
+                            token: localStorage.getItem('token'),
+                            history: history,
+                          })
+                        );
+                        dispatch(resetUser());
+                      }
+                    }}
                   >
                     {navItem.label}
                   </Text>
@@ -123,7 +185,7 @@ export default function Navbar(props) {
         transition='box-shadow 0.2s'
         bg={bg}
         borderTop='6px solid'
-        borderTopColor='blue.400'
+        borderTopColor={`${getRoleColour()}.500`}
         w='full'
         overflowY='hidden'
         borderBottomWidth={2}
@@ -156,7 +218,10 @@ export default function Navbar(props) {
                     position: 'absolute',
                     bottom: 0,
                     left: 0,
-                    bg: useColorModeValue('blue.50', 'blue.800'),
+                    bg: useColorModeValue(
+                      `${getRoleColour()}.50`,
+                      `${getRoleColour()}.800`
+                    ),
                     zIndex: -1,
                   }}
                 >
@@ -179,7 +244,7 @@ export default function Navbar(props) {
               />
               {loggedIn ? (
                 <HStack spacing='5' display={{ base: 'none', md: 'flex' }}>
-                  <Button
+                  {/* <Button
                     onClick={() =>
                       dispatch(
                         asyncLogout({
@@ -197,12 +262,48 @@ export default function Navbar(props) {
                   <Button
                     as={Link}
                     to={profilePath}
-                    colorScheme='blue'
+                    colorScheme={getRoleColour()}
                     variant='solid'
                     size='sm'
                   >
                     Profile
-                  </Button>
+                  </Button> */}
+                  <Menu autoSelect>
+                    <MenuButton>
+                      <Avatar
+                        bg={userRole === 'Student' ? 'blue.500' : 'none'}
+                        color='white'
+                        size='sm'
+                        name={`${userFName} ${userLName}`}
+                        src={logo}
+                      />
+                    </MenuButton>
+                    <MenuList minWidth='100px'>
+                      <MenuItem
+                        as={Link}
+                        to={profilePath}
+                        color={colorMode === 'light' ? 'black' : 'white'}
+                      >
+                        <IoPersonCircleSharp />
+                        <Text ml='2'>Profile</Text>
+                      </MenuItem>
+                      <MenuItem
+                        color={colorMode === 'light' ? 'black' : 'white'}
+                        onClick={() => {
+                          dispatch(
+                            asyncLogout({
+                              token: localStorage.getItem('token'),
+                              history: history,
+                            })
+                          );
+                          dispatch(resetUser());
+                        }}
+                      >
+                        <CgLogOut />
+                        <Text ml='2'>Logout</Text>
+                      </MenuItem>
+                    </MenuList>
+                  </Menu>
                 </HStack>
               ) : (
                 <HStack spacing='5' display={{ base: 'none', md: 'flex' }}>
@@ -246,33 +347,3 @@ export default function Navbar(props) {
     </React.Fragment>
   );
 }
-
-const publicNavItems = [
-  {
-    label: 'Landing Page',
-    to: '/',
-  },
-  {
-    label: 'Sign Up',
-    to: '/register',
-  },
-  {
-    label: 'Login',
-    to: '/login',
-  },
-];
-
-const privateNavItems = [
-  {
-    label: 'Events Page',
-    to: '/',
-  },
-  {
-    label: 'Profile',
-    to: '/profile',
-  },
-  {
-    label: 'Logout',
-    to: '/logout',
-  },
-];

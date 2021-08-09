@@ -1,9 +1,11 @@
 from django.db import models
 from django.contrib.auth.models import AbstractBaseUser, BaseUserManager
 
+# manages models, or the tables/columns in the database
 
 # class AUTH_USER
 class MyUserManager(BaseUserManager):
+    # customise create_user with extended user model
     def create_user(self, email, user_type, username="", password=None):
         if not email:
             raise ValueError("Users must have an email address")
@@ -32,7 +34,7 @@ class MyUserManager(BaseUserManager):
         user.save(using=self._db)
         return user
 
-
+# extend the default django user
 class User(AbstractBaseUser):
     STUDENT = 0
     UNIVERSITY = 1
@@ -69,19 +71,14 @@ class User(AbstractBaseUser):
     def has_perm(self, perm, obj=None):
         return self.is_admin
 
-    # Does this user have permission to view this app? (ALWAYS YES FOR SIMPLICITY)
     def has_module_perms(self, app_label):
         return True
-
-
-# Extend using onetoonelink
 
 
 class Companies(models.Model):
     company_id = models.AutoField(primary_key=True)
     company_name = models.CharField(max_length=50)
     user_id = models.OneToOneField(User, on_delete=models.RESTRICT)
-    # Discuss Max Text and Char???
     company_description = models.TextField()
     company_webpage_url = models.CharField(max_length=150)
     company_logo_64 = models.CharField(max_length=2000000)
@@ -90,10 +87,8 @@ class Companies(models.Model):
 class Universities(models.Model):
     university_id = models.AutoField(primary_key=True)
     university_name = models.CharField(max_length=50)
-    # university_abbreviation = models.CharField(max_length=10)
     university_logo_64 = models.CharField(max_length=2000000)
     university_site_url = models.CharField(max_length=150, default="")
-    # Potential cause of issues on deleting
     user_id = models.ForeignKey(User, on_delete=models.RESTRICT)
 
 
@@ -110,8 +105,7 @@ class Stalls(models.Model):
     stall_id = models.AutoField(primary_key=True)
     company_id = models.ForeignKey(Companies, on_delete=models.CASCADE)
     event_id = models.ForeignKey(CareerFairs, on_delete=models.CASCADE)
-    approval_status = models.CharField(max_length=20, default='Pending')
-
+    approval_status = models.CharField(max_length=20, default="Pending")
 
 
 class Presentations(models.Model):
@@ -119,6 +113,8 @@ class Presentations(models.Model):
     stall_id = models.ForeignKey(Stalls, on_delete=models.CASCADE)
     title = models.CharField(max_length=255)
     color = models.CharField(max_length=255)
+    textColor = models.CharField(max_length=255)
+    borderColor = models.CharField(max_length=255, default="black")
     presentation_link = models.CharField(max_length=255)
     start_time = models.DateTimeField()
     end_time = models.DateTimeField()
@@ -133,7 +129,6 @@ class Students(models.Model):
     degree = models.CharField(max_length=100, null=True)
     wam = models.DecimalField(max_digits=5, decimal_places=2, null=True)
     student_logo_64 = models.CharField(max_length=2000000)
-    # changed to one to one field to suppress warnings - thornton, do we want restrict or cascade?
     user_id = models.OneToOneField(User, on_delete=models.RESTRICT)
 
 
@@ -152,7 +147,6 @@ class Opportunities(models.Model):
 class QAMessages(models.Model):
     post_id = models.AutoField(primary_key=True)
     author_id = models.ForeignKey(User, on_delete=models.CASCADE)
-    responder_id = models.ForeignKey(User, on_delete=models.CASCADE, null=True, related_name="responder")
     stall_id = models.ForeignKey(Stalls, on_delete=models.CASCADE)
     time = models.DateTimeField(auto_now_add=True, blank=True)
     num_upvotes = models.IntegerField(default=0)

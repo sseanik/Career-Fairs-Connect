@@ -34,6 +34,7 @@ const initialValues = {
   logo: '',
 };
 
+//use yup for form value validation
 const validationSchema = Yup.object({
   email: Yup.string()
     .email('Email format is Invalid')
@@ -49,7 +50,7 @@ const validationSchema = Yup.object({
     .required('Password is Required'),
   logo: Yup.string().required('Logo upload is Required'),
   website: Yup.string()
-    .matches(/^http(s)?:.*$/, 'Website URL is invalid')
+    .matches(/^http(s)?:.*$/, 'Website URL is invalid. Must contain http(s)://')
     .required('Website URL is Required')
     .max(256),
   university: Yup.string()
@@ -100,8 +101,9 @@ const validationSchema = Yup.object({
 });
 
 export function UniversityRegister() {
+  //transfer image to base64 format
   const base64Image = useSelector(selectBase64Image);
-  const loggedIn = useSelector((state) => state.user.loggedIn);
+
   const registerStatus = useSelector((state) => state.user.status);
   const dispatch = useDispatch();
   const toast = useToast();
@@ -112,12 +114,6 @@ export function UniversityRegister() {
     dispatch(convertImageToBase64(e));
     setFieldValue('logo', e.target.value);
   };
-
-  React.useState(() => {
-    if (loggedIn) {
-      console.log('Sign the user In');
-    }
-  });
 
   const submitForm = (values, actions) => {
     actions.setSubmitting(false);
@@ -209,6 +205,8 @@ export function UniversityRegister() {
                     </Text>
                   </Heading>
                 </Flex>
+
+                {/* register forms */}
                 <InputControl name='email' label='Email' />
                 <Field name='password'>
                   {({ field, form }) => (
@@ -374,6 +372,7 @@ export function UniversityRegister() {
                     </FormControl>
                   )}
                 </Field>
+
                 <Flex justify='center'>
                   <Button
                     w='100%'

@@ -36,8 +36,6 @@ export default function CompanyStall(props) {
   const stallData = useSelector((state) => state.stall);
   const userData = useSelector((state) => state.user);
 
-  console.log(stallID);
-
   // On page load, gather all stall data
   React.useEffect(
     () => dispatch(asyncFetchStallData({ stallID: parseInt(stallID) })),
@@ -86,8 +84,8 @@ export default function CompanyStall(props) {
             !props.match.params.tab
               ? 0
               : props.match.params.tab === 'presentation'
-              ? 1
-              : 2
+                ? 1
+                : 2
           }
         >
           <TabList>
@@ -181,7 +179,7 @@ export default function CompanyStall(props) {
               />
             </TabPanel>
             <TabPanel>
-              <QuestionsAndAnswers qandas={stallData.qandas} />
+              <QuestionsAndAnswers qandas={stallData.qandas} stallID={stallID} companyID={stallData.companyID} />
             </TabPanel>
           </TabPanels>
         </Tabs>

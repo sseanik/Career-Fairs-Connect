@@ -1,3 +1,4 @@
+//A selector component to be used in both university and student profile edit page
 import { SelectControl } from 'formik-chakra-ui';
 
 export default function UniSelector() {
@@ -118,48 +119,3 @@ export default function UniSelector() {
         </SelectControl>
     )
 }
-
-// [
-//     'Australian Catholic University',
-//     'Australian National University',
-//     'Bond University',
-//     'Charles Darwin University',
-//     'Charles Stuart University',
-//     'CQUniversity',
-//     'Curtin University',
-//     'Deakin University',
-//     'Edith Cowan University',
-//     'Federation University Australia',
-//     'Flinders University',
-//     'Griffith University',
-//     'James Cook University',
-//     'La Trobe University',
-//     'Macquarie University',
-//     'Monash University',
-//     'Murdoch University',
-//     'Queensland University of Technology',
-//     'RMIT University',
-//     'Southern Cross University',
-//     'Swinburne University of Technology',
-//     'Torrens University Australia',
-//     'University of Adelaide',
-//     'University of Canberra',
-//     'University of Divinity',
-//     'University of Melbourne',
-//     'University of New England',
-//     'University of New South Wales',
-//     'University of Newcastle',
-//     'University of Notre Dame Australia',
-//     'University of Queensland',
-//     'University of South Australia',
-//     'University of Southern Queensland',
-//     'University of Sydney',
-//     'University of Tasmania',
-//     'University of Technology Sydney',
-//     'University of the Sunshine Coast',
-//     'University of Western Australia',
-//     'University of Wollongong',
-//     'Victoria University',
-//     'Western Sydney University',
-// ]
-
