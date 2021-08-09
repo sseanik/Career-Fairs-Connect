@@ -53,6 +53,9 @@ export const DetailsCard = (props) => {
         setBgColour(result);
       });
     }
+    return () => {
+      setBgColour('white');
+    };
   }, [props]);
 
   // Determine if the company has applied

@@ -174,7 +174,8 @@ export const asyncPostQuestion = createAsyncThunk(
       status: 'success',
       isClosable: true,
     });
-    return response.data;
+    const data = await response.data;
+    return data;
   }
 );
 
