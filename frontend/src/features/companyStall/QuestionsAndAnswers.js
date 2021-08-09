@@ -127,8 +127,7 @@ export function QuestionsAndAnswers(props) {
                         Edit
                       </Button>
                       <Button
-                        bg='red'
-                        color='white'
+                        colorScheme='red'
                         marginLeft="100%"
                         size='sm'
                         ml='3'
