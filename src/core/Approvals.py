@@ -8,6 +8,7 @@ from rest_framework.permissions import IsAuthenticated
 from drf_yasg.utils import swagger_auto_schema
 from drf_yasg import openapi
 
+# class dealing with company approvals
 
 class Approvals(APIView):
     authentication_classes = [TokenAuthentication, SessionAuthentication]
@@ -34,6 +35,8 @@ class Approvals(APIView):
         operation_summary="Get all stalls pending Uni approval",
         operation_description="Returns only the pending stalls from the caller's owned careerfairs",
     )
+
+    # get approvals objects for all events
     def get(self, request, *args, **kwargs):
         if request.user.user_type != 1:
             return Response(status=403)  # forbidden
@@ -42,6 +45,7 @@ class Approvals(APIView):
             university = Universities.objects.get(
                 user_id=request.user.userID
             ).university_id
+            # get career fair events
             events = CareerFairs.objects.filter(university_id=university)
             i = 0
             for event in events:
@@ -83,6 +87,7 @@ class Approvals(APIView):
         operation_summary="University approve or deny stall application",
         operation_description="Updates 'approval_status' field in Stalls from Pending",
     )
+    # update approval status of a stall
     def put(self, request, format=None):
         # stalld = request.data['stall_id']
         try:

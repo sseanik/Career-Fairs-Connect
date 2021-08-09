@@ -8,6 +8,8 @@ from rest_framework.permissions import IsAuthenticated
 from drf_yasg import openapi
 from drf_yasg.utils import swagger_auto_schema
 
+# get details of particular company stall
+
 class CompanyStallData(APIView):
     authentication_classes = [TokenAuthentication, SessionAuthentication]
     permission_classes = [IsAuthenticated]
@@ -24,6 +26,8 @@ class CompanyStallData(APIView):
         operation_summary="Get company stall data",
         operation_description="Deprecated - see get_stall_data",
     )
+
+    # get details of company stall
     def get(self, request, stallId, format=None):
         stallData = Stalls.objects.all()
         serializer = StallsSerializer(stallData, many=True)
