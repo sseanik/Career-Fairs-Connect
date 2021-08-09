@@ -27,7 +27,6 @@ from drf_yasg.utils import swagger_auto_schema
         201: "Successful Registration",
     },
     operation_summary="Register as company",
-    # operation_description="",
 )
 @api_view(["POST"])
 def register_company(request):
