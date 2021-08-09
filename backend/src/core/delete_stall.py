@@ -29,7 +29,6 @@ from drf_yasg.utils import swagger_auto_schema
         403: "Forbidden",
     },
     operation_summary="Delete a stall",
-    # operation_description="",
 )
 @api_view(
     [
