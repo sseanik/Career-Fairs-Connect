@@ -28,6 +28,7 @@ Visit https://docs.docker.com/get-docker/ and download Docker for your operating
 
 	@@ -33,48 +33,51 @@ Requirements: Python version 3.7 or above
 
+#### 4. Open this http://localhost:3000/ in your browser
 
 ## Option 3. Run the project locally
 
