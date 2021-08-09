@@ -33,7 +33,7 @@ Visit https://docs.docker.com/get-docker/ and download Docker for your operating
     python3 -m venv venv
 https://docs.python.org/3/library/venv.html
 
-NOTE python3 may be replaced with alternatives (e.g py)
+**NOTE** python3 may be replaced with alternatives (e.g py)
 
 #### 3. start the virtual environment
 
