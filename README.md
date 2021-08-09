@@ -34,6 +34,7 @@ Visit https://docs.docker.com/get-docker/ and download Docker for your operating
 https://docs.python.org/3/library/venv.html
 
 **NOTE** py may be replaced with alternatives (e.g python3/python)
+
 This may take a while.
 
 #### 3. start the virtual environment
