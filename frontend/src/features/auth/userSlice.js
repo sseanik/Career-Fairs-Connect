@@ -9,7 +9,7 @@ export const asyncFetchUserData = createAsyncThunk(
   async (token) => {
     const response = await axios({
       method: 'get',
-      url: '/user/data/',
+      url: '/api/user/data/',
       headers: {
         Authorization: `Token ${token}`,
       },
@@ -28,7 +28,7 @@ export const asyncRegisterUniversity = createAsyncThunk(
     try {
       const response = await axios({
         method: 'post',
-        url: '/user/register/university/',
+        url: '/api/user/register/university/',
         data: user,
       });
       toast({
@@ -56,7 +56,7 @@ export const asyncRegisterCompany = createAsyncThunk(
     try {
       const response = await axios({
         method: 'post',
-        url: '/user/register/company/',
+        url: '/api/user/register/company/',
         data: user,
       });
 
@@ -88,7 +88,7 @@ export const asyncRegisterStudent = createAsyncThunk(
     try {
       const response = await axios({
         method: 'post',
-        url: '/user/register/student/',
+        url: '/api/user/register/student/',
         data: user,
       });
 
@@ -119,7 +119,7 @@ export const asyncLoginUser = createAsyncThunk(
     try {
       const response = await axios({
         method: 'post',
-        url: '/user/login/',
+        url: '/api/user/login/',
         data: user,
       });
 
@@ -149,7 +149,7 @@ export const asyncLogout = createAsyncThunk(
   async ({ token, history }) => {
     const response = await axios({
       method: 'get',
-      url: '/user/logout/',
+      url: '/api/user/logout/',
       headers: {
         Authorization: `Token ${token}`,
       },
@@ -171,7 +171,7 @@ export const asyncUpdateUniversity = createAsyncThunk(
   async ({ id, user, toast, history }, thunkAPI) => {
     const response = await axios({
       method: 'put',
-      url: `/university/${id}/`,
+      url: `/api/university/${id}/`,
       data: user,
       headers: {
         Authorization: `Token ${localStorage.getItem('token')}`,
@@ -199,7 +199,7 @@ export const asyncUpdateCompany = createAsyncThunk(
   async ({ id, user, toast, history }, thunkAPI) => {
     const response = await axios({
       method: 'put',
-      url: `/company/${id}/`,
+      url: `/api/company/${id}/`,
       data: user,
       headers: {
         Authorization: `Token ${localStorage.getItem('token')}`,
@@ -227,7 +227,7 @@ export const asyncUpdateStudent = createAsyncThunk(
   async ({ id, user, toast, history }, thunkAPI) => {
     const response = await axios({
       method: 'put',
-      url: `/student/${id}/`,
+      url: `/api/student/${id}/`,
       data: user,
       headers: {
         Authorization: `Token ${localStorage.getItem('token')}`,

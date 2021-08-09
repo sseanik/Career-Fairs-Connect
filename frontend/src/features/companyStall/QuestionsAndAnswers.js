@@ -122,8 +122,8 @@ export function QuestionsAndAnswers(props) {
                 </AccordionButton>
                 {userId === qanda.author_id ? (
                   <>
+                    <Button leftIcon={<RiPencilFill />} size='sm' />
                     <Button
-                      leftIcon={<RiPencilFill />}
                       size='sm'
                       onClick={() => {
                         setQuestion(qanda.question);

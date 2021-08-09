@@ -10,7 +10,7 @@ export const asyncFetchEventsData = createAsyncThunk(
   async (token) => {
     const response = await axios({
       method: 'get',
-      url: '/careerfairs/',
+      url: '/api/careerfairs/',
       // headers: {
       //   Authorization: `Token ${token}`,
       // },
@@ -28,7 +28,7 @@ export const asyncCreateFairEvent = createAsyncThunk(
   async ({ event, toast, id, university }) => {
     const response = await axios({
       method: 'post',
-      url: `/university/${id}/careerfairs/`,
+      url: `/api/university/${id}/careerfairs/`,
       data: event,
       headers: {
         Authorization: `Token ${localStorage.getItem('token')}`,
@@ -60,7 +60,7 @@ export const asyncDeleteFairEvent = createAsyncThunk(
   async ({ eventID, toast }) => {
     const response = await axios({
       method: 'delete',
-      url: `/careerfairs/delete/${eventID}/`,
+      url: `/api/careerfairs/delete/${eventID}/`,
       headers: {
         Authorization: `Token ${localStorage.getItem('token')}`,
       },

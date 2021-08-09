@@ -12,7 +12,7 @@ export const asyncFetchStallData = createAsyncThunk(
   async ({ stallID }) => {
     const response = await axios({
       method: 'get',
-      url: `/careerfairs/stalls/${stallID}/`,
+      url: `/api/careerfairs/stalls/${stallID}/`,
       headers: {
         Authorization: `Token ${localStorage.getItem('token')}`,
       },
@@ -31,7 +31,7 @@ export const asyncAddOpportunity = createAsyncThunk(
   async ({ stallID, opportunity, toast }) => {
     const response = await axios({
       method: 'post',
-      url: `/company/${stallID}/opportunities/`,
+      url: `/api/company/${stallID}/opportunities/`,
       data: opportunity,
       headers: {
         Authorization: `Token ${localStorage.getItem('token')}`,
@@ -54,7 +54,7 @@ export const asyncEditOpportunity = createAsyncThunk(
   async ({ stallID, opportunity, toast }) => {
     const response = await axios({
       method: 'put',
-      url: `/company/${stallID}/opportunities/`,
+      url: `/api/company/${stallID}/opportunities/`,
       data: opportunity,
       headers: {
         Authorization: `Token ${localStorage.getItem('token')}`,
@@ -76,7 +76,7 @@ export const asyncDeleteOpportunity = createAsyncThunk(
   async ({ companyID, jobID, toast }) => {
     await axios({
       method: 'delete',
-      url: `/company/opportunities/${jobID}/`,
+      url: `/api/company/opportunities/${jobID}/`,
       headers: {
         Authorization: `Token ${localStorage.getItem('token')}`,
       },
@@ -97,7 +97,7 @@ export const asyncAddPresentation = createAsyncThunk(
   async ({ presentation, toast }) => {
     const response = await axios({
       method: 'post',
-      url: '/presentation/create/',
+      url: '/api/presentation/create/',
       data: presentation,
       headers: {
         Authorization: `Token ${localStorage.getItem('token')}`,
@@ -119,7 +119,7 @@ export const asyncEditPresentation = createAsyncThunk(
   async ({ presentation, toast }) => {
     const response = await axios({
       method: 'put',
-      url: '/presentation/edit/',
+      url: '/api/presentation/edit/',
       data: presentation,
       headers: {
         Authorization: `Token ${localStorage.getItem('token')}`,
@@ -141,7 +141,7 @@ export const asyncDeletePresentation = createAsyncThunk(
   async ({ id, toast }) => {
     await axios({
       method: 'delete',
-      url: `/presentation/delete/${id}/`,
+      url: `/api/presentation/delete/${id}/`,
       headers: {
         Authorization: `Token ${localStorage.getItem('token')}`,
       },
@@ -162,7 +162,7 @@ export const asyncPostQuestion = createAsyncThunk(
   async ({ id, question, toast }) => {
     const response = await axios({
       method: 'post',
-      url: `/questions/${id}/`,
+      url: `/api/questions/${id}/`,
       data: question,
       headers: {
         Authorization: `Token ${localStorage.getItem('token')}`,
@@ -184,7 +184,7 @@ export const asyncEditQuestion = createAsyncThunk(
   async ({ questionId, stallId, question, toast }) => {
     const response = await axios({
       method: 'put',
-      url: `/questions/question/${stallId}/${questionId}/`,
+      url: `/api/questions/question/${stallId}/${questionId}/`,
       data: question,
       headers: {
         Authorization: `Token ${localStorage.getItem('token')}`,
@@ -206,7 +206,7 @@ export const asyncAnswerQuestion = createAsyncThunk(
   async ({ stallId, questionId, answer, toast }) => {
     const response = await axios({
       method: 'put',
-      url: `/questions/answer/${stallId}/${questionId}/`,
+      url: `/api/questions/answer/${stallId}/${questionId}/`,
       data: answer,
       headers: {
         Authorization: `Token ${localStorage.getItem('token')}`,
@@ -223,7 +223,7 @@ export const asyncDeleteQuestion = createAsyncThunk(
   async ({ stallId, postId, toast }) => {
     await axios({
       method: 'delete',
-      url: `/questions/question/${stallId}/${postId}/`,
+      url: `/api/questions/question/${stallId}/${postId}/`,
       headers: {
         Authorization: `Token ${localStorage.getItem('token')}`,
       },
