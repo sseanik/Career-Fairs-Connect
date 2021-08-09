@@ -1,5 +1,3 @@
-
-
 # Career Fairs Connect
 
 ***The following steps will introduce how to run the project in 3 different ways.*** 
