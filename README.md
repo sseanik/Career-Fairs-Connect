@@ -30,10 +30,10 @@ Visit https://docs.docker.com/get-docker/ and download Docker for your operating
     cd /your_path_to_this_folder/Online-Career-Fairs/backend
 
 #### 2. Set up the virtual environment by running
-    python3 -m venv venv
+    py -m venv venv
 https://docs.python.org/3/library/venv.html
 
-**NOTE** python3 may be replaced with alternatives (e.g py)
+**NOTE** py may be replaced with alternatives (e.g python3/python)
 
 #### 3. start the virtual environment
 
@@ -50,13 +50,13 @@ https://docs.python.org/3/library/venv.html
 ###### Now when you run ```ls``` , you should be able to see a ```manage.py``` file
 
 #### 6. Use makemigrations on the app
-    python3 manage.py makemigrations
+    py manage.py makemigrations
 
 #### 7. Migrate the app
-    python3 manage.py migrate
+    py manage.py migrate
 
 #### 8. You are now good to run the backend server with
-    python3 manage.py runserver
+    py manage.py runserver
 
 ### Frontend Setup 
 
