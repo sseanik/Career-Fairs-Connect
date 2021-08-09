@@ -21,13 +21,17 @@ export function QuestionModal(props) {
 
   const editQuestion = () => {
     props.question &&
-      dispatch(asyncEditQuestion({ id: props.id, question: props.question, toast: toast }));
+      dispatch(asyncEditQuestion({ questionId: props.questionId, stallId: props.stallId,
+      question: {
+        question: props.question
+      }, toast: toast }));
   };
 
   const submitForm = () => {
     editQuestion({
     qandas: {
-      id: props.id,
+      questionId: props.questionId,
+      stallId: props.stallId,
       question: props.question
     },
     toast: toast

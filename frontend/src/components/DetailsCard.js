@@ -240,6 +240,7 @@ export const DetailsCard = (props) => {
                   isOpen={isOpen}
                   onClose={onClose}
                   stallID={props.fairID}
+                  companyID={userDetails.companyID}
                 />
               </div>
             )}

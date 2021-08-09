@@ -68,6 +68,7 @@ def get_stall_data(request, stallId):
     return_dict = {
         "fairID": tmp_dict["event_id"],
         "company": tmp_dict["company_name"],
+        "companyID": tmp_dict["company_id"],
         "logo": tmp_dict["company_logo_64"],
         "website": tmp_dict["company_webpage_url"],
         "live": False,
@@ -114,6 +115,7 @@ def get_stall_data(request, stallId):
     for i, QAmessage in enumerate(QAmessages):
         QAmessages[i] = {
             "id": QAmessage["post_id"],
+            "author_id": QAmessage["author_id_id"],
             "question": QAmessage["question"],
             "answer": QAmessage["answer"],
         }

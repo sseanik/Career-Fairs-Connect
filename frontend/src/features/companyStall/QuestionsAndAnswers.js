@@ -33,21 +33,30 @@ export function QuestionsAndAnswers(props) {
   const buttonLoading = useSelector((state) => state.stall.status);
   const toast = useToast();
   const dispatch = useDispatch();
+  const userId = useSelector((state) => state.user.userID)
+  const companyId = useSelector((state) => state.user.companyID)
 
   const postQuestion = () => {
     question &&
-      dispatch(asyncPostQuestion({ question: question, toast: toast }));
+      dispatch(asyncPostQuestion({ id: props.stallID,
+        question: {
+          question: question
+        },
+        toast: toast }));
   };
 
   const postAnswer = (id) => {
     answer &&
-      dispatch(asyncAnswerQuestion({id: id, answer: answer, toast: toast}))
+      dispatch(asyncAnswerQuestion({ questionId: id, stallId: props.stallID, 
+        answer: {
+          answer: answer
+        }, toast: toast }))
       .then(setAnswer(''))
   }
 
   const deleteQuestion = (id) => {
     id &&
-      dispatch(asyncDeleteQuestion({id: id, toast: toast}))
+      dispatch(asyncDeleteQuestion({stallId: props.stallID, postId: id, toast: toast}))
   }
 
   return (
@@ -57,7 +66,8 @@ export function QuestionsAndAnswers(props) {
       {isQuestion ?
       <QuestionModal
           isOpen={isOpen}
-          id={id}
+          stallId={props.stallID}
+          questionId={id}
           onClose={onClose}
           question={question}
           setQuestion={setQuestion}
@@ -65,7 +75,8 @@ export function QuestionsAndAnswers(props) {
       :
       <AnswerModal
         isOpen={isOpen}
-        id={id}
+        stallId={props.stallID}
+        questionId={id}
         onClose={onClose}
         answer={answer}
         setAnswer={setAnswer}
@@ -95,15 +106,12 @@ export function QuestionsAndAnswers(props) {
 
       <Accordion allowMultiple>
         {props.qandas.map((qanda, idx) => (
-          /*Change (9 != 9) to userId != stall.companyId*/
-          <AccordionItem isDisabled={!qanda.answer && (9 != 9)} key={`qanda-${idx}`}>
+          <AccordionItem isDisabled={!qanda.answer && (companyId !== props.companyID)} key={`qanda-${idx}`}>
             <h2>
               <AccordionButton>
                 <Box flex='1' textAlign='left' fontWeight='semibold'>
                   {qanda.question}
-                  {/*Change this so that this button only shows if qanda.creatorId == currentUserId*/}
-                  
-                  { (qanda.creatorId === '0') ?
+                  { (userId === qanda.author_id) ?
                     <>
                       <Button
                       leftIcon={<RiPencilFill />}
@@ -125,8 +133,7 @@ export function QuestionsAndAnswers(props) {
                         size='sm'
                         ml='3'
                         onClick={() => {
-                          setId(qanda.id);
-                          deleteQuestion(id);
+                          deleteQuestion(qanda.id);
                         }}
                       >
                         Delete
@@ -165,22 +172,21 @@ export function QuestionsAndAnswers(props) {
               <Box>
                 {qanda.answer}
               </Box>
-              {/*Change (9 != 9) to userId != stall.companyId*/}
-              {(9 == 9) ?
-              <Button
-                leftIcon={<RiPencilFill />}
-                marginLeft="100%"
-                size='sm'
-                ml='3'
-                onClick={() => {
-                  setAnswer(qanda.answer);
-                  setId(qanda.id);
-                  setIsQuestion(false)
-                  onOpen();
-                }}
-              >
-                Edit
-              </Button>
+              {(companyId === props.companyID) ?
+                <Button
+                  leftIcon={<RiPencilFill />}
+                  marginLeft="100%"
+                  size='sm'
+                  ml='3'
+                  onClick={() => {
+                    setAnswer(qanda.answer);
+                    setId(qanda.id);
+                    setIsQuestion(false)
+                    onOpen();
+                  }}
+                >
+                  Edit
+                </Button>
                 :
                 <> </>
               }

@@ -266,6 +266,8 @@ const initialState = {
   // University
   universityID: null,
   companyID: null,
+  studentID: null,
+  userID: null,
 };
 
 export const userSlice = createSlice({
@@ -287,12 +289,13 @@ export const userSlice = createSlice({
         state.loggedIn = true;
         state.role = payload.user_type;
         state.email = payload.email;
+        state.userID = payload.user_id;
         switch (payload.user_type) {
           case 'Student':
             state.fname = payload.first_name;
             state.lname = payload.last_name;
             state.university = payload.university;
-            state.studentId = payload.student_id;
+            state.studentID = payload.student_id;
             state.wam = payload.wam;
             state.degree = payload.degree;
             break;
@@ -304,10 +307,10 @@ export const userSlice = createSlice({
             state.description = payload.company_description;
             state.website = payload.company_webpage_url;
             state.logo = payload.company_logo_64;
+            state.companyID = payload.company_id;
             break;
           case 'University':
             state.universityID = payload.university_id;
-            //
             state.name = payload.university_name;
             state.website = payload.university_site_url;
             state.logo = payload.university_logo_64;

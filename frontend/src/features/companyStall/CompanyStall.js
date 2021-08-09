@@ -179,7 +179,7 @@ export default function CompanyStall(props) {
               />
             </TabPanel>
             <TabPanel>
-              <QuestionsAndAnswers qandas={stallData.qandas} />
+              <QuestionsAndAnswers qandas={stallData.qandas} stallID={stallID} companyID={stallData.companyID} />
             </TabPanel>
           </TabPanels>
         </Tabs>
