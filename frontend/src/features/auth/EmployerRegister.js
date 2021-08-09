@@ -54,7 +54,7 @@ const validationSchema = Yup.object({
     .required('Company Description is Required')
     .max(512),
   website: Yup.string()
-    .matches(/^http(s)?:.*$/, 'Website URL is invalid')
+    .matches(/^http(s)?:.*$/, 'Website URL is invalid. Must contain http(s)://')
     .required('Website URL is Required')
     .max(256),
   logo: Yup.string().required('Logo upload is Required'),

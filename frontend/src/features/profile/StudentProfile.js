@@ -1,5 +1,5 @@
 import React from 'react';
-import { useHistory } from 'react-router-dom';
+import { Link, useHistory } from 'react-router-dom';
 import {
   Spacer,
   Container,
@@ -11,7 +11,7 @@ import {
   Divider,
   Box,
 } from '@chakra-ui/react';
-import { EditIcon } from '@chakra-ui/icons';
+import { ArrowBackIcon, EditIcon } from '@chakra-ui/icons';
 import { useSelector } from 'react-redux';
 
 export default function Profile() {
@@ -23,20 +23,27 @@ export default function Profile() {
   }
 
   return (
-    <Container maxW={'container.md'} p={12}>
+    <Container
+      rounded='2xl'
+      mt='4'
+      borderWidth='1px'
+      maxW={'container.md'}
+      p={12}
+    >
       <Flex>
         <Heading fontSize='2xl' mb={5}>
           Student Profile
         </Heading>
         <Spacer />
         <Button
-          leftIcon={<EditIcon />}
+          leftIcon={<ArrowBackIcon />}
           rounded='lg'
           size={'sm'}
           fontWeight={'normal'}
-          onClick={handleClick}
+          as={Link}
+          to='/'
         >
-          Edit
+          Back
         </Button>
       </Flex>
 
@@ -77,6 +84,18 @@ export default function Profile() {
           <Text fontSize='xl'>{user.wam}</Text>
         </Box>
       </Stack>
+      <Flex align='center' justify='center'>
+        <Button
+          leftIcon={<EditIcon />}
+          rounded='lg'
+          colorScheme='blue'
+          width='90%'
+          fontWeight={'normal'}
+          onClick={handleClick}
+        >
+          Edit
+        </Button>
+      </Flex>
     </Container>
   );
 }

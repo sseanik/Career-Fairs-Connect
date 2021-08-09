@@ -22,8 +22,6 @@ export const asyncFetchUserData = createAsyncThunk(
 export const asyncRegisterUniversity = createAsyncThunk(
   'user/registerUniversity',
   async ({ user, toast, history }) => {
-    console.log('WORLD!');
-
     try {
       const response = await axios({
         method: 'post',
@@ -258,6 +256,8 @@ const initialState = {
   fname: '',
   lname: '',
   university: '',
+  wam: '',
+  degree: '',
   // Common to Company and University
   name: '',
   description: '',
@@ -359,6 +359,7 @@ export const userSlice = createSlice({
       })
       .addCase(asyncLogout.fulfilled, (state) => {
         state.loggedIn = false;
+        state.role = '';
       })
       // Profile Pending
       .addCase(asyncUpdateUniversity.pending, (state) => {
@@ -372,12 +373,24 @@ export const userSlice = createSlice({
       })
       // Profile Success
       .addCase(asyncUpdateUniversity.fulfilled, (state, { payload }) => {
+        state.name = payload.university_name;
+        state.logo = payload.university_logo_64;
+        state.website = payload.university_site_url;
         state.status = false;
       })
       .addCase(asyncUpdateCompany.fulfilled, (state, { payload }) => {
+        state.description = payload.company_description;
+        state.logo = payload.company_logo_64;
+        state.name = payload.company_name;
+        state.website = payload.company_webpage_url;
         state.status = false;
       })
       .addCase(asyncUpdateStudent.fulfilled, (state, { payload }) => {
+        state.fname = payload.first_name;
+        state.lname = payload.last_name;
+        state.university = payload.university;
+        state.wam = payload.wam;
+        state.degree = payload.degree;
         state.status = false;
       });
   },

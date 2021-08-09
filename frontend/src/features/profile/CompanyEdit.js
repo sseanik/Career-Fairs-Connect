@@ -82,7 +82,13 @@ export default function Profile() {
 
   return (
     <>
-      <Container maxW={'container.md'} p={12}>
+      <Container
+        rounded='2xl'
+        mt='4'
+        borderWidth='1px'
+        maxW={'container.md'}
+        p={12}
+      >
         <Heading
           as={'h2'}
           fontSize={{ base: 'xl', sm: '2xl' }}

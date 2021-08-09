@@ -14,6 +14,7 @@ import { IoMdSchool } from 'react-icons/io';
 import { GiSheep } from 'react-icons/gi';
 
 import { Logo } from './Logo';
+import { useSelector } from 'react-redux';
 
 const SocialButton = ({ children, label, href }) => {
   return (
@@ -38,6 +39,8 @@ const SocialButton = ({ children, label, href }) => {
 };
 
 export default function Footer() {
+  const userRole = useSelector((state) => state.user.role);
+
   return (
     <Box
       bg={useColorModeValue('gray.50', 'gray.900')}
@@ -48,7 +51,13 @@ export default function Footer() {
       bottom={0}
       min-height={'calc(100vh - 34px)'}
       borderBottom='6px solid'
-      borderBottomColor='blue.400'
+      borderBottomColor={
+        userRole === 'University'
+          ? 'orange.400'
+          : userRole === 'Company'
+          ? 'green.400'
+          : 'blue.400'
+      }
     >
       <Container
         as={Stack}
