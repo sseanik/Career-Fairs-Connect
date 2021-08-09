@@ -21,7 +21,8 @@ from rest_framework.permissions import IsAuthenticated
             "presentation_id": openapi.Schema(type=openapi.TYPE_NUMBER),
             "stall_id": openapi.Schema(type=openapi.TYPE_NUMBER),
             "title": openapi.Schema(type=openapi.TYPE_STRING),
-            "colour": openapi.Schema(type=openapi.TYPE_STRING),
+            "color": openapi.Schema(type=openapi.TYPE_STRING),
+            "textColor": openapi.Schema(type=openapi.TYPE_STRING),
             "presentation_link": openapi.Schema(type=openapi.TYPE_STRING),
             "start_time": openapi.Schema(type=openapi.TYPE_STRING),
             "end_time": openapi.Schema(type=openapi.TYPE_STRING),
@@ -57,7 +58,7 @@ def get_all_presentations(request, eventId):
 @swagger_auto_schema(method="get",
     responses={
             200 : openapi.Schema(type=openapi.TYPE_OBJECT,properties={
-            "presentations": openapi.Schema(type=openapi.TYPE_ARRAY,items=openapi.Items(type="stall_id, start_time,end_time, presentation_link, presentation_description, title, color")),   
+            "presentations": openapi.Schema(type=openapi.TYPE_ARRAY,items=openapi.Items(type="stall_id, start_time,end_time, presentation_link, presentation_description, title, color, textColor")),   
             404: "Not found",
         })
     },
@@ -71,7 +72,7 @@ def get_presentation(request, stallId):
         presentation = Presentations.objects.get(stall_id=stallId)
     except:
         return Response(status=status.HTTP_404_NOT_FOUND)
-    presentation_serializer = PresentationSerializer(presentation, fields=('stall_id','start_time','end_time', 'presentation_link', 'presentation_description', 'title', 'color'))
+    presentation_serializer = PresentationSerializer(presentation, fields=('stall_id','start_time','end_time', 'presentation_link', 'presentation_description', 'title', 'color', 'textColor'))
     return Response(presentation_serializer.data, status=status.HTTP_201_CREATED)   
     
 @swagger_auto_schema(method="post", request_body=openapi.Schema(
@@ -84,6 +85,7 @@ def get_presentation(request, stallId):
         'presentation_link': openapi.Schema(type=openapi.TYPE_STRING),
         'title': openapi.Schema(type=openapi.TYPE_STRING),
         'color': openapi.Schema(type=openapi.TYPE_STRING),
+        'textColor': openapi.Schema(type=openapi.TYPE_STRING),
         }),
     responses={
         201: openapi.Schema(
@@ -96,6 +98,7 @@ def get_presentation(request, stallId):
                 'presentation_link': openapi.Schema(type=openapi.TYPE_STRING),
                 'title': openapi.Schema(type=openapi.TYPE_STRING),
                 'color': openapi.Schema(type=openapi.TYPE_STRING),
+                'textColor': openapi.Schema(type=openapi.TYPE_STRING),
         }),  
         400: "Bad request",
         403: "Permission denied"
@@ -111,12 +114,15 @@ def create_presentation(request):
     opportunityOwner = Stalls.objects.get(stall_id = request.data['stall_id']).company_id.company_id
     if requestUserCompany != opportunityOwner:
         return Response({"Forbidden" : "Stall does not belong to user"}, status=403)
-    presentation_serializer = PresentationSerializer(data=request.data, fields=('stall_id','start_time','end_time', 'presentation_link', 'presentation_description', 'title', 'color'))
+    presentation_serializer = PresentationSerializer(data=request.data, fields=('stall_id','start_time','end_time', 'presentation_link', 'presentation_description', 'title', 'color', 'textColor'))
     
     if not presentation_serializer.is_valid():
         return Response(presentation_serializer.errors, status=status.HTTP_400_BAD_REQUEST)
     presentation_serializer.save()
-    return Response(presentation_serializer.data, status=status.HTTP_201_CREATED)   
+    presentationObj = Presentations.objects.all()
+    presentationObj = presentationObj.last()
+    serializer = PresentationSerializer(presentationObj)
+    return Response(serializer.data, status=status.HTTP_201_CREATED)   
 
 
 
@@ -131,6 +137,7 @@ def create_presentation(request):
         'presentation_link': openapi.Schema(type=openapi.TYPE_STRING),
         'title': openapi.Schema(type=openapi.TYPE_STRING),
         'color': openapi.Schema(type=openapi.TYPE_STRING),
+        'textColor': openapi.Schema(type=openapi.TYPE_STRING),
         },
     responses={
         201: openapi.Schema(
@@ -144,6 +151,7 @@ def create_presentation(request):
                 'presentation_link': openapi.Schema(type=openapi.TYPE_STRING),
                 'title': openapi.Schema(type=openapi.TYPE_STRING),
                 'color': openapi.Schema(type=openapi.TYPE_STRING),
+                'textColor': openapi.Schema(type=openapi.TYPE_STRING),
         }),
         400: "Bad request",
         403: "Permission denied"
@@ -164,7 +172,7 @@ def edit_presentation(request):
         presentation = Presentations.objects.get(presentation_id=request.data['presentation_id'])
     except:
         return Response(status=status.HTTP_404_NOT_FOUND)
-    presentation_serializer = PresentationSerializer(presentation, data=request.data, fields=('presentation_id','stall_id','start_time','end_time', 'presentation_link', 'presentation_description', 'title', 'color'))
+    presentation_serializer = PresentationSerializer(presentation, data=request.data, fields=('presentation_id','stall_id','start_time','end_time', 'presentation_link', 'presentation_description', 'title', 'color', 'textColor'))
     if not presentation_serializer.is_valid():
         return Response(presentation_serializer.errors, status=status.HTTP_400_BAD_REQUEST)
     presentation_serializer.save()

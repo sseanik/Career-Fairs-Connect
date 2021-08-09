@@ -20,14 +20,19 @@ export function AnswerModal(props) {
   const toast = useToast();
 
   const editAnswer = () => {
+    console.log(props)
     props.answer &&
-      dispatch(asyncAnswerQuestion({ id: props.id, answer: props.answer, toast: toast }));
+      dispatch(asyncAnswerQuestion({ questionId: props.questionId, stallId: props.stallId, 
+      answer: {
+        answer: props.answer
+      }, toast: toast }));
   };
 
   const submitForm = () => {
     editAnswer({
     qandas: {
-      id: props.id,
+      questionId: props.questionId,
+      stallId: props.stallId,      
       answer: props.answer
     },
     toast: toast
@@ -37,7 +42,7 @@ export function AnswerModal(props) {
   }
 
   return (
-    <ModalContent>
+    <ModalContent p='15px'>
       <ModalCloseButton />
       <Text mb='8px' fontWeight='semibold'>
         Edit your Answer:
@@ -55,6 +60,7 @@ export function AnswerModal(props) {
         isLoading={buttonLoading}
         loadingText='Submitting'
         spinnerPlacement='end'
+        colorScheme='green'
       >
         Submit
       </Button>

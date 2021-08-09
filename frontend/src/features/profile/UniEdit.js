@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { useHistory } from 'react-router-dom';
 import { asyncUpdateUniversity } from '../auth/userSlice';
 import {
@@ -8,64 +8,62 @@ import {
   FormLabel,
   Button,
   useToast,
+  //Image
+  Image,
+  FormControl,
+  FormErrorMessage,
 } from '@chakra-ui/react';
-import { Formik } from 'formik';
+import { Field, Formik } from 'formik';
 import * as Yup from 'yup';
 import { InputControl } from 'formik-chakra-ui';
 import { useSelector, useDispatch } from 'react-redux';
 import UniSelector from './UniSelector.js';
-
+//process image
+import { convertImageToBase64, selectBase64Image } from '../auth/logoSlice';
 
 const validationSchema = Yup.object({
   website: Yup.string()
     .matches(/^http(s)?:.*$/, 'Website URL is invalid')
     .required('Website URL is Required')
     .max(256),
-  university: Yup.string()
-    .required('University is Required'),
-
+  university: Yup.string().required('University is Required'),
 });
 
 export default function Profile() {
   const history = useHistory();
   const user = useSelector((state) => state.user);
 
+  const base64Image = useSelector(selectBase64Image);
+
   const initialValues = {
     university: user.name,
     website: user.website,
-    // logo: '', //companyData.logo,
+    logo: '', //user.logo,
   };
 
-  // const [picture, setPicture] = useState(null);
-  // const [imgSrc, setImgSrc] = useState(companyData.logo);
-  // console.log('imgSrc=',imgSrc)
+  useEffect(() => {
+    const image = document.getElementById('oldLogo');
+    image.src = base64Image;
+  }, [base64Image]);
 
-  // useEffect(() => {
-  //   const image = document.getElementById("oldLogo");
-  //   image.src = imgSrc;
-  // }, [imgSrc]);
-
-  // const base64Image = useSelector(selectBase64Image);
   const dispatch = useDispatch();
   const toast = useToast();
-  // ?
   const saveStatus = useSelector((state) => state.user.status);
-  console.log('user data get by uni edit:', user);
-  // const uploadImage = (e, setFieldValue) => {
-  //   dispatch(convertImageToBase64(e));
-  //   setFieldValue('logo', e.target.value);
-  //   console.log('e.target.value: ', e.target.value);
-  //   setImgSrc(e.target.value);
-  // };
+
+  const uploadImage = (e, setFieldValue) => {
+    dispatch(convertImageToBase64(e));
+    setFieldValue('logo', e.target.value);
+  };
 
   const submitForm = (values, actions) => {
+    const update_logo = values.logo ? base64Image : user.logo;
     actions.setSubmitting(false);
     dispatch(
       asyncUpdateUniversity({
         user: {
           university_name: values.university,
           university_site_url: values.website,
-          university_logo_64: user.logo,
+          university_logo_64: update_logo,
         },
         id: user.universityID,
         toast: toast,
@@ -81,6 +79,9 @@ export default function Profile() {
   return (
     <>
       <Container
+        rounded='2xl'
+        mt='4'
+        borderWidth='1px'
         maxW={'container.md'}
         p={12}
       >
@@ -88,7 +89,8 @@ export default function Profile() {
           as={'h2'}
           fontSize={{ base: 'xl', sm: '2xl' }}
           textAlign={'center'}
-          mb={5}>
+          mb={5}
+        >
           Edit Profile
         </Heading>
 
@@ -104,13 +106,17 @@ export default function Profile() {
               spacing={'6'}
               onSubmit={handleSubmit}
             >
-
-              {/* <Stack direction="row" spacing={10} align='center' justify='center'>
+              <Stack
+                direction='row'
+                spacing={10}
+                align='center'
+                justify='center'
+              >
                 <Image
                   id='oldLogo'
-                  src={imgSrc}
-                  alt={`${companyData.company}-logo`}
-                  boxSize="150px"
+                  src={user.logo}
+                  alt={`${user.name}-logo`}
+                  boxSize='150px'
                   objectFit='contain'
                 />
                 <Field name='logo'>
@@ -130,13 +136,13 @@ export default function Profile() {
                     </FormControl>
                   )}
                 </Field>
-              </Stack> */}
+              </Stack>
 
               <InputControl name='website' label='Website URL' />
               <FormLabel htmlFor='university'>Select University</FormLabel>
               <UniSelector />
 
-              <Stack direction="row" spacing={4} justify='center'>
+              <Stack direction='row' spacing={4} justify='center'>
                 <Button
                   colorScheme={'blue'}
                   variant={'outline'}
@@ -156,7 +162,6 @@ export default function Profile() {
                   Save
                 </Button>
               </Stack>
-
             </Stack>
           )}
         </Formik>

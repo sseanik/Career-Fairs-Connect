@@ -97,18 +97,11 @@ const validationSchema = Yup.object({
 });
 
 export function StudentRegister() {
-  const loggedIn = useSelector((state) => state.user.loggedIn);
   const registerStatus = useSelector((state) => state.user.status);
   const dispatch = useDispatch();
   const toast = useToast();
   const { colorMode } = useColorMode();
   const history = useHistory();
-
-  React.useState(() => {
-    if (loggedIn) {
-      console.log('Sign the user In');
-    }
-  });
 
   const submitForm = (values, actions) => {
     actions.setSubmitting(false);
