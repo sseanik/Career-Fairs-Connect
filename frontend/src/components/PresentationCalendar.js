@@ -23,6 +23,7 @@ import auLocale from '@fullcalendar/core/locales/en-au';
 import { PresentationModal } from './PresentationModal';
 import { CalendarModal } from './CalendarModal';
 import { InfoIcon } from '@chakra-ui/icons';
+import getContrastColour from '../util/getContrastColor';
 
 export function PresentationCalendar(props) {
   const { isOpen, onOpen, onClose } = useDisclosure();
@@ -45,8 +46,6 @@ export function PresentationCalendar(props) {
   const toast = useToast();
 
   const eventClick = (info) => {
-    console.log(info.event);
-    console.log(info.event.extendedProps);
     setModalEventDetails({
       id: info.event.id,
       title: info.event.title,
@@ -69,7 +68,6 @@ export function PresentationCalendar(props) {
   };
 
   const changeEvent = (e) => {
-    console.log(e.event.start);
     dispatch(
       asyncEditPresentation({
         presentation: {
@@ -81,6 +79,7 @@ export function PresentationCalendar(props) {
           end_time: e.event.end,
           color: props.bgColour,
           stall_id: props.fairID,
+          textColor: getContrastColour(props.bgColour),
         },
         toast: toast,
       })
@@ -178,8 +177,6 @@ export function PresentationCalendar(props) {
         select={(event) => selectEvent(event)}
         // Confirm if user wants to edit
         eventChange={(event) => changeEvent(event)}
-        // eventAdd={() => console.log('add')}
-        // eventRemove={() => console.log('remove')}
       />
 
       {props.edit && (

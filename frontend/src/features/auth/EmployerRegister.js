@@ -54,7 +54,7 @@ const validationSchema = Yup.object({
     .required('Company Description is Required')
     .max(512),
   website: Yup.string()
-    .matches(/^http(s)?:.*$/, 'Website URL is invalid')
+    .matches(/^http(s)?:.*$/, 'Website URL is invalid. Must contain http(s)://')
     .required('Website URL is Required')
     .max(256),
   logo: Yup.string().required('Logo upload is Required'),
@@ -62,7 +62,6 @@ const validationSchema = Yup.object({
 
 export default function EmployerRegister() {
   const base64Image = useSelector(selectBase64Image);
-  const loggedIn = useSelector((state) => state.user.loggedIn);
   const registerStatus = useSelector((state) => state.user.status);
   const dispatch = useDispatch();
   const toast = useToast();
@@ -73,12 +72,6 @@ export default function EmployerRegister() {
     dispatch(convertImageToBase64(e));
     setFieldValue('logo', e.target.value);
   };
-
-  React.useState(() => {
-    if (loggedIn) {
-      console.log('Sign the user In');
-    }
-  });
 
   const submitForm = (values, actions) => {
     actions.setSubmitting(false);

@@ -25,6 +25,8 @@ class Question(APIView):
         operation_summary="Update a previously created question",
     )
     def put(self, request, stallId, postId, format=None):
+        if not request.data and not request.data['question']:
+            return Response("Missing field 'question'", status=400)
         if not request.user.is_authenticated:
             return Response("Please pass Token in the Authorisation header", status=status.HTTP_401_UNAUTHORIZED)
         userId = request.user.userID
@@ -52,8 +54,8 @@ class Question(APIView):
     )
     def delete(self, request, stallId, postId, format=None):
         questionObj = get_object_or_404(QAMessages, pk=postId)
-        # if int(questionObj.author_id) != request.user.userID: # Dear frontend - use this if unexpected Forbidden failure
-        if questionObj.author_id != request.user.userID:
+        if questionObj.author_id.userID != request.user.userID: # Dear frontend - use this if unexpected Forbidden failure
+        #if questionObj.author_id != request.user.userID:
             return Response({"Forbidden" : "Only the question owner can call for deletion"},status=403)
         questionObj.delete()
         return Response("Deleted", status=200)

@@ -88,7 +88,13 @@ export function OpportunityModal(props) {
   }, [dispatch, closeModal, formStatus]);
 
   const deleteOpportunity = () => {
-    dispatch(asyncDeleteOpportunity({ id: props.id, toast: toast }));
+    dispatch(
+      asyncDeleteOpportunity({
+        companyID: props.companyID,
+        jobID: props.id,
+        toast: toast,
+      })
+    );
   };
 
   const submitForm = (values, actions) => {
@@ -104,7 +110,7 @@ export function OpportunityModal(props) {
               expiry: new Date(values.expiry).getTime(),
               application_link: values.link,
               job_description: values.description,
-              stall_id: props.stallID
+              stall_id: props.stallID,
             },
             stallID: props.stallID,
             toast: toast,
@@ -126,6 +132,7 @@ export function OpportunityModal(props) {
             toast: toast,
           })
         );
+    closeModal();
   };
 
   return (
@@ -192,7 +199,7 @@ export function OpportunityModal(props) {
                     >
                       <FormLabel htmlFor='wam'>WAM Requirement</FormLabel>
                       <Select {...field} id='wam'>
-                        <option value='None' selected='selected'>
+                        <option value='None' defaultValue='selected'>
                           None
                         </option>
                         <option value='Pass'>Pass</option>

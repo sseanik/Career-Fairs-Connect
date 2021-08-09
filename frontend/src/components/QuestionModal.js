@@ -21,13 +21,17 @@ export function QuestionModal(props) {
 
   const editQuestion = () => {
     props.question &&
-      dispatch(asyncEditQuestion({ id: props.id, question: props.question, toast: toast }));
+      dispatch(asyncEditQuestion({ questionId: props.questionId, stallId: props.stallId,
+      question: {
+        question: props.question
+      }, toast: toast }));
   };
 
   const submitForm = () => {
     editQuestion({
     qandas: {
-      id: props.id,
+      questionId: props.questionId,
+      stallId: props.stallId,
       question: props.question
     },
     toast: toast
@@ -37,7 +41,7 @@ export function QuestionModal(props) {
   }
 
   return (
-    <ModalContent>
+    <ModalContent p='15px'>
       <ModalCloseButton />
       <Text mb='8px' fontWeight='semibold'>
         Edit your Question:
@@ -55,6 +59,7 @@ export function QuestionModal(props) {
         isLoading={buttonLoading}
         loadingText='Submitting'
         spinnerPlacement='end'
+        colorScheme='green'
       >
         Submit
       </Button>
