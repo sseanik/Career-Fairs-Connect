@@ -18,10 +18,7 @@ import {
 } from '@chakra-ui/react';
 // Redux
 import { useDispatch, useSelector } from 'react-redux';
-import {
-  asyncDeleteQuestion,
-  asyncPostQuestion,
-} from './stallSlice';
+import { asyncDeleteQuestion, asyncPostQuestion } from './stallSlice';
 import { QuestionModal } from '../../components/QuestionModal';
 import { AnswerModal } from '../../components/AnswerModal';
 import { RiPencilFill } from 'react-icons/ri';
@@ -31,7 +28,7 @@ export function QuestionsAndAnswers(props) {
   const [isQuestion, setIsQuestion] = React.useState(true);
   const [question, setQuestion] = React.useState('');
   const [modalAnswer, setModalAnswer] = React.useState('');
-  const [firstAnswer, setFirstAnswer] = React.useState(true)
+  const [firstAnswer, setFirstAnswer] = React.useState(true);
   const [id, setId] = React.useState('');
   const buttonLoading = useSelector((state) => state.stall.status);
   const toast = useToast();
@@ -41,32 +38,6 @@ export function QuestionsAndAnswers(props) {
 
   const postQuestion = () => {
     question &&
-<<<<<<< HEAD
-      dispatch(asyncPostQuestion({
-        id: props.stallID,
-        question: {
-          question: question
-        },
-        toast: toast
-      }));
-  };
-
-  const postAnswer = (id) => {
-    answer &&
-      dispatch(asyncAnswerQuestion({
-        questionId: id, stallId: props.stallID,
-        answer: {
-          answer: answer
-        }, toast: toast
-      }))
-        .then(setAnswer(''))
-  }
-
-  const deleteQuestion = (id) => {
-    id &&
-      dispatch(asyncDeleteQuestion({ stallId: props.stallID, postId: id, toast: toast }))
-  }
-=======
       dispatch(
         asyncPostQuestion({
           id: props.stallID,
@@ -76,7 +47,7 @@ export function QuestionsAndAnswers(props) {
           toast: toast,
         })
       );
-    setQuestion('')
+    setQuestion('');
   };
 
   const deleteQuestion = (id) => {
@@ -89,17 +60,12 @@ export function QuestionsAndAnswers(props) {
         })
       );
   };
->>>>>>> main
 
   return (
     <div>
       <Modal isOpen={isOpen} onClose={onClose}>
         <ModalOverlay />
-<<<<<<< HEAD
-        {isQuestion ?
-=======
         {isQuestion ? (
->>>>>>> main
           <QuestionModal
             isOpen={isOpen}
             stallId={props.stallID}
@@ -108,28 +74,17 @@ export function QuestionsAndAnswers(props) {
             question={question}
             setQuestion={setQuestion}
           />
-<<<<<<< HEAD
-          :
-=======
         ) : (
->>>>>>> main
           <AnswerModal
             isOpen={isOpen}
             stallId={props.stallID}
             questionId={id}
             onClose={onClose}
-<<<<<<< HEAD
-            answer={answer}
-            setAnswer={setAnswer}
-          />
-        }
-=======
             answer={modalAnswer}
             setAnswer={setModalAnswer}
             firstAnswer={firstAnswer}
           />
         )}
->>>>>>> main
       </Modal>
       <Box>
         <Text mb='8px' fontWeight='semibold'>
@@ -152,55 +107,6 @@ export function QuestionsAndAnswers(props) {
         >
           Submit
         </Button>
-<<<<<<< HEAD
-
-        <Accordion allowMultiple>
-          {props.qandas.map((qanda, idx) => (
-            <AccordionItem isDisabled={!qanda.answer && (companyId !== props.companyID)} key={`qanda-${idx}`}>
-              <h2>
-                <AccordionButton>
-                  <Box flex='1' textAlign='left' fontWeight='semibold'>
-                    {qanda.question}
-                    {(userId === qanda.author_id) ?
-                      <>
-                        <Button
-                          leftIcon={<RiPencilFill />}
-                          size='sm'
-                          ml='3'
-                          onClick={() => {
-                            setQuestion(qanda.question);
-                            setId(qanda.id);
-                            setIsQuestion(true)
-                            onOpen();
-                          }}
-                        >
-                          Edit
-                        </Button>
-                        <Button
-                          colorScheme='red'
-                          size='sm'
-                          ml='3'
-                          onClick={() => {
-                            deleteQuestion(qanda.id);
-                          }}
-                        >
-                          Delete
-                        </Button>
-                      </>
-                      :
-                      <> </>}
-                  </Box>
-                  <AccordionIcon />
-                </AccordionButton>
-              </h2>
-              <AccordionPanel pb={4}>
-
-                {!qanda.answer ?
-                  <>
-                    <Textarea
-                      value={answer}
-                      onChange={(e) => setAnswer(e.target.value)}
-=======
         <Accordion allowMultiple>
           {props.qandas.map((qanda, idx) => (
             <AccordionItem
@@ -216,32 +122,12 @@ export function QuestionsAndAnswers(props) {
                 </AccordionButton>
                 {userId === qanda.author_id ? (
                   <>
-                    <Button
-                      leftIcon={<RiPencilFill />}
->>>>>>> main
-                      size='sm'
-                    />
+                    <Button leftIcon={<RiPencilFill />} size='sm' />
                     <Button
                       size='sm'
                       mt='2'
                       mb='4'
                       onClick={() => {
-<<<<<<< HEAD
-                        postAnswer(qanda.id)
-                      }}
-                      isLoading={buttonLoading}
-                      loadingText='Submitting'
-                      spinnerPlacement='end'
-                    >
-                      Submit
-                    </Button></>
-                  :
-                  <Flex>
-                    <Box>
-                      {qanda.answer}
-                    </Box>
-                    {(companyId === props.companyID) ?
-=======
                         setQuestion(qanda.question);
                         setId(qanda.id);
                         setIsQuestion(true);
@@ -268,64 +154,49 @@ export function QuestionsAndAnswers(props) {
               <AccordionPanel pb={4}>
                 {!qanda.answer ? (
                   <Flex>
-                  <Box>{qanda.answer}</Box>
-                  {companyId === props.companyID ? (
-                    <Button
-                      leftIcon={<RiPencilFill />}
-                      size='sm'
-                      onClick={() => {
-                        setModalAnswer(qanda.answer);
-                        setId(qanda.id);
-                        setIsQuestion(false);
-                        setFirstAnswer(true)
-                        onOpen();
-                      }}
-                    >
-                      Answer Question
-                    </Button>
-                  ) : (
-                    <> </>
-                  )}
-                </Flex>
+                    <Box>{qanda.answer}</Box>
+                    {companyId === props.companyID ? (
+                      <Button
+                        leftIcon={<RiPencilFill />}
+                        size='sm'
+                        onClick={() => {
+                          setModalAnswer(qanda.answer);
+                          setId(qanda.id);
+                          setIsQuestion(false);
+                          setFirstAnswer(true);
+                          onOpen();
+                        }}
+                      >
+                        Answer Question
+                      </Button>
+                    ) : (
+                      <> </>
+                    )}
+                  </Flex>
                 ) : (
                   <Flex>
                     <Box pr='10px'>{qanda.answer}</Box>
                     {companyId === props.companyID ? (
->>>>>>> main
                       <Button
                         leftIcon={<RiPencilFill />}
                         align='right'
                         size='sm'
                         ml='auto'
                         onClick={() => {
-<<<<<<< HEAD
-                          setAnswer(qanda.answer);
-                          setId(qanda.id);
-                          setIsQuestion(false)
-=======
                           setModalAnswer(qanda.answer);
                           setId(qanda.id);
                           setIsQuestion(false);
-                          setFirstAnswer(false)
->>>>>>> main
+                          setFirstAnswer(false);
                           onOpen();
                         }}
                       >
                         Edit
                       </Button>
-<<<<<<< HEAD
-                      :
-                      <> </>
-                    }
-                  </Flex>
-                }
-=======
                     ) : (
                       <> </>
                     )}
                   </Flex>
                 )}
->>>>>>> main
               </AccordionPanel>
             </AccordionItem>
           ))}
