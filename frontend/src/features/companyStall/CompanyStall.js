@@ -14,29 +14,31 @@ import {
   TabPanel,
   TabPanels,
   Tabs,
+  useBreakpointValue,
   useColorModeValue,
 } from '@chakra-ui/react';
 import { ArrowBackIcon } from '@chakra-ui/icons';
 // Components
-import Navbar from '../../components/navbar';
 import { DetailsCard } from '../../components/DetailsCard';
 import { OpportunitiesTable } from '../../components/OpportunitiesTable';
 import { QuestionsAndAnswers } from './QuestionsAndAnswers';
 import { PresentationCalendar } from '../../components/PresentationCalendar';
 import { SkeletonFairEvent } from '../careerEvents/SkeletonFairEvent';
+import { BiDetail } from 'react-icons/bi';
+import { IoCalendar } from 'react-icons/io5';
+import { MdQuestionAnswer } from 'react-icons/md';
 
 export default function CompanyStall(props) {
   const stallID = props.match.params.stallID;
   const location = useLocation();
   // Redux
   const dispatch = useDispatch();
-  const width = useSelector((state) => state.window.width);
   const stallData = useSelector((state) => state.stall);
   const userData = useSelector((state) => state.user);
 
   // On page load, gather all stall data
   React.useEffect(
-    () => dispatch(asyncFetchStallData(stallID)),
+    () => dispatch(asyncFetchStallData({ stallID: parseInt(stallID) })),
     [dispatch, stallID]
   );
 
@@ -71,7 +73,6 @@ export default function CompanyStall(props) {
 
   return (
     <div>
-      <Navbar />
       <Box
         borderWidth='1px'
         borderColor={useColorModeValue('gray.300', 'gray.700')}
@@ -95,7 +96,11 @@ export default function CompanyStall(props) {
                 bg: stallData.bgColour,
               }}
             >
-              {width <= 830 ? 'Details' : 'Career Fair Details'}
+              {useBreakpointValue({
+                base: <BiDetail />,
+                sm: 'Details',
+                md: 'Career Details',
+              })}
             </Tab>
             <Tab
               onClick={() => updateURL('presentation')}
@@ -104,7 +109,11 @@ export default function CompanyStall(props) {
                 bg: stallData.bgColour,
               }}
             >
-              {width <= 830 ? 'Calendar' : 'Presentation Calendar'}
+              {useBreakpointValue({
+                base: <IoCalendar />,
+                sm: 'Calendar',
+                md: 'Presentation Calendar',
+              })}{' '}
             </Tab>
             <Tab
               onClick={() => updateURL('qanda')}
@@ -113,7 +122,11 @@ export default function CompanyStall(props) {
                 bg: stallData.bgColour,
               }}
             >
-              {width <= 830 ? 'Q & A' : 'Questions & Answers'}
+              {useBreakpointValue({
+                base: <MdQuestionAnswer />,
+                sm: 'Q & A',
+                md: 'Question & Answers',
+              })}
             </Tab>
             <Spacer />
             <Button
@@ -127,7 +140,11 @@ export default function CompanyStall(props) {
               to={`/fair/${stallData.fairID}`}
               onClick={() => navigateBack()}
             >
-              {width <= 830 ? 'Back' : 'Back to Career Fair'}
+              {useBreakpointValue({
+                base: '',
+                sm: 'Back',
+                md: 'Back to Career Fair',
+              })}{' '}
             </Button>
           </TabList>
           <TabPanels>
@@ -157,11 +174,12 @@ export default function CompanyStall(props) {
                   userData.role === 'Company' &&
                   userData.name === stallData.company
                 }
+                fairID={stallID}
                 stall
               />
             </TabPanel>
             <TabPanel>
-              <QuestionsAndAnswers qandas={stallData.qandas} />
+              <QuestionsAndAnswers qandas={stallData.qandas} stallID={stallID} companyID={stallData.companyID} />
             </TabPanel>
           </TabPanels>
         </Tabs>
@@ -179,6 +197,7 @@ export default function CompanyStall(props) {
           interact={true}
           loading={stallData.loading}
           company={stallData.company}
+          fairID={stallID}
         />
       </Box>
     </div>

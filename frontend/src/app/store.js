@@ -1,5 +1,4 @@
 import { configureStore } from '@reduxjs/toolkit';
-import counterReducer from '../features/counter/counterSlice';
 import logoReducer from '../features/auth/logoSlice';
 import userReducer from '../features/auth/userSlice';
 import eventsReducer from '../features/careerEvents/eventsSlice';
@@ -12,7 +11,6 @@ import windowReducer, {
 
 export const store = configureStore({
   reducer: {
-    counter: counterReducer,
     user: userReducer,
     window: windowReducer,
     logo: logoReducer,

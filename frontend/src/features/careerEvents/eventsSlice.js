@@ -1,41 +1,77 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
-import { getEventsData } from '../../exampleData/exampleCareerEvents';
+import axios from 'axios';
 
 // Fetch Career Fair Events
 export const asyncFetchEventsData = createAsyncThunk(
   'events/careerFairs',
-  async () => {
-    const response = await getEventsData();
-    return response;
+  async (token) => {
+    const response = await axios({
+      method: 'get',
+      url: '/careerfairs/',
+      // headers: {
+      //   Authorization: `Token ${token}`,
+      // },
+    });
+
+    const data = await response.data;
+
+    return data;
   }
 );
 
 // Create a Career Fair Event
 export const asyncCreateFairEvent = createAsyncThunk(
   'events/create',
-  async ({ event, toast }) => {
-    await new Promise((r) => setTimeout(r, 3000));
-    const response = { ...event, id: '555' };
-    toast({
-      description: 'Successfully created event',
-      status: 'success',
-      isClosable: true,
+  async ({ event, toast, id, university }) => {
+    const response = await axios({
+      method: 'post',
+      url: `/university/${id}/careerfairs/`,
+      data: event,
+      headers: {
+        Authorization: `Token ${localStorage.getItem('token')}`,
+      },
     });
-    return response;
+
+    if (response.status === 200) {
+      toast({
+        description: 'Successfully created Career Fair',
+        status: 'success',
+        isClosable: true,
+      });
+    } else {
+      toast({
+        description: 'Login Failed',
+        status: 'error',
+        isClosable: true,
+      });
+    }
+
+    const data = await response.data;
+    return { data: data, university: university };
   }
 );
 
 // Delete a Career Fair Event
 export const asyncDeleteFairEvent = createAsyncThunk(
   'events/delete',
-  async ({ id, toast }) => {
-    await new Promise((r) => setTimeout(r, 3000));
-    toast({
-      description: 'Successfully deleted event',
-      status: 'success',
-      isClosable: true,
+  async ({ eventID, toast }) => {
+    const response = await axios({
+      method: 'delete',
+      url: `/careerfairs/delete/${eventID}/`,
+      headers: {
+        Authorization: `Token ${localStorage.getItem('token')}`,
+      },
     });
-    return;
+
+    if (response.status === 200) {
+      toast({
+        description: 'Successfully deleted event',
+        status: 'success',
+        isClosable: true,
+      });
+    }
+
+    return parseInt(eventID);
   }
 );
 
@@ -70,7 +106,15 @@ export const eventsSlice = createSlice({
       })
       .addCase(asyncCreateFairEvent.fulfilled, (state, { payload }) => {
         state.status = false;
-        state.events.push(payload);
+        state.events.push({
+          id: payload.data.event_id,
+          title: payload.data.title,
+          description: payload.data.description,
+          university: payload.university,
+          logo: payload.data.logo,
+          start: new Date(payload.data.start_date).getTime(),
+          end: new Date(payload.data.end_date).getTime(),
+        });
       })
       // Deleting a Career Fair Event
       .addCase(asyncDeleteFairEvent.pending, (state) => {
@@ -78,6 +122,7 @@ export const eventsSlice = createSlice({
       })
       .addCase(asyncDeleteFairEvent.fulfilled, (state, { payload }) => {
         state.status = false;
+        state.events = state.events.filter((event) => event.id !== payload);
       });
   },
 });

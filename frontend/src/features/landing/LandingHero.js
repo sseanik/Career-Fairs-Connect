@@ -11,8 +11,9 @@ import {
   useColorModeValue,
 } from '@chakra-ui/react';
 import { Link } from 'react-router-dom';
-import Fade from 'react-reveal/Fade';
+import { Fade } from 'react-awesome-reveal';
 import handshake from './handshake.jpg';
+import React from 'react';
 
 export default function LandingHero() {
   return (
@@ -20,7 +21,7 @@ export default function LandingHero() {
       <Stack
         align={'center'}
         spacing={{ base: 8, md: 10 }}
-        pt={{ base: 20, md: 28 }}
+        pt={{ base: '8', md: '20' }}
         mx={{ base: 5, md: 5 }}
         direction={{ base: 'column', md: 'row' }}
       >
@@ -53,7 +54,7 @@ export default function LandingHero() {
             <Heading
               lineHeight={1.1}
               fontWeight={500}
-              fontSize={{ base: '2xl', sm: '3xl', lg: '4xl' }}
+              fontSize={{ base: 'xl', sm: '2xl', lg: '3xl' }}
             >
               <Text as={'span'} color={'blue.400'} size='sm'>
                 Connecting Students with Opportunities
@@ -61,7 +62,7 @@ export default function LandingHero() {
             </Heading>
           </Fade>
           <Fade down>
-            <Text color={'gray.500'}>
+            <Text>
               Career Fairs Connect is an online virtual careers fair platform
               that provides Universities with a means to organize an online fair
               space for employers and students.
@@ -77,10 +78,10 @@ export default function LandingHero() {
                 size={'lg'}
                 fontWeight={'normal'}
                 px={6}
-                colorScheme={'blue'}
                 bg={'blue.400'}
                 _hover={{ bg: useColorModeValue('blue.500', 'blue.300') }}
                 as={Link}
+                color='white'
                 to='/register'
               >
                 Get Started

@@ -1,5 +1,5 @@
 import * as React from 'react';
-import Fade from 'react-reveal/Fade';
+import { Fade } from 'react-awesome-reveal';
 
 // Formik
 import { Field, Formik } from 'formik';
@@ -19,13 +19,11 @@ import {
   useColorMode,
 } from '@chakra-ui/react';
 import { InputControl, TextareaControl } from 'formik-chakra-ui';
-// Components
-import Navbar from '../../components/navbar';
 // Redux
 import { useSelector, useDispatch } from 'react-redux';
 import { convertImageToBase64, selectBase64Image } from './logoSlice';
 import { asyncRegisterCompany } from './userSlice';
-import { Link } from 'react-router-dom';
+import { Link, useHistory } from 'react-router-dom';
 import { ArrowBackIcon } from '@chakra-ui/icons';
 
 const initialValues = {
@@ -56,7 +54,7 @@ const validationSchema = Yup.object({
     .required('Company Description is Required')
     .max(512),
   website: Yup.string()
-    .matches(/^http(s)?:.*$/, 'Website URL is invalid')
+    .matches(/^http(s)?:.*$/, 'Website URL is invalid. Must contain http(s)://')
     .required('Website URL is Required')
     .max(256),
   logo: Yup.string().required('Logo upload is Required'),
@@ -64,33 +62,37 @@ const validationSchema = Yup.object({
 
 export default function EmployerRegister() {
   const base64Image = useSelector(selectBase64Image);
-  const loggedIn = useSelector((state) => state.user.loggedIn);
   const registerStatus = useSelector((state) => state.user.status);
   const dispatch = useDispatch();
   const toast = useToast();
   const { colorMode } = useColorMode();
+  const history = useHistory();
 
   const uploadImage = (e, setFieldValue) => {
     dispatch(convertImageToBase64(e));
     setFieldValue('logo', e.target.value);
   };
 
-  React.useState(() => {
-    if (loggedIn) {
-      console.log('Sign the user In');
-    }
-  });
-
   const submitForm = (values, actions) => {
-    console.log(values);
-    console.log(base64Image[0]);
     actions.setSubmitting(false);
-    dispatch(asyncRegisterCompany({ user: {}, toast: toast }));
+    dispatch(
+      asyncRegisterCompany({
+        user: {
+          email: values.email,
+          password: values.password,
+          company_name: values.company,
+          company_description: values.description,
+          company_webpage_url: values.website,
+          company_logo_64: base64Image,
+        },
+        history: history,
+        toast: toast,
+      })
+    );
   };
 
   return (
     <div>
-      <Navbar />
       <Fade duration={750}>
         <Formik
           initialValues={initialValues}
@@ -109,11 +111,15 @@ export default function EmployerRegister() {
               m='10px auto'
               as='form'
               onSubmit={handleSubmit}
-              mt='7'
+              mt='3'
               borderWidth='1px'
               borderColor={colorMode === 'light' ? 'gray.200' : 'gray.900'}
             >
-              <Flex justify='center'>
+              <Flex
+                justify='center'
+                direction={{ base: 'column', sm: 'row' }}
+                align='stretch'
+              >
                 <Button
                   leftIcon={<ArrowBackIcon />}
                   rounded='lg'
@@ -127,15 +133,13 @@ export default function EmployerRegister() {
                 </Button>
                 <Heading
                   flex={1}
-                  marginRight='auto'
                   lineHeight={1.1}
                   fontWeight={600}
-                  fontSize={{ base: '2xl', sm: '3xl', lg: '4xl' }}
-                  pb='4'
+                  fontSize={{ base: 'xl', sm: '3xl', lg: '4xl' }}
+                  py='2'
                   align='center'
                 >
                   <Text
-                    ml='-10'
                     zIndex={4}
                     as={'span'}
                     position={'relative'}
@@ -216,7 +220,12 @@ export default function EmployerRegister() {
                   Join Now
                 </Button>
               </Flex>
-              <Flex justify='center' pt='2'>
+              <Flex
+                justify='center'
+                pt='2'
+                direction={{ base: 'column', sm: 'row' }}
+                align='center'
+              >
                 {'Already have an account? '}
                 <Text
                   pl='1'

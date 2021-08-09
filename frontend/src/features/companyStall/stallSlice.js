@@ -1,17 +1,23 @@
 import { createAsyncThunk, createSlice, current } from '@reduxjs/toolkit';
-import { getStallData } from '../../exampleData/exampleCompanyStall';
 import { prominent } from 'color.js';
 import complementaryTextColour from '../../util/complementaryTextColour';
+import axios from 'axios';
 
 // Get Stall Data
 export const asyncFetchStallData = createAsyncThunk(
   'stall/company',
-  async (stallID) => {
-    const response = await getStallData(stallID);
-    const colour = await prominent(response.logo, {
+  async ({ stallID }) => {
+    const response = await axios({
+      method: 'get',
+      url: `/careerfairs/stalls/${stallID}/`,
+      headers: {
+        Authorization: `Token ${localStorage.getItem('token')}`,
+      },
+    });
+    const colour = await prominent(response.data.logo, {
       amount: 2,
     });
-    return { ...response, colour: colour };
+    return { ...response.data, colour: colour };
   }
 );
 
@@ -19,44 +25,65 @@ export const asyncFetchStallData = createAsyncThunk(
 // Add a Job Opportunity
 export const asyncAddOpportunity = createAsyncThunk(
   'stall/addOpportunity',
-  async ({ opportunity, toast }) => {
-    await new Promise((r) => setTimeout(r, 3000));
-    const response = { ...opportunity, id: '555' };
+  async ({ stallID, opportunity, toast }) => {
+    const response = await axios({
+      method: 'post',
+      url: `/company/${stallID}/opportunities/`,
+      data: opportunity,
+      headers: {
+        Authorization: `Token ${localStorage.getItem('token')}`,
+      },
+    });
     toast({
       description: 'Successfully added Opportunity',
       status: 'success',
       isClosable: true,
     });
-    return response;
+
+    const data = await response.data;
+    return data;
   }
 );
 
 // Edit Job Opportunity
 export const asyncEditOpportunity = createAsyncThunk(
   'stall/editOpportunity',
-  async ({ opportunity, toast }) => {
-    await new Promise((r) => setTimeout(r, 3000));
-    const response = opportunity;
+  async ({ stallID, opportunity, toast }) => {
+    const response = await axios({
+      method: 'put',
+      url: `/company/${stallID}/opportunities/`,
+      data: opportunity,
+      headers: {
+        Authorization: `Token ${localStorage.getItem('token')}`,
+      },
+    });
     toast({
       description: 'Successfully edited Opportunity',
       status: 'success',
       isClosable: true,
     });
-    return response;
+    const data = await response.data;
+    return data;
   }
 );
 
 // Delete Job Opportunity
 export const asyncDeleteOpportunity = createAsyncThunk(
   'stall/deleteOpportunity',
-  async ({ id, toast }) => {
-    await new Promise((r) => setTimeout(r, 3000));
+  async ({ companyID, jobID, toast }) => {
+    await axios({
+      method: 'delete',
+      url: `/company/opportunities/${jobID}/`,
+      headers: {
+        Authorization: `Token ${localStorage.getItem('token')}`,
+      },
+    });
     toast({
       description: 'Successfully removed Opportunity',
       status: 'success',
       isClosable: true,
     });
-    return id;
+    return jobID;
   }
 );
 
@@ -65,14 +92,21 @@ export const asyncDeleteOpportunity = createAsyncThunk(
 export const asyncAddPresentation = createAsyncThunk(
   'stall/addPresentation',
   async ({ presentation, toast }) => {
-    await new Promise((r) => setTimeout(r, 3000));
-    const response = { ...presentation, id: '555' };
+    const response = await axios({
+      method: 'post',
+      url: '/presentation/create/',
+      data: presentation,
+      headers: {
+        Authorization: `Token ${localStorage.getItem('token')}`,
+      },
+    });
     toast({
       description: 'Successfully added Presentation',
       status: 'success',
       isClosable: true,
     });
-    return response;
+    const data = await response.data;
+    return data;
   }
 );
 
@@ -80,24 +114,21 @@ export const asyncAddPresentation = createAsyncThunk(
 export const asyncEditPresentation = createAsyncThunk(
   'stall/editPresentation',
   async ({ presentation, toast }) => {
-    await new Promise((r) => setTimeout(r, 3000));
-    const response = presentation;
+    const response = await axios({
+      method: 'put',
+      url: '/presentation/edit/',
+      data: presentation,
+      headers: {
+        Authorization: `Token ${localStorage.getItem('token')}`,
+      },
+    });
     toast({
       description: 'Successfully edited Presentation',
       status: 'success',
       isClosable: true,
     });
-    return response;
-  }
-);
-
-// Edit a presentation Time
-export const asyncEditPresentationTime = createAsyncThunk(
-  'stall/editPresentationTime',
-  async (presentation) => {
-    await new Promise((r) => setTimeout(r, 3000));
-    const response = presentation;
-    return response;
+    const data = await response.data;
+    return data;
   }
 );
 
@@ -105,7 +136,13 @@ export const asyncEditPresentationTime = createAsyncThunk(
 export const asyncDeletePresentation = createAsyncThunk(
   'stall/deletePresentation',
   async ({ id, toast }) => {
-    await new Promise((r) => setTimeout(r, 3000));
+    await axios({
+      method: 'delete',
+      url: `/presentation/delete/${id}/`,
+      headers: {
+        Authorization: `Token ${localStorage.getItem('token')}`,
+      },
+    });
     toast({
       description: 'Successfully removed Presentation',
       status: 'success',
@@ -119,14 +156,81 @@ export const asyncDeletePresentation = createAsyncThunk(
 // Post a question
 export const asyncPostQuestion = createAsyncThunk(
   'stall/postQuestion',
-  async ({ question, toast }) => {
-    await new Promise((r) => setTimeout(r, 3000));
+  async ({ id, question, toast }) => {
+    const response = await axios({
+      method: 'post',
+      url: `/questions/${id}/`,
+      data: question,
+      headers: {
+        Authorization: `Token ${localStorage.getItem('token')}`,
+      },
+    });
     toast({
       description: 'Successfully posted Question',
       status: 'success',
       isClosable: true,
     });
-    return question;
+    const data = await response.data;
+    return data;
+  }
+);
+
+// Edit a question
+export const asyncEditQuestion = createAsyncThunk(
+  'stall/editQuestion',
+  async ({ questionId, stallId, question, toast }) => {
+    const response = await axios({
+      method: 'put',
+      url: `/questions/question/${stallId}/${questionId}/`,
+      data: question,
+      headers: {
+        Authorization: `Token ${localStorage.getItem('token')}`,
+      },
+    });
+    toast({
+      description: 'Successfully Edited Question',
+      status: 'success',
+      isClosable: true,
+    });
+    const data = await response.data;
+    return data;
+  }
+);
+
+// Add answer to a question
+export const asyncAnswerQuestion = createAsyncThunk(
+  'stall/answerQuestion',
+  async ({ stallId, questionId, answer, toast }) => {
+    const response = await axios({
+      method: 'put',
+      url: `/questions/answer/${stallId}/${questionId}/`,
+      data: answer,
+      headers: {
+        Authorization: `Token ${localStorage.getItem('token')}`,
+      },
+    });
+    const data = await response.data;
+    return data;
+  }
+);
+
+// Delete a question
+export const asyncDeleteQuestion = createAsyncThunk(
+  'stall/deleteQuestion',
+  async ({ stallId, postId, toast }) => {
+    await axios({
+      method: 'delete',
+      url: `/questions/question/${stallId}/${postId}/`,
+      headers: {
+        Authorization: `Token ${localStorage.getItem('token')}`,
+      },
+    });
+    toast({
+      description: 'Successfully deleted Question',
+      status: 'success',
+      isClosable: true,
+    });
+    return postId;
   }
 );
 
@@ -138,6 +242,7 @@ const initialState = {
   //
   fairID: '',
   name: '', // Name of Company
+  companyID: '',
   description: '',
   logo: '', // Base64 encoded string of logo
   live: false, // If current time is inside any presentation ranges (HARD)
@@ -174,13 +279,14 @@ export const stallSlice = createSlice({
         state.loading = false;
         state.fairID = payload.fairID;
         state.company = payload.company;
+        state.companyID = payload.companyID;
         state.title = payload.title;
         state.description = payload.description;
         state.logo = payload.logo;
         state.live = payload.live;
         state.website = payload.website;
         state.opportunities = payload.opportunities;
-        state.events = payload.events;
+        state.events = payload.presentations;
         state.qandas = payload.qandas;
         const dominantColourObj = complementaryTextColour(payload.colour);
         state.bgColour = dominantColourObj.bgColour;
@@ -193,7 +299,16 @@ export const stallSlice = createSlice({
       })
       .addCase(asyncAddOpportunity.fulfilled, (state, { payload }) => {
         state.status = false;
-        state.opportunities.push(payload);
+        state.opportunities.push({
+          id: payload.job_id,
+          type: payload.type,
+          role: payload.role,
+          location: payload.location,
+          wam: payload.wam,
+          expiry: payload.expiry,
+          link: payload.application_link,
+          description: payload.job_description,
+        });
       })
       // Edit an opportunity
       .addCase(asyncEditOpportunity.pending, (state, { payload }) => {
@@ -202,9 +317,18 @@ export const stallSlice = createSlice({
       .addCase(asyncEditOpportunity.fulfilled, (state, { payload }) => {
         state.formStatus = 'Completed';
         const index = current(state.opportunities).findIndex(
-          (opportunity) => opportunity.id === payload.id
+          (opportunity) => opportunity.id === parseInt(payload.job_id)
         );
-        state.opportunities[index] = payload;
+        state.opportunities[index] = {
+          id: payload.job_id,
+          type: payload.type,
+          role: payload.role,
+          location: payload.location,
+          wam: payload.wam,
+          expiry: payload.expiry,
+          link: payload.application_link, // MISSING
+          description: payload.job_description,
+        };
       })
       // Delete an opportunity
       .addCase(asyncDeleteOpportunity.pending, (state, { payload }) => {
@@ -223,7 +347,18 @@ export const stallSlice = createSlice({
       })
       .addCase(asyncAddPresentation.fulfilled, (state, { payload }) => {
         state.eventFormStatus = 'Completed';
-        state.events.push(payload);
+        state.events.push({
+          color: payload.color,
+          description: payload.presentation_description,
+          end: payload.end_time,
+          link: payload.presentation_link,
+          live: false,
+          start: payload.start_time,
+          title: payload.title,
+          textColor: payload.textColor,
+          id: payload.presentation_id,
+          borderColor: payload.textColor,
+        });
       })
       // Edit a Presentation
       .addCase(asyncEditPresentation.pending, (state, { payload }) => {
@@ -232,17 +367,20 @@ export const stallSlice = createSlice({
       .addCase(asyncEditPresentation.fulfilled, (state, { payload }) => {
         state.eventFormStatus = 'Completed';
         const index = current(state.events).findIndex(
-          (event) => event.id === payload.id
+          (event) => event.id === parseInt(payload.presentation_id)
         );
-        state.events[index] = payload;
-      })
-      // Edit a Presentation Time
-      .addCase(asyncEditPresentationTime.fulfilled, (state, { payload }) => {
-        state.status = false;
-        const index = current(state.events).findIndex(
-          (event) => event.id === payload.id
-        );
-        state.events[index] = payload;
+        state.events[index] = {
+          color: payload.color,
+          description: payload.presentation_description,
+          end: payload.end_time,
+          id: payload.presentation_id,
+          link: payload.presentation_link,
+          live: false,
+          start: payload.start_time,
+          title: payload.title,
+          textColor: payload.textColor,
+          borderColor: payload.borderColor,
+        };
       })
       // Delete a Presentation
       .addCase(asyncDeletePresentation.pending, (state, { payload }) => {
@@ -250,7 +388,9 @@ export const stallSlice = createSlice({
       })
       .addCase(asyncDeletePresentation.fulfilled, (state, { payload }) => {
         state.eventFormStatus = 'Completed';
-        state.events = state.events.filter((event) => event.id !== payload);
+        state.events = state.events.filter(
+          (event) => event.id !== parseInt(payload)
+        );
       })
       /* ----------------------------------- Q&A ---------------------------------- */
       // Submitting a Question
@@ -260,10 +400,38 @@ export const stallSlice = createSlice({
       .addCase(asyncPostQuestion.fulfilled, (state, { payload }) => {
         state.status = false;
         state.qandas.push({
-          id: '2223',
-          question: payload,
-          answer: '',
+          id: payload.post_id,
+          question: payload.question,
+          answer: payload.answer,
+          author_id: payload.author_id,
         });
+      })
+      .addCase(asyncEditQuestion.pending, (state, { payload }) => {
+        state.eventFormStatus = 'Pending';
+      })
+      .addCase(asyncEditQuestion.fulfilled, (state, { payload }) => {
+        state.eventFormStatus = 'Completed';
+        const index = current(state.qandas).findIndex(
+          (question) => question.id === payload.post_id
+        );
+        state.qandas[index].question = payload.question;
+      })
+      .addCase(asyncAnswerQuestion.pending, (state, { payload }) => {
+        state.eventFormStatus = 'Pending';
+      })
+      .addCase(asyncAnswerQuestion.fulfilled, (state, { payload }) => {
+        state.eventFormStatus = 'Completed';
+        const index = current(state.qandas).findIndex(
+          (question) => question.id === payload.post_id
+        );
+        state.qandas[index].answer = payload.answer;
+      })
+      .addCase(asyncDeleteQuestion.pending, (state, { payload }) => {
+        state.eventFormStatus = 'Pending';
+      })
+      .addCase(asyncDeleteQuestion.fulfilled, (state, { payload }) => {
+        state.eventFormStatus = 'Completed';
+        state.qandas = state.qandas.filter((qanda) => qanda.id !== payload);
       });
   },
 });

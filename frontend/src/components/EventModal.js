@@ -26,7 +26,7 @@ import {
 import { Field, Form, Formik } from 'formik';
 import * as Yup from 'yup';
 // Redux
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import {
   asyncCreateFairEvent,
   asyncDeleteFairEvent,
@@ -58,6 +58,8 @@ export function EventModal(props) {
   const dispatch = useDispatch();
   const history = useHistory();
 
+  const university = useSelector((state) => state.user);
+
   const toast = useToast();
 
   const initialValues = {
@@ -70,12 +72,12 @@ export function EventModal(props) {
   };
 
   const closeModal = () => {
-    props.onClose();
+    props.setOpen(!props.isOpen);
     setDeletePending(false);
   };
 
   const deleteEvent = () => {
-    dispatch(asyncDeleteFairEvent({ id: props.id, toast: toast }));
+    dispatch(asyncDeleteFairEvent({ eventID: props.fairID, toast: toast }));
     dispatch(resetEvents());
     history.push('/events');
   };
@@ -96,15 +98,15 @@ export function EventModal(props) {
       : dispatch(
           asyncCreateFairEvent({
             event: {
-              university: props.university,
-              website: props.website,
-              logo: props.logo,
               title: values.title,
               description: values.description,
-              start: values.start.getTime(),
-              end: values.end.getTime(),
+              start_date: values.start,
+              end_date: values.end,
+              university_id: university.universityID,
             },
             toast: toast,
+            id: university.universityID,
+            university: university.name,
           })
         );
     actions.setSubmitting(false);
@@ -201,7 +203,7 @@ export function EventModal(props) {
               </ModalBody>
               <ModalFooter>
                 {!deletePending && (
-                  <Button mr={3} onClick={props.onClose}>
+                  <Button mr={3} onClick={() => closeModal()}>
                     Cancel
                   </Button>
                 )}

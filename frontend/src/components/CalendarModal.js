@@ -24,6 +24,7 @@ import * as Yup from 'yup';
 // Redux
 import { useDispatch } from 'react-redux';
 import { asyncAddPresentation } from '../features/companyStall/stallSlice';
+import getContrastColour from '../util/getContrastColor';
 
 const validationSchema = Yup.object({
   title: Yup.string().required('Presentation Title is Required').max(126),
@@ -57,11 +58,13 @@ export function CalendarModal(props) {
       asyncAddPresentation({
         presentation: {
           title: values.title,
-          description: values.description,
-          link: values.link,
-          start: props.event.start.getTime(),
-          end: props.event.end.getTime(),
+          presentation_description: values.description,
+          presentation_link: values.link,
+          start_time: props.event.start,
+          end_time: props.event.end,
           color: props.color,
+          stall_id: props.stallID,
+          textColor: getContrastColour(props.color),
         },
         toast: toast,
       })

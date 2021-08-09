@@ -8,6 +8,7 @@ import {
 } from '@chakra-ui/react';
 import { Link } from 'react-router-dom';
 import expobg from './expobg.png';
+import React from 'react';
 
 export default function ImageBlurb() {
   return (
@@ -18,6 +19,7 @@ export default function ImageBlurb() {
       backgroundSize={'cover'}
       backgroundPosition={'top center'}
       mt='10'
+      mb='-4'
     >
       <VStack
         w={'full'}

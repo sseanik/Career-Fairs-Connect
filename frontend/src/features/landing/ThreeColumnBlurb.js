@@ -11,7 +11,8 @@ import {
 } from '@chakra-ui/react';
 import { IoSchoolSharp } from 'react-icons/io5';
 import { FaUniversity, FaBuilding } from 'react-icons/fa';
-import Fade from 'react-reveal/Fade';
+import { Fade } from 'react-awesome-reveal';
+import React from 'react';
 
 const Feature = ({ title, text, icon, color }) => {
   return (
@@ -31,7 +32,7 @@ const Feature = ({ title, text, icon, color }) => {
       <Text fontWeight={600} fontSize='xl' color={color}>
         {title}
       </Text>
-      <Text color={'gray.600'}>{text}</Text>
+      <Text>{text}</Text>
     </Stack>
   );
 };

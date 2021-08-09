@@ -8,13 +8,12 @@ import {
   Flex,
   Image,
   Spacer,
-  Tag,
-  TagLabel,
   Tooltip,
+  useBreakpointValue,
   useColorMode,
   useToast,
 } from '@chakra-ui/react';
-import { InfoOutlineIcon } from '@chakra-ui/icons';
+import { InfoIcon, InfoOutlineIcon } from '@chakra-ui/icons';
 // Redux
 import { asyncToggleEventPending } from '../../features/careerFair/fairSlice';
 import { useDispatch, useSelector } from 'react-redux';
@@ -26,12 +25,15 @@ export function StallCard(props) {
   const { colorMode } = useColorMode();
 
   return (
-    <Flex direction='column'>
+    <Flex direction='column' justify='center' align='center'>
       <Box
         zIndex='1'
         borderWidth='1px'
         borderColor={colorMode === 'light' ? 'gray.300' : 'gray.700'}
-        w='225px'
+        w={useBreakpointValue({
+          base: '90vw',
+          sm: '225px',
+        })}
         borderRadius='xl'
         p='12px'
         m='2'
@@ -56,7 +58,12 @@ export function StallCard(props) {
         as={Link}
         to={`/stall/${props.id}`}
       >
-        <Box borderRadius='xl' borderColor='white'>
+        <Box
+          borderRadius='xl'
+          borderColor='white'
+          justify='center'
+          align='center'
+        >
           <Image
             px='10px'
             src={props.img}
@@ -85,14 +92,15 @@ export function StallCard(props) {
               fontSize='lg'
               ml='2'
               _groupHover={{ fontWeight: 'bold' }}
+              isTruncated
             >
               {props.name}
             </Box>
             <Spacer />
             {props.pending !== 'Approved' ? (
-              <Tag size='md' variant='solid'>
-                <TagLabel>{props.pending}</TagLabel>
-              </Tag>
+              <Tooltip label={props.pending} fontSize='md'>
+                <InfoIcon color='gray.600' />
+              </Tooltip>
             ) : (
               <Tooltip label={props.description} fontSize='md'>
                 <InfoOutlineIcon color='gray.600' />
@@ -101,74 +109,80 @@ export function StallCard(props) {
           </Box>
         </Box>
       </Box>
-      {userRole === 'University' && (
-        <Box
-          borderBottomWidth='1px'
-          borderLeftWidth='1px'
-          borderRightWidth='1px'
-          borderColor='gray.300'
-          zIndex='0'
-          borderRadius='xl'
-          bg={
-            (props.pending === 'Rejected' || props.pending === 'Pending') &&
-            'gray.100'
-          }
-          w='225px'
-          px='12px'
-          mt='-8'
-          mx='2'
-          pt='8'
-          pb='2'
-          mb='2'
-          as={Flex}
-          justify='space-around'
-        >
-          <Button
-            w={props.pending !== 'Pending' ? '100%' : '45%'}
-            size='sm'
-            fontSize='md'
-            colorScheme={props.pending === 'Pending' ? 'green' : 'gray'}
-            onClick={() =>
-              props.pending === 'Pending'
-                ? dispatch(
-                    asyncToggleEventPending({
-                      id: props.id,
-                      toggle: 'Approve',
-                      toast: toast,
-                    })
-                  )
-                : dispatch(
-                    asyncToggleEventPending({
-                      id: props.id,
-                      toggle: 'Pending',
-                      toast: toast,
-                    })
-                  )
+      <Flex
+        w={useBreakpointValue({
+          base: '90vw',
+          sm: '225px',
+        })}
+      >
+        {userRole === 'University' && (
+          <Box
+            borderBottomWidth='1px'
+            borderLeftWidth='1px'
+            borderRightWidth='1px'
+            zIndex='0'
+            borderRadius='xl'
+            borderColor={colorMode === 'light' ? 'gray.300' : 'gray.700'}
+            bg={
+              (props.pending === 'Rejected' || props.pending === 'Pending') &&
+              (colorMode === 'light' ? 'gray.200' : 'gray.800')
             }
+            w='100%'
+            px='12px'
+            mt='-8'
+            pt='8'
+            pb='2'
+            mb='2'
+            as={Flex}
+            justify='space-around'
           >
-            {props.pending === 'Pending' ? 'Approve' : 'Set Pending'}
-          </Button>
-          {props.pending === 'Pending' && (
             <Button
-              w='45%'
+              w={props.pending !== 'Pending' ? '100%' : '45%'}
               size='sm'
               fontSize='md'
-              colorScheme='red'
+              colorScheme={props.pending === 'Pending' ? 'green' : 'gray'}
               onClick={() =>
-                dispatch(
-                  asyncToggleEventPending({
-                    id: props.id,
-                    toggle: 'Rejected',
-                    toast: toast,
-                  })
-                )
+                props.pending === 'Pending'
+                  ? dispatch(
+                      asyncToggleEventPending({
+                        id: props.id,
+                        approval_status: 'Approved',
+                        toast: toast,
+                      })
+                    )
+                  : dispatch(
+                      asyncToggleEventPending({
+                        id: props.id,
+                        approval_status: 'Pending',
+                        toast: toast,
+                      })
+                    )
               }
             >
-              Reject
+              {props.pending === 'Pending' ? 'Approve' : 'Set Pending'}
             </Button>
-          )}
-        </Box>
-      )}
+            {props.pending === 'Pending' && (
+              <Button
+                w='45%'
+                size='sm'
+                fontSize='md'
+                colorScheme='red'
+                onClick={() =>
+                  dispatch(
+                    asyncToggleEventPending({
+                      id: props.id,
+                      approval_status: 'Rejected',
+                      toast: toast,
+                    })
+                  )
+                }
+              >
+                Reject
+              </Button>
+            )}
+          </Box>
+        )}
+      </Flex>
     </Flex>
   );
 }

@@ -19,7 +19,7 @@ import { FaListAlt } from 'react-icons/fa';
 import opportunityTable from './opportunityTable.png';
 import presentationCalendar from './presentationCalendar.png';
 import qandaForum from './qandaForum.png';
-import Fade from 'react-reveal/Fade';
+import { Fade } from 'react-awesome-reveal';
 
 export default function AboutUs() {
   const featureTitle = [
@@ -97,9 +97,7 @@ export default function AboutUs() {
             >
               {featureTitle[index]}
             </Heading>
-            <Text color={'gray.500'} fontSize={'lg'}>
-              {featureDescription[index]}
-            </Text>
+            <Text fontSize={'lg'}>{featureDescription[index]}</Text>
             <Stack
               spacing={4}
               divider={
@@ -146,13 +144,13 @@ export default function AboutUs() {
             </Stack>
           </Stack>
         </Fade>
-        <Flex>
+        <Flex justify='center' align='center'>
           <Fade up>
             <Image
               rounded={'md'}
               alt={'image of ' + featureTitle[index]}
               src={featureImage[index]}
-              objectFit={'none'}
+              objectFit={'contain'}
             />
           </Fade>
         </Flex>

@@ -11,39 +11,88 @@ import {
   Heading,
   Spacer,
   useColorMode,
-  useDisclosure,
   useToast,
 } from '@chakra-ui/react';
 import { SmallAddIcon } from '@chakra-ui/icons';
 // Components
-import Navbar from '../../components/navbar';
 import { EventModal } from '../../components/EventModal';
 import { DetailsCard } from '../../components/DetailsCard';
 import { SkeletonFairEvent } from './SkeletonFairEvent';
 import getDominantColour from '../../util/getDominantColour';
 
 export default function CareerEvents() {
+  // Redux
+  const dispatch = useDispatch();
+
+  // On page load gather all career fair events
+  React.useEffect(() => {
+    dispatch(asyncFetchEventsData());
+  }, [dispatch]);
+
+  return (
+    <div>
+      <MemoizedActionBar />
+      <MemoizedEventCards />
+    </div>
+  );
+}
+
+function ActionBar() {
+  const [isOpen, setOpen] = React.useState(false);
+  const createStatus = useSelector((state) => state.events.status);
+  const userDetails = useSelector((state) => state.user);
+
+  return (
+    <Flex align='center'>
+      <EventModal
+        isOpen={isOpen}
+        setOpen={setOpen}
+        university={userDetails.name}
+        website={userDetails.website}
+        logo={userDetails.logo}
+      />
+      <Heading ml='6' mt='3' as='h3' size='md' fontWeight='500'>
+        Career Fair Events
+      </Heading>
+      <Spacer />
+      {userDetails.role === 'University' && (
+        <div>
+          <Button
+            colorScheme='blue'
+            leftIcon={<SmallAddIcon />}
+            mr='6'
+            mt='3'
+            onClick={() => setOpen(!isOpen)}
+            isLoading={createStatus}
+            loadingText='Creating Event'
+          >
+            Create Event
+          </Button>
+        </div>
+      )}
+    </Flex>
+  );
+}
+
+const MemoizedActionBar = React.memo(ActionBar);
+
+function EventCards() {
+  const loading = useSelector((state) => state.events.loading);
+  const { colorMode } = useColorMode();
   // React Router
   const history = useHistory();
   // For toast and modal
   const toast = useToast();
-  const { isOpen, onOpen, onClose } = useDisclosure();
-  // Redux
-  const dispatch = useDispatch();
   const eventsData = useSelector((state) => state.events.events);
   const userDetails = useSelector((state) => state.user);
-  const loading = useSelector((state) => state.events.loading);
-  const createStatus = useSelector((state) => state.events.status);
-  const { colorMode } = useColorMode();
-
-  // On page load gather all career fair events
-  React.useEffect(() => dispatch(asyncFetchEventsData()), [dispatch]);
+  // Redux
+  const dispatch = useDispatch();
 
   // Navigate to fair event if permissions allow the user to
-  const visitFairEvent = (event, idx) => {
+  const visitFairEvent = (event) => {
     if (
       userDetails.role === 'Student' &&
-      userDetails.university !== eventsData[idx].university
+      userDetails.university !== event.university
     ) {
       toast({
         description: 'You are not a student of this university',
@@ -52,7 +101,7 @@ export default function CareerEvents() {
       });
     } else if (
       userDetails.role === 'University' &&
-      userDetails.name !== eventsData[idx].university
+      userDetails.name !== event.university
     ) {
       toast({
         description: "You cannot visit another University's event",
@@ -65,40 +114,26 @@ export default function CareerEvents() {
     }
   };
 
+  const filteredData = () => {
+    switch (userDetails.role) {
+      case 'Student':
+        return eventsData.filter(
+          (event) => event.university === userDetails.university
+        );
+      case 'University':
+        return eventsData.filter(
+          (event) => event.university === userDetails.name
+        );
+      default:
+        return eventsData;
+    }
+  };
+
   return (
     <div>
-      <Navbar />
-      <Flex align='center'>
-        <Heading ml='6' mt='3' as='h3' size='md' fontWeight='semibold'>
-          Career Fair Events
-        </Heading>
-        <Spacer />
-        {userDetails.role === 'University' && (
-          <div>
-            <Button
-              colorScheme='blue'
-              leftIcon={<SmallAddIcon />}
-              mr='6'
-              mt='3'
-              onClick={onOpen}
-              isLoading={createStatus}
-              loadingText='Creating Event'
-            >
-              Create Event
-            </Button>
-            <EventModal
-              isOpen={isOpen}
-              onClose={onClose}
-              university={userDetails.name}
-              website={userDetails.website}
-              logo={userDetails.logo}
-            />
-          </div>
-        )}
-      </Flex>
       {loading &&
         [...Array(2)].map((x, i) => <SkeletonFairEvent key={i} card />)}
-      {eventsData.map((event, idx) => (
+      {filteredData().map((event, idx) => (
         <Flex
           key={event.id}
           borderWidth='1px'
@@ -113,6 +148,7 @@ export default function CareerEvents() {
             background: colorMode === 'light' ? 'gray.50' : 'gray.700',
           }}
           onClick={() => visitFairEvent(event, idx)}
+          justify={{ base: 'center', md: 'flex-start' }}
         >
           <DetailsCard
             alt={event.university}
@@ -130,3 +166,4 @@ export default function CareerEvents() {
     </div>
   );
 }
+const MemoizedEventCards = React.memo(EventCards);

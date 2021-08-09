@@ -1,5 +1,5 @@
 import * as React from 'react';
-import Fade from 'react-reveal/Fade';
+import { Fade } from 'react-awesome-reveal';
 
 // Formik
 import { Field, Formik } from 'formik';
@@ -19,12 +19,10 @@ import {
   Text,
   useColorMode,
 } from '@chakra-ui/react';
-// Components
-import Navbar from '../../components/navbar';
 // Redux
 import { asyncRegisterStudent } from './userSlice';
 import { useDispatch, useSelector } from 'react-redux';
-import { Link } from 'react-router-dom';
+import { Link, useHistory } from 'react-router-dom';
 import { ArrowBackIcon } from '@chakra-ui/icons';
 
 const initialValues = {
@@ -99,27 +97,31 @@ const validationSchema = Yup.object({
 });
 
 export function StudentRegister() {
-  const loggedIn = useSelector((state) => state.user.loggedIn);
   const registerStatus = useSelector((state) => state.user.status);
   const dispatch = useDispatch();
   const toast = useToast();
   const { colorMode } = useColorMode();
-
-  React.useState(() => {
-    if (loggedIn) {
-      console.log('Sign the user In');
-    }
-  });
+  const history = useHistory();
 
   const submitForm = (values, actions) => {
-    console.log(values);
     actions.setSubmitting(false);
-    dispatch(asyncRegisterStudent({ user: {}, toast: toast }));
+    dispatch(
+      asyncRegisterStudent({
+        user: {
+          first_name: values.firstName,
+          last_name: values.lastName,
+          email: values.email,
+          password: values.password,
+          university: values.university,
+        },
+        history: history,
+        toast: toast,
+      })
+    );
   };
 
   return (
     <div>
-      <Navbar />
       <Fade duration={750}>
         <Formik
           initialValues={initialValues}
@@ -132,7 +134,7 @@ export function StudentRegister() {
               justify={'center'}
               align={'center'}
               position={'relative'}
-              pt='6'
+              mx='4 auto'
             >
               <Box
                 position={'relative'}
@@ -148,7 +150,11 @@ export function StudentRegister() {
                 borderWidth='1px'
                 borderColor={colorMode === 'light' ? 'gray.200' : 'gray.900'}
               >
-                <Flex justify='center'>
+                <Flex
+                  justify='center'
+                  direction={{ base: 'column', sm: 'row' }}
+                  align='stretch'
+                >
                   <Button
                     leftIcon={<ArrowBackIcon />}
                     rounded='lg'
@@ -161,13 +167,11 @@ export function StudentRegister() {
                     Back
                   </Button>
                   <Heading
-                    ml='-10'
                     flex={1}
-                    marginRight='auto'
                     lineHeight={1.1}
                     fontWeight={600}
-                    fontSize={{ base: '2xl', sm: '3xl', lg: '4xl' }}
-                    pb='4'
+                    fontSize={{ base: 'xl', sm: '3xl', lg: '4xl' }}
+                    py='2'
                     align='center'
                   >
                     <Text
@@ -350,7 +354,12 @@ export function StudentRegister() {
                     Join Now
                   </Button>
                 </Flex>
-                <Flex justify='center' pt='2'>
+                <Flex
+                  justify='center'
+                  pt='2'
+                  direction={{ base: 'column', sm: 'row' }}
+                  align='center'
+                >
                   {'Already have an account? '}
                   <Text
                     pl='1'

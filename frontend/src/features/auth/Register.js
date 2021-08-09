@@ -11,21 +11,19 @@ import {
   VStack,
 } from '@chakra-ui/react';
 import { Link } from 'react-router-dom';
-import Navbar from '../../components/navbar';
 import { Blob } from '../landing/LandingHero';
 import { FaBuilding, FaUniversity } from 'react-icons/fa';
 import { IoSchoolSharp } from 'react-icons/io5';
-import Fade from 'react-reveal/Fade';
+import { Fade } from 'react-awesome-reveal';
 
 function Register() {
   return (
     <div>
-      <Navbar />
       <Container maxW={'7xl'} px={{ base: 10, md: 10 }}>
         <Stack
           align={'center'}
           spacing={{ base: 8, md: 10 }}
-          pt={{ base: 20, md: 28 }}
+          pt={{ base: '8', md: '20' }}
           direction={{ base: 'column', md: 'row' }}
         >
           <Stack flex={1} spacing={{ base: 2, md: 4 }}>
@@ -120,9 +118,12 @@ function Register() {
               height={'300px'}
               rounded={'2xl'}
               boxShadow={'2xl'}
-              width={'full'}
+              width={'100%'}
               overflow={'hidden'}
               bg={useColorModeValue('white', 'gray.700')}
+              as={Flex}
+              align='center'
+              justify='center'
             >
               <Fade duration={500} width='100%'>
                 <Flex
@@ -130,10 +131,11 @@ function Register() {
                   fontWeight='medium'
                   ml='auto'
                   mr='auto'
-                  width='90%'
                   textAlign='center'
                   padding='5%'
                   borderRadius='10px'
+                  align='center'
+                  width='max-content'
                 >
                   <Heading
                     lineHeight={1.1}
@@ -163,8 +165,8 @@ function Register() {
                   <VStack direction='column' spacing='5%'>
                     <Button
                       leftIcon={<IoSchoolSharp />}
-                      fontSize='lg'
-                      w='75%'
+                      fontSize={{ base: 'md', sm: 'lg', lg: 'xl' }}
+                      w='100%'
                       fontWeight='medium'
                       as={Link}
                       to='/register/student'
@@ -174,8 +176,8 @@ function Register() {
                     </Button>
                     <Button
                       leftIcon={<FaBuilding />}
-                      fontSize='lg'
-                      w='75%'
+                      fontSize={{ base: 'md', sm: 'lg', lg: 'xl' }}
+                      w='100%'
                       fontWeight='medium'
                       as={Link}
                       to='/register/employer'
@@ -185,8 +187,8 @@ function Register() {
                     </Button>
                     <Button
                       leftIcon={<FaUniversity />}
-                      fontSize='lg'
-                      w='75%'
+                      fontSize={{ base: 'md', sm: 'lg', lg: 'xl' }}
+                      w='100%'
                       fontWeight='medium'
                       as={Link}
                       to='/register/university'

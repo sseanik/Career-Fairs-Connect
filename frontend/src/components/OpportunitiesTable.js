@@ -67,6 +67,8 @@ export function OpportunitiesTable(props) {
         expiry={new Date(activeRow.expiry)}
         link={activeRow.link}
         description={activeRow.description}
+        stallID={props.fairID}
+        companyID={userDetails.companyID}
         edit
       />
       <Table

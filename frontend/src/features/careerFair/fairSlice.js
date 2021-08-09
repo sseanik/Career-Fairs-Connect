@@ -1,17 +1,27 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import { prominent } from 'color.js';
 import complementaryTextColour from '../../util/complementaryTextColour';
-import { getFairData } from '../../exampleData/exampleCareerFair';
+import axios from 'axios';
 
 // Get Career Fair Event Data
 export const asyncFetchFairData = createAsyncThunk(
   'fair/university',
   async (fairID) => {
-    const response = await getFairData(fairID);
-    const colour = await prominent(response.logo, {
+    const response = await axios({
+      method: 'get',
+      url: `/careerfairs/${fairID}/`,
+      headers: {
+        Authorization: `Token ${localStorage.getItem('token')}`,
+      },
+    });
+
+    const data = await response.data;
+
+    const colour = await prominent(data.logo, {
       amount: 2,
     });
-    return { ...response, colour: colour };
+
+    return { ...data, colour: colour };
   }
 );
 
@@ -27,21 +37,39 @@ export const asyncEditFairEvent = createAsyncThunk(
       status: 'success',
       isClosable: true,
     });
-    return response;
+    const data = await response.data;
+    return data;
   }
 );
 
 // Change a company stall's approval status
 export const asyncToggleEventPending = createAsyncThunk(
   'fair/togglePending',
-  async ({ id, toggle, toast }) => {
-    await new Promise((r) => setTimeout(r, 500));
-    toast({
-      description: 'Successfully changed Stall approval status',
-      status: 'success',
-      isClosable: true,
+  async ({ id, approval_status, toast }) => {
+    const response = await axios({
+      method: 'put',
+      url: '/careerfairs/applications/',
+      data: {
+        stall_id: id,
+        approval_status: approval_status,
+      },
+      headers: {
+        Authorization: `Token ${localStorage.getItem('token')}`,
+      },
     });
-    return { id: id, toggle: toggle };
+
+    if (response.status === 200) {
+      toast({
+        description:
+          'Successfully changed Stall approval status to ' + approval_status,
+        status: 'success',
+        isClosable: true,
+      });
+    }
+
+    const data = await response.data;
+
+    return { id: data.stall_id, approval_status: data.approval_status };
   }
 );
 
@@ -49,28 +77,68 @@ export const asyncToggleEventPending = createAsyncThunk(
 // Add a company stall to the career fair event
 export const asyncAddCompanyStall = createAsyncThunk(
   'fair/addStall',
-  async ({ stall, fairID, toast }) => {
-    await new Promise((r) => setTimeout(r, 3000));
-    const response = { ...stall, id: '5678' };
-    toast({
-      description: 'Successfully added Company Stall',
-      status: 'success',
-      isClosable: true,
+  async ({ stall, logo, description, company, toast }) => {
+    const response = await axios({
+      method: 'post',
+      url: `/careerfairs/${stall.event_id}/stalls/`,
+      data: stall,
+      headers: {
+        Authorization: `Token ${localStorage.getItem('token')}`,
+      },
     });
-    return response;
+
+    if (response.status === 200) {
+      toast({
+        description: 'Successfully added Company Stall',
+        status: 'success',
+        isClosable: true,
+      });
+    } else {
+      toast({
+        description: 'Failed to apply',
+        status: 'error',
+        isClosable: true,
+      });
+    }
+
+    const data = await response.data;
+
+    return {
+      data: data,
+      logo: logo,
+      description: description,
+      company: company,
+    };
   }
 );
 
 // Delete a company stall from an event
 export const asyncRemoveCompanyStall = createAsyncThunk(
   'fair/removeStall',
-  async ({ fairID, company, toast }) => {
-    await new Promise((r) => setTimeout(r, 3000));
-    toast({
-      description: 'Successfully removed Company Stall',
-      status: 'success',
-      isClosable: true,
+  async ({ data, company, toast }) => {
+    const response = await axios({
+      method: 'delete',
+      url: '/careerfairs/delete/stalls/',
+      headers: {
+        Authorization: `Token ${localStorage.getItem('token')}`,
+      },
+      data: data,
     });
+
+    if (response.status === 200) {
+      toast({
+        description: 'Successfully removed Company Stall from event',
+        status: 'success',
+        isClosable: true,
+      });
+    } else {
+      toast({
+        description: 'Failed to remove stall from event',
+        status: 'error',
+        isClosable: true,
+      });
+    }
+
     return company;
   }
 );
@@ -118,7 +186,7 @@ export const fairSlice = createSlice({
         state.website = payload.website;
         state.logo = payload.logo;
         state.stalls = payload.stalls;
-        state.events = payload.events;
+        state.events = payload.presentations;
         state.opportunities = payload.opportunities;
         const dominantColourObj = complementaryTextColour(payload.colour);
         state.bgColour = dominantColourObj.bgColour;
@@ -137,11 +205,8 @@ export const fairSlice = createSlice({
       })
       // Change a company stall's approval status
       .addCase(asyncToggleEventPending.fulfilled, (state, { payload }) => {
-        state.approvalStatus = true;
-        state.rejectStatus = true;
-        state.pendingStatus = true;
         const stall = state.stalls.find((stall) => stall.id === payload.id);
-        stall.pending = payload.toggle;
+        stall.approval_status = payload.approval_status;
       })
       // Add a company stall to the career fair event
       .addCase(asyncAddCompanyStall.pending, (state, { payload }) => {
@@ -149,7 +214,14 @@ export const fairSlice = createSlice({
       })
       .addCase(asyncAddCompanyStall.fulfilled, (state, { payload }) => {
         state.status = false;
-        state.stalls.push(payload);
+        state.stalls.push({
+          approval_status: payload.data.approval_status,
+          company: payload.company,
+          description: payload.description,
+          id: payload.data.stall_id,
+          live: false,
+          logo: payload.logo,
+        });
       })
       // Delete a company stall from an event
       .addCase(asyncRemoveCompanyStall.pending, (state, { payload }) => {
