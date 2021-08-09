@@ -76,8 +76,8 @@ export default function Navbar(props) {
     return userRole === 'University'
       ? 'orange'
       : userRole === 'Company'
-        ? 'green'
-        : 'blue';
+      ? 'green'
+      : 'blue';
   };
 
   const publicNavItems = [
@@ -119,29 +119,16 @@ export default function Navbar(props) {
       >
         {loggedIn
           ? privateNavItems.map((navItem, idx) => (
-            <Stack spacing={4} key={`nav-item-${idx}`}>
-              <Flex
-                px={4}
-                py={2}
-                justify={'space-between'}
-                align={'center'}
-                _hover={{
-                  textDecoration: 'none',
-                }}
-              >
-                <Text
-                  as={Link}
-                  to={navItem.to}
-                  fontWeight={600}
-                  onClick={handleToggle}
+              <Stack spacing={4} key={`nav-item-${idx}`}>
+                <Flex
+                  px={4}
+                  py={2}
+                  justify={'space-between'}
+                  align={'center'}
+                  _hover={{
+                    textDecoration: 'none',
+                  }}
                 >
-<<<<<<< HEAD
-                  {navItem.label}
-                </Text>
-              </Flex>
-            </Stack>
-          ))
-=======
                   <Text
                     as={Link}
                     to={navItem.to}
@@ -164,29 +151,28 @@ export default function Navbar(props) {
                 </Flex>
               </Stack>
             ))
->>>>>>> main
           : publicNavItems.map((navItem, idx) => (
-            <Stack spacing={4} key={`nav-item-${idx}`}>
-              <Flex
-                px={4}
-                py={2}
-                justify={'space-between'}
-                align={'center'}
-                _hover={{
-                  textDecoration: 'none',
-                }}
-              >
-                <Text
-                  as={Link}
-                  to={navItem.to}
-                  fontWeight={600}
-                  onClick={handleToggle}
+              <Stack spacing={4} key={`nav-item-${idx}`}>
+                <Flex
+                  px={4}
+                  py={2}
+                  justify={'space-between'}
+                  align={'center'}
+                  _hover={{
+                    textDecoration: 'none',
+                  }}
                 >
-                  {navItem.label}
-                </Text>
-              </Flex>
-            </Stack>
-          ))}
+                  <Text
+                    as={Link}
+                    to={navItem.to}
+                    fontWeight={600}
+                    onClick={handleToggle}
+                  >
+                    {navItem.label}
+                  </Text>
+                </Flex>
+              </Stack>
+            ))}
       </Stack>
     );
   };
