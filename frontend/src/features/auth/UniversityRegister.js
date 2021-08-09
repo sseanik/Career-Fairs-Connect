@@ -34,6 +34,7 @@ const initialValues = {
   logo: '',
 };
 
+//use yup for form value validation
 const validationSchema = Yup.object({
   email: Yup.string()
     .email('Email format is Invalid')
@@ -100,7 +101,9 @@ const validationSchema = Yup.object({
 });
 
 export function UniversityRegister() {
+  //transfer image to base64 format
   const base64Image = useSelector(selectBase64Image);
+
   const registerStatus = useSelector((state) => state.user.status);
   const dispatch = useDispatch();
   const toast = useToast();
@@ -202,6 +205,8 @@ export function UniversityRegister() {
                     </Text>
                   </Heading>
                 </Flex>
+
+                {/* register forms */}
                 <InputControl name='email' label='Email' />
                 <Field name='password'>
                   {({ field, form }) => (
@@ -367,6 +372,7 @@ export function UniversityRegister() {
                     </FormControl>
                   )}
                 </Field>
+
                 <Flex justify='center'>
                   <Button
                     w='100%'
