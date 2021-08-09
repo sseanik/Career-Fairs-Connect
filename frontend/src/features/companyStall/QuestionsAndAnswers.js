@@ -51,6 +51,7 @@ export function QuestionsAndAnswers(props) {
           toast: toast,
         })
       );
+    setQuestion('');
   };
 
   const postAnswer = (id) => {
@@ -64,7 +65,8 @@ export function QuestionsAndAnswers(props) {
           },
           toast: toast,
         })
-      ).then(setAnswer(''));
+      );
+    setAnswer('');
   };
 
   const deleteQuestion = (id) => {
