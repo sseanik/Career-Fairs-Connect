@@ -22,90 +22,87 @@ export const asyncFetchUserData = createAsyncThunk(
 export const asyncRegisterUniversity = createAsyncThunk(
   'user/registerUniversity',
   async ({ user, toast, history }) => {
-    const response = await axios({
-      method: 'post',
-      url: '/user/register/university/',
-      data: user,
-    });
-
-    if (response.status === 201) {
+    try {
+      const response = await axios({
+        method: 'post',
+        url: '/user/register/university/',
+        data: user,
+      });
       toast({
         description: 'Successfully created account',
         status: 'success',
         isClosable: true,
       });
       history.push('/login');
-    } else {
+      const data = await response.data;
+      return data;
+    } catch (error) {
       toast({
-        description: 'Register Failed',
+        description: error.response.data.email,
         status: 'error',
         isClosable: true,
       });
     }
-
-    const data = await response.data;
-
-    return data;
   }
 );
 
 export const asyncRegisterCompany = createAsyncThunk(
   'user/registerCompany',
   async ({ user, toast, history }) => {
-    const response = await axios({
-      method: 'post',
-      url: '/user/register/company/',
-      data: user,
-    });
-
-    if (response.status === 201) {
-      toast({
-        description: 'Successfully created account',
-        status: 'success',
-        isClosable: true,
+    try {
+      const response = await axios({
+        method: 'post',
+        url: '/user/register/company/',
+        data: user,
       });
-      history.push('/login');
-    } else {
+
+      if (response.status === 201) {
+        toast({
+          description: 'Successfully created account',
+          status: 'success',
+          isClosable: true,
+        });
+
+        history.push('/login');
+        const data = await response.data;
+        return data;
+      }
+    } catch (error) {
       toast({
-        description: 'Register Failed',
+        description: error.response.data.email,
         status: 'error',
         isClosable: true,
       });
     }
-
-    const data = await response.data;
-
-    return data;
   }
 );
 
 export const asyncRegisterStudent = createAsyncThunk(
   'user/registerStudent',
   async ({ user, toast, history }) => {
-    const response = await axios({
-      method: 'post',
-      url: '/user/register/student/',
-      data: user,
-    });
+    try {
+      const response = await axios({
+        method: 'post',
+        url: '/user/register/student/',
+        data: user,
+      });
 
-    if (response.status === 201) {
       toast({
         description: 'Successfully created account',
         status: 'success',
         isClosable: true,
       });
+
       history.push('/login');
-    } else {
+      const data = await response.data;
+      return data;
+    } catch (error) {
       toast({
-        description: 'Register Failed',
+        description: error.response.data.email,
         status: 'error',
         isClosable: true,
       });
     }
-
-    const data = await response.data;
-
-    return data;
   }
 );
 
@@ -113,37 +110,32 @@ export const asyncRegisterStudent = createAsyncThunk(
 export const asyncLoginUser = createAsyncThunk(
   'user/login',
   async ({ user, toast, history }) => {
-    const response = await axios({
-      method: 'post',
-      url: '/user/login/',
-      data: user,
-    }).catch((error) => {
-      console.error('Error logging in:', error);
-      toast({
-        description: 'Account name or password is incorrect',
-        status: 'error',
-        isClosable: true,
+    try {
+      const response = await axios({
+        method: 'post',
+        url: '/user/login/',
+        data: user,
       });
-    });
-    const data = await response.data;
 
-    if (response.status === 200) {
-      localStorage.setItem('token', data.token);
       toast({
         description: 'Successfully logged in',
         status: 'success',
         isClosable: true,
       });
-    } else {
+
+      history.push('/');
+
+      const data = await response.data;
+      localStorage.setItem('token', data.token);
+
+      return data;
+    } catch (error) {
       toast({
-        description: 'Login Failed',
+        description: error.response.data.non_field_errors[0],
         status: 'error',
         isClosable: true,
       });
     }
-
-    history.push('/');
-    return data;
   }
 );
 
@@ -264,6 +256,8 @@ const initialState = {
   fname: '',
   lname: '',
   university: '',
+  wam: '',
+  degree: '',
   // Common to Company and University
   name: '',
   description: '',
@@ -345,6 +339,16 @@ export const userSlice = createSlice({
       .addCase(asyncRegisterStudent.fulfilled, (state) => {
         state.status = false;
       })
+      // Rejected Registers
+      .addCase(asyncRegisterUniversity.rejected, (state) => {
+        state.status = true;
+      })
+      .addCase(asyncRegisterCompany.rejected, (state) => {
+        state.status = true;
+      })
+      .addCase(asyncRegisterStudent.rejected, (state) => {
+        state.status = true;
+      })
       // login
       .addCase(asyncLoginUser.pending, (state) => {
         state.status = true;
@@ -355,6 +359,39 @@ export const userSlice = createSlice({
       })
       .addCase(asyncLogout.fulfilled, (state) => {
         state.loggedIn = false;
+        state.role = '';
+      })
+      // Profile Pending
+      .addCase(asyncUpdateUniversity.pending, (state) => {
+        state.status = true;
+      })
+      .addCase(asyncUpdateCompany.pending, (state) => {
+        state.status = true;
+      })
+      .addCase(asyncUpdateStudent.pending, (state) => {
+        state.status = true;
+      })
+      // Profile Success
+      .addCase(asyncUpdateUniversity.fulfilled, (state, { payload }) => {
+        state.name = payload.university_name;
+        state.logo = payload.university_logo_64;
+        state.website = payload.university_site_url;
+        state.status = false;
+      })
+      .addCase(asyncUpdateCompany.fulfilled, (state, { payload }) => {
+        state.description = payload.company_description;
+        state.logo = payload.company_logo_64;
+        state.name = payload.company_name;
+        state.website = payload.company_webpage_url;
+        state.status = false;
+      })
+      .addCase(asyncUpdateStudent.fulfilled, (state, { payload }) => {
+        state.fname = payload.first_name;
+        state.lname = payload.last_name;
+        state.university = payload.university;
+        state.wam = payload.wam;
+        state.degree = payload.degree;
+        state.status = false;
       });
   },
 });

@@ -21,14 +21,12 @@ import UniSelector from './UniSelector.js';
 //process image
 import { convertImageToBase64, selectBase64Image } from '../auth/logoSlice';
 
-
 const validationSchema = Yup.object({
   website: Yup.string()
     .matches(/^http(s)?:.*$/, 'Website URL is invalid')
     .required('Website URL is Required')
     .max(256),
-  university: Yup.string()
-    .required('University is Required'),
+  university: Yup.string().required('University is Required'),
 });
 
 export default function Profile() {
@@ -44,7 +42,7 @@ export default function Profile() {
   };
 
   useEffect(() => {
-    const image = document.getElementById("oldLogo");
+    const image = document.getElementById('oldLogo');
     image.src = base64Image;
   }, [base64Image]);
 
@@ -55,12 +53,10 @@ export default function Profile() {
   const uploadImage = (e, setFieldValue) => {
     dispatch(convertImageToBase64(e));
     setFieldValue('logo', e.target.value);
-    // console.log('e.target.value: ', e.target.value);
   };
 
   const submitForm = (values, actions) => {
-    const update_logo = (values.logo) ? base64Image : user.logo;
-    console.log('update_logo=', update_logo)
+    const update_logo = values.logo ? base64Image : user.logo;
     actions.setSubmitting(false);
     dispatch(
       asyncUpdateUniversity({
@@ -83,6 +79,9 @@ export default function Profile() {
   return (
     <>
       <Container
+        rounded='2xl'
+        mt='4'
+        borderWidth='1px'
         maxW={'container.md'}
         p={12}
       >
@@ -90,7 +89,8 @@ export default function Profile() {
           as={'h2'}
           fontSize={{ base: 'xl', sm: '2xl' }}
           textAlign={'center'}
-          mb={5}>
+          mb={5}
+        >
           Edit Profile
         </Heading>
 
@@ -106,13 +106,17 @@ export default function Profile() {
               spacing={'6'}
               onSubmit={handleSubmit}
             >
-
-              <Stack direction="row" spacing={10} align='center' justify='center'>
+              <Stack
+                direction='row'
+                spacing={10}
+                align='center'
+                justify='center'
+              >
                 <Image
                   id='oldLogo'
                   src={user.logo}
                   alt={`${user.name}-logo`}
-                  boxSize="150px"
+                  boxSize='150px'
                   objectFit='contain'
                 />
                 <Field name='logo'>
@@ -138,7 +142,7 @@ export default function Profile() {
               <FormLabel htmlFor='university'>Select University</FormLabel>
               <UniSelector />
 
-              <Stack direction="row" spacing={4} justify='center'>
+              <Stack direction='row' spacing={4} justify='center'>
                 <Button
                   colorScheme={'blue'}
                   variant={'outline'}
@@ -158,7 +162,6 @@ export default function Profile() {
                   Save
                 </Button>
               </Stack>
-
             </Stack>
           )}
         </Formik>

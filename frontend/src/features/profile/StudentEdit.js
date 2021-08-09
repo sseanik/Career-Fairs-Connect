@@ -19,7 +19,7 @@ const validationSchema = Yup.object({
   firstName: Yup.string().required('First Name is Required').max(32),
   lastName: Yup.string().required('Last Name is Required').max(32),
   university: Yup.string().required('University is Required'),
-  wam: Yup.number().typeError("Please input a number."),
+  wam: Yup.number().typeError('Please input a number.'),
 });
 
 export default function Profile() {
@@ -67,12 +67,16 @@ export default function Profile() {
       <Container
         maxW={'container.md'}
         p={12}
+        rounded='2xl'
+        mt='4'
+        borderWidth='1px'
       >
         <Heading
           as={'h2'}
           fontSize={{ base: 'xl', sm: '2xl' }}
           textAlign={'center'}
-          mb={5}>
+          mb={5}
+        >
           Edit Profile
         </Heading>
 
@@ -82,14 +86,12 @@ export default function Profile() {
           validationSchema={validationSchema}
         >
           {({ isSubmitting, handleSubmit }) => (
-
             <Stack
               direction='column'
               as={'form'}
               spacing={'6'}
               onSubmit={handleSubmit}
             >
-
               <InputControl name='firstName' label='First Name' />
               <InputControl name='lastName' label='Last Name' />
               <FormLabel htmlFor='university'>Select University</FormLabel>
@@ -97,7 +99,7 @@ export default function Profile() {
               <InputControl name='degree' label='Degree' />
               <InputControl name='wam' label='WAM' />
 
-              <Stack direction="row" spacing={4} justify='center'>
+              <Stack direction='row' spacing={4} justify='center'>
                 <Button
                   colorScheme={'blue'}
                   variant={'outline'}
@@ -117,7 +119,6 @@ export default function Profile() {
                   Save
                 </Button>
               </Stack>
-
             </Stack>
           )}
         </Formik>

@@ -97,7 +97,6 @@ export const eventsSlice = createSlice({
         state.loading = true;
       })
       .addCase(asyncFetchEventsData.fulfilled, (state, { payload }) => {
-        console.log(payload);
         state.loading = false;
         state.events = payload;
       })

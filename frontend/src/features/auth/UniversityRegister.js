@@ -49,7 +49,7 @@ const validationSchema = Yup.object({
     .required('Password is Required'),
   logo: Yup.string().required('Logo upload is Required'),
   website: Yup.string()
-    .matches(/^http(s)?:.*$/, 'Website URL is invalid')
+    .matches(/^http(s)?:.*$/, 'Website URL is invalid. Must contain http(s)://')
     .required('Website URL is Required')
     .max(256),
   university: Yup.string()
