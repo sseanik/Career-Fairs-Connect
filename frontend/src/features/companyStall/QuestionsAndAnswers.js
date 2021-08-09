@@ -100,6 +100,7 @@ export function QuestionsAndAnswers(props) {
         isLoading={buttonLoading}
         loadingText='Submitting'
         spinnerPlacement='end'
+        colorScheme='green'
       >
         Submit
       </Button>

@@ -42,7 +42,7 @@ export function AnswerModal(props) {
   }
 
   return (
-    <ModalContent>
+    <ModalContent p='15px'>
       <ModalCloseButton />
       <Text mb='8px' fontWeight='semibold'>
         Edit your Answer:
@@ -60,6 +60,7 @@ export function AnswerModal(props) {
         isLoading={buttonLoading}
         loadingText='Submitting'
         spinnerPlacement='end'
+        colorScheme='green'
       >
         Submit
       </Button>
