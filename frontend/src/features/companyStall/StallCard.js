@@ -23,18 +23,25 @@ export function StallCard(props) {
   const userRole = useSelector((state) => state.user.role);
   const toast = useToast();
   const { colorMode } = useColorMode();
+  const companyName = useSelector((state) => state.user.name);
 
   return (
     <Flex direction='column' justify='center' align='center'>
       <Box
         zIndex='1'
-        borderWidth='1px'
-        borderColor={colorMode === 'light' ? 'gray.300' : 'gray.700'}
+        borderWidth={companyName === props.name ? '4px' : '1px'}
+        borderColor={
+          companyName === props.name
+            ? 'blue.400'
+            : colorMode === 'light'
+            ? 'gray.300'
+            : 'gray.700'
+        }
         w={useBreakpointValue({
           base: '90vw',
           sm: '225px',
         })}
-        borderRadius='xl'
+        borderRadius='2xl'
         p='12px'
         m='2'
         role='group'
@@ -44,16 +51,16 @@ export function StallCard(props) {
               ? 'gray.200'
               : 'gray.800'
             : colorMode === 'light'
-            ? 'white'
-            : 'gray.700'
+              ? 'white'
+              : 'gray.700'
         }
         _hover={{
           background:
             colorMode === 'light'
               ? 'gray.100'
               : props.pending === 'Rejected' || props.pending === 'Pending'
-              ? 'gray.900'
-              : 'gray.600',
+                ? 'gray.900'
+                : 'gray.600',
         }}
         as={Link}
         to={`/stall/${props.id}`}
@@ -144,19 +151,19 @@ export function StallCard(props) {
               onClick={() =>
                 props.pending === 'Pending'
                   ? dispatch(
-                      asyncToggleEventPending({
-                        id: props.id,
-                        approval_status: 'Approved',
-                        toast: toast,
-                      })
-                    )
+                    asyncToggleEventPending({
+                      id: props.id,
+                      approval_status: 'Approved',
+                      toast: toast,
+                    })
+                  )
                   : dispatch(
-                      asyncToggleEventPending({
-                        id: props.id,
-                        approval_status: 'Pending',
-                        toast: toast,
-                      })
-                    )
+                    asyncToggleEventPending({
+                      id: props.id,
+                      approval_status: 'Pending',
+                      toast: toast,
+                    })
+                  )
               }
             >
               {props.pending === 'Pending' ? 'Approve' : 'Set Pending'}

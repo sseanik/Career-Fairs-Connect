@@ -96,7 +96,7 @@ REST_FRAMEWORK = {
     "DEFAULT_AUTHENTICATION_CLASSES": [
         "rest_framework.authentication.TokenAuthentication",
         # "rest_framework.authentication.SessionAuthentication",
-        'rest_framework.authentication.BasicAuthentication',
+        "rest_framework.authentication.BasicAuthentication",
     ]
 }
 
@@ -122,16 +122,9 @@ DATABASES = {
 }
 
 SWAGGER_SETTINGS = {
-   'SECURITY_DEFINITIONS': {
-      'Basic': {
-            'type': 'basic'
-      },
-      'Bearer': {
-            'type': 'apiKey',
-            'name': 'Authorization',
-            'in': 'header'
-      }
-   }
+    "SECURITY_DEFINITIONS": {
+        "DRF Token": {"type": "apiKey", "name": "Authorization", "in": "header"}
+    }
 }
 
 
@@ -159,7 +152,7 @@ AUTH_PASSWORD_VALIDATORS = [
 
 LANGUAGE_CODE = "en-us"
 
-TIME_ZONE = 'Australia/Sydney'
+TIME_ZONE = "Australia/Sydney"
 
 USE_I18N = True
 

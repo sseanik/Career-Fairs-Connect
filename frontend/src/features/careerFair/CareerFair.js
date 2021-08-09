@@ -72,8 +72,6 @@ export default function CareerFair(props) {
     }
   };
 
-  console.log(fairData);
-
   return (
     <div>
       <Box
@@ -87,8 +85,8 @@ export default function CareerFair(props) {
             !props.match.params.tab
               ? 0
               : props.match.params.tab === 'presentation'
-              ? 1
-              : 2
+                ? 1
+                : 2
           }
         >
           <TabList>
