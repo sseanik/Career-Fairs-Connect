@@ -71,9 +71,6 @@ export const asyncEditOpportunity = createAsyncThunk(
 export const asyncDeleteOpportunity = createAsyncThunk(
   'stall/deleteOpportunity',
   async ({ companyID, jobID, toast }) => {
-    console.log(companyID);
-    console.log(jobID);
-
     await axios({
       method: 'delete',
       url: `/company/opportunities/${jobID}/`,
@@ -117,7 +114,6 @@ export const asyncAddPresentation = createAsyncThunk(
 export const asyncEditPresentation = createAsyncThunk(
   'stall/editPresentation',
   async ({ presentation, toast }) => {
-    await new Promise((r) => setTimeout(r, 3000));
     const response = await axios({
       method: 'put',
       url: '/presentation/edit/',
@@ -174,7 +170,8 @@ export const asyncPostQuestion = createAsyncThunk(
       status: 'success',
       isClosable: true,
     });
-    return response.data;
+    const data = await response.data;
+    return data;
   }
 );
 
@@ -302,7 +299,6 @@ export const stallSlice = createSlice({
       })
       .addCase(asyncAddOpportunity.fulfilled, (state, { payload }) => {
         state.status = false;
-        console.log(payload);
         state.opportunities.push({
           id: payload.job_id,
           type: payload.type,
@@ -320,10 +316,6 @@ export const stallSlice = createSlice({
       })
       .addCase(asyncEditOpportunity.fulfilled, (state, { payload }) => {
         state.formStatus = 'Completed';
-
-        console.log(payload);
-        console.log(current(state).opportunities);
-
         const index = current(state.opportunities).findIndex(
           (opportunity) => opportunity.id === parseInt(payload.job_id)
         );
@@ -343,7 +335,6 @@ export const stallSlice = createSlice({
         state.formStatus = 'Pending';
       })
       .addCase(asyncDeleteOpportunity.fulfilled, (state, { payload }) => {
-        console.log(payload);
         state.formStatus = 'Completed';
         state.opportunities = state.opportunities.filter(
           (opportunity) => opportunity.id !== payload
@@ -366,6 +357,7 @@ export const stallSlice = createSlice({
           title: payload.title,
           textColor: payload.textColor,
           id: payload.presentation_id,
+          borderColor: payload.textColor,
         });
       })
       // Edit a Presentation
@@ -387,6 +379,7 @@ export const stallSlice = createSlice({
           start: payload.start_time,
           title: payload.title,
           textColor: payload.textColor,
+          borderColor: payload.borderColor,
         };
       })
       // Delete a Presentation
@@ -406,7 +399,12 @@ export const stallSlice = createSlice({
       })
       .addCase(asyncPostQuestion.fulfilled, (state, { payload }) => {
         state.status = false;
-        state.qandas.push(payload);
+        state.qandas.push({
+          id: payload.post_id,
+          question: payload.question,
+          answer: payload.answer,
+          author_id: payload.author_id,
+        });
       })
       .addCase(asyncEditQuestion.pending, (state, { payload }) => {
         state.eventFormStatus = 'Pending';

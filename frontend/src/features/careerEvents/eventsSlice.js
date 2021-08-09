@@ -112,8 +112,8 @@ export const eventsSlice = createSlice({
           description: payload.data.description,
           university: payload.university,
           logo: payload.data.logo,
-          start: new Date(payload.data.start_date),
-          end: new Date(payload.data.end_date),
+          start: new Date(payload.data.start_date).getTime(),
+          end: new Date(payload.data.end_date).getTime(),
         });
       })
       // Deleting a Career Fair Event

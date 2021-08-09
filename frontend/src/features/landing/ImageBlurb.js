@@ -19,6 +19,7 @@ export default function ImageBlurb() {
       backgroundSize={'cover'}
       backgroundPosition={'top center'}
       mt='10'
+      mb='-4'
     >
       <VStack
         w={'full'}

@@ -144,13 +144,13 @@ export default function AboutUs() {
             </Stack>
           </Stack>
         </Fade>
-        <Flex>
+        <Flex justify='center' align='center'>
           <Fade up>
             <Image
               rounded={'md'}
               alt={'image of ' + featureTitle[index]}
               src={featureImage[index]}
-              objectFit={'none'}
+              objectFit={'contain'}
             />
           </Fade>
         </Flex>

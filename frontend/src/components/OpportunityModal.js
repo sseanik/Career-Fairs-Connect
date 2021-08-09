@@ -56,7 +56,9 @@ const validationSchema = Yup.object({
     .required('Opportunity URL is Required')
     .matches(/^http(s)?:.*$/, 'Application URL is invalid')
     .max(128),
-  description: Yup.string().max(512),
+  description: Yup.string()
+    .required('Opportunity Description is Required')
+    .max(512),
 });
 
 export function OpportunityModal(props) {

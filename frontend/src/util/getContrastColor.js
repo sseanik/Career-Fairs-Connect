@@ -1,6 +1,6 @@
 // Given a colour, find the corresponding text colour
-export default function getContrastColour(rbg) {
-  let baseRGB = rbg.replace(' ', '');
+export default function getContrastColour(rgb) {
+  let baseRGB = rgb.replace(' ', '');
   let parsedRGB = baseRGB.substring(4, baseRGB.length - 2);
   let RGBParts = parsedRGB.split(',');
 
@@ -10,5 +10,5 @@ export default function getContrastColour(rbg) {
       parseInt(RGBParts[2]) * 114) /
       1000
   );
-  return brightness > 125 ? 'black' : 'white';
+  return brightness > 152 ? 'black' : 'white';
 }
