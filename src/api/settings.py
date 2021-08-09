@@ -25,8 +25,6 @@ SECRET_KEY = "django-insecure-9p%1@9c8t5f*3-vv1rq8oaq^o*sp+ghbjm#wb=+%4!9yjo-9l1
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
-
 AUTH_USER_MODEL = "core.User"
 
 # Application definition
@@ -56,18 +54,6 @@ MIDDLEWARE = [
     "corsheaders.middleware.CorsMiddleware",
     "django.middleware.common.CommonMiddleware",
 ]
-
-CORS_ALLOW_ALL_ORIGINS = (
-    True  # If this is used then `CORS_ALLOWED_ORIGINS` will not have any effect
-)
-CORS_ALLOW_CREDENTIALS = True
-CORS_ALLOWED_ORIGINS = [
-    "http://localhost:3000",
-]  # If this is used, then not need to use `CORS_ALLOW_ALL_ORIGINS = True`
-CORS_ALLOWED_ORIGIN_REGEXES = [
-    "http://localhost:3000",
-]
-# CORS_ORIGIN_ALLOW_ALL = True
 
 ALLOWED_HOSTS = ["*"]
 
