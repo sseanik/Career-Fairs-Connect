@@ -67,6 +67,7 @@ export function PresentationCalendar(props) {
     info.el.style.borderColor = 'black';
   };
 
+  //send edited presentation
   const changeEvent = (e) => {
     dispatch(
       asyncEditPresentation({
