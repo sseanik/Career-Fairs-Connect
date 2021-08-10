@@ -33,8 +33,6 @@ export const asyncFetchFairData = createAsyncThunk(
 export const asyncEditFairEvent = createAsyncThunk(
   'fair/edit',
   async ({ event, fairID, toast }) => {
-    console.log(event);
-
     const response = await axios({
       method: 'put',
       url: `/careerfairs/delete/${fairID}/`,
