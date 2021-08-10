@@ -133,7 +133,7 @@ function EventCards() {
   return (
     <div>
       {loading &&
-        [...Array(2)].map((x, i) => <SkeletonFairEvent key={i} card />)}
+        [...Array(4)].map((x, i) => <SkeletonFairEvent key={i} card />)}
       {filteredData().map((event, idx) => (
         <Flex
           key={event.id}
