@@ -156,7 +156,7 @@ export const DetailsCard = (props) => {
               <Flex align='center' justify='center'>
                 <Spacer />
 
-                {/* <Button
+                <Button
                   leftIcon={<RiPencilFill />}
                   size='sm'
                   onClick={() => setModalOpen(!modalOpen)}
@@ -178,7 +178,7 @@ export const DetailsCard = (props) => {
                   end={props.endDate}
                   fairID={props.fairID}
                   edit
-                /> */}
+                />
               </Flex>
             )}
           {props.isLive && (

@@ -32,16 +32,27 @@ export const asyncFetchFairData = createAsyncThunk(
 // Edit a Career Fair Events Details
 export const asyncEditFairEvent = createAsyncThunk(
   'fair/edit',
-  async ({ event, toast }) => {
-    await new Promise((r) => setTimeout(r, 3000));
-    const response = event;
-    toast({
-      description: 'Successfully edited Career Fair Event',
-      status: 'success',
-      isClosable: true,
+  async ({ event, fairID, toast }) => {
+    console.log(event);
+
+    const response = await axios({
+      method: 'put',
+      url: `/careerfairs/delete/${fairID}/`,
+      headers: {
+        Authorization: `Token ${localStorage.getItem('token')}`,
+      },
+      data: event,
     });
-    const data = await response.data;
-    return data;
+
+    if (response.status === 200) {
+      toast({
+        description: 'Successfully deleted event',
+        status: 'success',
+        isClosable: true,
+      });
+    }
+
+    return event;
   }
 );
 

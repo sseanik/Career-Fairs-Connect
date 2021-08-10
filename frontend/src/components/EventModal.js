@@ -85,30 +85,31 @@ export function EventModal(props) {
   const submitForm = (values, actions) => {
     props.edit
       ? dispatch(
-        asyncEditFairEvent({
-          event: {
-            title: values.title,
-            description: values.description,
-            start: values.start.getTime(),
-            end: values.end.getTime(),
-          },
-          toast: toast,
-        })
-      )
+          asyncEditFairEvent({
+            event: {
+              title: values.title,
+              description: values.description,
+              start_date: values.start,
+              end_date: values.end,
+            },
+            fairID: props.fairID,
+            toast: toast,
+          })
+        )
       : dispatch(
-        asyncCreateFairEvent({
-          event: {
-            title: values.title,
-            description: values.description,
-            start_date: values.start,
-            end_date: values.end,
-            university_id: university.universityID,
-          },
-          toast: toast,
-          id: university.universityID,
-          university: university.name,
-        })
-      );
+          asyncCreateFairEvent({
+            event: {
+              title: values.title,
+              description: values.description,
+              start_date: values.start,
+              end_date: values.end,
+              university_id: university.universityID,
+            },
+            toast: toast,
+            id: university.universityID,
+            university: university.name,
+          })
+        );
     actions.setSubmitting(false);
     closeModal();
   };
