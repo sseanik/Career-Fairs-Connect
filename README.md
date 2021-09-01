@@ -6,72 +6,28 @@
 
 ## [Backend Swagger](http://ec2-13-55-22-199.ap-southeast-2.compute.amazonaws.com/swagger/)
 
-## Option 3. Run the project locally
+While the project backend is running, visit http://127.0.0.1:8000/swagger/ in the browser to see Swagger API documentation.
 
-Requirements: Python version 3.7 or above
-### Backend Setup (Windows 10)
+## Running the project locally
 
-#### 1. Change directory to the project backend folder
-    cd /your_path_to_this_folder/Online-Career-Fairs/backend
+### Backend Setup
 
-#### 2. Set up the virtual environment by running
-    py -m venv venv
-https://docs.python.org/3/library/venv.html
-
-**NOTE** py may be replaced with alternatives (e.g python3/python)
-
-This may take a while.
-
-#### 3. start the virtual environment
-
-    .\venv\Scripts\Activate.ps1
-
-#### 4. Install required packages
-
-###### While the virtual environment is active, install required packages into your virtual environment. It may take several minutes to install
-
-    pip install -r requirements.txt
-
-This may take a while.
-
-#### 5. Go to src directory
-    cd src/
-###### Now when you run ```ls``` , you should be able to see a ```manage.py``` file
-
-#### 6. Use makemigrations on the app
-    py manage.py makemigrations
-
-#### 7. Migrate the app
-    py manage.py migrate --run-syncdb
-
-#### 8. You are now good to run the backend server with
-    py manage.py runserver
+1. Change directory to the project backend folder
+2. Create a virtual environment, e.g. `virtualenv venv`
+3. Start the virtual environment, e.g. `source venv/bin/activate`
+4. Install required python packages, e.g. `pip3 install -r requirements.txt`
+5. Navigate to src directory
+6. Use makemigrations on the app, i.e. `python3 manage.py makemigrations`
+7. Migrate the app, i.e. `python3 manage.py migrate --run-syncdb`
+8. Start the backend server, e.g. `python3 manage.py runserver`
 
 ### Frontend Setup 
 
-#### 9. Open another terminal and change directory to the frontend folder
+1. Open another terminal and change directory to the frontend folder
+2. Install the node packages, e.g. `yarn install`
+4. Start the project, e.g. `yarn start`
 
-    cd /your_path_to_this_folder/Online-Career-Fairs/frontend
-
-#### 10. Install the requirements
-
-    yarn install
-This may take a while.
-
-#### 11. Start the project
-
-    yarn start
-This may take a while.
-
-##### (http://localhost:3000) will be run in the browser.
-
-##### Press 'CTRL' + 'C' to Exit
-
-## API documentation
-
-While the project backend is running, visit http://127.0.0.1:8000/swagger/ in the browser to see Swagger API documentation.
-
-## Step by Step Instructions (Happy Path)
+## Happy Path Instructions
 
 1. Navigate to http://localhost:3000. Scroll through page for brief overview of project. 
 2. Press "Sign Up" on top of the page.
@@ -107,5 +63,3 @@ While the project backend is running, visit http://127.0.0.1:8000/swagger/ in th
 32. Answer question and press submit.
 33. As Student refresh page, and then click on "Questions and Answers" tab.
 34. Click question to confirm answer has appeared.
-
-#### Above is simply a happy path showing off the main features. Additional features include the dark mode feature. Our features are also fully scalable to enable numerous profiles, career fairs, stalls etc.
