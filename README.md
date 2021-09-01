@@ -32,34 +32,35 @@ While the project backend is running, visit http://127.0.0.1:8000/swagger/ in th
 1. Navigate to http://localhost:3000. Scroll through page for brief overview of project. 
 2. Press "Sign Up" on top of the page.
 3. Press I am an University.
-4. Fill in details and register. Please note down details. Especially University. Note: Website URL should include protocol (e.g https://www.google.com)
-5. Sign in with University details.
-6. Press "Create Event" and submit after filling in details. 
-7. Browse to http://localhost:3000 on incognito window .
-8. Sign up as Employer. Please note down details. Note: Website URL should include protocol (e.g https://www.google.com)
-9. Login with Employer details.
-10. As Employer, click on the event you made as University.
-11. Click on "Apply Company Stall".
-12. As University click on the event you created.
-13. Click "Approve". "Set pending" allows us to change their approval status later.
-14. As Employer click on our stall that has now been approved.
-15. Click "Add Opportunity".
-16. Fill and submit opportunity. Note: protocol required for "Application Link" (e.g https://).
-17. Click "Presentation Calendar" tab.
-18. Click "Week" sub tab.
-19. Click and drag time you want presentation to be. Note: protocol required for Presentation Link (e.g https://). Note: We purposefully disallowed presentations spanning over multiple days.
-20. Fill out details and submit.
-21. Open a separate Browser and visit http://localhost:3000 again
-22. Sign up and login as a student. Note: University must be same as university, when your signed up as University
-23. Click on event we created.
-24. Click on stall we created.
-25. View opportunity we added (no action required).
-26. Press Presentation Calendar
-27. View sub-tabs Month, Week and List	
-28. Click the "Questions and Answers" tab
-29. Type question and submit it.
-30. As Employer refresh page then click on "Questions and Answers" tab.
-31. Press the question to bring up answer panel.
-32. Answer question and press submit.
-33. As Student refresh page, and then click on "Questions and Answers" tab.
-34. Click question to confirm answer has appeared.
+4. Fill in details and register. Please note down details. Especially University. 
+    * Note: Website URL should include protocol (e.g https://www.google.com)
+6. Sign in with University details.
+7. Press "Create Event" and submit after filling in details. 
+8. Browse to http://localhost:3000 on incognito window .
+9. Sign up as Employer. Please note down details. Note: Website URL should include protocol (e.g https://www.google.com)
+10. Login with Employer details.
+11. As Employer, click on the event you made as University.
+12. Click on "Apply Company Stall".
+13. As University click on the event you created.
+14. Click "Approve". "Set pending" allows us to change their approval status later.
+15. As Employer click on our stall that has now been approved.
+16. Click "Add Opportunity".
+17. Fill and submit opportunity. Note: protocol required for "Application Link" (e.g https://).
+18. Click "Presentation Calendar" tab.
+19. Click "Week" sub tab.
+20. Click and drag time you want presentation to be. Note: protocol required for Presentation Link (e.g https://). Note: We purposefully disallowed presentations spanning over multiple days.
+21. Fill out details and submit.
+22. Open a separate Browser and visit http://localhost:3000 again
+23. Sign up and login as a student. Note: University must be same as university, when your signed up as University
+24. Click on event we created.
+25. Click on stall we created.
+26. View opportunity we added (no action required).
+27. Press Presentation Calendar
+28. View sub-tabs Month, Week and List	
+29. Click the "Questions and Answers" tab
+30. Type question and submit it.
+31. As Employer refresh page then click on "Questions and Answers" tab.
+32. Press the question to bring up answer panel.
+33. Answer question and press submit.
+34. As Student refresh page, and then click on "Questions and Answers" tab.
+35. Click question to confirm answer has appeared.
