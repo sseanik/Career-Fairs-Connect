@@ -17,9 +17,9 @@ Career Fairs Connect is a web platform that allows universities to create an int
 
 ## [Live Demo](https://elastic-lichterman-7198a0.netlify.app/)
 
-## [Backend Swagger](http://ec2-13-55-22-199.ap-southeast-2.compute.amazonaws.com/swagger/)
+## [Backend Demo](http://ec2-13-55-22-199.ap-southeast-2.compute.amazonaws.com/swagger/)
 
-While the project backend is running, visit http://127.0.0.1:8000/swagger/ in the browser to see Swagger API documentation.
+The Backend Swagger API documentation is available to view the endpoints and models used. The Django REST framework was used for the backend API.
 
 ### Running the project locally
 
