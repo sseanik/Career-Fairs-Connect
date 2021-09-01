@@ -6,8 +6,6 @@
 
 Career Fairs Connect is a web platform that allows universities to create an interactive online careers fair that connects employers who are advertising their graduate and internship roles with students. 
 
-This application was collaborated in a CS9323 course with myself, [Max](https://github.com/Youps22), [Wanchen](https://github.com/WanchenZhao), [Arthur](https://github.com/af-af), [Thornton](https://github.com/ThorntonChan) and [Yulia](https://github.com/YuliaRodionov). Our tech stack primarily consists of React for frontend and Django for backend. I primarily contributed towards the Frontend component of this application, focusing on library integration (data tables, calendars, dynamic colourisation), design and responsiveness.
-
 ## [Live Demo](https://elastic-lichterman-7198a0.netlify.app/)
 
 ## [Backend Swagger](http://ec2-13-55-22-199.ap-southeast-2.compute.amazonaws.com/swagger/)
@@ -32,3 +30,7 @@ While the project backend is running, visit http://127.0.0.1:8000/swagger/ in th
 1. Open another terminal and change directory to the frontend folder
 2. Install the node packages, e.g. `yarn install`
 4. Start the project, e.g. `yarn start`
+
+## Credit
+
+This application was collaborated in a CS9323 course with myself, [Max](https://github.com/Youps22), [Wanchen](https://github.com/WanchenZhao), [Arthur](https://github.com/af-af), [Thornton](https://github.com/ThorntonChan) and [Yulia](https://github.com/YuliaRodionov). Our tech stack primarily consists of React for frontend and Django for backend. I primarily contributed towards the Frontend component of this application, focusing on library integration (data tables, calendars, dynamic colourisation), design and responsiveness.
