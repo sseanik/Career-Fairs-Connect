@@ -49,7 +49,8 @@ While the project backend is running, visit http://127.0.0.1:8000/swagger/ in th
 18. Fill and submit opportunity. Note: protocol required for "Application Link" (e.g https://).
 19. Click "Presentation Calendar" tab.
 20. Click "Week" sub tab.
-21. Click and drag time you want presentation to be. Note: protocol required for Presentation Link (e.g https://). 
+21. Click and drag time you want presentation to be. 
+    * Note: protocol required for Presentation Link (e.g https://). 
     * Note: We purposefully disallowed presentations spanning over multiple days.
 23. Fill out details and submit.
 24. Open a separate Browser and visit http://localhost:3000 again
