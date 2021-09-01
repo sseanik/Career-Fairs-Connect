@@ -4,7 +4,9 @@
 
 ## Background
 
-Blah
+Career Fairs Connect is a web platform that allows universities to create an interactive online careers fair that connects employers who are advertising their graduate and internship roles with students. 
+
+This application was collaborated in a CS9323 course with myself, [Max](https://github.com/Youps22), [Wanchen](https://github.com/WanchenZhao), [Arthur](https://github.com/af-af), [Thornton](https://github.com/ThorntonChan) and [Yulia](https://github.com/YuliaRodionov). Our tech stack primarily consists of React for frontend and Django for backend.
 
 ## [Live Demo](https://elastic-lichterman-7198a0.netlify.app/)
 
