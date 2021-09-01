@@ -8,9 +8,9 @@
 
 While the project backend is running, visit http://127.0.0.1:8000/swagger/ in the browser to see Swagger API documentation.
 
-## Running the project locally
+### Running the project locally
 
-### Backend Setup
+#### Backend Setup
 
 1. Change directory to the project backend folder
 2. Create a virtual environment, e.g. `virtualenv venv`
@@ -21,13 +21,13 @@ While the project backend is running, visit http://127.0.0.1:8000/swagger/ in th
 7. Migrate the app, i.e. `python3 manage.py migrate --run-syncdb`
 8. Start the backend server, e.g. `python3 manage.py runserver`
 
-### Frontend Setup 
+#### Frontend Setup 
 
 1. Open another terminal and change directory to the frontend folder
 2. Install the node packages, e.g. `yarn install`
 4. Start the project, e.g. `yarn start`
 
-## Happy Path Instructions
+### Happy Path Instructions
 
 1. Navigate to http://localhost:3000. Scroll through page for brief overview of project. 
 2. Press "Sign Up" on top of the page.
