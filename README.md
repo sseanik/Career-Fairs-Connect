@@ -17,6 +17,18 @@ Career Fairs Connect is a web platform that allows universities to create an int
 
 ## [Live Demo](https://elastic-lichterman-7198a0.netlify.app/)
 
+The Frontend was built ontop of React with create-react-app and Redux Toolkit.
+
+### Frontend Features:
+
+* Landing Page with feature previews, testimonials and an overall introduction into the application
+* Full responsiveness through the entire application
+* Light/Dark mode toggle that works throughout the entire application
+* Management of three different types of users (i.e. University, Employer, Student) and management of their perspectives and restrictions using Redux Toolkit
+* Dynamic colourisation of sections, i.e. Taking the logo of a university or employer, the most dominant colour is extracted, and then applied to their respective stall interface
+* A useable calendar interface built ontop of the FullCalendar API that allows for viewing, creating, editing and deleting of scheduled presentations
+* A data table built ontop of the Elementz table library that allows for displaying, filtering and searching for information over the table
+
 ## [Backend Demo](http://ec2-13-55-22-199.ap-southeast-2.compute.amazonaws.com/swagger/)
 
 The Backend Swagger API documentation is available to view the endpoints and models used. The Django REST framework was used for the backend API.
