@@ -1,5 +1,7 @@
 # Career Fairs Connect
 
+[![Netlify Status](https://api.netlify.com/api/v1/badges/c7578632-270b-422b-ab87-98cdce484a44/deploy-status)](https://app.netlify.com/sites/elastic-lichterman-7198a0/deploys)
+
 ***The following steps will introduce how to run the project in 3 different ways.*** 
 
 Please attempt other options if failure occurs.
