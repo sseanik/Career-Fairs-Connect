@@ -8,12 +8,11 @@ Career Fairs Connect is a web platform that allows universities to create an int
 
 ### Goals
 
-* Provide a platform where universities can organize a virtual careers fair space foremployers and students.
+* Provide a platform where universities can organize a virtual careers fair space for employers and students.
 * Allow employers to provide information about themselves and list their available graduate and internship roles for students to apply.
 * Allow employers to schedule and host live event presentations.
 * Connect students with employers via Q&A functionality.
 * Allow students to maintain profiles with contactable details, work experience, project experience, academic achievements and technical competencies.
-
 
 ## [Live Demo](https://elastic-lichterman-7198a0.netlify.app/)
 
