@@ -27,7 +27,7 @@ While the project backend is running, visit http://127.0.0.1:8000/swagger/ in th
 2. Install the node packages, e.g. `yarn install`
 4. Start the project, e.g. `yarn start`
 
-### Happy Path Instructions
+## Happy Path Instructions
 
 1. Navigate to http://localhost:3000. Scroll through page for brief overview of project. 
 2. Press "Sign Up" on top of the page.
