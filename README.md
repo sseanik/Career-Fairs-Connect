@@ -70,7 +70,7 @@ The Backend Swagger API documentation is available to view the endpoints and mod
 
 <img src="https://github.com/sseanik/Career-Fairs-Connect/blob/main/screenshots/landing.png" width="500"><img src="https://github.com/sseanik/Career-Fairs-Connect/blob/main/screenshots/darkmode.png" width="500">
 
-<img src="https://github.com/sseanik/Career-Fairs-Connect/blob/main/screenshots/stall.png" width="500">
+<img src="https://github.com/sseanik/Career-Fairs-Connect/blob/main/screenshots/fairs.png" width="500"><img src="https://github.com/sseanik/Career-Fairs-Connect/blob/main/screenshots/stall.png" width="500">
 
 <img src="https://github.com/sseanik/Career-Fairs-Connect/blob/main/screenshots/calendar.png" width="500"><img src="https://github.com/sseanik/Career-Fairs-Connect/blob/main/screenshots/opportunities.png" width="500">
 
