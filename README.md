@@ -2,6 +2,9 @@
 
 [![Netlify Status](https://api.netlify.com/api/v1/badges/c7578632-270b-422b-ab87-98cdce484a44/deploy-status)](https://app.netlify.com/sites/career-fairs-connect/deploys)
 
+[![Deploy with Vercel](https://vercel.com/button)](https://github.com/sseanik/Career-Fairs-Connect)
+[![Deploy with Heroku](https://www.herokucdn.com/deploy/button.svg)](https://heroku.com/deploy)
+
 ## Background
 
 Career Fairs Connect is a web platform that allows universities to create an interactive online careers fair that connects employers who are advertising their graduate and internship roles with students. 
@@ -17,6 +20,18 @@ Career Fairs Connect is a web platform that allows universities to create an int
 ## [Live Demo](https://career-fairs-connect.netlify.app/landing)
 
 The Frontend was built ontop of React with create-react-app and Redux Toolkit. A [happy path](https://github.com/sseanik/Career-Fairs-Connect/blob/main/HAPPY_PATH.md) set of steps is provided to help explore the entire functionality of the application.
+
+#### Demo Accounts
+```
+email: demo@employer.com
+password: demodemo
+
+email: demo@university.com
+password: demomdemo
+
+email: demo@student.com
+password: demomdemo
+```
 
 ### Frontend Features:
 
