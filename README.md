@@ -68,7 +68,7 @@ The Backend Swagger API documentation is available to view the endpoints and mod
 
 ## Screenshots
 
-<img src="https://github.com/sseanik/Career-Fairs-Connect/blob/main/screenshots/landing.png" width="600">
+<img src="https://github.com/sseanik/Career-Fairs-Connect/blob/main/screenshots/landing.png" width="500"><img src="https://github.com/sseanik/Career-Fairs-Connect/blob/main/screenshots/darkMode.png" width="500">
 
 ## Credit
 
