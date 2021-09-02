@@ -14,7 +14,7 @@ Career Fairs Connect is a web platform that allows universities to create an int
 * Connect students with employers via Q&A functionality.
 * Allow students to maintain profiles with contactable details, work experience, project experience, academic achievements and technical competencies.
 
-## [Live Demo](https://elastic-lichterman-7198a0.netlify.app/)
+## [Live Demo](https://career-fairs-connect.netlify.app/landing)
 
 The Frontend was built ontop of React with create-react-app and Redux Toolkit. A [happy path](https://github.com/sseanik/Career-Fairs-Connect/blob/main/HAPPY_PATH.md) set of steps is provided to help explore the entire functionality of the application.
 
