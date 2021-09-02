@@ -18,6 +18,18 @@ Career Fairs Connect is a web platform that allows universities to create an int
 
 The Frontend was built ontop of React with create-react-app and Redux Toolkit. A [happy path](https://github.com/sseanik/Career-Fairs-Connect/blob/main/HAPPY_PATH.md) set of steps is provided to help explore the entire functionality of the application.
 
+#### Demo Accounts
+```
+email: demo@employer.com
+password: demodemo
+
+email: demo@university.com
+password: demomdemo
+
+email: demo@student.com
+password: demomdemo
+```
+
 ### Frontend Features:
 
 * Landing Page with feature previews, testimonials and an overall introduction into the application
