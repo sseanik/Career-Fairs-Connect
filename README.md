@@ -1,6 +1,8 @@
 # Career Fairs Connect
 
 [![Netlify Status](https://api.netlify.com/api/v1/badges/c7578632-270b-422b-ab87-98cdce484a44/deploy-status)](https://app.netlify.com/sites/career-fairs-connect/deploys)
+[![Deploy with Vercel](https://vercel.com/button)](https://github.com/sseanik/Career-Fairs-Connect)
+[![Deploy with Heroku](https://www.herokucdn.com/deploy/button.svg)](https://heroku.com/deploy)
 
 ## Background
 
