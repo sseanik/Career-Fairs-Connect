@@ -1,13 +1,15 @@
 ## Happy Path Instructions
 
-1. Navigate to http://localhost:3000. Scroll through page for brief overview of project. 
+Use either the deployed site, `https://career-fairs-connect.netlify.app/` or a locally run server, `http://localhost:3000`
+
+1. Navigate to the web app. Scroll through page for brief overview of project. 
 2. Press "Sign Up" on top of the page.
 3. Press I am an University.
 4. Fill in details and register. Please note down details. Especially University. 
     * Note: Website URL should include protocol (e.g https://www.google.com)
 6. Sign in with University details.
 7. Press "Create Event" and submit after filling in details. 
-8. Browse to http://localhost:3000 on incognito window .
+8. Browse to the web app again, but with an incognito window.
 9. Sign up as Employer. Please note down details. 
     * Note: Website URL should include protocol (e.g https://www.google.com)
 11. Login with Employer details.
@@ -24,7 +26,7 @@
     * Note: protocol required for Presentation Link (e.g https://). 
     * Note: We purposefully disallowed presentations spanning over multiple days.
 23. Fill out details and submit.
-24. Open a separate Browser and visit http://localhost:3000 again
+24. Open a separate Browser and visit the app again
 25. Sign up and login as a student. 
     * Note: University must be same as university, when your signed up as University
 27. Click on event we created.
