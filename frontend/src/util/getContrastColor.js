@@ -8,7 +8,7 @@ export default function getContrastColour(rgb) {
     (parseInt(RGBParts[0]) * 299 +
       parseInt(RGBParts[1]) * 587 +
       parseInt(RGBParts[2]) * 114) /
-      1000
+      999
   );
   return brightness > 152 ? 'black' : 'white';
 }
