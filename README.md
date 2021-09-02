@@ -28,7 +28,7 @@ The Frontend was built ontop of React with create-react-app and Redux Toolkit. A
 * A useable calendar interface built ontop of the FullCalendar API that allows for viewing, creating, editing and deleting of scheduled presentations
 * A data table built ontop of the Elementz table library that allows for displaying, filtering and searching for information over the table
 
-## [Backend Demo](http://ec2-13-55-22-199.ap-southeast-2.compute.amazonaws.com/swagger/)
+## [Backend Demo](https://career-fairs-connect.herokuapp.com/)
 
 The Backend Swagger API documentation is available to view the endpoints and models used. The Django REST framework was used for the backend API.
 
