@@ -70,6 +70,10 @@ The Backend Swagger API documentation is available to view the endpoints and mod
 
 <img src="https://github.com/sseanik/Career-Fairs-Connect/blob/main/screenshots/landing.png" width="500"><img src="https://github.com/sseanik/Career-Fairs-Connect/blob/main/screenshots/darkmode.png" width="500">
 
+<img src="https://github.com/sseanik/Career-Fairs-Connect/blob/main/screenshots/stall.png" width="500">
+
+<img src="https://github.com/sseanik/Career-Fairs-Connect/blob/main/screenshots/calendar.png" width="500"><img src="https://github.com/sseanik/Career-Fairs-Connect/blob/main/screenshots/opportunities.png" width="500">
+
 ## Credit
 
 This application was collaborated in a CS9323 course with myself, [Max](https://github.com/Youps22), [Wanchen](https://github.com/WanchenZhao), [Arthur](https://github.com/af-af), [Thornton](https://github.com/ThorntonChan) and [Yulia](https://github.com/YuliaRodionov). Our tech stack primarily consists of React for frontend and Django for backend. I primarily contributed towards the Frontend component of this application, focusing on library integration (data tables, calendars, dynamic colourisation), design and responsiveness.
