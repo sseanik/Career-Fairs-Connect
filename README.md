@@ -68,7 +68,12 @@ The Backend Swagger API documentation is available to view the endpoints and mod
 
 ## Screenshots
 
-blah
+![Landing Page](https://github.com/sseanik/Career-Fairs-Connect/blob/main/screenshots/landing.png)
+![Dark Mode Landing Page](https://github.com/sseanik/Career-Fairs-Connect/blob/main/screenshots/darkmode.png)
+![Fair Events Page](https://github.com/sseanik/Career-Fairs-Connect/blob/main/screenshots/fairs.png)
+![Fair Page](https://github.com/sseanik/Career-Fairs-Connect/blob/main/screenshots/stall.png)
+![Presentation Calendar](https://github.com/sseanik/Career-Fairs-Connect/blob/main/screenshots/calendar.png)
+![Opportunities Table](https://github.com/sseanik/Career-Fairs-Connect/blob/main/screenshots/opportunities.png)
 
 ## Credit
 
