@@ -1,0 +1,6 @@
+{
+  "name": "Career Fairs Connect Backend",
+  "description": "A Django Backend and PostgreSQL Database",
+  "repository": "https://github.com/sseanik/Career-Fairs-Connect",
+  "keywords": ["python", "django", "postgresql"]
+}
