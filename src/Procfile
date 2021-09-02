@@ -1,2 +1,0 @@
-release: ./startup.sh
-web: gunicorn api.wsgi
