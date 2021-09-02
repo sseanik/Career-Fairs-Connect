@@ -5,25 +5,25 @@
 # api redirect.
 [[redirects]]
   from = "/careerfairs/*"
-  to = "http://ec2-13-55-22-199.ap-southeast-2.compute.amazonaws.com/careerfairs/:splat"
+  to = "https://career-fairs-connect.herokuapp.com/careerfairs/:splat"
   status = 200  
   force = true
   
 [[redirects]]
   from = "/presentation/*"
-  to = "http://ec2-13-55-22-199.ap-southeast-2.compute.amazonaws.com/presentation/:splat"
+  to = "https://career-fairs-connect.herokuapp.com/presentation/:splat"
   status = 200  
   force = true
   
 [[redirects]]
   from = "/questions/*"
-  to = "http://ec2-13-55-22-199.ap-southeast-2.compute.amazonaws.com/questions/:splat"
+  to = "https://career-fairs-connect.herokuapp.com/questions/:splat"
   status = 200  
   force = true
 
 [[redirects]]
   from = "/user/*"
-  to = "http://ec2-13-55-22-199.ap-southeast-2.compute.amazonaws.com/user/:splat"
+  to = "https://career-fairs-connect.herokuapp.com/user/:splat"
   status = 200  
   force = true
   
@@ -40,7 +40,7 @@
   
 [[redirects]]
   from = "/company/*"
-  to = "http://ec2-13-55-22-199.ap-southeast-2.compute.amazonaws.com/company/:splat"
+  to = "https://career-fairs-connect.herokuapp.com/company/:splat"
   status = 200  
   force = true
   
@@ -56,7 +56,7 @@
   
 [[redirects]]
   from = "/student/*"
-  to = "http://ec2-13-55-22-199.ap-southeast-2.compute.amazonaws.com/student/:splat"
+  to = "https://career-fairs-connect.herokuapp.com/student/:splat"
   status = 200  
   force = true
   
@@ -72,7 +72,7 @@
   
 [[redirects]]
   from = "/university/*"
-  to = "http://ec2-13-55-22-199.ap-southeast-2.compute.amazonaws.com/university/:splat"
+  to = "https://career-fairs-connect.herokuapp.com/university/:splat"
   status = 200  
   force = true
   
